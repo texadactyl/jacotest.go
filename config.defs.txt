@@ -1,0 +1,19 @@
+export MYBIN=$HOME/BASIS/bin
+HERE=`pwd`
+LOG=${HERE}/`basename $0`.log
+
+set -e
+set -o pipefail
+
+function logger {
+	echo $1 | tee -a $LOG
+}
+
+function oops {
+	logger " "
+	MSG='*** Oops *** '$1' !! ***'
+	logger $MSG
+	echo
+	exit 86
+}
+
