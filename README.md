@@ -39,7 +39,7 @@ where
 	-v : verbose logging
 ```
 
-### Sample Test Case Run
+### Sample Run
 
 ```
 17:20:49 Compiling JACOBIN-0161-0229-classes / Outsider.java
