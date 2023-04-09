@@ -1,8 +1,10 @@
-# jacotest
+# jacotest.go
 
 Jacotest is intended to be a top-down user-level testing companion to https://github.com/platypusguy/jacobin 
 While Jacobin has internal component-unit testing, it would be useful to have a collection of Java-source tests that can be executed automatically 
 at the operator command line or through Github Actions.
+
+All of the test harness code is written in Go as the name implies.
 
 ### Test Case Overview
 
