@@ -42,63 +42,68 @@ where
 ### Sample Run
 
 ```
-17:20:49 Compiling JACOBIN-0161-0229-classes / Outsider.java
-17:20:49 Compiling JACOBIN-0161-0229-classes / main.java
-17:20:50 Executing JACOBIN-0161-0229-classes using jvm=java
-17:20:50 Compiling JACOBIN-0206-nbody / main.java
-17:20:50 Executing JACOBIN-0206-nbody using jvm=java
-17:20:54 Compiling JACOBIN-0212-bit-shifting / main.java
-17:20:55 Executing JACOBIN-0212-bit-shifting using jvm=java
-17:20:55 Compiling JACOBIN-0219-length / main.java
-17:20:55 Executing JACOBIN-0219-length using jvm=java
-17:20:55 Compiling JACOBIN-0227-string-array / main.java
-17:20:56 Executing JACOBIN-0227-string-array using jvm=java
-17:20:56 Compiling arrays_1 / main.java
-17:20:56 Executing arrays_1 using jvm=java
-17:20:57 Compiling pbcrypto / main.java
-17:20:58 Executing pbcrypto using jvm=java
-17:20:58 Compiling scimark2 / Constants.java
-17:20:58 Compiling scimark2 / FFT.java
-17:20:59 Compiling scimark2 / Jacobi.java
-17:20:59 Compiling scimark2 / LU.java
-17:21:00 Compiling scimark2 / MonteCarlo.java
-17:21:00 Compiling scimark2 / Random.java
-17:21:01 Compiling scimark2 / SOR.java
-17:21:01 Compiling scimark2 / SparseCompRow.java
-17:21:01 Compiling scimark2 / Stopwatch.java
-17:21:02 Compiling scimark2 / kernel.java
-17:21:02 Compiling scimark2 / main.java
-17:21:03 Executing scimark2 using jvm=java
-17:21:30 Compiling sha3 / FIPS202.java
-17:21:31 Compiling sha3 / KeccakShortState.java
-17:21:32 Compiling sha3 / KeccakSponge.java
-17:21:32 Compiling sha3 / KeccakState.java
-17:21:33 Compiling sha3 / KeccakState1600.java
-17:21:33 Compiling sha3 / KeccakState200.java
-17:21:34 Compiling sha3 / KeccakState400.java
-17:21:34 Compiling sha3 / KeccakState800.java
-17:21:35 Compiling sha3 / KeccakUtilities.java
-17:21:35 Compiling sha3 / main.java
-17:21:36 Executing sha3 using jvm=java
-17:21:38 Compiling specrel / Formulae.java
-17:21:39 Compiling specrel / main.java
-17:21:39 Executing specrel using jvm=java
-17:21:39 Compiling stats / Library.java
-17:21:40 Compiling stats / main.java
-17:21:40 Executing stats using jvm=java
-17:21:43 Success in 11 tests
-17:21:43      JACOBIN-0161-0229-classes
-17:21:43      JACOBIN-0206-nbody
-17:21:43      JACOBIN-0212-bit-shifting
-17:21:43      JACOBIN-0219-length
-17:21:43      JACOBIN-0227-string-array
-17:21:43      arrays_1
-17:21:43      pbcrypto
-17:21:43      scimark2
-17:21:43      sha3
-17:21:43      specrel
-17:21:43      stats
-17:21:43 No compilation errors
-17:21:43 No runner errors
-17:21:43 Elapsed time = 54s
+Version: 1.0
+BuildData vcs.revision: 57dd539b5e15ead52a49c74fb5ee83d437c8058c
+BuildData vcs.time: 2023-04-09T22:43:09Z
+BuildData vcs.modified: true
+07:55:01 Compiling JACOBIN-0161-0229-classes / Outsider.java
+07:55:01 Compiling JACOBIN-0161-0229-classes / main.java
+07:55:02 Executing JACOBIN-0161-0229-classes using jvm=java
+07:55:02 Compiling JACOBIN-0206-nbody / main.java
+07:55:02 Executing JACOBIN-0206-nbody using jvm=java
+07:55:07 Compiling JACOBIN-0212-bit-shifting / main.java
+07:55:07 Executing JACOBIN-0212-bit-shifting using jvm=java
+07:55:07 Compiling JACOBIN-0219-length / main.java
+07:55:08 Executing JACOBIN-0219-length using jvm=java
+07:55:08 Compiling JACOBIN-0227-string-array / main.java
+07:55:08 Executing JACOBIN-0227-string-array using jvm=java
+07:55:08 Compiling arrays_1 / main.java
+07:55:09 Executing arrays_1 using jvm=java
+07:55:09 Compiling pbcrypto / main.java
+07:55:10 Executing pbcrypto using jvm=java
+07:55:10 Compiling scimark2 / Constants.java
+07:55:10 Compiling scimark2 / FFT.java
+07:55:11 Compiling scimark2 / Jacobi.java
+07:55:11 Compiling scimark2 / LU.java
+07:55:12 Compiling scimark2 / MonteCarlo.java
+07:55:12 Compiling scimark2 / Random.java
+07:55:13 Compiling scimark2 / SOR.java
+07:55:13 Compiling scimark2 / SparseCompRow.java
+07:55:14 Compiling scimark2 / Stopwatch.java
+07:55:14 Compiling scimark2 / kernel.java
+07:55:15 Compiling scimark2 / main.java
+07:55:15 Executing scimark2 using jvm=java
+07:55:43 Compiling sha3 / FIPS202.java
+07:55:44 Compiling sha3 / KeccakShortState.java
+07:55:45 Compiling sha3 / KeccakSponge.java
+07:55:45 Compiling sha3 / KeccakState.java
+07:55:46 Compiling sha3 / KeccakState1600.java
+07:55:46 Compiling sha3 / KeccakState200.java
+07:55:47 Compiling sha3 / KeccakState400.java
+07:55:47 Compiling sha3 / KeccakState800.java
+07:55:48 Compiling sha3 / KeccakUtilities.java
+07:55:48 Compiling sha3 / main.java
+07:55:49 Executing sha3 using jvm=java
+07:55:51 Compiling specrel / Formulae.java
+07:55:52 Compiling specrel / main.java
+07:55:52 Executing specrel using jvm=java
+07:55:52 Compiling stats / Library.java
+07:55:53 Compiling stats / main.java
+07:55:53 Executing stats using jvm=java
+07:55:56 Success in 11 tests
+07:55:56      JACOBIN-0161-0229-classes
+07:55:56      JACOBIN-0206-nbody
+07:55:56      JACOBIN-0212-bit-shifting
+07:55:56      JACOBIN-0219-length
+07:55:56      JACOBIN-0227-string-array
+07:55:56      arrays_1
+07:55:56      pbcrypto
+07:55:56      scimark2
+07:55:56      sha3
+07:55:56      specrel
+07:55:56      stats
+07:55:56 No compilation errors
+07:55:56 No runner errors
+07:55:56 Elapsed time = 55s
+
 ```
