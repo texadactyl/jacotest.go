@@ -107,7 +107,6 @@ func runner(cmdexec string, testName string, argFile string) error {
     
     // Error occured?
     if err != nil { // YES
-        outlog = err.Error()
         LogError(fmt.Sprintf("cmd.Run(%s %s) returned: %s", cmdexec, argFile, outlog))
         // Timeout?
         if (ctx.Err() == context.DeadlineExceeded) { // YES
