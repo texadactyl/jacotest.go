@@ -1,6 +1,6 @@
 # jacotest.go
 
-TODO: a lot!
+TODO: Add more test cases!
 
 Jacotest is intended to be a top-down user-level testing companion to https://github.com/platypusguy/jacobin 
 While Jacobin has internal component-unit testing, it would be useful to have a collection of Java-source tests that can be executed automatically 
