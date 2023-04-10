@@ -35,14 +35,15 @@ Assuming compilation success, then execution begins.  If the execution fails, th
 Usage:  jacotest  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]
 
 where
-	-x : compile and execute all of the tests (includes a pre-clean activity)
-	-j : This is the JVM to use in executing test cases.  Default: java
-	-c : clean all of the .class files and log files
-	-v : verbose logging
+	-x : Compile and execute all of the tests
+	-v : Verbose logging
+	-j : This is the JVM to use in executing all test cases.  Default: java
+	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
+	-c : Clean all of the .class files and .log files
 
 Version: 1.0
-BuildData vcs.revision: 57dd539b5e15ead52a49c74fb5ee83d437c8058c
-BuildData vcs.time: 2023-04-09T22:43:09Z
+BuildData vcs.revision: 5a58527f676fa2eaf2eee68ca5f1d809aa074e2a
+BuildData vcs.time: 2023-04-10T17:21:51Z
 BuildData vcs.modified: true
 ```
 
