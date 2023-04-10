@@ -19,8 +19,8 @@ func showHelp() {
     fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: java\n")
     fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
     fmt.Printf("\t-c : Clean all of the .class files and .log files\n\n")
-	ShowExecInfo()
-	os.Exit(1)
+    ShowExecInfo()
+    os.Exit(0)
 }
 
 //
