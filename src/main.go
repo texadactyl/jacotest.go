@@ -9,7 +9,7 @@ import (
 )
 
 //
-// Command line interface for runner
+// Show help and then exit to the O/S
 func showHelp() {
 	_ = InitGlobals("dummy", 60, false)
     suffix := filepath.Base(os.Args[0])
@@ -25,19 +25,19 @@ func showHelp() {
 
 //
 // Report results
-func reportResults(label string, arrayX []string) {
+func reportResults(category string, arrayNames []string) {
     testTests := "test"
-    nerr := len(arrayX)
+    nerr := len(arrayNames)
     if nerr > 0 {
         if nerr > 1 {
             testTests = testTests + "s"
         }
-        Logger(fmt.Sprintf("%s errors in %d %s", label, nerr, testTests))
-        for _, name := range arrayX {
+        Logger(fmt.Sprintf("%s errors in %d %s", category, nerr, testTests))
+        for _, name := range arrayNames {
             Logger(fmt.Sprintf("     %s", name))
         }
     } else {
-        Logger(fmt.Sprintf("No %s errors", label))
+        Logger(fmt.Sprintf("No %s errors", category))
     }
 }
 
@@ -54,7 +54,7 @@ func main() {
     // Positioned in the tree top directory?
     handle, err := os.Open("README.md")
     if err != nil {
-        Fatal("You are npt positioned in the tree top directory")
+        Fatal("You are not positioned in the tree top directory")
     }
     handle.Close()
 
@@ -70,22 +70,34 @@ func main() {
 
     // Parse command line arguments
 	for ii := 0; ii < len(Args); ii++ {
-		// if it's a JVM option (so, it begins with a hyphen)
-		// break the option into the option and any embedded arg values, if any
 		switch Args[ii] {
-		    case "-x":
-                flagExecute = true
-                flagClean = true
-		    case "-c":
-		        flagClean = true
-		    case "-v":
-		        flagVerbose = true
+		
 		    case "-h":
 		        showHelp()
-		    case "-j":
+		        
+		    case "-x":
+                flagExecute = true
+                flagClean = true // Force a pre-clean when executing tests
+                
+		    case "-c":
+		        flagClean = true
+		        
+		    case "-v":
+		        flagVerbose = true
+		        
+		    case "-j": // JVM requested
 		        ii += 1
 		        jvm = Args[ii]
-		    case "-t":
+	            // Validate jvm
+	            switch jvm {
+	                case "java":
+	                case "jacobin":
+	                default:
+	                    LogError(fmt.Sprintf("Unrecognizable JVM parameter: %s", jvm))
+	                    showHelp()
+	            }
+	            
+		    case "-t": // Deadline in seconds requested
 		        ii += 1
 		        wint, err := strconv.Atoi(Args[ii])
 		        if err != nil {
@@ -93,20 +105,13 @@ func main() {
 		            showHelp()
 		        }
 		        deadline_secs = wint
+		        
 		    default:
 		        LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
 		        showHelp()
 		}
 	}
 	
-	// Validate jvm
-	switch jvm {
-	    case "java":
-	    case "jacobin":
-	    default:
-	        LogError(fmt.Sprintf("Unrecognizable JVM parameter: %s", jvm))
-	        showHelp()
-	}
 	
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvm, deadline_secs, flagVerbose)
@@ -123,15 +128,19 @@ func main() {
 	        Fatal(fmt.Sprintf("Cleaner returned an error\nerror=%s", err.Error()))
 	    }
 	    
-	    // Clean up log files
+	    // Open logs directory
         fileOpened, err := os.Open(global.DirLogs)
         if err != nil {
             FmtFatal("os.Open failed", global.DirLogs, err)
         }
+
+        // Get all the file entries in the logs directory
         dirNames, err := fileOpened.Readdirnames(0) // get all entries
         if err != nil {
             FmtFatal("Readdirnames failed", global.DirLogs, err)
         }
+
+        // For each logs entry, remove it
         for index := range(dirNames) {
             name := dirNames[index]
             fullPath := filepath.Join(global.DirLogs, name)
@@ -150,10 +159,14 @@ func main() {
 	    var successNames [] string
 	    var errCompileNames [] string
 	    var errRunnerNames [] string
+	    
+	    // Get all of the subdirectories (test cases) under tests
 	    entries, err := os.ReadDir(global.DirTests)
         if err != nil {
             FmtFatal("Error in accessing directory", global.DirTests, err)
         }
+        
+        // For each test case, execute it
     	Logger(fmt.Sprintf("Deadline: %d seconds", deadline_secs))
         for _, entry := range entries {
             if entry.IsDir() {
@@ -175,14 +188,13 @@ func main() {
             Logger(fmt.Sprintf("     %s", name))
         }
         
-        // Report compilation results
+        // Report compilation errors
         reportResults("compilation", errCompileNames)
         
-        // Report runner results
+        // Report runner errors
         reportResults("runner", errRunnerNames)
 
-	}
-	if flagExecute {
+        // Done. Report elapsed time and exit normally to the O/S.
 	    t_stop := time.Now()
 	    elapsed := t_stop.Sub(t_start)
         Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))

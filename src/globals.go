@@ -22,6 +22,7 @@ type GlobalsStruct struct {
 var global GlobalsStruct
 
 func ShowExecInfo() {
+    // Only interested in the "vcs." information
     fmt.Printf("Version: %s\n", global.Version)
 	info, _ := debug.ReadBuildInfo()
 	for ii := 0; ii < len(info.Settings); ii++ {

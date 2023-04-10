@@ -24,22 +24,22 @@ func Logger(msg string) {
 //
 // Log an error
 func LogError(msg string) {
-	msg2 := fmt.Sprintf("*** ERROR, %s", msg)
-	Logger(msg2)
+	text := fmt.Sprintf("*** ERROR, %s", msg)
+	Logger(text)
 }
 
 //
 // Log an error and croak
 func Fatal(msg string) {
-	msg2 := fmt.Sprintf("*** FATAL, %s", msg)
-	Logger(msg2)
+	text := fmt.Sprintf("*** FATAL, %s", msg)
+	Logger(text)
 	os.Exit(1)
 }
 
 // Log an error in a special format and croak
 func FmtFatal(msg string, name string, err error) {
-	msg2 := fmt.Sprintf("*** FATAL, %s\n%s\n%s", msg, name, err.Error())
-	Logger(msg2)
+	text := fmt.Sprintf("*** FATAL, %s\n%s\n%s", msg, name, err.Error())
+	Logger(text)
 	os.Exit(1)
 }
 
@@ -47,17 +47,18 @@ func FmtFatal(msg string, name string, err error) {
 // If the specified directory does not yet exist, create it
 func MakeDir(dirPath string) {
     info, err := os.Stat(dirPath)
-    if err == nil {
-        if ! info.IsDir() {
+    if err == nil { // found it
+        if ! info.IsDir() { // expected a directory, not a simple file !!
             Fatal(fmt.Sprintf("Observed a simple file: %s (expected a directory)", dirPath))
         }
-    } else {
+    } else { // not found or an error occured
         if os.IsNotExist(err) {
+            // Create directory
             err = os.Mkdir(dirPath, 0755)
             if err != nil {
                 FmtFatal("os.MkDir failed", dirPath, err)
             }
-        } else { // some other type of error
+        } else { // some type of error
             FmtFatal("os.Stat failed", dirPath, err)
         }
     }
@@ -66,13 +67,15 @@ func MakeDir(dirPath string) {
 //
 // Store a log
 func storeText(targetDir string, argFile string, text string) {
-	//Logger(fmt.Sprintf("DEBUG storeText on entry: targetDir=%s, argFile=%s, text=%s", targetDir, argFile, text))
+    // Create the log file
     fullPath := filepath.Join(targetDir, argFile)
-    handle, err := os.Create(fullPath)
+    handle, err := os.Create(fullPath) 
     if err != nil {
         Fatal(fmt.Sprintf("storeText: os.Create(%s) failed, err=%s", fullPath, err))
     }
     defer handle.Close()
+
+    // Store the given text
     _, err = fmt.Fprintln(handle, text)
     if err != nil {
         FmtFatal("storeText: fmt.Fprintln failed", fullPath, err)
@@ -85,30 +88,37 @@ func storeText(targetDir string, argFile string, text string) {
 // error : failure
 func runner(cmdexec string, testName string, argFile string) error {
 	global := GetGlobalRef()
+	
+	// Set up a command context with a timeout
     ctx, cancel := context.WithTimeout(context.Background(), global.Deadline)
     defer cancel()
-    // cmd := exec.Command(cmdexec, argFile)
+    
+    // Execute command with the given parameters
     cmd := exec.CommandContext(ctx, cmdexec, argFile)
-    // var stdout strings.Builder
-    // cmd.Stdout = &stdout
-    // var stderr strings.Builder
-    // cmd.Stderr = &stderr
+    
+    // Form a message prefix
     fn := filepath.Base(argFile)
     fn_without_ext := strings.TrimSuffix(fn, path.Ext(fn))
     prefix := testName + "-" + fn_without_ext + "-" + cmdexec
-    // err := cmd.Run()
+    
+    // Get the combined stdout and stderr text
     outbytes, err := cmd.CombinedOutput()
     outlog := string(outbytes)
-    if err != nil {
+    
+    // Error occured?
+    if err != nil { // YES
         outlog = err.Error()
         LogError(fmt.Sprintf("cmd.Run(%s %s) returned: %s", cmdexec, argFile, outlog))
-        if (ctx.Err() == context.DeadlineExceeded) {
+        // Timeout?
+        if (ctx.Err() == context.DeadlineExceeded) { // YES
             storeText(global.DirLogs, "TIMEOUT-" + prefix  + ".log", outlog)
-        } else {
+        } else { // Not a time out error but something else bad happened
             storeText(global.DirLogs, "FAILED-" + prefix  + ".log", outlog)
         }
         return err
     }
+    
+    // No errors occured. Just store outlog.
     if cmdexec != "javac" {
         storeText(global.DirLogs, "PASSED-" + prefix + ".log", outlog)
     }
@@ -117,15 +127,19 @@ func runner(cmdexec string, testName string, argFile string) error {
 //
 // Clean the .class file of one test
 func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
+    // If not a directory, skip it
     if dirEntry.IsDir() {
-        return nil // skip this directory entry
+        return nil
     }
+    
+    // Anything but .class or .jar will be skipped
     switch(filepath.Ext(fullPath)) {
         case ".class":
         case ".jar":
         default:
             return nil // skip this directory entry
     }
+    
     // Its a candidate for removal
     err = os.Remove(fullPath)
     if err != nil {
@@ -137,18 +151,25 @@ func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
     return nil
 }
 
+//
 // Compile all .java files in a single directory
 func compileOneDir(fullPath string, dirEntry fs.DirEntry, err error) error {
+    // If not a directory, skip it
     if dirEntry.IsDir() {
         return nil
     }
+    
+    // If not a .java file, skip it
     if filepath.Ext(fullPath) != ".java" {
         return nil
     }
-    // We have a simple .java file
+    
+    // We have a simple file with extension .java
     fullPathDir := filepath.Dir(fullPath)
     testName := filepath.Base(fullPathDir)
     Logger(fmt.Sprintf("Compiling %s / %s", testName, filepath.Base(fullPath)))
+    
+    // Set the classpath to be the same as the test case directory
     os.Setenv("CLASSPATH", fullPathDir)
     return runner("javac", testName, fullPath)
 }
@@ -164,7 +185,7 @@ func compileOneDir(fullPath string, dirEntry fs.DirEntry, err error) error {
 func ExecuteOneTest(fullPathDir string) int {
 	global := GetGlobalRef()
 
-    // Compile the whole tree for one test
+    // Compile the whole test case directory tree and compile every .java file
     err := filepath.WalkDir(fullPathDir, compileOneDir)
     if err != nil {
         return 1
@@ -180,7 +201,9 @@ func ExecuteOneTest(fullPathDir string) int {
         FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err2)
     }
 
-    // Execute test "main.class"
+    // At this point, we are sitting in the test case directory
+    // and the classpath is the test case directory.
+    // Execute test "main.class".
     testName := filepath.Base(fullPathDir)
     Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.Jvm))
     if global.Jvm == "jacobin" {
@@ -196,9 +219,9 @@ func ExecuteOneTest(fullPathDir string) int {
     }
     
     // Examine runner execution result
-    if err != nil {
+    if err != nil { // test case failure or timeout
         return 2
     }
-    return 0
+    return 0 // test case success
 }
 
