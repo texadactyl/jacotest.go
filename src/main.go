@@ -5,18 +5,20 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"strconv"
 )
 
 //
 // Command line interface for runner
 func showHelp() {
-	_ = InitGlobals("dummy", false, false)
+	_ = InitGlobals("dummy", 60, false)
     suffix := filepath.Base(os.Args[0])
     fmt.Printf("\nUsage:  %s  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]\n\nwhere\n", suffix)
-    fmt.Printf("\t-x : compile and execute all of the tests\n")
-    fmt.Printf("\t-v : verbose logging\n")
-    fmt.Printf("\t-j : This is the JVM to use in executing test cases.  Default: java\n")
-    fmt.Printf("\t-c : clean all of the .class files and log files\n\n")
+    fmt.Printf("\t-x : Compile and execute all of the tests\n")
+    fmt.Printf("\t-v : Verbose logging\n")
+    fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: java\n")
+    fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: java\n")
+    fmt.Printf("\t-c : Clean all of the .class files and .log files\n\n")
 	ShowExecInfo()
 	os.Exit(1)
 }
@@ -46,8 +48,8 @@ func main() {
 	var Args []string
     flagClean := false
     flagExecute := false
-    flagStdout := false
     jvm := "java" // default virtual machine
+    var deadline_secs int = 60
     
     // Positioned in the tree top directory?
     handle, err := os.Open("README.md")
@@ -78,13 +80,19 @@ func main() {
 		        flagClean = true
 		    case "-v":
 		        flagVerbose = true
-		    case "-s":
-		        flagStdout = true
 		    case "-h":
 		        showHelp()
 		    case "-j":
 		        ii += 1
 		        jvm = Args[ii]
+		    case "-t":
+		        ii += 1
+		        wint, err := strconv.Atoi(Args[ii])
+		        if err != nil {
+		            LogError(fmt.Sprintf("Parameter -t requires an integer value, saw: %s", Args[ii]))
+		            showHelp()
+		        }
+		        deadline_secs = wint
 		    default:
 		        LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
 		        showHelp()
@@ -101,7 +109,7 @@ func main() {
 	}
 	
 	// Initialise globals and get a handle to it
-	global := InitGlobals(jvm, flagStdout, flagVerbose)
+	global := InitGlobals(jvm, deadline_secs, flagVerbose)
 	ShowExecInfo()
 	
     // If log directory does not yet exist, create it
@@ -122,7 +130,7 @@ func main() {
         }
         dirNames, err := fileOpened.Readdirnames(0) // get all entries
         if err != nil {
-            FmtFatal("ReadDir failed", global.DirLogs, err)
+            FmtFatal("Readdirnames failed", global.DirLogs, err)
         }
         for index := range(dirNames) {
             name := dirNames[index]
@@ -146,6 +154,7 @@ func main() {
         if err != nil {
             FmtFatal("Error in accessing directory", global.DirTests, err)
         }
+    	Logger(fmt.Sprintf("Deadline: %d seconds", deadline_secs))
         for _, entry := range entries {
             if entry.IsDir() {
                 fullPath := filepath.Join(global.DirTests, entry.Name())

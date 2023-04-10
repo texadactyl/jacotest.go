@@ -5,17 +5,18 @@ import (
 	"runtime/debug"
 	"strings"
 	"fmt"
+	"time"
 )
 
 type GlobalsStruct struct {
 	// ---- jacobin version number ----
 	// note: all references to version number must come from this literal
-	Version string
-	DirTests string
-	DirLogs string
-	FlagStdout bool
-	FlagVerbose bool
-	Jvm string
+	Version string          // Software version string
+	DirTests string         // Full path of tests directory
+	DirLogs string          // Full path of logs directory
+	FlagVerbose bool        // Verbose logging? true/false
+	Jvm string              // "java" or "jacobin"
+	Deadline time.Duration  // Run deadline in seconds (type time.Duration)
 }
 
 var global GlobalsStruct
@@ -31,22 +32,26 @@ func ShowExecInfo() {
 	}
 }
 
-func InitGlobals(jvm string, flagStdout bool, flagVerbose bool) GlobalsStruct {
-    absdt, err1 := filepath.Abs("./tests")
+func InitGlobals(jvm string, deadline_secs int, flagVerbose bool) GlobalsStruct {
+    absTests, err1 := filepath.Abs("./tests")
     if err1 != nil {
         FmtFatal("InitGlobalsStruct error in accessing directory", "./tests", err1)
     }
-    absdl, err2 := filepath.Abs("./logs")
+    absLogs, err2 := filepath.Abs("./logs")
     if err2 != nil {
         FmtFatal("InitGlobalsStruct error in accessing directory", "./logs", err2)
     }
+    duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
+    if err != nil {
+        FmtFatal("time.ParseDuration failed", string(deadline_secs), err)
+    }
 	global = GlobalsStruct{
-		Version:           "1.0",
-		DirTests:          absdt,
-		DirLogs:           absdl,
-		FlagStdout:        flagStdout,
-		FlagVerbose:       flagVerbose,
-		Jvm:               jvm,
+		Version:        "1.0",
+		DirTests:       absTests,
+		DirLogs:        absLogs,
+		FlagVerbose:    flagVerbose,
+		Jvm:            jvm,
+		Deadline:       duration,           
 	}
 	return global
 }

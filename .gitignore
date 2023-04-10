@@ -13,7 +13,6 @@
 
 # Testing files to ignore
 *.class
-*.stdout
-*.stderr
 *.log
 *.jar
+essai/*

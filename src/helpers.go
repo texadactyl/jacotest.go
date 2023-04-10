@@ -5,6 +5,7 @@ import (
 	"path"
     "path/filepath"
     "io/fs"
+    "context"
 	"os"
 	"os/exec"
 	"strings"
@@ -83,24 +84,33 @@ func storeText(targetDir string, argFile string, text string) {
 // nil : success
 // error : failure
 func runner(cmdexec string, testName string, argFile string) error {
-	//Logger(fmt.Sprintf("DEBUG runner on entry: cmdexec=%s, argFile=%s", cmdexec, argFile))
 	global := GetGlobalRef()
-    cmd := exec.Command(cmdexec, argFile)
-    var stdout strings.Builder
-    cmd.Stdout = &stdout
-    var stderr strings.Builder
-    cmd.Stderr = &stderr
+    ctx, cancel := context.WithTimeout(context.Background(), global.Deadline)
+    defer cancel()
+    // cmd := exec.Command(cmdexec, argFile)
+    cmd := exec.CommandContext(ctx, cmdexec, argFile)
+    // var stdout strings.Builder
+    // cmd.Stdout = &stdout
+    // var stderr strings.Builder
+    // cmd.Stderr = &stderr
     fn := filepath.Base(argFile)
     fn_without_ext := strings.TrimSuffix(fn, path.Ext(fn))
-    prefix := testName + "::" + fn_without_ext + "::" + cmdexec
-    err := cmd.Run()
+    prefix := testName + "-" + fn_without_ext + "-" + cmdexec
+    // err := cmd.Run()
+    outbytes, err := cmd.CombinedOutput()
+    outlog := string(outbytes)
     if err != nil {
-        LogError(fmt.Sprintf("cmd.Run(%s %s) returned: %s", cmdexec, argFile, err.Error()))
-        storeText(global.DirLogs, prefix  + ".stderr", stderr.String())
+        outlog = err.Error()
+        LogError(fmt.Sprintf("cmd.Run(%s %s) returned: %s", cmdexec, argFile, outlog))
+        if (ctx.Err() == context.DeadlineExceeded) {
+            storeText(global.DirLogs, "TIMEOUT-" + prefix  + ".log", outlog)
+        } else {
+            storeText(global.DirLogs, "FAILED-" + prefix  + ".log", outlog)
+        }
         return err
     }
-    if global.FlagStdout && cmdexec != "javac" {
-        storeText(global.DirLogs, prefix + ".stdout", stdout.String())
+    if cmdexec != "javac" {
+        storeText(global.DirLogs, "PASSED-" + prefix + ".log", outlog)
     }
     return nil
 }
