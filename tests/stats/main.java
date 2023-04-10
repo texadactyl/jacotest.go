@@ -1,7 +1,7 @@
 public class main {
     
     public static void main(String args[]) {
-        int arraySize = 100000000;
+        int arraySize = 1000000;
         double[] x_elems = new double[arraySize];
         double[] y_elems = new double[arraySize];
         double[] z_elems = new double[arraySize];
