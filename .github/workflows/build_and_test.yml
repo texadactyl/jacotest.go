@@ -37,8 +37,7 @@ jobs:
       run: |
         which java
         which javac
-        cd src
-        ./jacotest -x -j java -t 60 
+        ./src/jacotest -x -j java -t 60 
 
     - name: Codecov
       uses: codecov/codecov-action@v2.1.0
