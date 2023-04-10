@@ -2,6 +2,9 @@ package main
 
 import (
 	"path/filepath"
+	"runtime/debug"
+	"strings"
+	"fmt"
 )
 
 type GlobalsStruct struct {
@@ -16,6 +19,17 @@ type GlobalsStruct struct {
 }
 
 var global GlobalsStruct
+
+func ShowExecInfo() {
+    fmt.Printf("Version: %s\n", global.Version)
+	info, _ := debug.ReadBuildInfo()
+	for ii := 0; ii < len(info.Settings); ii++ {
+	    wkey := info.Settings[ii].Key
+	    if strings.HasPrefix(wkey, "vcs.") {
+		    fmt.Printf("BuildData %s: %s\n", wkey, info.Settings[ii].Value)
+		}
+	}
+}
 
 func InitGlobals(jvm string, flagStdout bool, flagVerbose bool) GlobalsStruct {
     absdt, err1 := filepath.Abs("./tests")

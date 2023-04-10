@@ -10,12 +10,14 @@ import (
 //
 // Command line interface for runner
 func showHelp() {
+	_ = InitGlobals("dummy", false, false)
     suffix := filepath.Base(os.Args[0])
     fmt.Printf("\nUsage:  %s  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]\n\nwhere\n", suffix)
     fmt.Printf("\t-x : compile and execute all of the tests\n")
     fmt.Printf("\t-v : verbose logging\n")
     fmt.Printf("\t-j : This is the JVM to use in executing test cases.  Default: java\n")
     fmt.Printf("\t-c : clean all of the .class files and log files\n\n")
+	ShowExecInfo()
 	os.Exit(1)
 }
 
@@ -100,6 +102,7 @@ func main() {
 	
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvm, flagStdout, flagVerbose)
+	ShowExecInfo()
 	
     // If log directory does not yet exist, create it
     MakeDir(global.DirLogs)
