@@ -1,3 +1,5 @@
+import java.lang.Thread;
+
 public class main {
 
     static int NLOOPS = 10000000;
@@ -20,7 +22,7 @@ public class main {
     public static void main(String args[]) {
         int arraySize = NLOOPS;
         long t1, t2;
-
+        
         // byte array
         byte[] b_elems = new byte[arraySize];
         t1 = System.currentTimeMillis();
@@ -81,5 +83,6 @@ public class main {
         t2 = System.currentTimeMillis();
         s_elems = null;
         reporter("String", arraySize, t1, t2);
+
     }
 }

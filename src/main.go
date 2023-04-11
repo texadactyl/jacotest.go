@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 	"strconv"
+	"strings"
 )
 
 //
@@ -131,25 +132,25 @@ func main() {
 	    // Open logs directory
         fileOpened, err := os.Open(global.DirLogs)
         if err != nil {
-            FmtFatal("os.Open failed", global.DirLogs, err)
+            FmtFatal("main: os.Open failed", global.DirLogs, err)
         }
 
         // Get all the file entries in the logs directory
-        dirNames, err := fileOpened.Readdirnames(0) // get all entries
+        names, err := fileOpened.Readdirnames(0) // get all entries
         if err != nil {
-            FmtFatal("Readdirnames failed", global.DirLogs, err)
+            FmtFatal("main: Readdirnames failed", global.DirLogs, err)
         }
 
         // For each logs entry, remove it
-        for index := range(dirNames) {
-            name := dirNames[index]
+        for index := range(names) {
+            name := names[index]
             fullPath := filepath.Join(global.DirLogs, name)
             err := os.Remove(fullPath)
 	        if err != nil {
-	            Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
+	            Fatal(fmt.Sprintf("main: os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
 	        }
             if flagVerbose {
-                Logger(fmt.Sprintf("Removed: %s", fullPath))
+                Logger(fmt.Sprintf("main: Removed: %s", fullPath))
             }
         }
 	}
@@ -159,25 +160,43 @@ func main() {
 	    var successNames [] string
 	    var errCompileNames [] string
 	    var errRunnerNames [] string
+	    var timeoutRunnerNames [] string
+	    
+	    // Initialise summary file
+	    shandle, err := os.Create(global.SummaryFilePath)
+	    if err != nil {
+	        FmtFatal("main: os.Create failed", global.SummaryFilePath, err)
+	    }
+	    defer shandle.Close()
+	    fmt.Fprintf(shandle, "Test Case | Result | Error Information\n")
 	    
 	    // Get all of the subdirectories (test cases) under tests
 	    entries, err := os.ReadDir(global.DirTests)
         if err != nil {
-            FmtFatal("Error in accessing directory", global.DirTests, err)
+            FmtFatal("main: Error in accessing directory", global.DirTests, err)
         }
-        
+
         // For each test case, execute it
     	Logger(fmt.Sprintf("Deadline: %d seconds", deadline_secs))
         for _, entry := range entries {
             if entry.IsDir() {
-                fullPath := filepath.Join(global.DirTests, entry.Name())
-                switch ExecuteOneTest(fullPath) {
-	                case 0:
-	                    successNames = append(successNames, entry.Name())
-	                case 1:
-	                    errCompileNames = append(errCompileNames, entry.Name())
-	                case 2:
-	                    errRunnerNames = append(errRunnerNames, entry.Name())
+                testCaseName := entry.Name()
+                fullPath := filepath.Join(global.DirTests, testCaseName)
+                resultCode, outlog := ExecuteOneTest(fullPath)
+                outlog = strings.ReplaceAll(outlog, "\n", "\n||") // some outlog strings have multiple embedded \n characters
+                switch resultCode {
+	                case RC_NORMAL:
+	                    successNames = append(successNames, testCaseName)
+	                    fmt.Fprintf(shandle, "%s | PASSED | n/a\n", testCaseName)
+	                case RC_COMP_ERROR:
+	                    errCompileNames = append(errCompileNames, testCaseName)
+	                    fmt.Fprintf(shandle, "%s | COMP-ERROR | compilation error(s)\n", testCaseName)
+	                case RC_EXEC_ERROR:
+	                    errRunnerNames = append(errRunnerNames, testCaseName)
+	                    fmt.Fprintf(shandle, "%s | FAILED | %s\n", testCaseName, outlog)
+	                case RC_EXEC_TIMEOUT:
+	                    timeoutRunnerNames = append(timeoutRunnerNames, testCaseName)
+	                    fmt.Fprintf(shandle, "%s | TIMEOUT | %s\n", testCaseName, outlog)
 	            }
             }
         }
@@ -192,7 +211,10 @@ func main() {
         reportResults("compilation", errCompileNames)
         
         // Report runner errors
-        reportResults("runner", errRunnerNames)
+        reportResults("runner failure", errRunnerNames)
+
+        // Report timeout errors
+        reportResults("runner timeout", timeoutRunnerNames)
 
         // Done. Report elapsed time and exit normally to the O/S.
 	    t_stop := time.Now()
