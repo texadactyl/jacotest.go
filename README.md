@@ -49,7 +49,7 @@ BuildData vcs.modified: true
 
 ### Reports
 
-After a run, a report file is available in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin.
+After all test cases are run, a report file is available in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin.
 
 ### Sample Console Output
 
