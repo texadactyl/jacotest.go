@@ -47,7 +47,11 @@ BuildData vcs.time: 2023-04-10T17:21:51Z
 BuildData vcs.modified: true
 ```
 
-### Sample Run
+### Reports
+
+After a run, a report file is available in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin.
+
+### Sample Console Output
 
 ```
 Version: 1.0
@@ -144,8 +148,7 @@ public class even_worse JUNK {
 08:14:05 Elapsed time = 1m55s
 
 ```
-
-### Sample Logs Directory After Run
+### Sample logs directory after the above run
 ```
 FAILED-negtest-comp-error-erroneous-javac.log
 FAILED-negtest-comp-error-even_worse-javac.log
