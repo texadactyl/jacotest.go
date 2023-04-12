@@ -25,8 +25,8 @@ func showHelp() {
 }
 
 //
-// Report results
-func reportResults(category string, arrayNames []string) {
+// Show results
+func showResults(category string, arrayNames []string) {
     testTests := "test"
     nerr := len(arrayNames)
     if nerr > 0 {
@@ -162,13 +162,16 @@ func main() {
 	    var errRunnerNames [] string
 	    var timeoutRunnerNames [] string
 	    
-	    // Initialise summary file
-	    shandle, err := os.Create(global.SummaryFilePath)
+	    // Initialise report file
+	    rptHandle, err := os.Create(global.ReportFilePath)
 	    if err != nil {
-	        FmtFatal("main: os.Create failed", global.SummaryFilePath, err)
+	        FmtFatal("main: os.Create failed", global.ReportFilePath, err)
 	    }
-	    defer shandle.Close()
-	    fmt.Fprintf(shandle, "Test Case | Result | Error Information\n")
+	    defer rptHandle.Close()
+        zone, _ := time.Now().Zone()
+	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvm, time.Now().Format("2006-01-02 15:04:05"), zone)
+	    fmt.Fprintf(rptHandle, "| Test Case | Result | Error Information |\n")
+	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 	    
 	    // Get all of the subdirectories (test cases) under tests
 	    entries, err := os.ReadDir(global.DirTests)
@@ -183,40 +186,40 @@ func main() {
                 testCaseName := entry.Name()
                 fullPath := filepath.Join(global.DirTests, testCaseName)
                 resultCode, outlog := ExecuteOneTest(fullPath)
-                outlog = strings.ReplaceAll(outlog, "\n", "\n||") // some outlog strings have multiple embedded \n characters
+                outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
                 switch resultCode {
 	                case RC_NORMAL:
 	                    successNames = append(successNames, testCaseName)
-	                    fmt.Fprintf(shandle, "%s | PASSED | n/a\n", testCaseName)
+	                    fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 	                case RC_COMP_ERROR:
 	                    errCompileNames = append(errCompileNames, testCaseName)
-	                    fmt.Fprintf(shandle, "%s | COMP-ERROR | compilation error(s)\n", testCaseName)
+	                    fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s) |\n", testCaseName)
 	                case RC_EXEC_ERROR:
 	                    errRunnerNames = append(errRunnerNames, testCaseName)
-	                    fmt.Fprintf(shandle, "%s | FAILED | %s\n", testCaseName, outlog)
+	                    fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
 	                case RC_EXEC_TIMEOUT:
 	                    timeoutRunnerNames = append(timeoutRunnerNames, testCaseName)
-	                    fmt.Fprintf(shandle, "%s | TIMEOUT | %s\n", testCaseName, outlog)
+	                    fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 	            }
             }
         }
 
-        // Report successes
+        // Show successes
         Logger(fmt.Sprintf("Success in %d tests", len(successNames)))
         for _, name := range successNames {
             Logger(fmt.Sprintf("     %s", name))
         }
         
-        // Report compilation errors
-        reportResults("compilation", errCompileNames)
+        // Show compilation errors
+        showResults("compilation", errCompileNames)
         
-        // Report runner errors
-        reportResults("runner failure", errRunnerNames)
+        // Show runner errors
+        showResults("runner failure", errRunnerNames)
 
-        // Report timeout errors
-        reportResults("runner timeout", timeoutRunnerNames)
+        // Show timeout errors
+        showResults("runner timeout", timeoutRunnerNames)
 
-        // Done. Report elapsed time and exit normally to the O/S.
+        // Done. Show elapsed time and exit normally to the O/S.
 	    t_stop := time.Now()
 	    elapsed := t_stop.Sub(t_start)
         Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
