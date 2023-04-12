@@ -15,6 +15,10 @@ public class Outsider {
         this.dapper = (double) (this.frankly * 57.2958f);
         this.sammy = "Mary had a little lamb ...";
     }
+    
+    public int is_this_a_7() {
+        return 7;
+    }
 
     public String gimmeString() {
         String str = "iota: ";
