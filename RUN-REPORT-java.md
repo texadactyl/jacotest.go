@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-12 11:40:27 CDT
+<br>Date/Time 2023-04-12 12:57:45 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -11,6 +11,7 @@ Run report using JVM java
 | JACOBIN-0219-length | PASSED | n/a |
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | PASSED | n/a |
+| JACOBIN-0232-multidim | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
 | instantiate_class | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s) |

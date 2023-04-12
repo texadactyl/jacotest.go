@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-12 11:44:29 CDT
+<br>Date/Time 2023-04-12 12:59:49 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -28,14 +28,17 @@ Run report using JVM jacobin
 |||instantiateClass: Timeout while waiting on class: Library
 |||Error instantiating class: Library
 ||| |
+| JACOBIN-0232-multidim | FAILED | Invalid bytecode found: 197 (0xC5) (MULTIANEWARRAY) at location 8 in method main() of class main
+|||
+||| |
 | arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0000a0fc0)
+|||jacobin/jvm.runFrame(0xc00007afc0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0000c41c4, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc000018290, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
