@@ -41,10 +41,12 @@ where
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
 	-c : Clean all of the .class files and .log files
 
-Version: 1.0
-BuildData vcs.revision: 5a58527f676fa2eaf2eee68ca5f1d809aa074e2a
-BuildData vcs.time: 2023-04-10T17:21:51Z
+My version: 1.0
+Built with: go1.20.2
+BuildData vcs.revision: fd571d8e8618fec07ec5a4e73adda9b1787ce6ac
+BuildData vcs.time: 2023-04-12T15:51:45Z
 BuildData vcs.modified: true
+
 ```
 
 ### Reports
@@ -54,98 +56,96 @@ After all test cases are run, a report file is available in the following name f
 ### Sample Console Output
 
 ```
-Version: 1.0
-BuildData vcs.revision: 25eb7fe70af1e617d0174615d9aa0ac6f08ca8b6
-BuildData vcs.time: 2023-04-11T14:30:38Z
-BuildData vcs.modified: true
-08:12:09 Deadline: 60 seconds
-08:12:09 Compiling JACOBIN-0161-0229-classes / Outsider.java
-08:12:10 Compiling JACOBIN-0161-0229-classes / main.java
-08:12:10 Executing JACOBIN-0161-0229-classes using jvm=java
-08:12:10 Compiling JACOBIN-0206-nbody / main.java
-08:12:11 Executing JACOBIN-0206-nbody using jvm=java
-08:12:15 Compiling JACOBIN-0212-bit-shifting / main.java
-08:12:16 Executing JACOBIN-0212-bit-shifting using jvm=java
-08:12:16 Compiling JACOBIN-0219-length / main.java
-08:12:16 Executing JACOBIN-0219-length using jvm=java
-08:12:16 Compiling JACOBIN-0227-string-array / main.java
-08:12:17 Executing JACOBIN-0227-string-array using jvm=java
-08:12:17 Compiling JACOBIN-0231-stats / Library.java
-08:12:17 Compiling JACOBIN-0231-stats / main.java
-08:12:18 Executing JACOBIN-0231-stats using jvm=java
-08:12:18 Compiling arrays_1 / main.java
-08:12:18 Executing arrays_1 using jvm=java
-08:12:19 Compiling instantiate_class / Library.java
-08:12:19 Compiling instantiate_class / main.java
-08:12:20 Executing instantiate_class using jvm=java
-08:12:20 Compiling negtest-comp-error / erroneous.java
-08:12:20 *** ERROR, runner: cmd.Run(javac erroneous.java) returned: erroneous.java:3: error: '{' expected
+11:40:27 Jacotest version 1.0
+11:40:27 Test case deadline: 60 seconds
+11:40:27 Compiling JACOBIN-0161-0229-classes / Outsider.java
+11:40:28 Compiling JACOBIN-0161-0229-classes / main.java
+11:40:28 Executing JACOBIN-0161-0229-classes using jvm=java
+11:40:28 Compiling JACOBIN-0206-nbody / main.java
+11:40:29 Executing JACOBIN-0206-nbody using jvm=java
+11:40:33 Compiling JACOBIN-0212-bit-shifting / main.java
+11:40:33 Executing JACOBIN-0212-bit-shifting using jvm=java
+11:40:33 Compiling JACOBIN-0219-length / main.java
+11:40:34 Executing JACOBIN-0219-length using jvm=java
+11:40:34 Compiling JACOBIN-0227-string-array / main.java
+11:40:34 Executing JACOBIN-0227-string-array using jvm=java
+11:40:35 Compiling JACOBIN-0231-stats / Library.java
+11:40:35 Compiling JACOBIN-0231-stats / main.java
+11:40:36 Executing JACOBIN-0231-stats using jvm=java
+11:40:36 Compiling arrays_1 / main.java
+11:40:36 Executing arrays_1 using jvm=java
+11:40:37 Compiling instantiate_class / Library.java
+11:40:37 Compiling instantiate_class / main.java
+11:40:38 Executing instantiate_class using jvm=java
+11:40:38 Compiling negtest-comp-error / erroneous.java
+11:40:38 *** ERROR, runner: cmd.Run(javac erroneous.java) returned: erroneous.java:3: error: '{' expected
 public class erroneous JUNK {
                       ^
 1 error
 
-08:12:20 Compiling negtest-comp-error / even_worse.java
-08:12:21 *** ERROR, runner: cmd.Run(javac even_worse.java) returned: even_worse.java:3: error: '{' expected
+11:40:38 Compiling negtest-comp-error / even_worse.java
+11:40:38 *** ERROR, runner: cmd.Run(javac even_worse.java) returned: even_worse.java:3: error: '{' expected
 public class even_worse JUNK {
                        ^
 1 error
 
-08:12:21 Compiling negtest-runner-failure / main.java
-08:12:21 Executing negtest-runner-failure using jvm=java
-08:12:21 *** ERROR, runner: cmd.Run(java main) returned: I will System.exit(86)!
+11:40:38 Compiling negtest-runner-failure / main.java
+11:40:39 Executing negtest-runner-failure using jvm=java
+11:40:39 *** ERROR, runner: cmd.Run(java main) returned: I will System.exit(86)!
 
-08:12:21 Compiling negtest-runner-timeout / main.java
-08:12:21 Executing negtest-runner-timeout using jvm=java
-08:13:22 *** TIMEOUT, runner: cmd.Run(java main) returned: I will timeout!
+11:40:39 Compiling negtest-runner-timeout / main.java
+11:40:39 Executing negtest-runner-timeout using jvm=java
+11:41:39 *** TIMEOUT, runner: cmd.Run(java main) returned: I will timeout!
 
-08:13:22 Compiling pbcrypto / main.java
-08:13:22 Executing pbcrypto using jvm=java
-08:13:22 Compiling scimark2 / Constants.java
-08:13:23 Compiling scimark2 / FFT.java
-08:13:23 Compiling scimark2 / Jacobi.java
-08:13:24 Compiling scimark2 / LU.java
-08:13:24 Compiling scimark2 / MonteCarlo.java
-08:13:25 Compiling scimark2 / Random.java
-08:13:25 Compiling scimark2 / SOR.java
-08:13:26 Compiling scimark2 / SparseCompRow.java
-08:13:26 Compiling scimark2 / Stopwatch.java
-08:13:27 Compiling scimark2 / kernel.java
-08:13:27 Compiling scimark2 / main.java
-08:13:28 Executing scimark2 using jvm=java
-08:13:55 Compiling sha3 / FIPS202.java
-08:13:56 Compiling sha3 / KeccakShortState.java
-08:13:57 Compiling sha3 / KeccakSponge.java
-08:13:58 Compiling sha3 / KeccakState.java
-08:13:58 Compiling sha3 / KeccakState1600.java
-08:13:59 Compiling sha3 / KeccakState200.java
-08:13:59 Compiling sha3 / KeccakState400.java
-08:14:00 Compiling sha3 / KeccakState800.java
-08:14:00 Compiling sha3 / KeccakUtilities.java
-08:14:01 Compiling sha3 / main.java
-08:14:01 Executing sha3 using jvm=java
-08:14:04 Compiling specrel / Formulae.java
-08:14:04 Compiling specrel / main.java
-08:14:04 Executing specrel using jvm=java
-08:14:05 Success in 12 tests
-08:14:05      JACOBIN-0161-0229-classes
-08:14:05      JACOBIN-0206-nbody
-08:14:05      JACOBIN-0212-bit-shifting
-08:14:05      JACOBIN-0219-length
-08:14:05      JACOBIN-0227-string-array
-08:14:05      JACOBIN-0231-stats
-08:14:05      arrays_1
-08:14:05      instantiate_class
-08:14:05      pbcrypto
-08:14:05      scimark2
-08:14:05      sha3
-08:14:05      specrel
-08:14:05 compilation errors in 1 test
-08:14:05      negtest-comp-error
-08:14:05 runner failure errors in 1 test
-08:14:05      negtest-runner-failure
-08:14:05 runner timeout errors in 1 test
-08:14:05      negtest-runner-timeout
-08:14:05 Elapsed time = 1m55s
+11:41:39 Compiling pbcrypto / main.java
+11:41:40 Executing pbcrypto using jvm=java
+11:41:40 Compiling scimark2 / Constants.java
+11:41:41 Compiling scimark2 / FFT.java
+11:41:41 Compiling scimark2 / Jacobi.java
+11:41:42 Compiling scimark2 / LU.java
+11:41:42 Compiling scimark2 / MonteCarlo.java
+11:41:43 Compiling scimark2 / Random.java
+11:41:43 Compiling scimark2 / SOR.java
+11:41:43 Compiling scimark2 / SparseCompRow.java
+11:41:44 Compiling scimark2 / Stopwatch.java
+11:41:44 Compiling scimark2 / kernel.java
+11:41:45 Compiling scimark2 / main.java
+11:41:45 Executing scimark2 using jvm=java
+11:42:11 Compiling sha3 / FIPS202.java
+11:42:12 Compiling sha3 / KeccakShortState.java
+11:42:13 Compiling sha3 / KeccakSponge.java
+11:42:14 Compiling sha3 / KeccakState.java
+11:42:14 Compiling sha3 / KeccakState1600.java
+11:42:15 Compiling sha3 / KeccakState200.java
+11:42:15 Compiling sha3 / KeccakState400.java
+11:42:16 Compiling sha3 / KeccakState800.java
+11:42:16 Compiling sha3 / KeccakUtilities.java
+11:42:17 Compiling sha3 / main.java
+11:42:17 Executing sha3 using jvm=java
+11:42:20 Compiling specrel / Formulae.java
+11:42:20 Compiling specrel / main.java
+11:42:21 Executing specrel using jvm=java
+11:42:21 Success in 12 tests
+11:42:21      JACOBIN-0161-0229-classes
+11:42:21      JACOBIN-0206-nbody
+11:42:21      JACOBIN-0212-bit-shifting
+11:42:21      JACOBIN-0219-length
+11:42:21      JACOBIN-0227-string-array
+11:42:21      JACOBIN-0231-stats
+11:42:21      arrays_1
+11:42:21      instantiate_class
+11:42:21      pbcrypto
+11:42:21      scimark2
+11:42:21      sha3
+11:42:21      specrel
+11:42:21 compilation errors in 1 test
+11:42:21      negtest-comp-error
+11:42:21 runner failure errors in 1 test
+11:42:21      negtest-runner-failure
+11:42:21 runner timeout errors in 1 test
+11:42:21      negtest-runner-timeout
+11:42:21 Elapsed time = 1m54s
+
 
 ```
 ### Sample logs directory after the above run

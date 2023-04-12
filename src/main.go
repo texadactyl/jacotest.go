@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+const MY_NAME = "Jacotest"
+
 //
 // Show help and then exit to the O/S
 func showHelp() {
@@ -116,7 +118,7 @@ func main() {
 	
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvm, deadline_secs, flagVerbose)
-	ShowExecInfo()
+	Logger(fmt.Sprintf("%s version %s", MY_NAME, global.Version))
 	
     // If log directory does not yet exist, create it
     MakeDir(global.DirLogs)
@@ -169,6 +171,7 @@ func main() {
 	    }
 	    defer rptHandle.Close()
         zone, _ := time.Now().Zone()
+	    fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
 	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvm, time.Now().Format("2006-01-02 15:04:05"), zone)
 	    fmt.Fprintf(rptHandle, "| Test Case | Result | Error Information |\n")
 	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
@@ -180,7 +183,7 @@ func main() {
         }
 
         // For each test case, execute it
-    	Logger(fmt.Sprintf("Deadline: %d seconds", deadline_secs))
+    	Logger(fmt.Sprintf("Test case deadline: %d seconds", deadline_secs))
         for _, entry := range entries {
             if entry.IsDir() {
                 testCaseName := entry.Name()

@@ -5,6 +5,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"fmt"
+	"runtime"
 	"time"
 )
 
@@ -40,8 +41,9 @@ var global GlobalsStruct
 
 // Show executable binary information relevant to "vcs"
 func ShowExecInfo() {
+    fmt.Printf("My version: %s\n", global.Version)
+    fmt.Printf("Built with: %s\n", runtime.Version())
     // Only interested in the "vcs." information
-    fmt.Printf("Version: %s\n", global.Version)
 	info, _ := debug.ReadBuildInfo()
 	for ii := 0; ii < len(info.Settings); ii++ {
 	    wkey := info.Settings[ii].Key
