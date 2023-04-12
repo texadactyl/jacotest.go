@@ -51,92 +51,116 @@ BuildData vcs.modified: true
 
 ```
 Version: 1.0
-BuildData vcs.revision: 8d5798907fae39ad94e8f7f7007802147b1ddbdc
-BuildData vcs.time: 2023-04-10T13:42:57Z
+BuildData vcs.revision: 25eb7fe70af1e617d0174615d9aa0ac6f08ca8b6
+BuildData vcs.time: 2023-04-11T14:30:38Z
 BuildData vcs.modified: true
-11:03:14 Compiling JACOBIN-0161-0229-classes / Outsider.java
-11:03:15 Compiling JACOBIN-0161-0229-classes / main.java
-11:03:15 Executing JACOBIN-0161-0229-classes using jvm=jacobin
-11:03:15 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 1
-11:03:15 Compiling JACOBIN-0206-nbody / main.java
-11:03:16 Executing JACOBIN-0206-nbody using jvm=jacobin
-11:03:16 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 1
-11:03:16 Compiling JACOBIN-0212-bit-shifting / main.java
-11:03:16 Executing JACOBIN-0212-bit-shifting using jvm=jacobin
-11:03:16 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 1
-11:03:16 Compiling JACOBIN-0219-length / main.java
-11:03:17 Executing JACOBIN-0219-length using jvm=jacobin
-11:03:17 Compiling JACOBIN-0227-string-array / main.java
-11:03:17 Executing JACOBIN-0227-string-array using jvm=jacobin
-11:03:17 Compiling arrays_1 / main.java
-11:03:18 Executing arrays_1 using jvm=jacobin
-11:03:18 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 2
-11:03:18 Compiling pbcrypto / main.java
-11:03:18 Executing pbcrypto using jvm=jacobin
-11:03:18 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 1
-11:03:18 Compiling scimark2 / Constants.java
-11:03:19 Compiling scimark2 / FFT.java
-11:03:19 Compiling scimark2 / Jacobi.java
-11:03:20 Compiling scimark2 / LU.java
-11:03:20 Compiling scimark2 / MonteCarlo.java
-11:03:21 Compiling scimark2 / Random.java
-11:03:21 Compiling scimark2 / SOR.java
-11:03:21 Compiling scimark2 / SparseCompRow.java
-11:03:22 Compiling scimark2 / Stopwatch.java
-11:03:22 Compiling scimark2 / kernel.java
-11:03:23 Compiling scimark2 / main.java
-11:03:23 Executing scimark2 using jvm=jacobin
-11:03:23 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 2
-11:03:23 Compiling sha3 / FIPS202.java
-11:03:24 Compiling sha3 / KeccakShortState.java
-11:03:25 Compiling sha3 / KeccakSponge.java
-11:03:26 Compiling sha3 / KeccakState.java
-11:03:26 Compiling sha3 / KeccakState1600.java
-11:03:27 Compiling sha3 / KeccakState200.java
-11:03:27 Compiling sha3 / KeccakState400.java
-11:03:28 Compiling sha3 / KeccakState800.java
-11:03:28 Compiling sha3 / KeccakUtilities.java
-11:03:29 Compiling sha3 / main.java
-11:03:29 Executing sha3 using jvm=jacobin
-11:03:29 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 2
-11:03:29 Compiling specrel / Formulae.java
-11:03:30 Compiling specrel / main.java
-11:03:30 Executing specrel using jvm=jacobin
-11:03:30 *** ERROR, cmd.Run(jacobin main.class) returned: exit status 1
-11:03:30 Compiling stats / Library.java
-11:03:30 Compiling stats / main.java
-11:03:31 Executing stats using jvm=jacobin
-11:04:31 *** ERROR, cmd.Run(jacobin main.class) returned: signal: killed
-11:04:31 Success in 2 tests
-11:04:31      JACOBIN-0219-length
-11:04:31      JACOBIN-0227-string-array
-11:04:31 No compilation errors
-11:04:31 runner errors in 9 tests
-11:04:31      JACOBIN-0161-0229-classes
-11:04:31      JACOBIN-0206-nbody
-11:04:31      JACOBIN-0212-bit-shifting
-11:04:31      arrays_1
-11:04:31      pbcrypto
-11:04:31      scimark2
-11:04:31      sha3
-11:04:31      specrel
-11:04:31      stats
-11:04:31 Elapsed time = 1m17s
+08:12:09 Deadline: 60 seconds
+08:12:09 Compiling JACOBIN-0161-0229-classes / Outsider.java
+08:12:10 Compiling JACOBIN-0161-0229-classes / main.java
+08:12:10 Executing JACOBIN-0161-0229-classes using jvm=java
+08:12:10 Compiling JACOBIN-0206-nbody / main.java
+08:12:11 Executing JACOBIN-0206-nbody using jvm=java
+08:12:15 Compiling JACOBIN-0212-bit-shifting / main.java
+08:12:16 Executing JACOBIN-0212-bit-shifting using jvm=java
+08:12:16 Compiling JACOBIN-0219-length / main.java
+08:12:16 Executing JACOBIN-0219-length using jvm=java
+08:12:16 Compiling JACOBIN-0227-string-array / main.java
+08:12:17 Executing JACOBIN-0227-string-array using jvm=java
+08:12:17 Compiling JACOBIN-0231-stats / Library.java
+08:12:17 Compiling JACOBIN-0231-stats / main.java
+08:12:18 Executing JACOBIN-0231-stats using jvm=java
+08:12:18 Compiling arrays_1 / main.java
+08:12:18 Executing arrays_1 using jvm=java
+08:12:19 Compiling instantiate_class / Library.java
+08:12:19 Compiling instantiate_class / main.java
+08:12:20 Executing instantiate_class using jvm=java
+08:12:20 Compiling negtest-comp-error / erroneous.java
+08:12:20 *** ERROR, runner: cmd.Run(javac erroneous.java) returned: erroneous.java:3: error: '{' expected
+public class erroneous JUNK {
+                      ^
+1 error
+
+08:12:20 Compiling negtest-comp-error / even_worse.java
+08:12:21 *** ERROR, runner: cmd.Run(javac even_worse.java) returned: even_worse.java:3: error: '{' expected
+public class even_worse JUNK {
+                       ^
+1 error
+
+08:12:21 Compiling negtest-runner-failure / main.java
+08:12:21 Executing negtest-runner-failure using jvm=java
+08:12:21 *** ERROR, runner: cmd.Run(java main) returned: I will System.exit(86)!
+
+08:12:21 Compiling negtest-runner-timeout / main.java
+08:12:21 Executing negtest-runner-timeout using jvm=java
+08:13:22 *** TIMEOUT, runner: cmd.Run(java main) returned: I will timeout!
+
+08:13:22 Compiling pbcrypto / main.java
+08:13:22 Executing pbcrypto using jvm=java
+08:13:22 Compiling scimark2 / Constants.java
+08:13:23 Compiling scimark2 / FFT.java
+08:13:23 Compiling scimark2 / Jacobi.java
+08:13:24 Compiling scimark2 / LU.java
+08:13:24 Compiling scimark2 / MonteCarlo.java
+08:13:25 Compiling scimark2 / Random.java
+08:13:25 Compiling scimark2 / SOR.java
+08:13:26 Compiling scimark2 / SparseCompRow.java
+08:13:26 Compiling scimark2 / Stopwatch.java
+08:13:27 Compiling scimark2 / kernel.java
+08:13:27 Compiling scimark2 / main.java
+08:13:28 Executing scimark2 using jvm=java
+08:13:55 Compiling sha3 / FIPS202.java
+08:13:56 Compiling sha3 / KeccakShortState.java
+08:13:57 Compiling sha3 / KeccakSponge.java
+08:13:58 Compiling sha3 / KeccakState.java
+08:13:58 Compiling sha3 / KeccakState1600.java
+08:13:59 Compiling sha3 / KeccakState200.java
+08:13:59 Compiling sha3 / KeccakState400.java
+08:14:00 Compiling sha3 / KeccakState800.java
+08:14:00 Compiling sha3 / KeccakUtilities.java
+08:14:01 Compiling sha3 / main.java
+08:14:01 Executing sha3 using jvm=java
+08:14:04 Compiling specrel / Formulae.java
+08:14:04 Compiling specrel / main.java
+08:14:04 Executing specrel using jvm=java
+08:14:05 Success in 12 tests
+08:14:05      JACOBIN-0161-0229-classes
+08:14:05      JACOBIN-0206-nbody
+08:14:05      JACOBIN-0212-bit-shifting
+08:14:05      JACOBIN-0219-length
+08:14:05      JACOBIN-0227-string-array
+08:14:05      JACOBIN-0231-stats
+08:14:05      arrays_1
+08:14:05      instantiate_class
+08:14:05      pbcrypto
+08:14:05      scimark2
+08:14:05      sha3
+08:14:05      specrel
+08:14:05 compilation errors in 1 test
+08:14:05      negtest-comp-error
+08:14:05 runner failure errors in 1 test
+08:14:05      negtest-runner-failure
+08:14:05 runner timeout errors in 1 test
+08:14:05      negtest-runner-timeout
+08:14:05 Elapsed time = 1m55s
 
 ```
 
 ### Sample Logs Directory After Run
 ```
-FAILED-arrays_1-main-jacobin.log
-FAILED-JACOBIN-0161-0229-classes-main-jacobin.log
-FAILED-JACOBIN-0206-nbody-main-jacobin.log
-FAILED-JACOBIN-0212-bit-shifting-main-jacobin.log
-FAILED-pbcrypto-main-jacobin.log
-FAILED-scimark2-main-jacobin.log
-FAILED-sha3-main-jacobin.log
-FAILED-specrel-main-jacobin.log
-PASSED-JACOBIN-0219-length-main-jacobin.log
-PASSED-JACOBIN-0227-string-array-main-jacobin.log
-TIMEOUT-stats-main-jacobin.log
+FAILED-negtest-comp-error-erroneous-javac.log
+FAILED-negtest-comp-error-even_worse-javac.log
+FAILED-negtest-runner-failure-main-java.log
+PASSED-arrays_1-main-java.log
+PASSED-instantiate_class-main-java.log
+PASSED-JACOBIN-0161-0229-classes-main-java.log
+PASSED-JACOBIN-0206-nbody-main-java.log
+PASSED-JACOBIN-0212-bit-shifting-main-java.log
+PASSED-JACOBIN-0219-length-main-java.log
+PASSED-JACOBIN-0227-string-array-main-java.log
+PASSED-JACOBIN-0231-stats-main-java.log
+PASSED-pbcrypto-main-java.log
+PASSED-scimark2-main-java.log
+PASSED-sha3-main-java.log
+PASSED-specrel-main-java.log
+TIMEOUT-negtest-runner-timeout-main-java.log
 ```
-
