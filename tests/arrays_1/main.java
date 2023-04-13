@@ -4,7 +4,7 @@ public class main {
 
     static int NLOOPS = 10000000;
 
-    private static void reporter(String elemType, int length, long t1, long t2) {
+    private static void showResult(String elemType, int length, long t1, long t2) {
         double elapsedSeconds = (double)(t2 - t1) / 1000.0;
 		System.out.print(elemType);
 		System.out.print(" array size = ");
@@ -31,7 +31,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         b_elems = null;
-        reporter("byte", arraySize, t1, t2);
+        showResult("byte", arraySize, t1, t2);
         
         // char array
         char[] c_elems = new char[arraySize];
@@ -41,7 +41,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         c_elems = null;
-        reporter("char", arraySize, t1, t2);
+        showResult("char", arraySize, t1, t2);
 
         // integer array
         int[] i_elems = new int[arraySize];
@@ -51,7 +51,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         i_elems = null;
-        reporter("int", arraySize, t1, t2);
+        showResult("int", arraySize, t1, t2);
 
         // float array
         float[] f_elems = new float[arraySize];
@@ -61,7 +61,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         f_elems = null;
-        reporter("float", arraySize, t1, t2);
+        showResult("float", arraySize, t1, t2);
 
         // double array
         double[] d_elems = new double[arraySize];
@@ -71,7 +71,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         d_elems = null;
-        reporter("double", arraySize, t1, t2);
+        showResult("double", arraySize, t1, t2);
 
         // string array
         System.gc();
@@ -82,7 +82,7 @@ public class main {
         }
         t2 = System.currentTimeMillis();
         s_elems = null;
-        reporter("String", arraySize, t1, t2);
+        showResult("String", arraySize, t1, t2);
 
     }
 }

@@ -1,46 +1,48 @@
 public class main {
-    public static void main( String[] args) {
-        int failures = 0;
-        String wstr;
+
+    public static void main(String[] args) throws Exception {
+    
+        int errorCount = 0;
  
         int a = -100;
-        int b = a >> 2;        
-        System.out.print("-100 >> 2: "); System.out.println(b);
-        if(b != -25) {
-            System.out.print("*** Observed ");
-            System.out.print(b);
-            System.out.println("  but expected -25");
-            failures += 1;
-        }
-
+        int b = a >> 2; 
+        if(b != -25) {       
+            System.out.print("FAILED trying -100 >> 2. Expected -25. Observed ");
+            System.out.println(b);
+            errorCount += 1;
+        } else 
+            System.out.println("Success trying -100 >> 2 == -25");
+        
         b = a << 3;
-        System.out.print("-100 << 3: "); System.out.println(b);
-        if(b != -800) {
-            System.out.print("*** Observed ");
-            System.out.print(b);
-            System.out.println("  but expected -800");
-            failures += 1;
-        }
+        if(b != -800) {       
+            System.out.print("FAILED trying -100 << 3. Expected -800. Observed ");
+            System.out.println(b);
+            errorCount += 1;
+        } else 
+            System.out.println("Success trying -100 << 3 == -800");
 
         a = 100;
         b = a >> 2;
-        System.out.print("+100 >> 2: "); System.out.println(b);
-        if(b != 25) {
-            System.out.print("*** Observed ");
-            System.out.print(b);
-            System.out.println("  but expected 25");
-            failures += 1;
-        }
+        if(b != 25) {       
+            System.out.print("FAILED trying +100 >> 2. Expected 25. Observed ");
+            System.out.println(b);
+            errorCount += 1;
+        } else 
+            System.out.println("Success trying +100 >> 2 == 25");
 
         b = a << 3;
-        System.out.print("+100 << 3: "); System.out.println(b);
-        if(b != 800) {
-            System.out.print("*** Observed ");
-            System.out.print(b);
-            System.out.println("  but expected 800");
-            failures += 1;
+        if(b != 800) {       
+            System.out.print("FAILED trying +100 << 3. Expected 800. Observed ");
+            System.out.println(b);
+            errorCount += 1;
+        } else 
+            System.out.println("Success trying +100 << 3 == 800");
+      
+        System.out.print("Error count = ");
+        System.out.println(errorCount);
+        if (errorCount > 0) {
+            System.out.println("Going to thrrow an Exception next .....");
+            throw new Exception("Test case failure !!");
         }
-        
-        System.exit(failures);
     }
 }

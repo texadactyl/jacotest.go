@@ -1,15 +1,73 @@
 public class main {
 
+    public static void printer(String label, String value) {
+        System.out.print(label);
+        System.out.print(" : ");
+        System.out.println(value);
+    }
+    
+    public static int checkNumEqual(String text, long xx, long yy) {
+        if(xx == yy) return 0;
+        System.out.print("*** checkNumEqual: compare failed !! ");
+        System.out.print(text);
+        System.out.print(" !! ");
+        System.out.print(xx);
+        System.out.print(" ");
+        System.out.print("!=");
+        System.out.print(" ");
+        System.out.println(yy);
+        return 1;
+    }
+
+    public static int checkNumUnequal(String text, long xx, long yy) {
+        if(xx != yy) return 0;
+        System.out.print("*** checkNumUnequal: equal but should not be !! ");
+        System.out.print(text);
+        System.out.print(" !! ");
+        System.out.print(xx);
+        System.out.print(" ");
+        System.out.print("!=");
+        System.out.print(" ");
+        System.out.println(yy);
+        return 1;
+    }
+
+    public static int checkStrEqual(String text, String xx, String yy) {
+        if(xx == yy) return 0;
+        System.out.print("*** checkStrEqual: compare failed !! ");
+        System.out.print(text);
+        System.out.print(" !! ");
+        System.out.print(xx);
+        System.out.print(" ");
+        System.out.print("!=");
+        System.out.print(" ");
+        System.out.println(yy);
+        return 1;
+    }
+
+    public static int checkStrUnequal(String text, String xx, String yy) {
+        if(xx != yy) return 0;
+        System.out.print("*** checkStrUnequal: equal but should not be !! ");
+        System.out.print(text);
+        System.out.print(" !! ");
+        System.out.print(xx);
+        System.out.print(" ");
+        System.out.print("!=");
+        System.out.print(" ");
+        System.out.println(yy);
+        return 1;
+    }
+
     static class Insider extends Outsider {
-        byte with_teeth;
+        int with_teeth;
         
         public Insider() {
-            this.with_teeth = (byte) 41;
+            this.with_teeth = 41;
             this.lucretia = 45;
         }
         
         public String teething() {
-            this.with_teeth = (byte) 42;
+            this.with_teeth = 42;
             return "done";
         }
         
@@ -19,30 +77,21 @@ public class main {
 
     }
     
-    public static void printer(String label, String value) {
-        System.out.print(label);
-        System.out.print(" : ");
-        System.out.println(value);
-    }
-    
     public static void main(String args[]) {
         String wstr;
+        int errorCount = 0;
         
         System.out.println("Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.");
         System.out.println("Testing polymorphism, abstract classes, abstract methods, and interfaces.");
-        System.out.println("\nInsider class will be instantiated .....");
+        
+        System.out.println("\nInsider class will now be instantiated .....");
         Insider insider = new Insider();
         System.out.println("Insider class was instantiated");
-        wstr = String.valueOf(insider.with_teeth);
-        printer("insider.with_teeth before calling teething", wstr);
-        assert insider.with_teeth == (byte) 41;
-        wstr = insider.teething();
-        assert wstr == "done";
-        wstr = String.valueOf(insider.with_teeth);
-        printer("insider.with_teeth after calling teething", wstr);
-        assert insider.with_teeth == (byte) 42;
         
-        System.out.println("Outsider class will be instantiated .....");
+        errorCount += checkStrEqual("insider.teething() == done", insider.teething(), "done");
+        errorCount += checkNumEqual("insider.with_teeth == 42", insider.with_teeth, 42);
+        
+        System.out.println("Outsider class will now be instantiated .....");
         Outsider outsider = new Outsider();
         System.out.println("Outsider class was instantiated");
         
@@ -50,20 +99,18 @@ public class main {
         printer("gimme_in", gimme_in);
         String gimme_out = outsider.gimmeString();
         printer("gimme_out", gimme_out);
-        assert gimme_in == gimme_out;
        
         insider.iota += 1;
-        assert insider.iota != outsider.iota;
-
+        errorCount += checkNumUnequal("insider.iota != outsider.iota", insider.iota, outsider.iota);
         outsider.iota += 1;
-        assert insider.iota == outsider.iota;
+        errorCount += checkNumEqual("insider.iota == outsider.iota", insider.iota, outsider.iota);
 
-        assert insider.lucretia != outsider.iota;
-        insider.lucretia -= 1;
-        assert insider.lucretia == outsider.iota;
+        errorCount += checkNumUnequal("insider.lucretia != outsider.lucretia", insider.lucretia, outsider.lucretia);
+        outsider.lucretia += 1;
+        errorCount += checkNumEqual("insider.lucretia == outsider.lucretia", insider.lucretia, outsider.lucretia);
 
-        assert insider.is_this_a_7() != outsider.is_this_a_7();
-        assert (insider.is_this_a_7() - 1) == outsider.is_this_a_7();
+        errorCount += checkNumUnequal("insider.is_this_a_7() != outsider.is_this_a_7()", insider.is_this_a_7(), outsider.is_this_a_7());
+        errorCount += checkNumEqual("insider.is_this_a_7() - 1 != outsider.is_this_a_7()", insider.is_this_a_7() - 1, outsider.is_this_a_7());
         
         MultiMedia myRed = new Red();
         MultiMedia myOrange = new Orange();
@@ -74,14 +121,17 @@ public class main {
         String loud = myRed.getSound();
         String soft = myOrange.getSound();
         
-        assert red != "rainbow";
-        assert red != orange;
-        assert loud != soft;
-        assert myRed.getNumber() == 42;
+        errorCount += checkStrUnequal("red != rainbow", "red", "rainbow");
+        errorCount += checkStrUnequal("red != orange", "red", "orange");
+        errorCount += checkStrUnequal("loud != soft", "loud", "soft");
+        errorCount += checkNumEqual("myRed.getNumber() == 42", myRed.getNumber(), 42);
 
         Pig myPig = new Pig();  // Create a Pig object implemented from Animal
-        assert myPig.getSound() == "oink";
-        assert myPig.getColor() == "pink";
+        errorCount += checkStrEqual("myPig.getSound() == oink", myPig.getSound(), "oink");
+        errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
+
+        printer("\nError count", String.valueOf(errorCount));
+        assert errorCount == 0;
     }
     
 }

@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-12 12:57:45 CDT
+<br>Date/Time 2023-04-13 12:46:17 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -12,10 +12,15 @@ Run report using JVM java
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | PASSED | n/a |
 | JACOBIN-0232-multidim | PASSED | n/a |
+| JACOBIN-0233-thread_stack | PASSED | n/a |
+| JACOBIN-0234-panic | PASSED | n/a |
+| JACOBIN-0235-system-exit | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
 | instantiate_class | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s) |
-| negtest-runner-failure | FAILED | I will System.exit(86)!
+| negtest-runner-throw-exception | FAILED | I will throw an Exception!
+|||Exception in thread "main" java.lang.Exception: Exception thrown
+|||	at main.main(main.java:6)
 ||| |
 | negtest-runner-timeout | TIMEOUT | I will timeout!
 ||| |
