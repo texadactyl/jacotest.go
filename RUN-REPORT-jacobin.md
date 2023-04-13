@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-13 12:48:53 CDT
+<br>Date/Time 2023-04-13 13:15:10 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -26,25 +26,25 @@ Run report using JVM jacobin
 |||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 199 in method main() of class main
 |||
 ||| |
+| JACOBIN-0217-multidim | FAILED | Invalid bytecode found: 197 (0xC5) (MULTIANEWARRAY) at location 8 in method main() of class main
+|||
+||| |
 | JACOBIN-0219-length | PASSED | n/a |
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | FAILED | Library lib will be instantiated .....
 |||instantiateClass: Timeout while waiting on class: Library
 |||Error instantiating class: Library
 ||| |
-| JACOBIN-0232-multidim | FAILED | Invalid bytecode found: 197 (0xC5) (MULTIANEWARRAY) at location 8 in method main() of class main
-|||
-||| |
 | JACOBIN-0233-thread_stack | FAILED | panic: runtime error: index out of range [-1]
 |||
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1580
-|||jacobin/jvm.runFrame(0xc0116189f0)
+|||jacobin/jvm.runFrame(0xc0116289f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:480 +0xede5
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011602d08, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01160ed08, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -54,11 +54,11 @@ Run report using JVM jacobin
 | JACOBIN-0234-panic | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115d4ab0)
+|||jacobin/jvm.runFrame(0xc01161cab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115bec48, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011602c48, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -72,11 +72,11 @@ Run report using JVM jacobin
 | arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01164ec60)
+|||jacobin/jvm.runFrame(0xc01164ac60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011636cb4, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011632cb4, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -97,11 +97,11 @@ Run report using JVM jacobin
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116289f0)
+|||jacobin/jvm.runFrame(0xc0116929f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1389 +0xd097
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011610cac, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01167acac, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -114,11 +114,11 @@ Run report using JVM jacobin
 | scimark2 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115c89f0)
+|||jacobin/jvm.runFrame(0xc0116469f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115b0e2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01162ce2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -128,11 +128,11 @@ Run report using JVM jacobin
 | sha3 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116149f0)
+|||jacobin/jvm.runFrame(0xc0116309f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115fcd2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011616d2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
