@@ -16,7 +16,8 @@ const MY_NAME = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", 60, false)
     suffix := filepath.Base(os.Args[0])
-    fmt.Printf("\nUsage:  %s  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]\n\nwhere\n", suffix)
+    fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]\n\nwhere\n", suffix)
+    fmt.Printf("\t-h : This display\n")
     fmt.Printf("\t-x : Compile and execute all of the tests\n")
     fmt.Printf("\t-v : Verbose logging\n")
     fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: java\n")
