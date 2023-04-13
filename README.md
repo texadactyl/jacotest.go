@@ -2,39 +2,48 @@
 
 TODO: Add more test cases!
 
-Jacotest is intended to be a top-down user-level testing companion to https://github.com/platypusguy/jacobin 
-While Jacobin has internal component-unit testing, it would be useful to have a collection of Java-source tests that can be executed automatically 
+Jacotest is intended to be a user-level testing companion to https://github.com/platypusguy/jacobin. 
+While Jacobin has internal component-unit testing, it is useful to have a collection of Java-source tests that can be executed automatically 
 at the operator command line or through Github Actions.
 
-All of the test harness code is written in Go as the name implies.
+All of the jactotest source code is written in Go as the name implies.  See the ```src``` directory under the project root.
 
 ### Test Case Overview
 
-Each test case occupies a directory immediately under the project subdirectory (```tests```).  By convention,
-* For a given test case, there is a main.java file which starts execution for the test case.
+Each test case occupies a directory immediately under the directory ```tests```.  The test case source code follows the following conventions:
+* For a given test case, there is a main.java file whose .class file starts execution for the test case following compilation.
 * Additional source files (helper.java, etc.) can be present for test case modularity.
 * No package statements should appear in any of the source code.
 
 ### Test Case Run
 
-Test cases are run in lexical directory name order.  For each test case, execution is a two-step process:
-1) Compilation with ```javac```.
-2) If compilation is successful, then execution proceeds under the control of a JVM (```java``` or ```jacobin```).
+Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a two-step process:
+1) Compilation of all *.java files with ```javac```.
+2) If compilation is successful, then execution proceeds under the control of one of the 2 JVMs: ```java``` or ```jacobin```.
 
-The ```logs``` subdirectory holds the results for each test case.  This consists of combined stdout and stderr in a single file with a .log extension.
+After all test cases are run, a report file is available under the root in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin. 
+
+The ```logs``` directory holds the combined stdout and stderr for test cases which experienced either compilation errors or execution errors.  Files here have the following name format: ```<result>-TestCaseDirectoryName-<exec>.log``` where:
+* ```<result>``` : FAILED or TIMEOUT
+* ```<exec>``` : javac or one of the JVMs (java or jacobin)
 
 ### Test Case Results
 
 If a test case fails compilation, execution is not attempted.  There will be a javac .log file is left in the ```logs``` subdirectory.  Flow moves on to the next test case.
 
-Assuming compilation success, then execution begins.  If the execution fails, then a jvm .log file is left in the ```logs``` subdirectory.  Whether the current test is successful or not, flow moves on to the next test case.  Flow stops when all test cases have been attempted.
+Assuming compilation is success, then execution begins.  If the execution experiences a timeout or fails, then a JVM .log file is left in the ```logs``` subdirectory.  
 
-### Jacotest Help
+Whether the current test is successful or not, flow moves on to the next test case.  
+
+Flow concludes when all of the test cases have been attempted.
+
+### Sample Jacotest Help
 
 ```
-Usage:  jacotest  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]
+Usage:  jacotest  [-h]  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]
 
 where
+	-h : This display
 	-x : Compile and execute all of the tests
 	-v : Verbose logging
 	-j : This is the JVM to use in executing all test cases.  Default: java
@@ -48,10 +57,6 @@ BuildData vcs.time: 2023-04-12T15:51:45Z
 BuildData vcs.modified: true
 
 ```
-
-### Reports
-
-After all test cases are run, a report file is available in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin.
 
 ### Sample Console Output
 
