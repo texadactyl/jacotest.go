@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
         ./src/jacotest -h
 
     - name: Setup JDK
-      uses: actions/setup-java@v1.4.4
+      uses: actions/setup-java@v3
       with:
         java-version: 17
 
@@ -41,5 +41,5 @@ jobs:
         ./src/jacotest -x -j java -t 60 
 
     - name: Codecov
-      uses: codecov/codecov-action@v2.1.0
+      uses: codecov/codecov-action@v3
       
