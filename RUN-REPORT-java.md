@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-14 12:21:16 CDT
+<br>Date/Time 2023-04-14 17:20:51 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -28,6 +28,7 @@ Run report using JVM java
 ||| |
 | negtest-runner-timeout | TIMEOUT | I will timeout!
 ||| |
+| numbers-chars-strings | PASSED | n/a |
 | pbcrypto | PASSED | n/a |
 | scimark2 | PASSED | n/a |
 | sha3 | PASSED | n/a |
