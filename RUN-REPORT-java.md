@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-13 13:13:05 CDT
+<br>Date/Time 2023-04-14 07:58:51 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -15,7 +15,10 @@ Run report using JVM java
 | JACOBIN-0233-thread_stack | PASSED | n/a |
 | JACOBIN-0234-panic | PASSED | n/a |
 | JACOBIN-0235-system-exit | PASSED | n/a |
+| JACOBIN-0236-minus-signs | PASSED | n/a |
+| JACOBIN-0237-nil-printlns | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
+| bitwise | PASSED | n/a |
 | instantiate_class | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s) |
 | negtest-runner-throw-exception | FAILED | I will throw an Exception!

@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-13 13:15:10 CDT
+<br>Date/Time 2023-04-14 08:10:28 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -40,11 +40,11 @@ Run report using JVM jacobin
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1580
-|||jacobin/jvm.runFrame(0xc0116289f0)
+|||jacobin/jvm.runFrame(0xc01161c9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:480 +0xede5
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01160ed08, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011604d08, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -54,11 +54,11 @@ Run report using JVM jacobin
 | JACOBIN-0234-panic | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01161cab0)
+|||jacobin/jvm.runFrame(0xc011616ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011602c48, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011600c48, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -69,19 +69,74 @@ Run report using JVM jacobin
 |||Invalid bytecode found: 176 (0xB0) (ARETURN) at location 3 in method getRuntime() of class java/lang/Runtime
 |||
 ||| |
-| arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
+| JACOBIN-0236-minus-signs | FAILED | a: 60
+|||b: 13
+|||c should be -47 : 209
+|||FAILED Expected c < 0. Observed 209
+|||
+|||c should be 13 - 60 = -47 : -47
+|||FAILED Expected b - a == -47. Observed -47
+|||
+|||c = ~60 ==> 195
+|||FAILED trying c = ~60. Expected -61. Observed 195
+|||
+|||Error count = 3
+|||Going to thrrow an Exception next .....
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 263 in method main() of class main
+|||
+||| |
+| JACOBIN-0237-nil-printlns | FAILED | panic: runtime error: index out of range [1] with length 1
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01164ac60)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
+|||jacobin/jvm.push(...)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1593
+|||jacobin/jvm.runFrame(0xc0116209f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1242 +0xd790
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011632cb4, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011608c70, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
 |||main.main()
 |||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
+||| |
+| arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.runFrame(0xc01160cc60)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
+|||jacobin/jvm.runThread(0x610460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc0115f6cb4, 0x4}, 0x610900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
+||| |
+| bitwise | FAILED | a=10 and b=25
+|||Success trying a + b == 35
+|||FAILED trying a - b. Expected -15. Observed -15
+|||Success trying b / a == 2
+|||Success trying b % a == 5
+|||a=60 and b=13
+|||Success trying b % a == 12
+|||Success trying b | a == 61
+|||Success trying b ^ a == 49
+|||c = ~a : -61
+|||Success trying ~a == -61
+|||c = ~60 : 195
+|||FAILED trying ~60. Expected -61. Observed 195
+|||Success trying a>>>2 == 15
+|||A=true and B=false
+|||Success trying A && B == false
+|||Success trying A || B == true
+|||Success trying c = (a == 42) ? 1001: 1002 ==>> 1002
+|||Error count = 2
+|||Going to thrrow an Exception next .....
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 641 in method main() of class main
+|||
 ||| |
 | instantiate_class | FAILED | Library lib will be instantiated .....
 |||Error: could not find or load class Library.
@@ -97,11 +152,11 @@ Run report using JVM jacobin
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116929f0)
+|||jacobin/jvm.runFrame(0xc01167c9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1389 +0xd097
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01167acac, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011662cac, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -114,11 +169,11 @@ Run report using JVM jacobin
 | scimark2 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116469f0)
+|||jacobin/jvm.runFrame(0xc0115d09f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01162ce2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115b8e2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -128,11 +183,11 @@ Run report using JVM jacobin
 | sha3 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116309f0)
+|||jacobin/jvm.runFrame(0xc0116189f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011616d2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011602d2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
