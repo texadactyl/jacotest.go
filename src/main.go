@@ -197,7 +197,7 @@ func main() {
 	                    fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 	                case RC_COMP_ERROR:
 	                    errCompileNames = append(errCompileNames, testCaseName)
-	                    fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s) |\n", testCaseName)
+	                    fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 	                case RC_EXEC_ERROR:
 	                    errRunnerNames = append(errRunnerNames, testCaseName)
 	                    fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)

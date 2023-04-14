@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-14 08:10:28 CDT
+<br>Date/Time 2023-04-14 08:40:01 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -40,11 +40,11 @@ Run report using JVM jacobin
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1580
-|||jacobin/jvm.runFrame(0xc01161c9f0)
+|||jacobin/jvm.runFrame(0xc0116149f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:480 +0xede5
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011604d08, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115fad08, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -54,11 +54,11 @@ Run report using JVM jacobin
 | JACOBIN-0234-panic | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011616ab0)
+|||jacobin/jvm.runFrame(0xc011690ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011600c48, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011676c48, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -90,11 +90,11 @@ Run report using JVM jacobin
 |||goroutine 1 [running]:
 |||jacobin/jvm.push(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1593
-|||jacobin/jvm.runFrame(0xc0116209f0)
+|||jacobin/jvm.runFrame(0xc0116149f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1242 +0xd790
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011608c70, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115fcc70, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -104,11 +104,11 @@ Run report using JVM jacobin
 | arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01160cc60)
+|||jacobin/jvm.runFrame(0xc011630c60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd637
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115f6cb4, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011616cb4, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -143,7 +143,8 @@ Run report using JVM jacobin
 |||instantiateClass: LoadClassFromNameOnly failed with class: Library.
 |||Error instantiating class: Library
 ||| |
-| negtest-comp-error | COMP-ERROR | compilation error(s) |
+| negtest-comp-error | COMP-ERROR | compilation error(s)
+ | | | See logs/FAILED-*-javac.log files |
 | negtest-runner-throw-exception | FAILED | I will throw an Exception!
 |||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
 |||
@@ -152,11 +153,11 @@ Run report using JVM jacobin
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01167c9f0)
+|||jacobin/jvm.runFrame(0xc0116909f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1389 +0xd097
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011662cac, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011676cac, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -169,11 +170,11 @@ Run report using JVM jacobin
 | scimark2 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115d09f0)
+|||jacobin/jvm.runFrame(0xc0115b49f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115b8e2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01159ce2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -183,11 +184,11 @@ Run report using JVM jacobin
 | sha3 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116189f0)
+|||jacobin/jvm.runFrame(0xc0115ca9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1517 +0xccb7
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011602d2c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115b4d2c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b

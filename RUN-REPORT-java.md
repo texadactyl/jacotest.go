@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-14 07:58:51 CDT
+<br>Date/Time 2023-04-14 08:37:33 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -20,7 +20,8 @@ Run report using JVM java
 | arrays_1 | PASSED | n/a |
 | bitwise | PASSED | n/a |
 | instantiate_class | PASSED | n/a |
-| negtest-comp-error | COMP-ERROR | compilation error(s) |
+| negtest-comp-error | COMP-ERROR | compilation error(s)
+ | | | See logs/FAILED-*-javac.log files |
 | negtest-runner-throw-exception | FAILED | I will throw an Exception!
 |||Exception in thread "main" java.lang.Exception: Exception thrown
 |||	at main.main(main.java:6)
