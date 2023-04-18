@@ -227,7 +227,6 @@ func main() {
 	    t_stop := time.Now()
 	    elapsed := t_stop.Sub(t_start)
         Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
-        os.exit(0)
     }
 }
 
