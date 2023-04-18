@@ -1,0 +1,70 @@
+# ==================================
+# Common definitions for all scripts
+# ==================================
+
+# My name is in $0.
+MYNAME=`basename $0`
+
+# Get fresh copy of jacobin from here:
+URL='https://github.com/platypusguy/jacobin'
+BRANCH='main'
+
+# Store jacobin root under this directory:
+export JACOBIN_PARENT=$HOME/BASIS/
+
+# Jacobin home:
+export JACOBIN_HOME=$JACOBIN_PARENT/jacobin
+
+# Jacobin executable is stored in this directory:
+export JACOBIN_BIN=$JACOBIN_PARENT/bin
+
+# Jacobin executable:
+export JACOBIN_EXE=$JACOBIN_BIN/jacobin
+
+# Jacobin test data:
+export JACOBIN_TESTDATA=$JACOBIN_HOME/testdata
+
+# Golang bin directory:
+export GOBIN=$JACOBIN_BIN
+
+# Note where we are and the name of the log:
+HERE=`pwd`
+LOG=${HERE}/`basename $0`.log
+
+# Set up bash to quit on first error in all cases:
+set -e
+set -o pipefail
+
+# Here is the logger.
+# Stdout & stderr are combined; entries are duplicated in the log file:
+function logger {
+	echo ${MYNAME}: $1 2>&1 | tee -a $LOG
+}
+
+# Alpha and omega:
+function logbegin {
+	logger '========='
+	logger 'BEGIN +++'
+	logger "`date`"
+	logger '========='
+	T_START=`date +%s`
+}
+function logend {
+	T_STOP=`date +%s`
+	ELAPSED_TIME=$((T_STOP-T_START))
+	logger "Elapsed time: ${ELAPSED_TIME} seconds"
+	logger '========='
+	logger 'END +++++'
+	logger "`date`"
+	logger '========='
+}
+
+# Something bad happened:
+function oops {
+	logger " "
+	MSG='*** Oops *** '$1' !! ***'
+	logger $MSG
+	echo
+	exit 1
+}
+
