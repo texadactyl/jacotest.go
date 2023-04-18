@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-18 10:41:22 CDT
+<br>Date/Time 2023-04-18 13:14:02 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -22,10 +22,7 @@ Run report using JVM java
 | instantiate_class | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
  | | | See logs/FAILED-*-javac.log files |
-| negtest-runner-throw-exception | FAILED | I will throw an Exception!
-|||Exception in thread "main" java.lang.Exception: Exception thrown
-|||	at main.main(main.java:6)
-||| |
+| negtest-runner-throw-exception | PASSED | n/a |
 | negtest-runner-timeout | TIMEOUT | I will timeout!
 ||| |
 | numbers-chars-strings | PASSED | n/a |
