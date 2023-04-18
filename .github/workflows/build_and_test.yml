@@ -49,8 +49,13 @@ jobs:
         ./src/jacotest -x -j java -t 60 
         
     - name: Push Reports
+      env: 
+        CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
+        CI_COMMIT_AUTHOR: Continuous Integration
       if: startsWith(matrix.os, 'ubuntu')
-      run: |        
+      run: |
+        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+        git config --global user.email "username@users.noreply.github.com"
         git commit -m 'build_and_test.yml reports' RUN*.md
         git push
         
