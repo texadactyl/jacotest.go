@@ -47,9 +47,13 @@ jobs:
         which java
         which javac
         ./src/jacotest -x -j java -t 60 
+        
+    - name: Push Reports
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |        
         git commit -m 'build_and_test.yml reports' RUN*.md
         git push
-
+        
     - name: Codecov
       uses: codecov/codecov-action@v3
       
