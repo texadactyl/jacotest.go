@@ -1,7 +1,7 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Go
+name: build_and_test
 
 on:
   push:
@@ -48,14 +48,5 @@ jobs:
         which javac
         ./src/jacotest -x -j java -t 60 
         
-    - name: Push Reports
-      if: startsWith(matrix.os, 'ubuntu')
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git commit -m 'build_and_test.yml reports' RUN*.md
-        git push
-        
     - name: Codecov
       uses: codecov/codecov-action@v3
-      
