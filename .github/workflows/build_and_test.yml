@@ -49,13 +49,10 @@ jobs:
         ./src/jacotest -x -j java -t 60 
         
     - name: Push Reports
-      env: 
-        CI_COMMIT_AUTHOR: texadactyl
-        CI_COMMIT_EMAIL: richard.elkins@gmail.com
       if: startsWith(matrix.os, 'ubuntu')
       run: |
-        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-        git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         git commit -m 'build_and_test.yml reports' RUN*.md
         git push
         
