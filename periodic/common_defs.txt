@@ -25,7 +25,8 @@ export JACOBIN_EXE=$JACOBIN_BIN/jacobin
 export JACOBIN_TESTDATA=$JACOBIN_HOME/testdata
 
 # Golang bin directory:
-export GOBIN=$JACOBIN_BIN
+export GOPATH=/opt/go
+export GOBIN=$GOPATH/bin
 
 # Note where we are and the name of the log:
 HERE=`pwd`

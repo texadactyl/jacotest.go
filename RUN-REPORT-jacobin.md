@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-18 13:17:28 CDT
+<br>Date/Time 2023-04-18 15:45:33 CDT
 <br>
 <br>
 | Test Case | Result | Error Information |
@@ -12,16 +12,16 @@ Run report using JVM jacobin
 |||Error: could not find or load class main$Insider.
 |||Error loading class: main$Insider. Exiting.
 |||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e90dc]
+|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc011614ca4, 0xc})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x21c
-|||jacobin/jvm.runFrame(0xc01162cea0)
+|||jacobin/jvm.instantiateClass({0xc011678cb4, 0xc})
+|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
+|||jacobin/jvm.runFrame(0xc011692ea0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1434 +0xb78d
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011614cbc, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011678ccc, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -31,16 +31,16 @@ Run report using JVM jacobin
 | JACOBIN-0206-nbody | FAILED | Error: could not find or load class main$NBodySystem.
 |||Error loading class: main$NBodySystem. Exiting.
 |||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e90dc]
+|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc01166cc60, 0x10})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x21c
-|||jacobin/jvm.runFrame(0xc01167eae0)
+|||jacobin/jvm.instantiateClass({0xc011638c70, 0x10})
+|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
+|||jacobin/jvm.runFrame(0xc011650ae0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1434 +0xb78d
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01166cc34, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011638c44, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -69,11 +69,11 @@ Run report using JVM jacobin
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1576
-|||jacobin/jvm.runFrame(0xc0116489f0)
+|||jacobin/jvm.runFrame(0xc01163e9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:480 +0xeda5
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011630d08, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011626d18, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -83,11 +83,11 @@ Run report using JVM jacobin
 | JACOBIN-0234-panic | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116a8ab0)
+|||jacobin/jvm.runFrame(0xc0115d4ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd5f7
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011690c48, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115bac58, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -119,11 +119,11 @@ Run report using JVM jacobin
 | arrays_1 | FAILED | panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011638c60)
+|||jacobin/jvm.runFrame(0xc0115d8c60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd5f7
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011620cb4, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115becc4, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -158,16 +158,16 @@ Run report using JVM jacobin
 |||Error: could not find or load class Library.
 |||Error loading class: Library. Exiting.
 |||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e90dc]
+|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc011626c77, 0x7})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x21c
-|||jacobin/jvm.runFrame(0xc01163e9f0)
+|||jacobin/jvm.instantiateClass({0xc0115b4c87, 0x7})
+|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
+|||jacobin/jvm.runFrame(0xc0115cc9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1434 +0xb78d
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011626cb0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115b4cc0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -180,11 +180,11 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01168a9f0)
+|||jacobin/jvm.runFrame(0xc01161a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1381 +0xd5f7
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011672ca0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011600cb0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -195,11 +195,11 @@ Run report using JVM jacobin
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116929f0)
+|||jacobin/jvm.runFrame(0xc01161c9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1389 +0xd057
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011678cac, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011602cbc, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -214,11 +214,11 @@ Run report using JVM jacobin
 | scimark2 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116189f0)
+|||jacobin/jvm.runFrame(0xc01169a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1513 +0xcc77
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115fce2c, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011680e3c, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -228,11 +228,11 @@ Run report using JVM jacobin
 | sha3 | FAILED | panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116209f0)
+|||jacobin/jvm.runFrame(0xc01169a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1513 +0xcc77
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011606d2c, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011680d3c, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -243,16 +243,16 @@ Run report using JVM jacobin
 |||Error: could not find or load class Formulae.
 |||Error loading class: Formulae. Exiting.
 |||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e90dc]
+|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc011632cb8, 0x8})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x21c
-|||jacobin/jvm.runFrame(0xc01164c9f0)
+|||jacobin/jvm.instantiateClass({0xc01167ccc8, 0x8})
+|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
+|||jacobin/jvm.runFrame(0xc0116969f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1434 +0xb78d
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011632d1c, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc01167cd2c, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
