@@ -1,6 +1,9 @@
 public class main {
     
     public static void main(String args[]) {
+        String msg = "Testing basic statistical functions and a square root algorithm";
+        System.out.println(msg);
+
         int arraySize = 1000000;
         double[] x_elems = new double[arraySize];
         double[] y_elems = new double[arraySize];

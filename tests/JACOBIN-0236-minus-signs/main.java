@@ -2,6 +2,9 @@ public class main {
 
     public static void main(String[] args) throws Exception {
     
+        String msg = "Test the use of minus signs in integer operations";
+        System.out.println(msg);
+
         int errorCount = 0;
         int a = 60;
         int b = 13; 

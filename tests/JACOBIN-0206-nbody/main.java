@@ -31,6 +31,11 @@ public final class main {
       double elapsedSeconds;
       int n = ADVANCES;
 
+      String msg = "Model the orbits of the Jovian planets, using the Symplectic integration Package";
+      System.out.println(msg);
+      msg = "URL: https://janus.astro.umd.edu/HNBody/";
+      System.out.println(msg);
+        
       NBodySystem bodies = new NBodySystem();
       System.out.printf("Initial energy: %.9f\n", bodies.energy());
       t1 = System.currentTimeMillis();

@@ -1,7 +1,8 @@
 public class main {
 
     public static void main(String args[]) {
-        System.out.println("Begin");
+        String msg = "Testing accessibility of String arrays, setting and getting values";
+        System.out.println(msg);
 
         int[] arr_ints = new int[3];
         int size1 = arr_ints.length;

@@ -2,6 +2,9 @@ public class main
 {
 	public static void main(String args[])
 	{
+        String msg = "Special Relativity calculations";
+        System.out.println(msg);
+
 	    final double v_light = 299792458.0; // m/s
 	    double v_factorInit = 0.1;
 	    double v_factorDelta = 0.1;

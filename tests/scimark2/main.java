@@ -25,7 +25,8 @@ public class main
 
 	public static void main(String args[])
 	{
-		// default to the (small) cache-contained version
+        String msg = "SciMark2: Benchmark measuring performance	of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.";
+        System.out.println(msg);
 
 		double min_time = Constants.RESOLUTION_DEFAULT;
 

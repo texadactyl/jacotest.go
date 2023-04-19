@@ -64,6 +64,9 @@ public class main {
 
     public static void main(String []args) throws Exception {
 
+        String msg = "Exercise Password-based Encryption/Decryption";
+        System.out.println(msg);
+
         int keySize = 256;
         int iterations = 65536;
         char[] password = "This is a huge secret!".toCharArray();

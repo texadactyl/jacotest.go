@@ -2,7 +2,7 @@ public class main {
 
     public static void main(String args[]) throws InterruptedException {
         
-        System.out.println("I will System.exit(0)!");
+        System.out.println("Perform a System.exit(0)");
         System.exit(0);
 
     }

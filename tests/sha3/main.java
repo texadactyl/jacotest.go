@@ -23,6 +23,9 @@ public class main
     }
 
 	public static void main(String args[]) {
+        String msg = "SHA-3 hashing tests";
+        System.out.println(msg);
+
 		int msgSize = 100000000;
 		byte[] messageBytes;
 

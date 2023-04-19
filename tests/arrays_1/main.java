@@ -23,6 +23,9 @@ public class main {
         int arraySize = NLOOPS;
         long t1, t2;
         
+        String msg = "Testing accessibility of array elements of type byte, char, int, float, double, and String";
+        System.out.println(msg);
+        
         // byte array
         byte[] b_elems = new byte[arraySize];
         t1 = System.currentTimeMillis();

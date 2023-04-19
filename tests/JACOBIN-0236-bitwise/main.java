@@ -2,6 +2,9 @@ public class main {
 
     public static void main(String[] args) throws Exception {
     
+        String msg = "Perform various integer operations";
+        System.out.println(msg);
+
         int errorCount = 0;
  
         int a = 10;

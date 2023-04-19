@@ -2,6 +2,9 @@ public class main {
 
     public static void main(String[] args) throws Exception {
     
+        String msg = "Four bit shifting test cases";
+        System.out.println(msg);
+
         int errorCount = 0;
  
         int a = -100;
