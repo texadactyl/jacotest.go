@@ -17,9 +17,9 @@ public class main {
             System.out.println("Success trying a + b == 35");
         
         c = a - b;
-        if(c != -15) {       
-            System.out.print("FAILED trying a - b. Expected -15. Observed ");
-            System.out.println(c);
+        System.out.print("c = a - b: "); System.out.println(c);
+        if(c != -15){       
+            System.out.println("FAILED if(c != -15). Expected false. Observed true");
             errorCount += 1;
         } else 
             System.out.println("Success trying a - b == -15");
