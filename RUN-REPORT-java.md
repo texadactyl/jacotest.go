@@ -1,9 +1,9 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-19 14:45:43 CDT
+<br>Date/Time 2023-04-19 15:40:31 CDT
 <br>
 <br>
-| Test Case | Result | Error Information |
+| Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
 | JACOBIN-0161-instantiate_class | PASSED | n/a |

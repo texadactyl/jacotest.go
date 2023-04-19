@@ -174,7 +174,7 @@ func main() {
         zone, _ := time.Now().Zone()
 	    fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
 	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvm, time.Now().Format("2006-01-02 15:04:05"), zone)
-	    fmt.Fprintf(rptHandle, "| Test Case | Result | Error Information |\n")
+	    fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 	    
 	    // Get all of the subdirectories (test cases) under tests
