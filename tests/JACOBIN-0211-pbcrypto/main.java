@@ -70,9 +70,9 @@ public class main {
         int keySize = 256;
         int iterations = 65536;
         char[] password = "This is a huge secret!".toCharArray();
-        String message = "Mary had a little lamb.";
-        System.out.println("Cleartext (string):\t" + message);
-        byte[] msgBytes = message.getBytes();
+        String originalString = "Mary had a little lamb.";
+        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
+        byte[] msgBytes = originalString.getBytes();
         showBytes("Cleartext (base 64)", msgBytes);
    
         // Make the key.
@@ -86,12 +86,16 @@ public class main {
         // Perform decryption.
         byte[] clearText = decrypt(secretKeySpec, eo.ivBytes, eo.cipherText);
         showBytes("Cleartext (base 64)", clearText);
-        String original = new String(clearText, StandardCharsets.UTF_8);
+        String decryptedString = new String(clearText, StandardCharsets.UTF_8);
         
         // Show that we got back the original message cleartext.
-        System.out.println("ClearText (string):\t" + original);
-        assert original == message : "*** Did not get back the original message intact!";
-        System.out.println("Success!");
+        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", decryptedString.length(), decryptedString);
+        if(decryptedString.equals(originalString)) {
+        	System.out.println("Success!");
+        	System.exit(0);
+        }
+        System.out.println("*** FAILED *** decryptedString != originalString");
+        System.exit(1);
     }
 
 }

@@ -131,7 +131,7 @@ public class main {
         errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
 
         printer("\nError count", String.valueOf(errorCount));
-        assert errorCount == 0;
+        if(errorCount > 0) { System.exit(1); }
     }
     
 }

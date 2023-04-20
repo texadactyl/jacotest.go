@@ -8,8 +8,13 @@ public class main {
 		System.out.println("Testing the use of import pkgcalc.Calculator");
 		Calculator obj = new Calculator();
 		int result = obj.add(100, 200);
-		assert result == 300;
-		System.out.println("Success with assert result == (100 + 200 = 300)");
+		if(result != 300) {
+			System.out.println("*** FAILED *** pkgcalc.Calculator did not get a result of 300");
+			System.out.print("************** observed a result of ");
+			System.out.println(result);
+			System.exit(1);
+		}
+		System.out.println("Success with result == (100 + 200 = 300)");
    	}
    	
 }

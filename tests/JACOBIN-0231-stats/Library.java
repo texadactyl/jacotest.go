@@ -48,7 +48,6 @@ public class Library {
         double sum2 = 0.0;
         int arraySize = arg1.length;
         double dSize = (double) arraySize;
-        assert arraySize == arg2.length;
         for(int ndx = 0; ndx < arraySize; ++ndx ) {
             sum1 += arg1[ndx];
             sum2 += arg2[ndx];

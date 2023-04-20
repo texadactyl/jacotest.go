@@ -209,7 +209,7 @@ func main() {
         }
 
         // Show successes
-        Logger(fmt.Sprintf("Success in %d tests", len(successNames)))
+        Logger(fmt.Sprintf("Success in %d test cases", len(successNames)))
         for _, name := range successNames {
             Logger(fmt.Sprintf("     %s", name))
         }
