@@ -94,10 +94,11 @@ func storeText(targetDir string, argFile string, text string) {
 // 0 : success
 // 1 : failure
 // 2 : timeout
-func runner(cmdexec string, testName string, argFile string) (int, string) {
+func runner(cmdExec string, dirName string, argFile string) (int, string) {
 	global := GetGlobalRef()
 	if global.FlagVerbose {
-	    Logger(fmt.Sprintf("runner: on entry cmdexec=%s, testName=%s, argFile=%s", cmdexec, testName, argFile))
+		here, _ := os.Getwd()
+	    Logger(fmt.Sprintf("runner: on entry cmdExec=%s, dirName=%s, here=%s, argFile=%s", cmdExec, dirName, here, argFile))
 	}
 	
 	// Set up a command context with a timeout
@@ -105,12 +106,12 @@ func runner(cmdexec string, testName string, argFile string) (int, string) {
     defer cancel()
     
     // Execute command with the given parameters
-    cmd := exec.CommandContext(ctx, cmdexec, argFile)
+    cmd := exec.CommandContext(ctx, cmdExec, argFile)
     
     // Form a message prefix
     fn := filepath.Base(argFile)
     fn_without_ext := strings.TrimSuffix(fn, path.Ext(fn))
-    prefix := testName + "-" + fn_without_ext + "-" + cmdexec
+    prefix := dirName + "-" + fn_without_ext + "-" + cmdExec
     
     // Get the combined stdout and stderr text
     outbytes, err := cmd.CombinedOutput()
@@ -120,21 +121,21 @@ func runner(cmdexec string, testName string, argFile string) (int, string) {
     if err != nil { // YES
         // Timeout?
         if (ctx.Err() == context.DeadlineExceeded) { // YES
-            LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdexec, argFile, outlog))
+            LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdExec, argFile, outlog))
             storeText(global.DirLogs, "TIMEOUT-" + prefix  + ".log", outlog)
             return RC_EXEC_TIMEOUT, outlog
         }
         // Not a time out error but something else bad happened
-        LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdexec, argFile, outlog))
+        LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdExec, argFile, outlog))
         storeText(global.DirLogs, "FAILED-" + prefix  + ".log", outlog)
-        if cmdexec == "javac" {
+        if cmdExec == "javac" {
             return RC_COMP_ERROR, outlog
         }
         return RC_EXEC_ERROR, outlog
     }
     
     // No errors occured. Just store outlog.
-    if cmdexec != "javac" {
+    if cmdExec != "javac" {
         storeText(global.DirLogs, "PASSED-" + prefix + ".log", outlog)
     }
     
@@ -170,15 +171,14 @@ func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
 
 //
 // Compile all .java files in the directory tree rooted at fullPathDir
-func compileOneDir(fullPathDir string) int {
+func compileOneTree(fullPathDir string) int {
     var stcode int
     
     // Get all of the directory entries from fullPathDir
     entries, err := os.ReadDir(fullPathDir)
     if err != nil {
-        FmtFatal("compileOneDir: os.ReadDir failed", fullPathDir, err)
+        FmtFatal("compileOneTree: os.ReadDir failed", fullPathDir, err)
     }
-
     // Process each directory entry
     errorCount := 0
     for _, dirEntry := range entries {
@@ -190,11 +190,32 @@ func compileOneDir(fullPathDir string) int {
         // If a directory, recur
 	    fileInfo, err := os.Stat(fullPathFile)
 	    if err != nil {
-		    FmtFatal("compileOneDir: os.Stat failed", fullPathFile, err)
+		    FmtFatal("compileOneTree: os.Stat failed", fullPathFile, err)
 	    }
-        if fileInfo.IsDir() {
-        	errorCount += compileOneDir(fullPathFile)
+        if fileInfo.IsDir() { // === RECURSION ===
+        
+			// Save the path of the current working dir
+			here, err := os.Getwd()
+			if err != nil {
+				FmtFatal("compileOneTree os.Getwd failed", "", err)
+			}
+			
+			// Position to fullPathDir as the new working dir  (!!!!!!!!!!!!!!!!!!!!)
+			err = os.Chdir(fullPathFile)
+			if err != nil {
+				FmtFatal("compileOneTree os.Chdir failed.  Was targeting:", fullPathDir, err)
+			}
+
+        	errorCount += compileOneTree(fullPathFile)
+
+			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
+			err2 := os.Chdir(here)
+			if err2 != nil {
+				FmtFatal("compileOneTree os.Chdir failed.  Was trying to return here:", here, err2)
+			}
+    
             continue
+            
         }
     
         // If not a .java file, skip it
@@ -239,7 +260,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
     }
 
     // Compile every .java file in the tree
-    errorCount := compileOneDir(fullPathDir)
+    errorCount := compileOneTree(fullPathDir)
     
     // If there was at least one compilation error, go no further
     if errorCount > 0 {
