@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-20 09:57:14 CDT
+<br>Date/Time 2023-04-20 10:08:57 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -26,6 +26,7 @@ Run report using JVM java
 ||| |
 | numbers-chars-strings | PASSED | n/a |
 | packaging-1 | PASSED | n/a |
+| packaging-2 | PASSED | n/a |
 | scimark2 | PASSED | n/a |
 | sha3 | PASSED | n/a |
 | specrel | PASSED | n/a |
