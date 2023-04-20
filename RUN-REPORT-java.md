@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-20 12:25:21 CDT
+<br>Date/Time 2023-04-20 14:08:10 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -22,6 +22,7 @@ Run report using JVM java
 | arrays_1 | PASSED | n/a |
 | hashed-map | PASSED | n/a |
 | hashed-set | PASSED | n/a |
+| lambdas_maps | PASSED | n/a |
 | linked-list | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
  | | | See logs/FAILED-*-javac.log files |
