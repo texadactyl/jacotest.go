@@ -27,16 +27,36 @@ The ```logs``` directory holds the combined stdout and stderr for test cases whi
 * ```<result>``` : FAILED or TIMEOUT
 * ```<exec>``` : javac or one of the JVMs (java or jacobin)
 
-### Test Case Results
+### Test Case Results and Reports
 
-If a test case fails compilation, execution is not attempted.  There will be a javac .log file is left in the ```logs``` subdirectory.  Flow moves on to the next test case.
+The RUN-REPORT-```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table.
 
-Assuming compilation is success, then execution begins.  If the execution experiences a timeout or fails, then a JVM .log file is left in the ```logs``` subdirectory.  
+Each report has 3 columns:
+* ```Test case name```
+* ```Result``` - Success, FAILED, or TIMEOUT
+* ```Console Output``` - Line by line details of stdout & stderror combined if a result is FAILED or TIMEOUT
 
-Whether the current test is successful or not, flow moves on to the next test case.  
+It is ununsual that a test case fails compilation.  But, if this happens, execution is not attempted.  There will be a javac .log file is left in the ```logs``` subdirectory.  The report shows a COMP-ERROR in the Results column.  Flow moves on to the next test case.
 
-Flow concludes when all of the test cases have been attempted.
+One of the tests (negtest-comp-error) has 2 deliberate compilation errors. This is not a test of the jvm but a test of whether or not jacotest can detect them and move on to the next test case.
 
+Assuming compilation is successful, then execution begins.  If the execution experiences a FAILED or TIMEOUT result, then 
+* A .log file is left in the ```logs``` subdirectory for both FAILED and TIMEOUT results.  
+* A stack trace might appear in the ```Console Output``` column if the jvm had trouble in a FAILED case.
+* A TIMEOUT result indicates that the test case was overdue and was killed.
+
+Whether the current test is successful or not, flow moves on to the next test case.  Flow concludes when all of the test cases have been attempted.
+
+For example, from a jvm=jacobin report, the following is one result:
+	
+![rpt_example_result](https://user-images.githubusercontent.com/11318756/233359231-b914b0b7-32ea-43ae-a0c3-4d09e31bc044.png)
+
+The first line "Four bit shifting cases" was emited from a System.out.println(...) statement as soon as the test case started execution. 
+
+The FAILED result indicates that at least one part of the test was unsuccessful. Out of the 4 operations, 2 of them had errors so the test case failed as a whole. 
+
+If you look at the same test case in the jvm=java report, you will see "n/a" in the 3rd column. The test case shows a PASSED status so jacotest discarded the stdout/stderr information.
+	
 ### Sample Jacotest Help
 
 ```
