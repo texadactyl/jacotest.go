@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM java
-<br>Date/Time 2023-04-20 04:00:10 CDT
+<br>Date/Time 2023-04-20 08:49:25 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -29,3 +29,4 @@ Run report using JVM java
 | sha3 | PASSED | n/a |
 | specrel | PASSED | n/a |
 | threading | PASSED | n/a |
+| user-defined-exception | PASSED | n/a |

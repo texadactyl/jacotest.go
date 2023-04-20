@@ -169,7 +169,7 @@ func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
 }
 
 //
-// Compile all .java files in a single directory
+// Compile all .java files in the directory tree rooted at fullPathDir
 func compileOneDir(fullPathDir string) int {
     var stcode int
     
@@ -180,19 +180,20 @@ func compileOneDir(fullPathDir string) int {
     }
 
     // Process each directory entry
-    ecount := 0
+    errorCount := 0
     for _, dirEntry := range entries {
         fileName := dirEntry.Name()
         
         // Get full path of file name
         fullPathFile := filepath.Join(fullPathDir, fileName)
 
-        // If a directory, skip it
+        // If a directory, recur
 	    fileInfo, err := os.Stat(fullPathFile)
 	    if err != nil {
 		    FmtFatal("compileOneDir: os.Stat failed", fullPathFile, err)
 	    }
         if fileInfo.IsDir() {
+        	errorCount += compileOneDir(fullPathFile)
             continue
         }
     
@@ -204,16 +205,13 @@ func compileOneDir(fullPathDir string) int {
         // We have a simple file with extension .java
         Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(fullPathDir), fileName))
         
-        // Set the classpath to be the same as the test case directory
-        os.Setenv("CLASSPATH", fullPathDir)
-        
         // Run compilation
         stcode, _ = runner("javac", filepath.Base(fullPathDir), fileName)
-        ecount += stcode
+        errorCount += stcode
     }
     
     // Return compilation error count to caller
-    return ecount
+    return errorCount
 }
 
 //
@@ -240,11 +238,11 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
         FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
     }
 
-    // Compile the whole test case directory tree and compile every .java file
-    ecount := compileOneDir(fullPathDir)
+    // Compile every .java file in the tree
+    errorCount := compileOneDir(fullPathDir)
     
     // If there was at least one compilation error, go no further
-    if ecount > 0 {
+    if errorCount > 0 {
         // Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
         err2 := os.Chdir(here)
         if err2 != nil {
