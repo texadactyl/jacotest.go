@@ -14,15 +14,15 @@ const MY_NAME = "Jacotest"
 //
 // Show help and then exit to the O/S
 func showHelp() {
-	_ = InitGlobals("dummy", 60, false)
+	_ = InitGlobals("dummy", "dummy", 60, false)
     suffix := filepath.Base(os.Args[0])
-    fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]\n\nwhere\n", suffix)
+    fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
     fmt.Printf("\t-h : This display\n")
+    fmt.Printf("\t-c : Clean all of the .class files and .log files\n\n")
     fmt.Printf("\t-x : Compile and execute all of the tests\n")
     fmt.Printf("\t-v : Verbose logging\n")
-    fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: java\n")
     fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
-    fmt.Printf("\t-c : Clean all of the .class files and .log files\n\n")
+    fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: openjdk\n")
     ShowExecInfo()
     os.Exit(0)
 }
@@ -52,7 +52,8 @@ func main() {
 	var Args []string
     flagClean := false
     flagExecute := false
-    jvm := "java" // default virtual machine
+    jvmName := "jacobin" // default virtual machine name
+    jvmExe := "jacobin"  // default virtual machine executable
     var deadline_secs int = 60
     
     // Positioned in the tree top directory?
@@ -91,13 +92,15 @@ func main() {
 		        
 		    case "-j": // JVM requested
 		        ii += 1
-		        jvm = Args[ii]
-	            // Validate jvm
-	            switch jvm {
-	                case "java":
+		        jvmName = Args[ii]
+	            // Validate JVM
+	            switch jvmName {
+	                case "openjdk":
+	                	jvmExe = "java" // openjdk JVM executable name
 	                case "jacobin":
+	                	jvmExe = "jacobin" // jacobin JVM executable name
 	                default:
-	                    LogError(fmt.Sprintf("Unrecognizable JVM parameter: %s", jvm))
+	                    LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
 	                    showHelp()
 	            }
 	            
@@ -118,7 +121,7 @@ func main() {
 	
 	
 	// Initialise globals and get a handle to it
-	global := InitGlobals(jvm, deadline_secs, flagVerbose)
+	global := InitGlobals(jvmName, jvmExe, deadline_secs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MY_NAME, global.Version))
 	
     // If log directory does not yet exist, create it
@@ -173,7 +176,7 @@ func main() {
 	    defer rptHandle.Close()
         zone, _ := time.Now().Zone()
 	    fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
-	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvm, time.Now().Format("2006-01-02 15:04:05"), zone)
+	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvmName, time.Now().Format("2006-01-02 15:04:05"), zone)
 	    fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 	    

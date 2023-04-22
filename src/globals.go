@@ -31,9 +31,10 @@ type GlobalsStruct struct {
 	DirTests string         // Full path of tests directory
 	DirLogs string          // Full path of logs directory
 	FlagVerbose bool        // Verbose logging? true/false
-	Jvm string              // "java" or "jacobin"
+	JvmName string          // JVM name: "openjdk" or "jacobin"
+	JvmExe string           // JVM executable file: "java" or "jacobin"
 	Deadline time.Duration  // Run deadline in seconds (type time.Duration)
-	ReportFilePath string  // Full path of the summary file
+	ReportFilePath string   // Full path of the summary file
 }
 
 // Here's the singleton!
@@ -54,7 +55,7 @@ func ShowExecInfo() {
 }
 
 // Initialise the singleton global
-func InitGlobals(jvm string, deadline_secs int, flagVerbose bool) GlobalsStruct {
+func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) GlobalsStruct {
     absTests, err1 := filepath.Abs(PATH_TESTS)
     if err1 != nil {
         FmtFatal("InitGlobals: filepath.Abs failed", PATH_TESTS, err1)
@@ -63,7 +64,7 @@ func InitGlobals(jvm string, deadline_secs int, flagVerbose bool) GlobalsStruct 
     if err2 != nil {
         FmtFatal("InitGlobals: filepath.Abs failed", PATH_LOGS, err2)
     }
-    absSummary, err3 := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, jvm))
+    absSummary, err3 := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, jvmName))
     if err3 != nil {
         FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err2)
     }
@@ -76,7 +77,8 @@ func InitGlobals(jvm string, deadline_secs int, flagVerbose bool) GlobalsStruct 
 		DirTests:           absTests,
 		DirLogs:            absLogs,
 		FlagVerbose:        flagVerbose,
-		Jvm:                jvm,
+		JvmExe:             jvmExe,
+		JvmName:			jvmName,
 		Deadline:           duration,
 		ReportFilePath:    absSummary,           
 	}

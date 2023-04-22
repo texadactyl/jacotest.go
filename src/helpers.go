@@ -94,11 +94,11 @@ func storeText(targetDir string, argFile string, text string) {
 // 0 : success
 // 1 : failure
 // 2 : timeout
-func runner(cmdExec string, dirName string, argFile string) (int, string) {
+func runner(cmdName string, cmdExec string, dirName string, argFile string) (int, string) {
 	global := GetGlobalRef()
 	if global.FlagVerbose {
 		here, _ := os.Getwd()
-	    Logger(fmt.Sprintf("runner: on entry cmdExec=%s, dirName=%s, here=%s, argFile=%s", cmdExec, dirName, here, argFile))
+	    Logger(fmt.Sprintf("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, here=%s, argFile=%s", cmdName, cmdExec, dirName, here, argFile))
 	}
 	
 	// Set up a command context with a timeout
@@ -111,7 +111,7 @@ func runner(cmdExec string, dirName string, argFile string) (int, string) {
     // Form a message prefix
     fn := filepath.Base(argFile)
     fn_without_ext := strings.TrimSuffix(fn, path.Ext(fn))
-    prefix := dirName + "-" + fn_without_ext + "-" + cmdExec
+    prefix := dirName + "-" + fn_without_ext + "-" + cmdName
     
     // Get the combined stdout and stderr text
     outbytes, err := cmd.CombinedOutput()
@@ -121,12 +121,12 @@ func runner(cmdExec string, dirName string, argFile string) (int, string) {
     if err != nil { // YES
         // Timeout?
         if (ctx.Err() == context.DeadlineExceeded) { // YES
-            LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdExec, argFile, outlog))
+            LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outlog))
             storeText(global.DirLogs, "TIMEOUT-" + prefix  + ".log", outlog)
             return RC_EXEC_TIMEOUT, outlog
         }
         // Not a time out error but something else bad happened
-        LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdExec, argFile, outlog))
+        LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outlog))
         storeText(global.DirLogs, "FAILED-" + prefix  + ".log", outlog)
         if cmdExec == "javac" {
             return RC_COMP_ERROR, outlog
@@ -134,7 +134,8 @@ func runner(cmdExec string, dirName string, argFile string) (int, string) {
         return RC_EXEC_ERROR, outlog
     }
     
-    // No errors occured. Just store outlog.
+    // No errors occured.
+    // If not a compile run, store outlog.
     if cmdExec != "javac" {
         storeText(global.DirLogs, "PASSED-" + prefix + ".log", outlog)
     }
@@ -227,7 +228,7 @@ func compileOneTree(fullPathDir string) int {
         Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(fullPathDir), fileName))
         
         // Run compilation
-        stcode, _ = runner("javac", filepath.Base(fullPathDir), fileName)
+        stcode, _ = runner("javac", "javac", filepath.Base(fullPathDir), fileName)
         errorCount += stcode
     }
     
@@ -276,12 +277,12 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
     // and the classpath is the test case directory.
     // Execute test "main.class".
     testName := filepath.Base(fullPathDir)
-    Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.Jvm))
+    Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
     var outlog string
-    if global.Jvm == "jacobin" {
-        stcode, outlog = runner(global.Jvm, testName, "main.class")
+    if global.JvmName == "jacobin" {
+        stcode, outlog = runner(global.JvmName, global.JvmExe, testName, "main.class")
     } else {
-        stcode, outlog = runner(global.Jvm, testName, "main")
+        stcode, outlog = runner(global.JvmName, global.JvmExe, testName, "main")
     }
     
     // Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
