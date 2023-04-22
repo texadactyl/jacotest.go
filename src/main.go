@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
 	"strconv"
@@ -50,6 +51,7 @@ func showResults(category string, arrayNames []string) {
 func main() {
     t_start := time.Now()
 	var Args []string
+	var wstr string
     flagClean := false
     flagExecute := false
     jvmName := "jacobin" // default virtual machine name
@@ -119,7 +121,15 @@ func main() {
 		}
 	}
 	
-	
+	// Make sure that the jvmExe file can be found in the O/S PATH
+	wstr, err = exec.LookPath(jvmExe)
+	if err != nil {
+		FmtFatal("main: exec.LookPath failed to find:", jvmExe, err)
+	}
+	if flagVerbose {
+		Logger(fmt.Sprintf("Found JVM %s", wstr)) 
+	}
+
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvmName, jvmExe, deadline_secs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MY_NAME, global.Version))

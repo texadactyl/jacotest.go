@@ -1,5 +1,5 @@
 set -e
-LOG=`basename $0`.log
+LOG=./`basename $0`.log
 
 > $LOG # Make the log nil.
 
