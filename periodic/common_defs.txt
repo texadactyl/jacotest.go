@@ -15,14 +15,14 @@ export JACOBIN_PARENT=$HOME/BASIS/
 # Jacobin home:
 export JACOBIN_HOME=$JACOBIN_PARENT/jacobin
 
+# Jacobin test data:
+export JACOBIN_TESTDATA=$JACOBIN_HOME/testdata
+
 # Jacobin executable is stored in this directory:
-export JACOBIN_BIN=$JACOBIN_PARENT/bin
+export JACOBIN_BIN=$HOME/go/bin
 
 # Jacobin executable:
 export JACOBIN_EXE=$JACOBIN_BIN/jacobin
-
-# Jacobin test data:
-export JACOBIN_TESTDATA=$JACOBIN_HOME/testdata
 
 # Golang bin directory:
 export GOPATH=/opt/go
