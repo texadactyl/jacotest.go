@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM jacobin
-<br>Date/Time 2023-04-22 15:58:46 CDT
+<br>Date/Time 2023-04-22 16:09:17 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -15,13 +15,13 @@ Run report using JVM jacobin
 |||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc011624ca4, 0xc})
+|||jacobin/jvm.instantiateClass({0xc0115b8cb4, 0xc})
 |||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc01163adb0)
+|||jacobin/jvm.runFrame(0xc0115d2db0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011624cbc, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115b8ccc, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -36,13 +36,13 @@ Run report using JVM jacobin
 |||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc01160ec90, 0x7})
+|||jacobin/jvm.instantiateClass({0xc01167eca0, 0x7})
 |||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc0116269f0)
+|||jacobin/jvm.runFrame(0xc0116969f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01160ecbc, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc01167eccc, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -57,13 +57,13 @@ Run report using JVM jacobin
 |||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc01167cca0, 0x10})
+|||jacobin/jvm.instantiateClass({0xc011610cb0, 0x10})
 |||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc011694ae0)
+|||jacobin/jvm.runFrame(0xc01162aae0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01167cc34, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011610c44, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -74,11 +74,11 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011688db0)
+|||jacobin/jvm.runFrame(0xc011618db0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011670de0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115fedf0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -108,11 +108,11 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01164eab0)
+|||jacobin/jvm.runFrame(0xc011694ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011634c9c, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc01167ccac, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -123,15 +123,15 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is int64, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116089f0)
+|||jacobin/jvm.runFrame(0xc0116209f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1205 +0xd938
-|||jacobin/jvm.runFrame(0xc0116089f0)
+|||jacobin/jvm.runFrame(0xc0116209f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd10e
-|||jacobin/jvm.runFrame(0xc0116089f0)
+|||jacobin/jvm.runFrame(0xc0116209f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd10e
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115f0c80, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011606c90, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -192,11 +192,11 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01161cc60)
+|||jacobin/jvm.runFrame(0xc01161ac60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011604cb4, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011600cc4, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -227,11 +227,11 @@ Run report using JVM jacobin
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115d89f0)
+|||jacobin/jvm.runFrame(0xc01168a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115beca0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011672cb0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -242,11 +242,11 @@ Run report using JVM jacobin
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116329f0)
+|||jacobin/jvm.runFrame(0xc0116069f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xd1b7
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01161acac, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc0115eccbc, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -263,13 +263,13 @@ Run report using JVM jacobin
 |||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc0115a7aa0, 0x12})
+|||jacobin/jvm.instantiateClass({0xc01160fab8, 0x12})
 |||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc01161c9f0)
+|||jacobin/jvm.runFrame(0xc0116869f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011604ca0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc01166ecb0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -283,103 +283,13 @@ Run report using JVM jacobin
 |||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc0115d7d40, 0x19})
+|||jacobin/jvm.instantiateClass({0xc01161fd60, 0x19})
 |||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc0116329f0)
+|||jacobin/jvm.runFrame(0xc01167a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
 |||jacobin/jvm.runThread(0x610440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01161aca0, 0x4}, 0x6108e0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
-|||jacobin/jvm.JVMrun()
-|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
-|||main.main()
-|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
-||| |
-| scimark2 | FAILED | SciMark2: Benchmark measuring performance	of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.
-|||panic: interface conversion: interface {} is int, not unsafe.Pointer
-|||
-|||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116149f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xcdd7
-|||jacobin/jvm.runThread(0x610440)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115fee3c, 0x4}, 0x6108e0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
-|||jacobin/jvm.JVMrun()
-|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
-|||main.main()
-|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
-||| |
-| sha3 | FAILED | SHA-3 hashing tests
-|||panic: interface conversion: interface {} is int, not unsafe.Pointer
-|||
-|||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01169c9f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xcdd7
-|||jacobin/jvm.runThread(0x610440)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011682d3c, 0x4}, 0x6108e0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
-|||jacobin/jvm.JVMrun()
-|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
-|||main.main()
-|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
-||| |
-| specrel | FAILED | Special Relativity calculations
-|||===== Begin, t_deltaAtRest: 10, x_lengthAtRest: 42
-|||Error: could not find or load class Formulae.
-|||Error loading class: Formulae. Exiting.
-|||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
-|||
-|||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc0115b4cb8, 0x8})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc0115ca9f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
-|||jacobin/jvm.runThread(0x610440)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115b4d1c, 0x4}, 0x6108e0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
-|||jacobin/jvm.JVMrun()
-|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
-|||main.main()
-|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
-||| |
-| threading | FAILED | Threading tests with a parent thread (main) and 3 child threads
-|||Error: could not find or load class PrintingSynced.
-|||Error loading class: PrintingSynced. Exiting.
-|||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
-|||
-|||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc0115f0c80, 0xe})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc0116089f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
-|||jacobin/jvm.runThread(0x610440)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115f0cfc, 0x4}, 0x6108e0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
-|||jacobin/jvm.JVMrun()
-|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
-|||main.main()
-|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
-||| |
-| user-defined-exception | FAILED | Error: could not find or load class MyException.
-|||Error loading class: MyException. Exiting.
-|||panic: runtime error: invalid memory address or nil pointer dereference
-|||[signal SIGSEGV: segmentation violation code=0x1 addr=0x60 pc=0x4e910f]
-|||
-|||goroutine 1 [running]:
-|||jacobin/jvm.instantiateClass({0xc0115cec33, 0xb})
-|||	/home/elkins/BASIS/jacobin/src/jvm/instantiate.go:47 +0x22f
-|||jacobin/jvm.runFrame(0xc0115e69f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1441 +0xb7ed
-|||jacobin/jvm.runThread(0x610440)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115cecb0, 0x4}, 0x6108e0)
+|||jacobin/jvm.StartExec({0xc011662cb0, 0x4}, 0x6108e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
