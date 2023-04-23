@@ -10,7 +10,7 @@ logbegin
 
 logger 'Run jacotest with jvm=jacobin'cd ..
 cd ..
-jacotest -x -j jacobin 2>&1 | tee -a $LOG
+jacotest -x -t 120 -j jacobin 2>&1 | tee -a $LOG
 if [ $? -ne 0 ]; then
     oops 'FAILED: jacotest -x -j jacobin'
 fi

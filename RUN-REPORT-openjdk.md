@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM openjdk
-<br>Date/Time 2023-04-23 04:00:11 CDT
+<br>Date/Time 2023-04-23 15:25:58 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -14,6 +14,7 @@ Run report using JVM openjdk
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | PASSED | n/a |
 | JACOBIN-0234-0240-0241-array-length | PASSED | n/a |
+| JACOBIN-0234-string-length | PASSED | n/a |
 | JACOBIN-0235-system-exit | PASSED | n/a |
 | JACOBIN-0236-bitwise | PASSED | n/a |
 | JACOBIN-0236-minus-signs | PASSED | n/a |

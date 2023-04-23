@@ -10,7 +10,7 @@ logbegin
 
 logger 'Run jacotest with jvm=openjdk'
 cd ..
-jacotest -x -j openjdk 2>&1 | tee -a $LOG
+jacotest -x -t 120 -j openjdk 2>&1 | tee -a $LOG
 if [ $? -ne 0 ]; then
     oops 'FAILED: jacotest -x -j openjdk'
 fi
