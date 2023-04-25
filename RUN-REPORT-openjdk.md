@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM openjdk
-<br>Date/Time 2023-04-25 08:49:36 CDT
+<br>Date/Time 2023-04-25 11:59:07 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -21,6 +21,7 @@ Run report using JVM openjdk
 | JACOBIN-0237-nil-printlns | PASSED | n/a |
 | array-list-iterator | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
+| elliptic | PASSED | n/a |
 | hashed-map | PASSED | n/a |
 | hashed-set | PASSED | n/a |
 | lambdas_maps | PASSED | n/a |

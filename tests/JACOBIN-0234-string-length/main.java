@@ -11,7 +11,7 @@ public class main {
         System.out.println("password constructed");
         String originalString = "Mary had a little lamb.";
         System.out.println("originalString constructed");
-        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString); // <================= crashed here
+        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
         byte[] msgBytes = originalString.getBytes();
         System.out.println("msgBytes constructed");
    
