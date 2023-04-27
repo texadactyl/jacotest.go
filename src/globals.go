@@ -37,8 +37,18 @@ type GlobalsStruct struct {
 	ReportFilePath string   // Full path of the summary file
 }
 
-// Here's the singleton!
+// Here's the singleton
 var global GlobalsStruct
+
+// Convert a UTC time string into a local one
+func UTCTimeStr2LocalTimeStr(utcString string) string {                                                                  
+    tstamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
+    if err != nil {
+    	return fmt.Sprintf("time.Parse error: %s", err.Error())
+    }
+    zone, _ := time.Now().Zone()
+    return fmt.Sprintf("%s %s", tstamp.Local().Format("2006-01-02 15:04:05"), zone)
+}
 
 // Show executable binary information relevant to "vcs"
 func ShowExecInfo() {
@@ -48,8 +58,12 @@ func ShowExecInfo() {
 	info, _ := debug.ReadBuildInfo()
 	for ii := 0; ii < len(info.Settings); ii++ {
 	    wkey := info.Settings[ii].Key
+	    value := info.Settings[ii].Value
 	    if strings.HasPrefix(wkey, "vcs.") {
-		    fmt.Printf("BuildData %s: %s\n", wkey, info.Settings[ii].Value)
+	    	if wkey == "vcs.time" {
+	    		value = UTCTimeStr2LocalTimeStr(value)
+	    	}
+		    fmt.Printf("BuildData %s: %s\n", wkey, value)
 		}
 	}
 }
@@ -70,7 +84,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
     }
     duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
     if err != nil {
-        FmtFatal("InitGlobals: time.ParseDuration failed", string(deadline_secs), err)
+        FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err)
     }
 	global = GlobalsStruct{
 		Version:            VERSION,

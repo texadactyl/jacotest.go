@@ -25,7 +25,7 @@ export JACOBIN_BIN=$HOME/go/bin
 export JACOBIN_EXE=$JACOBIN_BIN/jacobin
 
 # Golang bin directory:
-export GOPATH=/opt/go
+export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 
 # Note where we are and the name of the log:

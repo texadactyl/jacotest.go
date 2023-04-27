@@ -24,21 +24,21 @@ func Logger(msg string) {
 //
 // Log an error
 func LogError(msg string) {
-	text := fmt.Sprintf("*** ERROR, %s", msg)
+	text := fmt.Sprintf("*** ERROR :: %s", msg)
 	Logger(text)
 }
 
 //
 // Log a timeout
 func LogTimeout(msg string) {
-	text := fmt.Sprintf("*** TIMEOUT, %s", msg)
+	text := fmt.Sprintf("*** TIMEOUT :: %s", msg)
 	Logger(text)
 }
 
 //
 // Log an error and croak
 func Fatal(msg string) {
-	text := fmt.Sprintf("*** FATAL, %s", msg)
+	text := fmt.Sprintf("*** FATAL :: %s", msg)
 	Logger(text)
 	os.Exit(1)
 }

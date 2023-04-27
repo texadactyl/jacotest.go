@@ -121,6 +121,12 @@ func main() {
 		}
 	}
 	
+	// Make sure that at least one of -c or -x was specified
+	if ! flagClean && ! flagExecute {
+        LogError("Must specify -h, -c, or -x")
+        showHelp()
+	}
+	
 	// Make sure that the jvmExe file can be found in the O/S PATH
 	wstr, err = exec.LookPath(jvmExe)
 	if err != nil {
@@ -186,7 +192,7 @@ func main() {
 	    defer rptHandle.Close()
         zone, _ := time.Now().Zone()
 	    fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
-	    fmt.Fprintf(rptHandle, "Run report using JVM %s\n<br>Date/Time %s %s\n<br>\n<br>\n", jvmName, time.Now().Format("2006-01-02 15:04:05"), zone)
+	    fmt.Fprintf(rptHandle, "Run report using JVM %s, deadline = %d seconds\nDate/Time %s %s\n<br>\n<br>\n", jvmName, deadline_secs, time.Now().Format("2006-01-02 15:04:05"), zone)
 	    fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 	    
@@ -241,5 +247,7 @@ func main() {
 	    elapsed := t_stop.Sub(t_start)
         Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
     }
+    
+    Logger("End")
 }
 
