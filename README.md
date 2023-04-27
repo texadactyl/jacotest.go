@@ -96,7 +96,7 @@ The ```logs``` directory holds the combined stdout and stderr for test cases whi
 * ```<result>``` : FAILED or TIMEOUT
 * ```<exec>``` : javac or one of the JVMs (java or jacobin)
 
-### Test Case Results and Reports
+# Test Case Results and Reports
 
 The RUN-REPORT-```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table.
 
@@ -126,27 +126,6 @@ The FAILED result indicates that at least one part of the test was unsuccessful.
 
 If you look at the same test case in the jvm=java report, you will see "n/a" in the 3rd column. The test case shows a PASSED status so jacotest discarded the stdout/stderr information.
 	
-### Sample Jacotest Help
-
-```
-Usage:  jacotest  [-h]  [-c]  [-x]  [-v]  [ -j { java | jacobin } ]
-
-where
-	-h : This display
-	-x : Compile and execute all of the tests
-	-v : Verbose logging
-	-j : This is the JVM to use in executing all test cases.  Default: java
-	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
-	-c : Clean all of the .class files and .log files
-
-My version: 1.0
-Built with: go1.20.2
-BuildData vcs.revision: fd571d8e8618fec07ec5a4e73adda9b1787ce6ac
-BuildData vcs.time: 2023-04-12T15:51:45Z
-BuildData vcs.modified: true
-
-```
-
 # Sample Console Output
 
 ```
