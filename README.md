@@ -8,14 +8,83 @@ at the operator command line or through Github Actions.
 
 All of the jactotest source code is written in Go as the name implies.  See the ```src``` directory under the project root.
 
-### Test Case Overview
+# Installation and Operations
+
+### Preliminaries
+
+In all O/S installations, the following steps must be taken prior to use of ```jacotest```:
+* If there is no ```go``` subdirectory under the user's home directory, create it.
+* If there is no ```bin``` subdirectory under ```go```, create it.
+* The ```GOPATH``` environment variable must be set to the ```go``` subdirectory full path. 
+* Ensure that the full path of the ```bin``` subdirectory of ```go``` is an element of the ```PATH``` environment variable.
+
+Install git, go, and java version 17 such that the executables ```git```, ```go```, ```javac```, ```java``` reside in a directory whose absolute path is an element of the ```PATH``` environment variable.
+
+Install ```jacobin``` such that its executable resides in a directory whose absolute path is an element of the ```PATH``` environment variable.  
+It is recommended that this directory be the ```bin``` subdirectory under ```go```.
+
+### Installation of jacotest
+
+Open a terminal window / command prompt.
+
+* Change directory to user's home directory
+     - cd $HOME (on Linux, MacOS, or Unix)
+     - cd %HOMEPATH% (Windows)
+* git clone https://github.com/texadactyl/jacotest.go
+* cd jacotest.go/src
+* go install
+* cd ..
+
+You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
+
+```
+Usage:  jacotest  [-h]  [-c]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+
+where
+	-h : This display
+	-c : Clean all of the .class files and .log files
+
+	-x : Compile and execute all of the tests
+	-v : Verbose logging
+	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
+	-j : This is the JVM to use in executing all test cases.  Default: openjdk
+My version: 1.0
+Built with: go1.20.2
+BuildData vcs.revision: f048d3e293bdef65ef0420878f17fc5ba901a86c
+BuildData vcs.time: 2023-04-26 09:52:51 CDT
+BuildData vcs.modified: false
+```
+
+### Jacotest Operations
+
+Jacotest can run the test case collection against 2 different JVMs:
+* jacobin
+* OpenJDK's jvm with an executable called "java"
+
+For example, to test jacobin against the test case collection: 
+```jacotest -x```
+
+Note that jacobin is the default JVM.
+
+To run tests against the OpenJDK JVM, 
+```jacotest -x -j openjdk```
+
+The reports and logs can be discarded as follows:
+```jacotest -c```
+
+If the default timeout value of 60 seconds for each individual case is insufficient, one can use the ```-t``` parameter to specify a different value.  An example:
+```jacotest -x -t 120 -j jacobin```
+
+The ```-v``` (verbose logging) parameter is intended for software debugging.
+
+# Test Case Overview
 
 Each test case occupies a directory immediately under the directory ```tests```.  The test case source code follows the following conventions:
 * For a given test case, there is a main.java file whose .class file starts execution for the test case following compilation.
 * Additional source files (helper.java, etc.) can be present for test case modularity.
 * No package statements should appear in any of the source code.
 
-### Test Case Run
+# Test Case Run
 
 Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a two-step process:
 1) Compilation of all *.java files with ```javac```.
@@ -78,7 +147,7 @@ BuildData vcs.modified: true
 
 ```
 
-### Sample Console Output
+# Sample Console Output
 
 ```
 11:40:27 Jacotest version 1.0
@@ -173,7 +242,7 @@ public class even_worse JUNK {
 
 
 ```
-### Sample logs directory after the above run
+# Sample logs directory after the above run
 ```
 FAILED-negtest-comp-error-erroneous-javac.log
 FAILED-negtest-comp-error-even_worse-javac.log
