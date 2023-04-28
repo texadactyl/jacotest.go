@@ -71,7 +71,7 @@ To run tests against the OpenJDK JVM,
 The reports and logs can be discarded as follows:
 ```jacotest -c```
 
-If the default timeout value of 60 seconds for each individual case is insufficient, one can use the ```-t``` parameter to specify a different value.  An example:
+If the default timeout value of 60 seconds for each individual case is insufficient, one can use the ```-t``` parameter to specify a different value.  An example: of running with a 2-minute deadline for each test case:
 ```jacotest -x -t 120 -j jacobin```
 
 The ```-v``` (verbose logging) parameter is intended for software debugging.
