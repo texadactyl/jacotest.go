@@ -20,8 +20,7 @@ In all O/S installations, the following steps must be taken prior to use of ```j
 
 Install git, go, and java version 17 such that the executables ```git```, ```go```, ```javac```, ```java``` reside in a directory whose absolute path is an element of the ```PATH``` environment variable.
 
-Install ```jacobin``` such that its executable resides in a directory whose absolute path is an element of the ```PATH``` environment variable.  
-It is recommended that this directory be the ```bin``` subdirectory under ```go```.
+Install ```jacobin``` such that its executable resides in a directory whose absolute path is an element of the ```PATH``` environment variable.  It is recommended that this directory be the ```bin``` subdirectory under ```go```.
 
 ### Installation of jacotest
 
