@@ -1,6 +1,6 @@
 Jacotest version 1.0
-Run report using JVM openjdk, deadline = 30 seconds
-Date/Time 2023-04-27 09:49:39 CDT
+Run report using JVM openjdk, deadline = 120 seconds
+Date/Time 2023-04-28 08:27:11 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
