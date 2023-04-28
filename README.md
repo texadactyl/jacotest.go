@@ -58,7 +58,7 @@ BuildData vcs.modified: false
 
 Jacotest can run the test case collection against 2 different JVMs:
 * jacobin
-* OpenJDK's JVM with an executable called "java"
+* OpenJDK's JVM with an executable named "java"
 
 For example, to test jacobin against the test case collection: 
 ```jacotest -x```
