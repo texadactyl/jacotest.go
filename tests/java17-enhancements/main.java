@@ -93,7 +93,7 @@ public class main {
 		}
 
 		// RandomGenerator Factory #2
-     	RandomGeneratorFactory<RandomGenerator> factory = RandomGeneratorFactory.all()
+     		RandomGeneratorFactory<RandomGenerator> factory = RandomGeneratorFactory.all()
 			.findFirst()
 			.orElse(RandomGeneratorFactory.of(RGF_ALGO_2));
 		System.out.println("RandomGeneratorFactory name " + factory.name() + " in group " + factory.group() + " was selected");
