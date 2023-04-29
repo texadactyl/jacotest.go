@@ -1,6 +1,6 @@
 Jacotest version 1.0
-Run report using JVM openjdk, deadline = 120 seconds
-Date/Time 2023-04-28 08:27:11 CDT
+Run report using JVM openjdk, deadline = 60 seconds
+Date/Time 2023-04-29 16:29:45 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -24,6 +24,7 @@ Date/Time 2023-04-28 08:27:11 CDT
 | elliptic | PASSED | n/a |
 | hashed-map | PASSED | n/a |
 | hashed-set | PASSED | n/a |
+| java17-enhancements | PASSED | n/a |
 | lambdas_maps | PASSED | n/a |
 | linked-list | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
@@ -39,3 +40,4 @@ Date/Time 2023-04-28 08:27:11 CDT
 | specrel | PASSED | n/a |
 | threading | PASSED | n/a |
 | user-defined-exception | PASSED | n/a |
+| vectors | PASSED | n/a |

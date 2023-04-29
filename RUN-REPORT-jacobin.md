@@ -1,6 +1,6 @@
 Jacotest version 1.0
-Run report using JVM jacobin, deadline = 120 seconds
-Date/Time 2023-04-28 08:30:19 CDT
+Run report using JVM jacobin, deadline = 60 seconds
+Date/Time 2023-04-29 16:32:29 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -26,11 +26,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011622db0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
+|||jacobin/jvm.runFrame(0xc011646db0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd817
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011606de0, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01162ede0, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -49,8 +49,21 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||  detected by file: classloader.go, line: 180
 ||| |
 | JACOBIN-0217-multidim | FAILED | Testing multidimensional arrays of type int, float, double, and String
-|||Invalid bytecode found: 197 (0xC5) (MULTIANEWARRAY) at location 20 in method main() of class main
+|||panic: runtime error: index out of range [7] with length 7
 |||
+|||goroutine 1 [running]:
+|||jacobin/jvm.push(...)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1612
+|||jacobin/jvm.runFrame(0xc01169c9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:261 +0xf85a
+|||jacobin/jvm.runThread(0x610460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc011684ce0, 0x4}, 0x610900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | FAILED | Testing basic statistical functions and a square root algorithm
@@ -61,11 +74,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01168eab0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
+|||jacobin/jvm.runFrame(0xc011692ab0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd817
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011674c9c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc01167ac9c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -78,11 +91,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115d69f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
+|||jacobin/jvm.runFrame(0xc0115c89f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd817
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115becf0, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115b0cf0, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -144,11 +157,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116bac60)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
+|||jacobin/jvm.runFrame(0xc011612c60)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd817
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0116a2cb4, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115facb4, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -168,6 +181,23 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||Class Format Error: invalid field type
 |||  detected by file: classloader.go, line: 180
 ||| |
+| java17-enhancements | FAILED | Some of the Java 17 Enhancements
+|||panic: runtime error: index out of range [-1]
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.pop(...)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1599
+|||jacobin/jvm.runFrame(0xc01166ede0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd825
+|||jacobin/jvm.runThread(0x610460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc011654cc8, 0x4}, 0x610900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
+||| |
 | lambdas_maps | FAILED | Invalid bytecode found: 186 (0xBA) (INVOKEDYNAMIC) at location 2 in method main() of class main
 |||
 ||| |
@@ -182,11 +212,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01160a9f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd757
+|||jacobin/jvm.runFrame(0xc0115aa9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xd817
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115f0ca0, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011594ca0, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -197,11 +227,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116429f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xd1b7
+|||jacobin/jvm.runFrame(0xc0115f09f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xd277
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011626cac, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc0115d8cac, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -223,11 +253,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115fe9f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xcdd7
+|||jacobin/jvm.runFrame(0xc0116489f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xce97
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115e6e3c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011630e3c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -238,11 +268,11 @@ Date/Time 2023-04-28 08:30:19 CDT
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115d09f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xcdd7
+|||jacobin/jvm.runFrame(0xc01169a9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xce97
 |||jacobin/jvm.runThread(0x610460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115b6d3c, 0x4}, 0x610900)
+|||jacobin/jvm.StartExec({0xc011682d3c, 0x4}, 0x610900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -260,4 +290,9 @@ Date/Time 2023-04-28 08:30:19 CDT
 ||| |
 | user-defined-exception | FAILED | Error: could not find or load class MyException.
 |||instantiateClass: LoadClassFromNameOnly(MyException) failed. Exiting.
+||| |
+| vectors | FAILED | Fun with vectors
+|||error creating field in: java/lang/Integer
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
