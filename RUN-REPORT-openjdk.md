@@ -1,6 +1,6 @@
 Jacotest version 1.0
 Run report using JVM openjdk, deadline = 30 seconds
-Date/Time 2023-04-29 19:50:13 CDT
+Date/Time 2023-04-30 05:40:12 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -10,7 +10,8 @@ Date/Time 2023-04-29 19:50:13 CDT
 | JACOBIN-0206-nbody | PASSED | n/a |
 | JACOBIN-0211-pbcrypto | PASSED | n/a |
 | JACOBIN-0212-bit-shifting | PASSED | n/a |
-| JACOBIN-0217-multidim | PASSED | n/a |
+| JACOBIN-0217-multidim-2d | PASSED | n/a |
+| JACOBIN-0217-multidim-3d | PASSED | n/a |
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | PASSED | n/a |
 | JACOBIN-0234-0240-0241-array-length | PASSED | n/a |
