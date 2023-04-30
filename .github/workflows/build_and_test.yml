@@ -47,6 +47,3 @@ jobs:
         which java
         which javac
         ./src/jacotest -x -j openjdk -t 60 
-        
-    - name: Codecov
-      uses: codecov/codecov-action@v3
