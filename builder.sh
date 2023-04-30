@@ -23,4 +23,10 @@ if [ $? -ne 0 ]; then
     oops 'FAILED: go install'
 fi
 
+# Vet jacotest
+go vet 2>&1 | tee -a $LOG
+if [ $? -ne 0 ]; then
+    oops 'FAILED: go vet'
+fi
+
 logend

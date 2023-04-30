@@ -1,4 +1,4 @@
 set -e
 set -x
-git commit -m 'latest RUN reports' RUN*.md
+git commit -m "`date`" RUN*.md
 git push
