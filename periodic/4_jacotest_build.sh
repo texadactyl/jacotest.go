@@ -4,21 +4,19 @@
 
 set -e
 source ./common_defs.txt
-SRCDIR=../src
 
 > $LOG # Make the log nil.
 logbegin
 
-logger 'Build jacotest'
-go build -C $SRCDIR 2>&1 | tee -a $LOG
+cd $JACOTEST_HOME/src
 if [ $? -ne 0 ]; then
-    oops 'FAILED: go build'
+    oops 'FAILED: cd $JACOTEST_HOME/src'
 fi
 
-logger 'Move jacotest executable to the appropriate bin directory'
-mv $SRCDIR/jacotest $JACOBIN_BIN
+logger 'Build jacotest'
+go install 2>&1 | tee -a $LOG
 if [ $? -ne 0 ]; then
-    oops 'FAILED: mv ./jacotest '$JACOBIN_BIN
+    oops 'FAILED: go install'
 fi
 
 logend

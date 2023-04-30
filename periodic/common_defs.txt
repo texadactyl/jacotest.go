@@ -9,24 +9,24 @@ MYNAME=`basename $0`
 URL='https://github.com/platypusguy/jacobin'
 BRANCH='main'
 
+# Golang path directory:
+export GOPATH=$HOME/go
+
 # Store jacobin root under this directory:
 export JACOBIN_PARENT=$HOME/BASIS/
 
 # Jacobin home:
 export JACOBIN_HOME=$JACOBIN_PARENT/jacobin
 
-# Jacobin test data:
+# Jacobin unit test definitions:
+export JACOBIN_EXE=$HOME/go/bin/jacobin
 export JACOBIN_TESTDATA=$JACOBIN_HOME/testdata
 
-# Jacobin executable is stored in this directory:
-export JACOBIN_BIN=$HOME/go/bin
+# Jacotest home (uses the same parent as jacobin):
+export JACOTEST_HOME=$JACOBIN_PARENT/jacotest.go
 
-# Jacobin executable:
-export JACOBIN_EXE=$JACOBIN_BIN/jacobin
-
-# Golang bin directory:
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
+# Amend the PATH:
+export PATH=/opt/go/bin:$GOPATH/bin:$PATH
 
 # Note where we are and the name of the log:
 HERE=`pwd`

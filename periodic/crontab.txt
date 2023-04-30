@@ -25,8 +25,8 @@
 # crontab command line help:
 #
 # usage:	crontab [-u user] file
-# 	crontab [ -u user ] [ -i ] { -e | -l | -r }
-#		(default operation is replace, per 1003.2)
+# or:   	crontab [ -u user ] [ -i ] { -e | -l | -r }
+#
 #	-e	(edit user's crontab)
 #	-l	(list user's crontab)
 #	-r	(delete user's crontab)

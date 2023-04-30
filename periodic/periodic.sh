@@ -31,6 +31,5 @@ bash ./3*sh
 bash ./4*sh
 bash ./5*sh
 bash ./6*sh
-### Don't run this unless 1-6 are ok:   bash ./7*sh
 
 logend
