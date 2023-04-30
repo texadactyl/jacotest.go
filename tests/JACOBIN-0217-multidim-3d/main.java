@@ -5,7 +5,7 @@ public class main {
         int JMAX = 4;
         int KMAX = 5;
         
-        String msg = "Testing multidimensional arrays of type int, float, double, and String";
+        String msg = "Testing 2D and 3D arrays of type int, float, double, and String";
         System.out.println(msg);
 
         // 2D arrays
