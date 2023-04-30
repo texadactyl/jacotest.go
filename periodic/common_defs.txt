@@ -9,7 +9,7 @@ MYNAME=`basename $0`
 URL='https://github.com/platypusguy/jacobin'
 BRANCH='main'
 
-# Golang path directory:
+# Golang GOPATH directory:
 export GOPATH=$HOME/go
 
 # Store jacobin root under this directory:
@@ -37,7 +37,7 @@ set -e
 set -o pipefail
 
 # Here is the logger.
-# Stdout & stderr are combined; entries are duplicated in the log file:
+# Stdout & stderr are merged in the log file:
 function logger {
 	echo ${MYNAME}: $1 2>&1 | tee -a $LOG
 }
