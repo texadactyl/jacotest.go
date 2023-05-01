@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"path/filepath"
 	"runtime/debug"
 	"strings"
@@ -8,9 +9,6 @@ import (
 	"runtime"
 	"time"
 )
-
-// Software version
-const VERSION = "1.0"
 
 // Test Case Return Codes
 const RC_NORMAL = 0
@@ -22,6 +20,7 @@ const RC_EXEC_TIMEOUT = 3
 const PATH_RUN_REPORT = "./RUN-REPORT-%s.md" // %s = JVM name
 const PATH_LOGS = "./logs"
 const PATH_TESTS = "./tests"
+const PATH_VERSION = "./VERSION.txt"
 
 // Definition of the singleton global
 type GlobalsStruct struct {
@@ -70,6 +69,11 @@ func ShowExecInfo() {
 
 // Initialise the singleton global
 func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) GlobalsStruct {
+	versionBytes, err := os.ReadFile(PATH_VERSION);
+    if err != nil {
+        FmtFatal("InitGlobals: ReadFile(PATH_VERSION) failed", PATH_VERSION, err)
+    }
+    versionString := string(versionBytes[:])
     absTests, err1 := filepath.Abs(PATH_TESTS)
     if err1 != nil {
         FmtFatal("InitGlobals: filepath.Abs failed", PATH_TESTS, err1)
@@ -82,19 +86,19 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
     if err3 != nil {
         FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err2)
     }
-    duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
+    duration, err4 := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
     if err != nil {
-        FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err)
+        FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err4)
     }
 	global = GlobalsStruct{
-		Version:            VERSION,
+		Version:            versionString,
 		DirTests:           absTests,
 		DirLogs:            absLogs,
 		FlagVerbose:        flagVerbose,
 		JvmExe:             jvmExe,
 		JvmName:			jvmName,
 		Deadline:           duration,
-		ReportFilePath:    absSummary,           
+		ReportFilePath:    	absSummary,           
 	}
 	return global
 }

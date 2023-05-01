@@ -72,7 +72,7 @@ public class main {
             System.out.println("Success trying b ^ a == 49");
 
         c = ~a;
-        System.out.print("c = ~a : "); System.out.println(c);
+        System.out.println("c = unary bitwise complement operator on a");
         if(c > 0) {       
             System.out.print("FAILED trying ~a. Expected -61. Observed ");
             System.out.println(c);
@@ -81,7 +81,7 @@ public class main {
             System.out.println("Success trying ~a == -61");
 
         c = ~60;
-        System.out.print("c = ~60 : "); System.out.println(c);
+        System.out.println("c = unary bitwise complement operator on 60");
         if(c > 0) {       
             System.out.print("FAILED trying ~60. Expected -61. Observed ");
             System.out.println(c);
