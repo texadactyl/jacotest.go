@@ -1,6 +1,6 @@
-Jacotest version 1.01
+Jacotest version 1.02
 
-Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-01 11:21:01 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-01 12:05:03 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
@@ -20,6 +20,7 @@ Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | JACOBIN-0237-nil-printlns | PASSED | n/a |
 | array-list-iterator | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
+| casting | PASSED | n/a |
 | catch-exception | PASSED | n/a |
 | elliptic | PASSED | n/a |
 | hashed-map | PASSED | n/a |
