@@ -24,8 +24,6 @@ const PATH_VERSION = "./VERSION.txt"
 
 // Definition of the singleton global
 type GlobalsStruct struct {
-	// ---- jacobin version number ----
-	// note: all references to version number must come from this literal
 	Version string          // Software version string
 	DirTests string         // Full path of tests directory
 	DirLogs string          // Full path of logs directory
