@@ -1,6 +1,6 @@
 Jacotest version 1.0
-Run report using JVM jacobin, deadline = 120 seconds
-Date/Time 2023-05-01 04:03:19 CDT
+Run report using JVM jacobin, deadline = 30 seconds
+Date/Time 2023-05-01 09:07:15 CDT
 <br>
 <br>
 | Test Case | Result | Console Output |
@@ -23,7 +23,19 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||instantiateClass: LoadClassFromNameOnly(main$NBodySystem) failed. Exiting.
 ||| |
 | JACOBIN-0211-pbcrypto | FAILED | Exercise Password-based Encryption/Decryption
-|||Could not find class: java/lang/Integer
+|||panic: interface conversion: interface {} is unsafe.Pointer, not int64
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.runFrame(0xc011694db0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runThread(0x612460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc01167cde0, 0x4}, 0x612900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | JACOBIN-0212-bit-shifting | FAILED | Four bit shifting test cases
 |||FAILED trying -100 >> 2. Expected -25. Observed 39
@@ -32,8 +44,9 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||Success trying +100 << 3 == 800
 |||Error count = 2
 |||Going to thrrow an Exception next .....
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/lang/Exception.class.
-|||instantiateClass: LoadClassFromNameOnly(java/lang/Exception) failed. Exiting.
+|||error creating field in: java/lang/Exception
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | JACOBIN-0217-multidim-2d | PASSED | n/a |
 | JACOBIN-0217-multidim-3d | FAILED | Testing 2D and 3D arrays of type int, float, double, and String
@@ -48,11 +61,11 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc00007ee10)
+|||jacobin/jvm.runFrame(0xc0115b2ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc000018204, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc01159cc9c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -62,7 +75,19 @@ Date/Time 2023-05-01 04:03:19 CDT
 | JACOBIN-0234-string-length | FAILED | Try to get run.go to barf at line 1388
 |||password constructed
 |||originalString constructed
-|||Could not find class: java/lang/Integer
+|||panic: interface conversion: interface {} is unsafe.Pointer, not int64
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.runFrame(0xc0116929f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runThread(0x612460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc01167acf0, 0x4}, 0x612900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | JACOBIN-0235-system-exit | PASSED | n/a |
 | JACOBIN-0236-bitwise | FAILED | Perform various integer operations
@@ -76,9 +101,9 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||Success trying b % a == 12
 |||Success trying b | a == 61
 |||Success trying b ^ a == 49
-|||c = ~a : -61
+|||c = unary bitwise complement operator on a
 |||Success trying ~a == -61
-|||c = ~60 : 195
+|||c = unary bitwise complement operator on 60
 |||FAILED trying ~60. Expected -61. Observed 195
 |||Success trying a>>>2 == 15
 |||A=true and B=false
@@ -87,8 +112,9 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||Success trying c = (a == 42) ? 1001: 1002 ==>> 1002
 |||Error count = 2
 |||Going to thrrow an Exception next .....
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/lang/Exception.class.
-|||instantiateClass: LoadClassFromNameOnly(java/lang/Exception) failed. Exiting.
+|||error creating field in: java/lang/Exception
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | JACOBIN-0236-minus-signs | FAILED | Test the use of minus signs in integer operations
 |||a: 60
@@ -104,22 +130,25 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||
 |||Error count = 3
 |||Going to thrrow an Exception next .....
-|||instantiateClass: Status is still 'I' waiting for class: java/lang/Exception. Overdue!
+|||error creating field in: java/lang/Exception
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | JACOBIN-0237-nil-printlns | PASSED | n/a |
 | array-list-iterator | FAILED | Begin ArrayList/iterator tests
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/ArrayList.class.
-|||instantiateClass: LoadClassFromNameOnly(java/util/ArrayList) failed. Exiting.
+|||error creating field in: java/util/ArrayList Invalid type: (Ljava/util/List;II)Z
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | arrays_1 | FAILED | Testing accessibility of array elements of type byte, char, int, float, double, and String
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc00007efc0)
+|||jacobin/jvm.runFrame(0xc011618c60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc000018220, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115fecb4, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -130,12 +159,14 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||Could not find class: java/security/KeyPairGenerator
 ||| |
 | hashed-map | FAILED | Testing a hashed map
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/HashMap.class.
-|||instantiateClass: LoadClassFromNameOnly(java/util/HashMap) failed. Exiting.
+|||error creating field in: java/util/HashMap
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | hashed-set | FAILED | Testing a hashed set
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/HashSet.class.
-|||instantiateClass: LoadClassFromNameOnly(java/util/HashSet) failed. Exiting.
+|||error creating field in: java/util/HashSet
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | java17-enhancements | FAILED | Some of the Java 17 Enhancements
 |||panic: runtime error: index out of range [-1]
@@ -143,11 +174,11 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1679
-|||jacobin/jvm.runFrame(0xc00007f140)
+|||jacobin/jvm.runFrame(0xc011698de0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf65
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc000018238, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011680cc8, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -158,16 +189,41 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||
 ||| |
 | linked-list | FAILED | Testing linked lists
-|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/LinkedList.class.
-|||instantiateClass: LoadClassFromNameOnly(java/util/LinkedList) failed. Exiting.
+|||error creating field in: java/util/LinkedList
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
  | | | See logs/FAILED-*-javac.log files |
 | negtest-runner-throw-exception | FAILED | I will catch a NumberFormatException
-|||Could not find class: java/lang/Integer
+|||panic: interface conversion: interface {} is unsafe.Pointer, not int64
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.runFrame(0xc01167a9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runThread(0x612460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc011662ca0, 0x4}, 0x612900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | negtest-runner-timeout | FAILED | I will timeout!
-|||Could not find class: java/lang/Thread
+|||panic: runtime error: index out of range [0] with length 0
+|||
+|||goroutine 1 [running]:
+|||jacobin/jvm.runFrame(0xc0115da9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xd9b7
+|||jacobin/jvm.runThread(0x612460)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
+|||jacobin/jvm.StartExec({0xc0115c2cac, 0x4}, 0x612900)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
+|||jacobin/jvm.JVMrun()
+|||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
+|||main.main()
+|||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | numbers-chars-strings | FAILED | Member function tests for Character, Double, Integer, and String
 |||Could not find class: ProcCharacter
@@ -184,11 +240,11 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0000a0d50)
+|||jacobin/jvm.runFrame(0xc0116109f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd5db
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0000c434c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115fae3c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -199,11 +255,11 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc00007ed50)
+|||jacobin/jvm.runFrame(0xc0115f49f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd5db
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0000182ac, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115dad3c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -223,5 +279,7 @@ Date/Time 2023-05-01 04:03:19 CDT
 |||instantiateClass: LoadClassFromNameOnly(MyException) failed. Exiting.
 ||| |
 | vectors | FAILED | Fun with vectors
-|||Could not find class: java/lang/Integer
+|||error creating field in: java/lang/Integer
+|||Class Format Error: invalid field type
+|||  detected by file: classloader.go, line: 180
 ||| |
