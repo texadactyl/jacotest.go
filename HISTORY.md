@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
 | 2023-05-01 | 1.0.2  | Added test case: casting. |
-| 2023-04-30 | 1.0.1  | Externalized verion to file VERSION.txt. |
+| 2023-04-30 | 1.0.1  | Externalized version to file VERSION.txt. |
 |  |  | Using ```go install``` instead of ```go build```. |
 |  |  | Cleaned up go source files by running ```gofmt -w```. |
 |  |  | Split test case JACOBIN-0217-multidim into 2 cases: 2d and 3d. |
