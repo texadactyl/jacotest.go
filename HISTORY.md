@@ -4,5 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
 | 2023-05-01 | 1.0.1  | Externalized verion to file VERSION.txt. |
+|  |  | Using ```go install``` instead of ```go build```. |
 |  |  | Cleaned up go source files by running ```gofmt -w```. |
+|  |  | Renamed test case negtest-runner-throw-exception ro catch-exception. |
 | 2023-04-01 | 1.0  | First version. |
