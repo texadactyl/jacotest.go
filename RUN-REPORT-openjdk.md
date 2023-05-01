@@ -1,6 +1,6 @@
 Jacotest version 1.01
 
-Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-01 11:16:08 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-01 11:21:01 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
@@ -20,6 +20,7 @@ Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | JACOBIN-0237-nil-printlns | PASSED | n/a |
 | array-list-iterator | PASSED | n/a |
 | arrays_1 | PASSED | n/a |
+| catch-exception | PASSED | n/a |
 | elliptic | PASSED | n/a |
 | hashed-map | PASSED | n/a |
 | hashed-set | PASSED | n/a |
@@ -28,7 +29,6 @@ Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | linked-list | PASSED | n/a |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
  | | | See logs/FAILED-*-javac.log files |
-| negtest-runner-throw-exception | PASSED | n/a |
 | negtest-runner-timeout | TIMEOUT | I will timeout!
 ||| |
 | numbers-chars-strings | PASSED | n/a |
