@@ -61,7 +61,7 @@ func main() {
     // Positioned in the tree top directory?
     handle, err := os.Open("README.md")
     if err != nil {
-        Fatal("You are not positioned in the tree top directory")
+        Fatal("You are not positioned in the jacotest tree top directory")
     }
     handle.Close()
 
@@ -130,7 +130,7 @@ func main() {
 	// Make sure that the jvmExe file can be found in the O/S PATH
 	wstr, err = exec.LookPath(jvmExe)
 	if err != nil {
-		FmtFatal("main: exec.LookPath failed to find:", jvmExe, err)
+		FmtFatal("exec.LookPath failed to find:", jvmExe, err)
 	}
 	if flagVerbose {
 		Logger(fmt.Sprintf("Found JVM %s", wstr)) 
@@ -154,13 +154,13 @@ func main() {
 	    // Open logs directory
         fileOpened, err := os.Open(global.DirLogs)
         if err != nil {
-            FmtFatal("main: os.Open failed", global.DirLogs, err)
+            FmtFatal("os.Open failed", global.DirLogs, err)
         }
 
         // Get all the file entries in the logs directory
         names, err := fileOpened.Readdirnames(0) // get all entries
         if err != nil {
-            FmtFatal("main: Readdirnames failed", global.DirLogs, err)
+            FmtFatal("Readdirnames failed", global.DirLogs, err)
         }
 
         // For each logs entry, remove it
@@ -169,10 +169,10 @@ func main() {
             fullPath := filepath.Join(global.DirLogs, name)
             err := os.Remove(fullPath)
 	        if err != nil {
-	            Fatal(fmt.Sprintf("main: os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
+	            Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
 	        }
             if flagVerbose {
-                Logger(fmt.Sprintf("main: Removed: %s", fullPath))
+                Logger(fmt.Sprintf("Removed: %s", fullPath))
             }
         }
 	}
@@ -187,19 +187,20 @@ func main() {
 	    // Initialise report file
 	    rptHandle, err := os.Create(global.ReportFilePath)
 	    if err != nil {
-	        FmtFatal("main: os.Create failed", global.ReportFilePath, err)
+	        FmtFatal("os.Create failed", global.ReportFilePath, err)
 	    }
 	    defer rptHandle.Close()
         zone, _ := time.Now().Zone()
 	    fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
-	    fmt.Fprintf(rptHandle, "Run report using JVM %s, deadline = %d seconds\nDate/Time %s %s\n<br>\n<br>\n", jvmName, deadline_secs, time.Now().Format("2006-01-02 15:04:05"), zone)
+	    fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n", 
+	    						jvmName, deadline_secs, time.Now().Format("2006-01-02 15:04:05"), zone)
 	    fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 	    fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 	    
 	    // Get all of the subdirectories (test cases) under tests
 	    entries, err := os.ReadDir(global.DirTests)
         if err != nil {
-            FmtFatal("main: Error in accessing directory", global.DirTests, err)
+            FmtFatal("Error in accessing directory", global.DirTests, err)
         }
 
         // For each test case, execute it

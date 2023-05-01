@@ -51,7 +51,7 @@ func UTCTimeStr2LocalTimeStr(utcString string) string {
 
 // Show executable binary information relevant to "vcs"
 func ShowExecInfo() {
-    fmt.Printf("My version: %s\n", global.Version)
+    fmt.Printf("jacotest version: %s\n", global.Version)
     fmt.Printf("Built with: %s\n", runtime.Version())
     // Only interested in the "vcs." information
 	info, _ := debug.ReadBuildInfo()
