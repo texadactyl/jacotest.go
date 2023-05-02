@@ -1,6 +1,6 @@
 Jacotest version 1.02
 
-Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-01 16:42:57 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 120 seconds<br>Date/Time 2023-05-02 04:00:10 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
