@@ -47,10 +47,11 @@ where
 	-v : Verbose logging
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
 	-j : This is the JVM to use in executing all test cases.  Default: openjdk
-My version: 1.0
+jacotest version: 1.02
+
 Built with: go1.20.2
-BuildData vcs.revision: f048d3e293bdef65ef0420878f17fc5ba901a86c
-BuildData vcs.time: 2023-04-26 09:52:51 CDT
+BuildData vcs.revision: a28c14db3637665cbb8e8a2492d1df78cd67f7d9
+BuildData vcs.time: 2023-05-02 06:46:35 CDT
 BuildData vcs.modified: false
 ```
 
