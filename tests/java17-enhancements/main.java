@@ -69,6 +69,7 @@ public class main {
 		int errorCount = 0;
 		
 		System.out.println("Some of the Java 17 Enhancements");
+		System.out.println("IntStream, RandomGeneratorFactory, InstantSource, HexFormat");
 		
 		// RandomGenerator Factory + IntStream
 		IntStream iStream = getPseudoInts(RGF_ALGO_1, 8192, 8192);

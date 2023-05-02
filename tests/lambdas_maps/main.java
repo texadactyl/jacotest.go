@@ -28,6 +28,7 @@ public class main{
     public static void main(String[] args) {  
     
     	int errorCount = 0;
+    	System.out.println("Lambdas and Maps");
           
         Sayable greeting=(name)->{return "Hello, " + name; };  
         String wstr = greeting.say("Theodore");

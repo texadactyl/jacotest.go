@@ -19,7 +19,7 @@ public class main {
 	public static void main(String[] args) throws Exception {
 		int errorCount = 0;
 		
-		System.out.println("Stringing along");
+		System.out.println("String method tests");
 		
 		String ss1 = "\n  123:Alice456Bob7890Charley's Angels:Greece:Italy:France--!  ";
 		printLabeledString("ss1: ", ss1);

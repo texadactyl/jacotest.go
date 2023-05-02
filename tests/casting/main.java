@@ -20,7 +20,7 @@ public class main {
 	public static void main(String[] args) throws Exception {
 		int errorCount = 0;
 		
-		System.out.println("Widening Casting");
+		System.out.println("Widening and Narrowing Casting");
 		
 		byte bb = 0x7e;
 		System.out.println("Byte value " + bb); 
@@ -34,8 +34,6 @@ public class main {
 		errorCount += isItTrue("ll == 126", cc == 126, String.valueOf(ll));
 		errorCount += isItTrue("dd == 126", dd == 126.0, String.valueOf(dd));
         
-		System.out.println("Narrowing Casting");
-		
 		dd = 65537.04; 
 		System.out.println("Double value " + dd); 
 		ff = (float) dd; 
