@@ -14,7 +14,7 @@ public class main {
 
     public static void main(String args[])
     {
-        System.out.println("Throw auser-defined exception");
+        System.out.println("Throw a user-defined exception");
         
         try {
             throw new MyException("Throwing a user-defined exception!");
