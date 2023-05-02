@@ -5,9 +5,9 @@ public class main {
         System.out.print(" : ");
         System.out.println(value);
     }
-    
+
     public static int checkNumEqual(String text, long xx, long yy) {
-        if(xx == yy) return 0;
+        if (xx == yy) return 0;
         System.out.print("*** checkNumEqual: compare failed !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -20,7 +20,7 @@ public class main {
     }
 
     public static int checkNumUnequal(String text, long xx, long yy) {
-        if(xx != yy) return 0;
+        if (xx != yy) return 0;
         System.out.print("*** checkNumUnequal: equal but should not be !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -33,7 +33,7 @@ public class main {
     }
 
     public static int checkStrEqual(String text, String xx, String yy) {
-        if(xx == yy) return 0;
+        if (xx == yy) return 0;
         System.out.print("*** checkStrEqual: compare failed !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -46,7 +46,7 @@ public class main {
     }
 
     public static int checkStrUnequal(String text, String xx, String yy) {
-        if(xx != yy) return 0;
+        if (xx != yy) return 0;
         System.out.print("*** checkStrUnequal: equal but should not be !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -60,46 +60,46 @@ public class main {
 
     static class Insider extends Outsider {
         int with_teeth;
-        
+
         public Insider() {
             this.with_teeth = 41;
             this.lucretia = 45;
         }
-        
+
         public String teething() {
             this.with_teeth = 42;
             return "done";
         }
-        
+
         public int is_this_a_7() {
             return 8;
         }
 
     }
-    
+
     public static void main(String args[]) {
         String wstr;
         int errorCount = 0;
-        
+
         System.out.println("Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.");
         System.out.println("Testing polymorphism, abstract classes, abstract methods, and interfaces.");
-        
+
         System.out.println("\nInsider class will now be instantiated .....");
         Insider insider = new Insider();
         System.out.println("Insider class was instantiated");
-        
+
         errorCount += checkStrEqual("insider.teething() == done", insider.teething(), "done");
         errorCount += checkNumEqual("insider.with_teeth == 42", insider.with_teeth, 42);
-        
+
         System.out.println("Outsider class will now be instantiated .....");
         Outsider outsider = new Outsider();
         System.out.println("Outsider class was instantiated");
-        
+
         String gimme_in = insider.gimmeString();
         printer("gimme_in", gimme_in);
         String gimme_out = outsider.gimmeString();
         printer("gimme_out", gimme_out);
-       
+
         insider.iota += 1;
         errorCount += checkNumUnequal("insider.iota != outsider.iota", insider.iota, outsider.iota);
         outsider.iota += 1;
@@ -111,16 +111,16 @@ public class main {
 
         errorCount += checkNumUnequal("insider.is_this_a_7() != outsider.is_this_a_7()", insider.is_this_a_7(), outsider.is_this_a_7());
         errorCount += checkNumEqual("insider.is_this_a_7() - 1 != outsider.is_this_a_7()", insider.is_this_a_7() - 1, outsider.is_this_a_7());
-        
+
         MultiMedia myRed = new Red();
         MultiMedia myOrange = new Orange();
-        
+
         String red = myRed.getColor();
         String orange = myOrange.getColor();
-        
+
         String loud = myRed.getSound();
         String soft = myOrange.getSound();
-        
+
         errorCount += checkStrUnequal("red != rainbow", "red", "rainbow");
         errorCount += checkStrUnequal("red != orange", "red", "orange");
         errorCount += checkStrUnequal("loud != soft", "loud", "soft");
@@ -131,55 +131,63 @@ public class main {
         errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
 
         printer("\nError count", String.valueOf(errorCount));
-        if(errorCount > 0) { System.exit(1); }
+        if (errorCount > 0) {
+            System.exit(1);
+        }
     }
-    
+
 }
 
 abstract class MultiMedia {
     public String getColor() {
-        return("rainbow");
+        return ("rainbow");
     }
+
     public abstract String getSound();
+
     public int getNumber() {
         return 42;
     }
 }
 
 class Red extends MultiMedia {
-  public String getColor() {
-    return("red");
-  }
-  public String getSound() {
-    return("loud");
-  }
+    public String getColor() {
+        return ("red");
+    }
+
+    public String getSound() {
+        return ("loud");
+    }
 }
 
 class Orange extends MultiMedia {
-  public String getColor() {
-    return("orange");
-  }
-  public String getSound() {
-    return("soft");
-  }
+    public String getColor() {
+        return ("orange");
+    }
+
+    public String getSound() {
+        return ("soft");
+    }
 }
 
 // The animal interface
 interface Animal {
-  public String getSound();
-  public String getColor();
+    public String getSound();
+
+    public String getColor();
 }
 
 // Pig implements the Animal interface
 class Pig implements Animal {
-  public String getSound() {
-    // The body of animalSound() is provided here
-    return "oink";
-  }
-  public String getColor() {
-    // The body of sleep() is provided here
-    return "pink";
-  }
+    public String getSound() {
+        // The body of animalSound() is provided here
+        return "oink";
+    }
+
+    public String getColor() {
+        // The body of sleep() is provided here
+        return "pink";
+    }
 }
 
 

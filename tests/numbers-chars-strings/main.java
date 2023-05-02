@@ -5,12 +5,12 @@ public class main {
         System.out.println(msg);
 
         int errorCount = 0;
-        
+
         errorCount += ProcCharacter.procCharacter();
         errorCount += ProcDouble.procDouble();
         errorCount += ProcInteger.procInteger();
         errorCount += ProcString.procString();
-        
+
         System.out.print("\nError count = ");
         System.out.println(errorCount);
         if (errorCount > 0) {

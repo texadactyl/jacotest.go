@@ -1,5 +1,5 @@
 public class main {
-    
+
     public static void main(String args[]) {
         String msg = "Testing basic statistical functions and a square root algorithm";
         System.out.println(msg);
@@ -11,14 +11,14 @@ public class main {
         System.out.println("Library lib will be instantiated .....");
         Library lib = new Library();
         System.out.println("Library lib was instantiated"); // <------------- Never gets here
-        
+
         long t1 = System.currentTimeMillis();
-        
-        for(int ndx = 0; ndx < arraySize; ndx++) {
-            double dblx = (double)(ndx % 256);
-            x_elems[ndx] = dblx; 
-            y_elems[ndx] = -dblx; 
-            z_elems[ndx] = Math.sin(dblx); 
+
+        for (int ndx = 0; ndx < arraySize; ndx++) {
+            double dblx = (double) (ndx % 256);
+            x_elems[ndx] = dblx;
+            y_elems[ndx] = -dblx;
+            z_elems[ndx] = Math.sin(dblx);
         }
         double[] output = lib.meanStdev(x_elems);
         double x_mean = output[0];
@@ -34,18 +34,18 @@ public class main {
         double correl_x_z = lib.correlation(x_elems, z_elems);
 
         long t2 = System.currentTimeMillis();
-        double elapsedSeconds = (double)(t2 - t1) / 1000.0;
-        
-		System.out.printf("array sizes: %d\n", x_elems.length);
-		System.out.printf("x-mean: %f\n", x_mean);
-		System.out.printf("x-stdev: %f\n", x_stdev);
-		System.out.printf("y-mean: %f\n", y_mean);
-		System.out.printf("y-stdev: %f\n", y_stdev);
-		System.out.printf("z-mean: %f\n", z_mean);
-		System.out.printf("z-stdev: %f\n", z_stdev);
-		System.out.printf("x - y correlation: %f\n", correl_x_y);
-		System.out.printf("x - z correlation: %f\n", correl_x_z);
-		System.out.printf("elapsed time: %.3f seconds\n", elapsedSeconds);
+        double elapsedSeconds = (double) (t2 - t1) / 1000.0;
+
+        System.out.printf("array sizes: %d\n", x_elems.length);
+        System.out.printf("x-mean: %f\n", x_mean);
+        System.out.printf("x-stdev: %f\n", x_stdev);
+        System.out.printf("y-mean: %f\n", y_mean);
+        System.out.printf("y-stdev: %f\n", y_stdev);
+        System.out.printf("z-mean: %f\n", z_mean);
+        System.out.printf("z-stdev: %f\n", z_stdev);
+        System.out.printf("x - y correlation: %f\n", correl_x_y);
+        System.out.printf("x - z correlation: %f\n", correl_x_z);
+        System.out.printf("elapsed time: %.3f seconds\n", elapsedSeconds);
     }
 
 }

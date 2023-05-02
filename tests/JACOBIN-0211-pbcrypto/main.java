@@ -19,12 +19,12 @@ public class main {
         byte[] ivBytes;
         byte[] cipherText;
     }
-    
+
     public static SecretKeySpec makeSecretKeySpec(char[] password, byte[] salt, int keySize, int iterations) throws Exception {
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keySize);
         SecretKey secretKey = skf.generateSecret(spec);
-        
+
         return new SecretKeySpec(secretKey.getEncoded(), "AES");
     }
 
@@ -43,7 +43,7 @@ public class main {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(ivBytes));
         byte[] clearText = cipher.doFinal(cipherText);
- 
+
         return clearText;
 
     }
@@ -53,16 +53,16 @@ public class main {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[20];
         sr.nextBytes(salt);
-        
+
         return salt;
     }
-    
+
     public static void showBytes(String label, byte[] argBytes) {
         String b64 = Base64.getEncoder().encodeToString(argBytes);
         System.out.println(label + ":\t" + b64);
     }
 
-    public static void main(String []args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         String msg = "Exercise Password-based Encryption/Decryption";
         System.out.println(msg);
@@ -74,25 +74,25 @@ public class main {
         System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
         byte[] msgBytes = originalString.getBytes();
         showBytes("Cleartext (base 64)", msgBytes);
-   
+
         // Make the key.
         byte[] salt = getSalt();
         SecretKeySpec secretKeySpec = makeSecretKeySpec(password, salt, keySize, iterations);
-        
+
         // Perform encryption.
         EncryptionOutput eo = encrypt(secretKeySpec, msgBytes);
         showBytes("Ciphertext (base 64)", eo.cipherText);
-        
+
         // Perform decryption.
         byte[] clearText = decrypt(secretKeySpec, eo.ivBytes, eo.cipherText);
         showBytes("Cleartext (base 64)", clearText);
         String decryptedString = new String(clearText, StandardCharsets.UTF_8);
-        
+
         // Show that we got back the original message cleartext.
         System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", decryptedString.length(), decryptedString);
-        if(decryptedString.equals(originalString)) {
-        	System.out.println("Success!");
-        	System.exit(0);
+        if (decryptedString.equals(originalString)) {
+            System.out.println("Success!");
+            System.exit(0);
         }
         System.out.println("*** FAILED *** decryptedString != originalString");
         System.exit(1);

@@ -40,7 +40,7 @@ public class Library {
         double stdDev = squareRoot(variance);
 
         // Return the result as an array
-        return new double[] { mean, stdDev };
+        return new double[]{mean, stdDev};
     }
 
     public static double covariance(double[] arg1, double[] arg2) {
@@ -48,19 +48,19 @@ public class Library {
         double sum2 = 0.0;
         int arraySize = arg1.length;
         double dSize = (double) arraySize;
-        for(int ndx = 0; ndx < arraySize; ++ndx ) {
+        for (int ndx = 0; ndx < arraySize; ++ndx) {
             sum1 += arg1[ndx];
             sum2 += arg2[ndx];
         }
         double mean1 = sum1 / dSize;
         double mean2 = sum2 / dSize;
         double wsum = 0.0;
-        for(int ndx = 0; ndx < arraySize; ++ndx)
+        for (int ndx = 0; ndx < arraySize; ++ndx)
             wsum += (arg1[ndx] - mean1) * (arg2[ndx] - mean2);
         return wsum / dSize;
     }
 
-    public static double correlation(double [] arg1, double [] arg2) {
+    public static double correlation(double[] arg1, double[] arg2) {
         double stddev1, stddev2;
         double[] output = meanStdev(arg1);
         double stdev1 = output[1];

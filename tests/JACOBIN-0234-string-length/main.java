@@ -1,6 +1,6 @@
 public class main {
 
-    public static void main(String []args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         String msg = "Try to get run.go to barf at line 1388";
         System.out.println(msg);
@@ -14,7 +14,7 @@ public class main {
         System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
         byte[] msgBytes = originalString.getBytes();
         System.out.println("msgBytes constructed");
-   
+
         System.out.println("No barfing");
     }
 

@@ -23,7 +23,7 @@ public class main {
         arr_strings[1] = "whose fleece was white as snow";
         arr_strings[2] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()";
         System.out.println("Just set String array elements 1 and 2");
-        for(ndx = 0; ndx < size2; ++ndx) {
+        for (ndx = 0; ndx < size2; ++ndx) {
             System.out.print(ndx);
             System.out.print(": ");
             System.out.println(arr_strings[ndx]);

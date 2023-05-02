@@ -5,8 +5,8 @@ public class Outsider {
     float frankly;
     double dapper;
     String sammy;
-    String foursome[] = new String[] {"The", "rain", "in", "Spain"};
-    
+    String foursome[] = new String[]{"The", "rain", "in", "Spain"};
+
     public Outsider() {
         this.iota = 11235813;
         this.lucretia = 44;
@@ -15,7 +15,7 @@ public class Outsider {
         this.dapper = (double) (this.frankly * 57.2958f);
         this.sammy = "Mary had a little lamb ...";
     }
-    
+
     public int is_this_a_7() {
         return 7;
     }
@@ -43,6 +43,6 @@ public class Outsider {
         str += this.foursome[3];
         str += " }";
         return str;
-    }    
+    }
 
 }
