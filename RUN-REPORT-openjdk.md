@@ -1,6 +1,6 @@
-Jacotest version 1.02
+Jacotest version 1.04
 
-Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-02 13:15:15 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-03 16:37:24 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
@@ -38,6 +38,7 @@ Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | packaging-2 | PASSED | n/a |
 | scimark2 | PASSED | n/a |
 | sha3 | PASSED | n/a |
+| sockets | PASSED | n/a |
 | specrel | PASSED | n/a |
 | stringer | PASSED | n/a |
 | threading | PASSED | n/a |

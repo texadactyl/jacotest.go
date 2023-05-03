@@ -1,6 +1,6 @@
-Jacotest version 1.02
+Jacotest version 1.04
 
-Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-02 13:19:41 CDT<br><br>
+Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-03 16:36:27 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | FAILED | Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.
@@ -24,11 +24,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011614db0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc011698db0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115fcde0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011680de0, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -59,11 +59,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01163eab0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc011650ab0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011626c9c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011636c9c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -76,11 +76,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115b89f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc0116189f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115a0cf0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011600cf0, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -142,11 +142,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011696c60)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc0115bec60)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01167ccb4, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115a8cb4, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -157,15 +157,15 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115dccc0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
-|||jacobin/jvm.runFrame(0xc0115dccc0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd90e
-|||jacobin/jvm.runFrame(0xc0115dccc0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd90e
+|||jacobin/jvm.runFrame(0xc011632cc0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
+|||jacobin/jvm.runFrame(0xc011632cc0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd9ce
+|||jacobin/jvm.runFrame(0xc011632cc0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xd9ce
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115c4c34, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc01161ac34, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -180,11 +180,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115f09f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc01166e9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115d8ca0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011656ca0, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -210,12 +210,12 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1679
-|||jacobin/jvm.runFrame(0xc0115d2de0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf65
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1722
+|||jacobin/jvm.runFrame(0xc01161ede0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe025
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115bacc8, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011606cc8, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -237,11 +237,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0115e09f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xd9b7
+|||jacobin/jvm.runFrame(0xc0116189f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xda77
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115c8cac, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115fecac, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -263,8 +263,8 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01160e9f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd5db
+|||jacobin/jvm.runFrame(0xc01160c9f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd69a
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
 |||jacobin/jvm.StartExec({0xc0115f6e3c, 0x4}, 0x612900)
@@ -278,16 +278,20 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116809f0)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd5db
+|||jacobin/jvm.runFrame(0xc0116309f0)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd69a
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011666d3c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011616d3c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
 |||main.main()
 |||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
+||| |
+| sockets | FAILED | Socket tests with a parent thread (main) and 2 child threads (server, client)
+|||Error: could not find or load class PrintingSynced.
+|||instantiateClass: LoadClassFromNameOnly(PrintingSynced) failed. Exiting.
 ||| |
 | specrel | FAILED | Special Relativity calculations
 |||===== Begin, t_deltaAtRest: 10, x_lengthAtRest: 42
@@ -298,11 +302,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01168eb70)
-|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xdf57
+|||jacobin/jvm.runFrame(0xc0115ceb70)
+|||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe017
 |||jacobin/jvm.runThread(0x612460)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011676c8c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115b4c8c, 0x4}, 0x612900)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
