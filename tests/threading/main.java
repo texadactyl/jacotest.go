@@ -22,11 +22,11 @@ public class main {
         PSYNC.printNL("main: Waiting for threads T1/T2/T3 to end");
         try {
             T1.join();
-            PSYNC.printNL("main: T1 ended");
+            PSYNC.printNL("main: T1 joined");
             T2.join();
-            PSYNC.printNL("main: T2 ended");
+            PSYNC.printNL("main: T2 joined");
             T3.join();
-            PSYNC.printNL("main: T3 ended");
+            PSYNC.printNL("main: T3 joined");
         } catch (Exception ex) {
             PSYNC.printNL("main: Interrupted !!");
         }
