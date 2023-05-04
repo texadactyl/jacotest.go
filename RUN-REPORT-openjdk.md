@@ -1,6 +1,6 @@
 Jacotest version 1.05
 
-Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-04 13:13:23 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-04 16:27:48 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
@@ -45,3 +45,4 @@ Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | tls-one-way | PASSED | n/a |
 | user-defined-exception | PASSED | n/a |
 | vectors | PASSED | n/a |
+| zippy | PASSED | n/a |
