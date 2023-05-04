@@ -3,7 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
-| 2023-05-04 | 1.0.5  | Added test case: tls-one-way (low-level TLS). |
+| 2023-05-04 | 1.0.5  | Added test cases: tls-one-way (low-level TLS) and zippy. |
 | 2023-05-03 | 1.0.4  | Added test case: sockets (multithreading client/server socket applications). |
 | 2023-05-02 | 1.0.3  | Added test case: blockchain. |
 | 2023-05-01 | 1.0.2  | Added test cases: casting, stringer. |
