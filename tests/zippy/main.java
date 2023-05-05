@@ -8,13 +8,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// Importing zip classes and Scanner class
-// from java.util package
-import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
  
-// Class to Read and print the Zip Files
 public class main {
 
 	final static String IN_ZIP_FILE = "input.zip";
@@ -70,20 +66,15 @@ public class main {
 	
     public static void main(String[] args) throws IOException {
  
-        // Creating objects for the classes and
-        // initializing them to null
         FileInputStream fs = null;
         ZipInputStream Zs = null;
         ZipEntry ze = null;
         int errorCount = 0;
  
-        // Try block to handle if exception occurs
+        // Try to read zip file.
         try {
  
-            // Display message when program compiles
-            // successfully
-            System.out.println(
-                "Files in the zip are as follows: ");
+            System.out.println("Directory of the zip is as follows:");
  
             fs = new FileInputStream(IN_ZIP_FILE);
             Zs = new ZipInputStream(
@@ -93,40 +84,30 @@ public class main {
             // the end
             while ((ze = Zs.getNextEntry()) != null) {
             	if (ze.isDirectory())
-                	System.out.println(ze.getName());
+                	System.out.println("\t" + ze.getName());
                 else {
                 	Path path = Paths.get(ze.getName());
                 	String fileName = path.getFileName().toString();
                 	String size = String.valueOf(ze.getSize());
                 	String stamp = ze.getLastModifiedTime().toString();
                 	errorCount += lookup(fileName, size, stamp);
-                	System.out.printf("\t%20s  %10s  %s\n", fileName, size, stamp);
+                	System.out.printf("\t\t%20s  %10s  %s\n", fileName, size, stamp);
                 }
             }
  
-            // Closing the file connection
             Zs.close();
         }
  
-        // Catch block to handle if any exception related
-        // to file handling occurs
         catch (FileNotFoundException fe) {
- 
-            // Print the line line and exception
-            // of the program where it occurred
             fe.printStackTrace();
         }
  
-        // Catch block to handle generic exceptions
         catch (IOException ie) {
- 
-            // Print the line line and exception
-            // of the program where it occurred
             ie.printStackTrace();
         }
         
         if (errorCount == 0) {
-            System.out.println("No errors detected");
+            System.out.println("All entries have been verified");
         } else {
             System.out.print("Number of errors = ");
             System.out.println(errorCount);
