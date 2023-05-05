@@ -1,34 +1,34 @@
 Jacotest version 1.05
 
-Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-04 16:30:01 CDT<br><br>
+Run report using JVM jacobin<br>Case deadline = 120 seconds<br>Date/Time 2023-05-05 07:21:31 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | FAILED | Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.
 |||Testing polymorphism, abstract classes, abstract methods, and interfaces.
 |||
 |||Insider class will now be instantiated .....
-|||Error: could not find or load class main$Insider.
-|||instantiateClass: LoadClassFromNameOnly(main$Insider) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 30 in method main() of class main
+|||
 ||| |
 | JACOBIN-0161-instantiate_class | FAILED | Testing one instantiation of a class residing in a separate source file
 |||Library lib will be instantiated .....
-|||Error: could not find or load class Library.
-|||instantiateClass: LoadClassFromNameOnly(Library) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 22 in method main() of class main
+|||
 ||| |
 | JACOBIN-0206-nbody | FAILED | Model the orbits of the Jovian planets, using the Symplectic integration Package
 |||URL: https://janus.astro.umd.edu/HNBody/
-|||Error: could not find or load class main$NBodySystem.
-|||instantiateClass: LoadClassFromNameOnly(main$NBodySystem) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 33 in method main() of class main
+|||
 ||| |
 | JACOBIN-0211-pbcrypto | FAILED | Exercise Password-based Encryption/Decryption
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011632db0)
+|||jacobin/jvm.runFrame(0xc011618db0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011618de0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011600de0, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -42,24 +42,23 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||Success trying +100 << 3 == 800
 |||Error count = 2
 |||Going to thrrow an Exception next .....
-|||error creating field in: java/lang/Exception
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 221 in method main() of class main
+|||
 ||| |
 | JACOBIN-0217-multidim-2d | PASSED | n/a |
 | JACOBIN-0217-multidim-3d | FAILED | Testing 2D and 3D arrays of type int, float, double, and String
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116b89f0)
+|||jacobin/jvm.runFrame(0xc0116929f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runFrame(0xc0116b89f0)
+|||jacobin/jvm.runFrame(0xc0116929f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xdaee
-|||jacobin/jvm.runFrame(0xc0116b89f0)
+|||jacobin/jvm.runFrame(0xc0116929f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xdaee
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0116a0ce0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc01167cce0, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -69,17 +68,18 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 | JACOBIN-0227-string-array | PASSED | n/a |
 | JACOBIN-0231-stats | FAILED | Testing basic statistical functions and a square root algorithm
 |||Library lib will be instantiated .....
-|||instantiateClass: Status is still 'I' waiting for class: Library. Overdue!
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 39 in method main() of class main
+|||
 ||| |
 | JACOBIN-0234-0240-0241-array-length | FAILED | Exercise array lengths for type byte, char, int, float, double, and String
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011618ab0)
+|||jacobin/jvm.runFrame(0xc011696ab0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011600c9c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011680c9c, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -92,11 +92,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01153e9f0)
+|||jacobin/jvm.runFrame(0xc0115e29f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011528cf0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115cacf0, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -126,9 +126,8 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||Success trying c = (a == 42) ? 1001: 1002 ==>> 1002
 |||Error count = 2
 |||Going to thrrow an Exception next .....
-|||error creating field in: java/lang/Exception
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 652 in method main() of class main
+|||
 ||| |
 | JACOBIN-0236-minus-signs | FAILED | Test the use of minus signs in integer operations
 |||a: 60
@@ -144,25 +143,23 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||
 |||Error count = 3
 |||Going to thrrow an Exception next .....
-|||error creating field in: java/lang/Exception
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 276 in method main() of class main
+|||
 ||| |
 | JACOBIN-0237-nil-printlns | PASSED | n/a |
 | array-list-iterator | FAILED | Begin ArrayList/iterator tests
-|||error creating field in: java/util/ArrayList Invalid type: (Ljava/util/List;II)Z
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | arrays_1 | FAILED | Testing accessibility of array elements of type byte, char, int, float, double, and String
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011612c60)
+|||jacobin/jvm.runFrame(0xc01163ec60)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115facb4, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011624cb4, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -173,15 +170,15 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc011682cc0)
+|||jacobin/jvm.runFrame(0xc011696cc0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runFrame(0xc011682cc0)
+|||jacobin/jvm.runFrame(0xc011696cc0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xdaee
-|||jacobin/jvm.runFrame(0xc011682cc0)
+|||jacobin/jvm.runFrame(0xc011696cc0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1403 +0xdaee
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011668c34, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc01167ec34, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -196,11 +193,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116809f0)
+|||jacobin/jvm.runFrame(0xc0115d29f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011668ca0, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115baca0, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -209,16 +206,20 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 ||| |
 | elliptic | FAILED | Elliptic cryptography exercise
 |||Could not find class: java/security/KeyPairGenerator
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/KeyPairGenerator.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/spec/ECGenParameterSpec.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/KeyPair.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/Signature.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/PrivateKey.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/PublicKey.class.
 ||| |
 | hashed-map | FAILED | Testing a hashed map
-|||error creating field in: java/util/HashMap
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | hashed-set | FAILED | Testing a hashed set
-|||error creating field in: java/util/HashSet
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | java17-enhancements | FAILED | Some of the Java 17 Enhancements
 |||IntStream, RandomGeneratorFactory, InstantSource, HexFormat
@@ -227,11 +228,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||goroutine 1 [running]:
 |||jacobin/jvm.pop(...)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1690
-|||jacobin/jvm.runFrame(0xc0115acde0)
+|||jacobin/jvm.runFrame(0xc0115b2de0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe145
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011596cc8, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc01159acc8, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -243,21 +244,21 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||
 ||| |
 | linked-list | FAILED | Testing linked lists
-|||error creating field in: java/util/LinkedList
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | negtest-comp-error | COMP-ERROR | compilation error(s)
  | | | See logs/FAILED-*-javac.log files |
 | negtest-runner-timeout | FAILED | I will timeout!
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/lang/InterruptedException.class.
 |||panic: runtime error: index out of range [0] with length 0
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116569f0)
+|||jacobin/jvm.runFrame(0xc0116109f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1396 +0xdb97
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01163ecac, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115f6cac, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -268,22 +269,22 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||Could not find class: ProcCharacter
 ||| |
 | packaging-1 | FAILED | Testing the use of import pkgcalc.Calculator
-|||Error: could not find or load class pkgcalc/Calculator.
-|||instantiateClass: LoadClassFromNameOnly(pkgcalc/Calculator) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 12 in method main() of class main
+|||
 ||| |
 | packaging-2 | FAILED | Testing the use of import pkgcalc.Calculator
-|||Error: could not find or load class middle/pkgcalc/Calculator.
-|||instantiateClass: LoadClassFromNameOnly(middle/pkgcalc/Calculator) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 12 in method main() of class main
+|||
 ||| |
 | scimark2 | FAILED | SciMark2: Benchmark measuring performance	of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116949f0)
+|||jacobin/jvm.runFrame(0xc01169c9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd7ba
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc01167ce3c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011686e3c, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -294,11 +295,11 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||panic: interface conversion: interface {} is int, not unsafe.Pointer
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc01160c9f0)
+|||jacobin/jvm.runFrame(0xc01158a9f0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1520 +0xd7ba
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc0115f6d3c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc011574d3c, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -306,23 +307,23 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | sockets | FAILED | Socket tests with a parent thread (main) and 2 child threads (server, client)
-|||Error: could not find or load class PrintingSynced.
-|||instantiateClass: LoadClassFromNameOnly(PrintingSynced) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | specrel | FAILED | Special Relativity calculations
 |||===== Begin, t_deltaAtRest: 10, x_lengthAtRest: 42
-|||Error: could not find or load class Formulae.
-|||instantiateClass: LoadClassFromNameOnly(Formulae) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 70 in method main() of class main
+|||
 ||| |
 | stringer | FAILED | String method tests
 |||panic: interface conversion: interface {} is unsafe.Pointer, not int64
 |||
 |||goroutine 1 [running]:
-|||jacobin/jvm.runFrame(0xc0116aeb70)
+|||jacobin/jvm.runFrame(0xc0115fcb70)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:1388 +0xe137
-|||jacobin/jvm.runThread(0x612460)
+|||jacobin/jvm.runThread(0x612440)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:85 +0x31
-|||jacobin/jvm.StartExec({0xc011696c8c, 0x4}, 0x612900)
+|||jacobin/jvm.StartExec({0xc0115e4c8c, 0x4}, 0x6128e0)
 |||	/home/elkins/BASIS/jacobin/src/jvm/run.go:75 +0x616
 |||jacobin/jvm.JVMrun()
 |||	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:84 +0x62b
@@ -330,23 +331,30 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 |||	/home/elkins/BASIS/jacobin/src/main.go:12 +0x17
 ||| |
 | threading | FAILED | Threading tests with a parent thread (main) and 3 child threads
-|||Error: could not find or load class PrintingSynced.
-|||instantiateClass: LoadClassFromNameOnly(PrintingSynced) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | tls-one-way | FAILED | main: Make cryptographically strong random number generator
 |||Could not find class: java/security/SecureRandom
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/SecureRandom.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/javax/net/ssl/SSLContext.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/javax/net/ssl/TrustManagerFactory.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/security/KeyStore.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/javax/net/ssl/SSLSocketFactory.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/javax/net/ssl/SSLSocket.class.
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/lang/InterruptedException.class.
 ||| |
 | user-defined-exception | FAILED | Throw a user-defined exception
-|||Error: could not find or load class MyException.
-|||instantiateClass: LoadClassFromNameOnly(MyException) failed. Exiting.
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 14 in method main() of class main
+|||
 ||| |
 | vectors | FAILED | Fun with vectors
-|||error creating field in: java/lang/Integer
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 28 in method valueOf() of class java/lang/Integer
+|||
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/Vector.class.
 ||| |
 | zippy | FAILED | Files in the zip are as follows: 
-|||error creating field in: java/io/FileInputStream Invalid type: ()J
-|||Class Format Error: invalid field type
-|||  detected by file: classloader.go, line: 180
+|||Invalid bytecode found: 183 (0xB7) (INVOKESPECIAL) at location 23 in method main() of class main
+|||
+|||Error: could not find or load class /home/elkins/BASIS//jacobinclasses/java/util/zip/ZipInputStream.class.
 ||| |
