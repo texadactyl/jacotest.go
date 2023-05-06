@@ -15,31 +15,31 @@ public class main {
 
 	final static String IN_ZIP_FILE = "input.zip";
  
- 	static String[][] zipTable = {
-			{"0.main.log",		"1161",		"2023-05-06T20:37:34Z"},
-			{"1.biostar.log",	"2257",		"2023-05-06T20:37:34Z"},
-			{"1.pizerow.log",	"9502",		"2023-05-06T20:37:34Z"},
-			{"1.rpi4.log",		"2139",		"2023-05-06T20:37:34Z"},
-			{"2.pizerow.log",	"1744",		"2023-05-06T20:37:34Z"},
-			{"2.rpi2.log",		"9598",		"2023-05-06T20:37:34Z"},
-			{"2.zotac.log",		"17364",	"2023-05-06T20:37:34Z"},
-			{"3.rpi2.log",		"1778",		"2023-05-06T20:37:34Z"},
-			{"3.rpi3.log",		"4492",		"2023-05-06T20:37:34Z"},
-			{"3.rpi4.log",		"175008",	"2023-05-06T20:37:34Z"},
-			{"4.rpi3.log",		"20006",	"2023-05-06T20:37:34Z"},
-			{"4.rpi4.log",		"1961",		"2023-05-06T20:37:34Z"},
-			{"4.zotac.log",		"10885",	"2023-05-06T20:37:34Z"},
-			{"5.zotac.log",		"1831",		"2023-05-06T20:37:34Z"},
-			{"remcmd.cfg",		"192",		"2023-05-06T20:37:34Z"},
-			{"remdown.cfg",		"393",		"2023-05-06T20:37:34Z"},
-			{"remping.cfg",		"189",		"2023-05-06T20:37:34Z"},
-			{"remupd.cfg",		"325",		"2023-05-06T20:37:34Z"},
-			{"remx_cfg.py",		"3541",		"2023-05-06T20:37:34Z"},
-			{"remx_main.py",	"4089",		"2023-05-06T20:37:34Z"},
-			{"remx_utilities.py", "6019",	"2023-05-06T20:37:34Z"}
+ 	static String[][] zipTable = { // file name, uncompressed size, uncompressed CRC
+			{"0.main.log",		"1161",		"1216827134"},
+			{"1.biostar.log",	"2257",		"1550240362"},
+			{"1.pizerow.log",	"9502",		"3844065707"},
+			{"1.rpi4.log",		"2139",		"2050768053"},
+			{"2.pizerow.log",	"1744",		"1380747039"},
+			{"2.rpi2.log",		"9598",		"3929933469"},
+			{"2.zotac.log",		"17364",	"3963511932"},
+			{"3.rpi2.log",		"1778",		"277903632"},
+			{"3.rpi3.log",		"4492",		"1929418946"},
+			{"3.rpi4.log",		"175008",	"1706934587"},
+			{"4.rpi3.log",		"20006",	"2491861642"},
+			{"4.rpi4.log",		"1961",		"1267000413"},
+			{"4.zotac.log",		"10885",	"1887076250"},
+			{"5.zotac.log",		"1831",		"1064895305"},
+			{"remcmd.cfg",		"192",		"2638084272"},
+			{"remdown.cfg",		"393",		"921907977"},
+			{"remping.cfg",		"189",		"4082986205"},
+			{"remupd.cfg",		"325",		"2386648222"},
+			{"remx_cfg.py",		"3541",		"1411510599"},
+			{"remx_main.py",	"4089",		"4086809879"},
+			{"remx_utilities.py", "6019",	"2295793381"}
         }; // 21 rows
 
-	public static int lookup(String name, String size, String stamp) {
+	public static int lookup(String name, String size, String crc) {
 		boolean found = false;
 		int ix = -1;
 		int returnCode = 0;
@@ -58,8 +58,8 @@ public class main {
 			System.out.printf("ERROR :: For name %s, expected size = %s but observed %s\n", name, zipTable[ix][1], size);
 			returnCode = 1;
 		}
-		if (! stamp.equals(zipTable[ix][2])) {
-			System.out.printf("ERROR :: For name %s, expected stamp = %s but observed %s\n", name, zipTable[ix][2], stamp);
+		if (! crc.equals(zipTable[ix][2])) {
+			System.out.printf("ERROR :: For name %s, expected crc = %s but observed %s\n", name, zipTable[ix][2], crc);
 			returnCode = 1;
 		}
 		return returnCode;
@@ -89,9 +89,9 @@ public class main {
                 	Path path = Paths.get(ze.getName());
                 	String fileName = path.getFileName().toString();
                 	String size = String.valueOf(ze.getSize());
-                	String stamp = ze.getLastModifiedTime().toString();
-                	errorCount += lookup(fileName, size, stamp);
-                	System.out.printf("\t\t%20s  %10s  %s\n", fileName, size, stamp);
+                	String crc = String.valueOf(ze.getCrc());
+                	errorCount += lookup(fileName, size, crc);
+                	System.out.printf("\t\t%20s  %10s  %s\n", fileName, size, crc);
                 }
             }
  
