@@ -16,32 +16,33 @@ public class main {
 	final static String IN_ZIP_FILE = "input.zip";
  
  	static String[][] zipTable = {
-			{"0.main.log",		"1161",		"2022-10-03T15:20:42Z"},
-			{"1.biostar.log",	"2257",		"2021-02-19T00:06:02Z"},
-			{"1.pizerow.log",	"9502",		"2022-10-03T14:58:02Z"},
-			{"1.rpi4.log",		"2139",		"2020-07-02T16:55:14Z"},
-			{"2.pizerow.log",	"1744",		"2021-02-19T00:06:54Z"},
-			{"2.rpi2.log",		"9598",		"2022-10-03T14:52:32Z"},
-			{"2.zotac.log",		"17364",	"2020-01-15T17:52:38Z"},
-			{"3.rpi2.log",		"1778",		"2021-02-19T00:06:18Z"},
-			{"3.rpi3.log",		"4492",		"2020-07-04T15:44:24Z"},
-			{"3.rpi4.log",		"175008",	"2022-10-03T15:20:40Z"},
-			{"4.rpi3.log",		"20006",	"2020-01-15T18:27:48Z"},
-			{"4.rpi4.log",		"1961",		"2021-02-19T00:06:04Z"},
-			{"4.zotac.log",		"10885",	"2022-10-03T14:53:20Z"},
-			{"5.zotac.log",		"1831",		"2021-02-19T00:06:18Z"},
-			{"remcmd.cfg",		"192",		"2021-02-21T17:11:46Z"},
-			{"remdown.cfg",		"393",		"2021-02-21T17:11:56Z"},
-			{"remping.cfg",		"189",		"2021-02-21T17:12:06Z"},
-			{"remupd.cfg",		"325",		"2021-02-21T17:12:14Z"},
-			{"remx_cfg.py",		"3541",		"2020-01-15T23:03:50Z"},
-			{"remx_main.py",	"4089",		"2020-01-15T23:04:54Z"},
-			{"remx_utilities.py", "6019",	"2020-01-15T23:07:22Z"}
+			{"0.main.log",		"1161",		"2023-05-06T20:37:34Z"},
+			{"1.biostar.log",	"2257",		"2023-05-06T20:37:34Z"},
+			{"1.pizerow.log",	"9502",		"2023-05-06T20:37:34Z"},
+			{"1.rpi4.log",		"2139",		"2023-05-06T20:37:34Z"},
+			{"2.pizerow.log",	"1744",		"2023-05-06T20:37:34Z"},
+			{"2.rpi2.log",		"9598",		"2023-05-06T20:37:34Z"},
+			{"2.zotac.log",		"17364",	"2023-05-06T20:37:34Z"},
+			{"3.rpi2.log",		"1778",		"2023-05-06T20:37:34Z"},
+			{"3.rpi3.log",		"4492",		"2023-05-06T20:37:34Z"},
+			{"3.rpi4.log",		"175008",	"2023-05-06T20:37:34Z"},
+			{"4.rpi3.log",		"20006",	"2023-05-06T20:37:34Z"},
+			{"4.rpi4.log",		"1961",		"2023-05-06T20:37:34Z"},
+			{"4.zotac.log",		"10885",	"2023-05-06T20:37:34Z"},
+			{"5.zotac.log",		"1831",		"2023-05-06T20:37:34Z"},
+			{"remcmd.cfg",		"192",		"2023-05-06T20:37:34Z"},
+			{"remdown.cfg",		"393",		"2023-05-06T20:37:34Z"},
+			{"remping.cfg",		"189",		"2023-05-06T20:37:34Z"},
+			{"remupd.cfg",		"325",		"2023-05-06T20:37:34Z"},
+			{"remx_cfg.py",		"3541",		"2023-05-06T20:37:34Z"},
+			{"remx_main.py",	"4089",		"2023-05-06T20:37:34Z"},
+			{"remx_utilities.py", "6019",	"2023-05-06T20:37:34Z"}
         }; // 21 rows
 
 	public static int lookup(String name, String size, String stamp) {
 		boolean found = false;
 		int ix = -1;
+		int returnCode = 0;
 		for (int ii = 0; ii < 21; ++ii) {
 			if (name.equals(zipTable[ii][0])) {
 				found = true;
@@ -55,13 +56,13 @@ public class main {
 		}
 		if (! size.equals(zipTable[ix][1])) {
 			System.out.printf("ERROR :: For name %s, expected size = %s but observed %s\n", name, zipTable[ix][1], size);
-			return 1;
+			returnCode = 1;
 		}
 		if (! stamp.equals(zipTable[ix][2])) {
 			System.out.printf("ERROR :: For name %s, expected stamp = %s but observed %s\n", name, zipTable[ix][2], stamp);
-			return 1;
+			returnCode = 1;
 		}
-		return 0;
+		return returnCode;
 	}
 	
     public static void main(String[] args) throws IOException {
@@ -77,8 +78,7 @@ public class main {
             System.out.println("Directory of the zip is as follows:");
  
             fs = new FileInputStream(IN_ZIP_FILE);
-            Zs = new ZipInputStream(
-                new BufferedInputStream(fs));
+            Zs = new ZipInputStream(new BufferedInputStream(fs));
  
             // Loop to read and print the zip file name till
             // the end
