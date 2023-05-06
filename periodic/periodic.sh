@@ -33,3 +33,7 @@ bash ./5*sh
 bash ./6*sh
 
 logend
+
+sync
+sync
+

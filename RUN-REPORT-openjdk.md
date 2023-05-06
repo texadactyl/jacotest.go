@@ -1,6 +1,6 @@
 Jacotest version 1.05
 
-Run report using JVM openjdk<br>Case deadline = 120 seconds<br>Date/Time 2023-05-06 07:30:07 CDT<br><br>
+Run report using JVM openjdk<br>Case deadline = 30 seconds<br>Date/Time 2023-05-06 14:58:27 CDT<br><br>
 | Test Case | Result | Console Output |
 | :--- | :---: | :--- |
 | JACOBIN-0161-0229-classes | PASSED | n/a |
@@ -23,6 +23,7 @@ Run report using JVM openjdk<br>Case deadline = 120 seconds<br>Date/Time 2023-05
 | blockchain | PASSED | n/a |
 | casting | PASSED | n/a |
 | catch-exception | PASSED | n/a |
+| dedupe-hacked | PASSED | n/a |
 | elliptic | PASSED | n/a |
 | hashed-map | PASSED | n/a |
 | hashed-set | PASSED | n/a |

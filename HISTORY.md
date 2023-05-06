@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-05-06 | 1.0.6  | Added test case: hacked version of Andrew's dedupe. |
 | 2023-05-04 | 1.0.5  | Added test cases: tls-one-way (low-level TLS) and zippy. |
 | 2023-05-03 | 1.0.4  | Added test case: sockets (multithreading client/server socket applications). |
 | 2023-05-02 | 1.0.3  | Added test case: blockchain. |
