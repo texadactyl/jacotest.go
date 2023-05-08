@@ -2,7 +2,7 @@ public class main {
 
     public static void main(String[] args) throws Exception {
 
-        String msg = "Try to get run.go to barf at line 1388";
+        String msg = "Try to get run.go to crash in INVOKDESTATIC";
         System.out.println(msg);
 
         int keySize = 256;
