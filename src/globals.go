@@ -39,12 +39,12 @@ var global GlobalsStruct
 
 // Convert a UTC time string into a local one
 func UTCTimeStr2LocalTimeStr(utcString string) string {
-	tstamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
+	timeStamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
 	if err != nil {
 		return fmt.Sprintf("time.Parse error: %s", err.Error())
 	}
 	zone, _ := time.Now().Zone()
-	return fmt.Sprintf("%s %s", tstamp.Local().Format("2006-01-02 15:04:05"), zone)
+	return fmt.Sprintf("%s %s", timeStamp.Local().Format("2006-01-02 15:04:05"), zone)
 }
 
 // Show executable binary information relevant to "vcs"
@@ -54,13 +54,13 @@ func ShowExecInfo() {
 	// Only interested in the "vcs." information
 	info, _ := debug.ReadBuildInfo()
 	for ii := 0; ii < len(info.Settings); ii++ {
-		wkey := info.Settings[ii].Key
-		value := info.Settings[ii].Value
-		if strings.HasPrefix(wkey, "vcs.") {
-			if wkey == "vcs.time" {
-				value = UTCTimeStr2LocalTimeStr(value)
+		biKey := info.Settings[ii].Key
+		biValue := info.Settings[ii].Value
+		if strings.HasPrefix(biKey, "vcs.") {
+			if biKey == "vcs.time" {
+				biValue = UTCTimeStr2LocalTimeStr(biValue)
 			}
-			fmt.Printf("BuildData %s: %s\n", wkey, value)
+			fmt.Printf("BuildData %s: %s\n", biKey, biValue)
 		}
 	}
 }

@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const MY_NAME = "Jacotest"
+const MyName = "Jacotest"
 
 // Show help and then exit to the O/S
 func showHelp() {
@@ -30,12 +30,12 @@ func showHelp() {
 // Show results
 func showResults(category string, arrayNames []string) {
 	testTests := "test"
-	nerr := len(arrayNames)
-	if nerr > 0 {
-		if nerr > 1 {
+	errorCount := len(arrayNames)
+	if errorCount > 0 {
+		if errorCount > 1 {
 			testTests = testTests + "s"
 		}
-		Logger(fmt.Sprintf("%s errors in %d %s", category, nerr, testTests))
+		Logger(fmt.Sprintf("%s errors in %d %s", category, errorCount, testTests))
 		for _, name := range arrayNames {
 			Logger(fmt.Sprintf("	 %s", name))
 		}
@@ -46,14 +46,14 @@ func showResults(category string, arrayNames []string) {
 
 // Command line interface
 func main() {
-	t_start := time.Now()
+	tStart := time.Now()
 	var Args []string
-	var wstr string
+	var wString string
 	flagClean := false
 	flagExecute := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	var deadline_secs int = 60
+	var deadlineSecs int = 60
 
 	// Positioned in the tree top directory?
 	handle, err := os.Open("README.md")
@@ -105,12 +105,11 @@ func main() {
 
 		case "-t": // Deadline in seconds requested
 			ii += 1
-			wint, err := strconv.Atoi(Args[ii])
+			deadlineSecs, err = strconv.Atoi(Args[ii])
 			if err != nil {
 				LogError(fmt.Sprintf("Parameter -t requires an integer value, saw: %s", Args[ii]))
 				showHelp()
 			}
-			deadline_secs = wint
 
 		default:
 			LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
@@ -125,17 +124,17 @@ func main() {
 	}
 
 	// Make sure that the jvmExe file can be found in the O/S PATH
-	wstr, err = exec.LookPath(jvmExe)
+	wString, err = exec.LookPath(jvmExe)
 	if err != nil {
 		FmtFatal("exec.LookPath failed to find:", jvmExe, err)
 	}
 	if flagVerbose {
-		Logger(fmt.Sprintf("Found JVM %s", wstr))
+		Logger(fmt.Sprintf("Found JVM %s", wString))
 	}
 
 	// Initialise globals and get a handle to it
-	global := InitGlobals(jvmName, jvmExe, deadline_secs, flagVerbose)
-	Logger(fmt.Sprintf("%s version %s", MY_NAME, global.Version))
+	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
+	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
 
 	// If log directory does not yet exist, create it
 	MakeDir(global.DirLogs)
@@ -188,9 +187,9 @@ func main() {
 		}
 		defer rptHandle.Close()
 		zone, _ := time.Now().Zone()
-		fmt.Fprintf(rptHandle, "%s version %s\n", MY_NAME, global.Version)
+		fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
 		fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
-			jvmName, deadline_secs, time.Now().Format("2006-01-02 15:04:05"), zone)
+			jvmName, deadlineSecs, time.Now().Format("2006-01-02 15:04:05"), zone)
 		fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 		fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 
@@ -201,7 +200,7 @@ func main() {
 		}
 
 		// For each test case, execute it
-		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadline_secs))
+		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
 		for _, entry := range entries {
 			if entry.IsDir() {
 				testCaseName := entry.Name()
@@ -241,8 +240,8 @@ func main() {
 		showResults("runner timeout", timeoutRunnerNames)
 
 		// Done. Show elapsed time and exit normally to the O/S.
-		t_stop := time.Now()
-		elapsed := t_stop.Sub(t_start)
+		tStop := time.Now()
+		elapsed := tStop.Sub(tStart)
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 	}
 

@@ -53,7 +53,7 @@ func MakeDir(dirPath string) {
 		if !info.IsDir() { // expected a directory, not a simple file !!
 			Fatal(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", dirPath))
 		}
-	} else { // not found or an error occured
+	} else { // not found or an error occurred
 		if os.IsNotExist(err) {
 			// Create directory
 			err = os.Mkdir(dirPath, 0755)
@@ -103,41 +103,41 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 
 	// Form a message prefix
 	fn := filepath.Base(argFile)
-	fn_without_ext := strings.TrimSuffix(fn, path.Ext(fn))
-	prefix := dirName + "-" + fn_without_ext + "-" + cmdName
+	fnWithoutExt := strings.TrimSuffix(fn, path.Ext(fn))
+	prefix := dirName + "-" + fnWithoutExt + "-" + cmdName
 
 	// Get the combined stdout and stderr text
-	outbytes, err := cmd.CombinedOutput()
-	outlog := string(outbytes)
+	outBytes, err := cmd.CombinedOutput()
+	outString := string(outBytes)
 
 	// Error occured?
 	if err != nil { // YES
 		// Timeout?
 		if ctx.Err() == context.DeadlineExceeded { // YES
-			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outlog))
-			storeText(global.DirLogs, "TIMEOUT-"+prefix+".log", outlog)
-			return RC_EXEC_TIMEOUT, outlog
+			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
+			storeText(global.DirLogs, "TIMEOUT-"+prefix+".log", outString)
+			return RC_EXEC_TIMEOUT, outString
 		}
 		// Not a time out error but something else bad happened
-		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outlog))
-		storeText(global.DirLogs, "FAILED-"+prefix+".log", outlog)
+		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
+		storeText(global.DirLogs, "FAILED-"+prefix+".log", outString)
 		if cmdExec == "javac" {
-			return RC_COMP_ERROR, outlog
+			return RC_COMP_ERROR, outString
 		}
-		return RC_EXEC_ERROR, outlog
+		return RC_EXEC_ERROR, outString
 	}
 
 	// No errors occured.
-	// If not a compile run, store outlog.
+	// If not a compile run, store outString.
 	if cmdExec != "javac" {
-		storeText(global.DirLogs, "PASSED-"+prefix+".log", outlog)
+		storeText(global.DirLogs, "PASSED-"+prefix+".log", outString)
 	}
 
-	// Return outlog and a normaal status code to caller
-	return RC_NORMAL, outlog
+	// Return outString and a normaal status code to caller
+	return RC_NORMAL, outString
 }
 
-// Clean the .class file of one test
+// Remove the .class file of one test
 // The caller is walking a tree.
 func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
 	// If not a directory, skip it
@@ -165,7 +165,7 @@ func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
 
 // Compile all .java files in the directory tree rooted at fullPathDir
 func compileOneTree(fullPathDir string) int {
-	var stcode int
+	var statusCode int
 
 	// Get all of the directory entries from fullPathDir
 	entries, err := os.ReadDir(fullPathDir)
@@ -220,8 +220,8 @@ func compileOneTree(fullPathDir string) int {
 		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(fullPathDir), fileName))
 
 		// Run compilation
-		stcode, _ = runner("javac", "javac", filepath.Base(fullPathDir), fileName)
-		errorCount += stcode
+		statusCode, _ = runner("javac", "javac", filepath.Base(fullPathDir), fileName)
+		errorCount += statusCode
 	}
 
 	// Return compilation error count to caller
@@ -269,11 +269,11 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	// Execute test "main.class".
 	testName := filepath.Base(fullPathDir)
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
-	var outlog string
+	var outString string
 	if global.JvmName == "jacobin" {
-		stcode, outlog = runner(global.JvmName, global.JvmExe, testName, "main.class")
+		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "main.class")
 	} else {
-		stcode, outlog = runner(global.JvmName, global.JvmExe, testName, "main")
+		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "main")
 	}
 
 	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
@@ -283,5 +283,5 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	}
 
 	// Return runner execution result
-	return stcode, outlog // test case success
+	return stcode, outString // test case success
 }
