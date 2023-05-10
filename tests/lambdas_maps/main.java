@@ -31,7 +31,8 @@ public class main {
         System.out.println("Lambdas and Maps");
 
         Sayable greeting = (name) -> {
-            return "Hello, " + name;
+        	String msg = "Hello, " + name;
+            return msg;
         };
         String wstr = greeting.say("Theodore");
         errorCount += checker("greeting.say(Theodore) == Hello, Theodore", wstr.equals("Hello, Theodore"));
@@ -58,11 +59,13 @@ public class main {
         hm.put(3, "gamma");
         hm.put(4, "delta");
         hm.put(5, "epsilon");
-        hm.forEach((key, value) -> System.out.println(key + ":" + value));
         int counter = 0;
         for (Map.Entry<Integer, String> entry : hm.entrySet()) {
             ++counter;
-            System.out.println("Key : " + entry.getKey() + ", Value : " + entry.getValue());
+            System.out.print("Key : ");
+            System.out.print(entry.getKey());
+            System.out.print(", Value : ");
+            System.out.println(entry.getValue());
         }
         errorCount += checker("map with 3 entries", counter == 5);
         errorCount += checker("Map get(4) == delta", hm.get(4) == "delta");
