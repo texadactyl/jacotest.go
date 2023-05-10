@@ -12,7 +12,8 @@ public class main {
     static int printFibo(int count, int n1, int n2) {
     	if (count > 0) {    
 			int n3 = n1 + n2;      
-			System.out.print(" " + n3);     
+			System.out.print(" ");     
+			System.out.print(n3);     
 			n1 = n2;      
 			n2 = n3;      
 			return printFibo(count - 1, n1, n2);
@@ -47,7 +48,9 @@ public class main {
 		System.out.print("Fibonacci sequence of ");
 		System.out.print(fiboCount);
       	System.out.print(" elements: ");   
-		System.out.print(fibo1 + " " + fibo2);	// printing 0 and 1      
+		System.out.print(fibo1);	// printing 0 and 1      
+		System.out.print(" ");	    // printing 0 and 1      
+		System.out.print(fibo2);	// printing 0 and 1      
       	fiboResult = printFibo(fiboCount - 2, fibo1, fibo2); // and then the rest
 		System.out.print("\nEnding element = ");
 		System.out.println(fiboResult);
