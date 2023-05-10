@@ -23,7 +23,8 @@ public class main {
         System.out.println("Widening and Narrowing Casting");
 
         byte bb = 0x7e;
-        System.out.println("Byte value " + bb);
+        System.out.print("Byte value ");
+        System.out.println(bb);
         char cc = (char) bb;
         short ss = (short) cc;
         int ii = (int) ss;
@@ -35,7 +36,8 @@ public class main {
         errorCount += isItTrue("dd == 126", dd == 126.0, String.valueOf(dd));
 
         dd = 65537.04;
-        System.out.println("Double value " + dd);
+        System.out.print("Double value ");
+        System.out.println("dd");
         ff = (float) dd;
         ll = (long) ff;
         ii = (int) ll;
