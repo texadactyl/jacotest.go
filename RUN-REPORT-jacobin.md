@@ -28,7 +28,7 @@ Run report using JVM jacobin<br>Case deadline = 30 seconds<br>Date/Time 2023-05-
 ||| |
 | JACOBIN-0161-instantiate_class | FAILED | Testing one instantiation of a class residing in a separate source file
 |||Library lib will be instantiated .....
-|||74
+|||74  // <--------------- coming from line 1410 in run.go
 |||panic: runtime error: index out of range [2] with length 2
 |||
 |||goroutine 1 [running]:
