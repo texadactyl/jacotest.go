@@ -17,7 +17,8 @@ const RC_EXEC_ERROR = 2
 const RC_EXEC_TIMEOUT = 3
 
 // Path constants
-const PATH_RUN_REPORT = "./RUN_REPORT_%s_%s.md" // %s = JVM name
+const PATH_RUN_REPORT = "./reports/RUN_REPORT_%s_%s.md"
+const PATH_REPORTS = "./reports"
 const PATH_LOGS = "./logs"
 const PATH_TESTS = "./tests"
 const PATH_VERSION = "./VERSION.txt"
@@ -27,11 +28,12 @@ type GlobalsStruct struct {
 	Version        string        // Software version string
 	DirTests       string        // Full path of tests directory
 	DirLogs        string        // Full path of logs directory
+	DirReports	   string        // Full path of reports directory
+	ReportFilePath string        // Full path of the summary file
 	FlagVerbose    bool          // Verbose logging? true/false
 	JvmName        string        // JVM name: "openjdk" or "jacobin"
 	JvmExe         string        // JVM executable file: "java" or "jacobin"
 	Deadline       time.Duration // Run deadline in seconds (type time.Duration)
-	ReportFilePath string        // Full path of the summary file
 }
 
 // Here's the singleton
@@ -74,34 +76,42 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 	}
 
 	versionString := string(versionBytes[:])
-	absTests, err1 := filepath.Abs(PATH_TESTS)
-	if err1 != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_TESTS, err1)
+	absTests, err := filepath.Abs(PATH_TESTS)
+	if err != nil {
+		FmtFatal("InitGlobals: filepath.Abs failed", PATH_TESTS, err)
 	}
 
-	absLogs, err2 := filepath.Abs(PATH_LOGS)
-	if err2 != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_LOGS, err2)
+	absLogs, err := filepath.Abs(PATH_LOGS)
+	if err != nil {
+		FmtFatal("InitGlobals: filepath.Abs failed", PATH_LOGS, err)
 	}
+	MakeDir(absLogs)
+	
+	absReports, err := filepath.Abs(PATH_REPORTS)
+	if err != nil {
+		FmtFatal("InitGlobals: filepath.Abs failed", PATH_REPORTS, err)
+	}
+	MakeDir(absReports)
 	
 	nowString := time.Now().Format("2006-01-02_15.04.05")
-	absSummary, err3 := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, nowString, jvmName))
-	if err3 != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err3)
-	}
-	duration, err4 := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
+	absReportFile, err := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, nowString, jvmName))
 	if err != nil {
-		FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err4)
+		FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err)
+	}
+	duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
+	if err != nil {
+		FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err)
 	}
 	global = GlobalsStruct{
 		Version:        versionString,
 		DirTests:       absTests,
 		DirLogs:        absLogs,
+		DirReports:     absReports,
+		ReportFilePath: absReportFile,
 		FlagVerbose:    flagVerbose,
 		JvmExe:         jvmExe,
 		JvmName:        jvmName,
 		Deadline:       duration,
-		ReportFilePath: absSummary,
 	}
 	return global
 }

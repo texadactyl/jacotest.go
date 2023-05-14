@@ -98,7 +98,7 @@ The ```logs``` directory holds the combined stdout and stderr for test cases whi
 
 # Test Case Results and Reports
 
-The RUN-REPORT-```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table.
+The RUN_REPORT_```<date and time stamp>```_```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table and reside in the reports subdirectory.
 
 Each report has 3 columns:
 * ```Test case name```

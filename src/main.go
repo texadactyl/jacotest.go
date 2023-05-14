@@ -136,9 +136,6 @@ func main() {
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
 
-	// If log directory does not yet exist, create it
-	MakeDir(global.DirLogs)
-
 	// Process clean request
 	if flagClean {
 		// Clean up .class files
