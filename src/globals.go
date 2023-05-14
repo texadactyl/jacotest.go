@@ -84,7 +84,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_LOGS, err2)
 	}
 	
-	nowString := time.Now().Format("2006-01-02_15:04:05")
+	nowString := time.Now().Format("2006-01-02_15.04.05")
 	absSummary, err3 := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, nowString, jvmName))
 	if err3 != nil {
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err3)
