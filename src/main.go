@@ -56,7 +56,7 @@ func main() {
 	var deadlineSecs int = 60
 
 	// Positioned in the tree top directory?
-	handle, err := os.Open("README.md")
+	handle, err := os.Open("VERSION.txt")
 	if err != nil {
 		Fatal("You are not positioned in the jacotest tree top directory")
 	}

@@ -6,7 +6,8 @@
 MYNAME=`basename $0`
 
 # Get fresh copy of jacobin from here:
-URL='https://github.com/platypusguy/jacobin'
+###URL='https://github.com/platypusguy/jacobin'
+URL='https://github.com/texadactyl/jacobin'
 BRANCH='main'
 
 # Golang GOPATH directory:
