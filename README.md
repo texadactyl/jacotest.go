@@ -124,4 +124,4 @@ The first line "Four bit shifting cases" was emited from a System.out.println(..
 
 The FAILED result indicates that at least one part of the test was unsuccessful. Out of the 4 operations, 2 of them had errors so the test case failed as a whole. 
 
-If you look at the same test case in the jvm=java report, you will see "n/a" in the 3rd column. The test case shows a PASSED status so jacotest discarded the stdout/stderr information. 
+If you look at the same test case in the jvm=openjdk report, you will see "n/a" in the 3rd column. The test case shows a PASSED status so jacotest discarded the stdout/stderr information. 
