@@ -1,3 +1,5 @@
+// Documentation: https://www.schneier.com/academic/solitaire/
+
 public class main {
 
   public static void main(String args[]) {
