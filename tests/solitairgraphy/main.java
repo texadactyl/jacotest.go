@@ -27,7 +27,7 @@ public class main {
     if (outputtext.length() > plaintext.length())
     	plaintext += "X";
     if (! outputtext.equals(plaintext)) {
-    	System.out.printf("*** ERROR: Expected ciphertext %s but instead saw %s\n", plaintext, outputtext);
+    	System.out.printf("*** ERROR: Expected outputtext %s but instead saw %s\n", plaintext, outputtext);
     	errorCount++;
     }
 
