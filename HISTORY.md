@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-05-18 | 1.12  | Added test case: solitaire cryptography. |
 | 2023-05-17 | 1.11  | Added test case: Two-fish cryptography. |
 | 2023-05-15 | 1.10  | Added test case: read & verify FITS file header fields. |
 | 2023-05-14 | 1.09  | Issue #12: A reports subdirectory was implemented. |
