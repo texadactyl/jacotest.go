@@ -3,6 +3,11 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-05-19 | 1.20  | Spelling corrections for the test case names - use hyphens consistently. |
+|            |       | Make log file names consistent: RESULT.test-case-name.COMMAND.log |
+|            |       | RESULT = PASSED, FAILED, or TIMEOUT |
+|            |       | test-case-name = hyphenated name of directory holding the specified test case |
+|            |       | COMMAND = jacobin, openjdk, or javac |
 | 2023-05-18 | 1.12  | Added test case: solitaire cryptography. |
 | 2023-05-17 | 1.11  | Added test case: Two-fish cryptography. |
 | 2023-05-15 | 1.10  | Added test case: read & verify FITS file header fields. |
