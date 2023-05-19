@@ -6,9 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"os/exec"
-	"path"
 	"path/filepath"
-	"strings"
 	"time"
 )
 
@@ -101,10 +99,8 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 	// Execute command with the given parameters
 	cmd := exec.CommandContext(ctx, cmdExec, argFile)
 
-	// Form a message prefix
-	fn := filepath.Base(argFile)
-	fnWithoutExt := strings.TrimSuffix(fn, path.Ext(fn))
-	prefix := dirName + "-" + fnWithoutExt + "-" + cmdName
+	// Form a log file name infix
+	infix := dirName + "." + cmdName
 
 	// Get the combined stdout and stderr text
 	outBytes, err := cmd.CombinedOutput()
@@ -115,12 +111,12 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 		// Timeout?
 		if ctx.Err() == context.DeadlineExceeded { // YES
 			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-			storeText(global.DirLogs, "TIMEOUT-"+prefix+".log", outString)
+			storeText(global.DirLogs, "TIMEOUT."+infix+".log", outString)
 			return RC_EXEC_TIMEOUT, outString
 		}
 		// Not a time out error but something else bad happened
 		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-		storeText(global.DirLogs, "FAILED-"+prefix+".log", outString)
+		storeText(global.DirLogs, "FAILED."+infix+".log", outString)
 		if cmdExec == "javac" {
 			return RC_COMP_ERROR, outString
 		}
@@ -130,7 +126,7 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 	// No errors occured.
 	// If not a compile run, store outString.
 	if cmdExec != "javac" {
-		storeText(global.DirLogs, "PASSED-"+prefix+".log", outString)
+		storeText(global.DirLogs, "PASSED."+infix+".log", outString)
 	}
 
 	// Return outString and a normaal status code to caller
