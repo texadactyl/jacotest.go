@@ -9,7 +9,7 @@ public class main {
         System.out.println("Library lib was instantiated");
         
         double d = -1.0;
-        double absd = lib.absValue(d);
+        double absd = Library.absValue(d);
         System.out.print("Absolute value of -1.0: ");
         System.out.println(absd);
     }

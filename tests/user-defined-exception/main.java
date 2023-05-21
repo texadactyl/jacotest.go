@@ -2,6 +2,7 @@
 
 // A Class that represents user-defined exception
 class MyException extends Exception {
+	private static final long serialVersionUID = 42l;
     public MyException(String wstring) {
         // Call constructor of parent Exception
         super(wstring);

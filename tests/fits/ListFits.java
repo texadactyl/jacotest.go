@@ -82,7 +82,7 @@ public class ListFits{
 		// list specified keywords in the file
 
 		for (int n=0; n<keys.length; n++) {
-		    FitsKeyword kw = (FitsKeyword) hdr.getKeyword(keys[n]);
+		    FitsKeyword kw = hdr.getKeyword(keys[n]);
 		    if (kw == null) continue;
 		    switch (kw.getType()) {
 		    case FitsKeyword.STRING:

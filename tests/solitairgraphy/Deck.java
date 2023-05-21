@@ -39,6 +39,7 @@ import java.util.Random;
 public class Deck 
 implements Serializable, Cloneable
 {
+  private static final long serialVersionUID = 42l;
   // Constants
   // =========
   // Card Masking Constants
@@ -468,7 +469,7 @@ implements Serializable, Cloneable
   isKing(byte card)  { return (card & MASK_VALUE) == KING;  }
 
   public static int 
-  getFaceValue(byte card) {return (int)(card & MASK_VALUE); }
+  getFaceValue(byte card) {return (card & MASK_VALUE); }
 
   // Module Test Method
   // ==================

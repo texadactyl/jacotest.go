@@ -13,12 +13,11 @@ public class main {
         System.out.print(t_deltaAtRest);
         System.out.print(", x_lengthAtRest: ");
         System.out.println(x_lengthAtRest);
-        Formulae lib = new Formulae();
         for (double v_factor = v_factorInit; v_factor < v_factorUpperBound; v_factor += v_factorDelta) {
             double velocity = v_factor * v_light;
-            double lorry = lib.lorentzFactor(velocity);
-            double stretched = lib.timeDilation(t_deltaAtRest, lorry);
-            double shrunk = lib.lengthContraction(x_lengthAtRest, lorry);
+            double lorry = Formulae.lorentzFactor(velocity);
+            double stretched = Formulae.timeDilation(t_deltaAtRest, lorry);
+            double shrunk = Formulae.lengthContraction(x_lengthAtRest, lorry);
             System.out.print("v: ");
             System.out.print(v_factor);
             System.out.print(" * c, Time(s): ");

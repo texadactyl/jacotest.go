@@ -20,18 +20,18 @@ public class main {
             y_elems[ndx] = -dblx;
             z_elems[ndx] = Math.sin(dblx);
         }
-        double[] output = lib.meanStdev(x_elems);
+        double[] output = Library.meanStdev(x_elems);
         double x_mean = output[0];
         double x_stdev = output[1];
-        output = lib.meanStdev(y_elems);
+        output = Library.meanStdev(y_elems);
         double y_mean = output[0];
         double y_stdev = output[1];
-        output = lib.meanStdev(z_elems);
+        output = Library.meanStdev(z_elems);
         double z_mean = output[0];
         double z_stdev = output[1];
 
-        double correl_x_y = lib.correlation(x_elems, y_elems);
-        double correl_x_z = lib.correlation(x_elems, z_elems);
+        double correl_x_y = Library.correlation(x_elems, y_elems);
+        double correl_x_z = Library.correlation(x_elems, z_elems);
 
         long t2 = System.currentTimeMillis();
         double elapsedSeconds = (double) (t2 - t1) / 1000.0;

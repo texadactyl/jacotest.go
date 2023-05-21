@@ -185,7 +185,7 @@ public class FitsHeader {
 	int type = getType();
 	FitsKeyword kw;
 
-	kw = (FitsKeyword) kwHash.get("NAXIS");  // get no. of axes
+	kw = kwHash.get("NAXIS");  // get no. of axes
 	long naxis = kw.getInt();
 	if (naxis < 1) {
 	    return 0;
@@ -231,7 +231,7 @@ public class FitsHeader {
 	if ((kw == null) || (kw.getType() != FitsKeyword.INTEGER)) {
 	    return 1;
 	}
-	return (int) kw.getInt();
+	return kw.getInt();
     }
 
     /** Obtain the total number of keywords in the header.  */
@@ -287,7 +287,7 @@ public class FitsHeader {
 
     /** Obtain a ListIterator for keywords in the header. */
     final public ListIterator getKeywords(){
-	return keywords.listIterator();
+		return keywords.listIterator();
     }
 
     /** Generate a string with the FITS header.  The header string will

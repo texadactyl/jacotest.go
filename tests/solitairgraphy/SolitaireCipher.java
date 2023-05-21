@@ -35,6 +35,7 @@ import java.lang.*;
 import java.io.Serializable;
 
 public final class SolitaireCipher implements Serializable, Cloneable {
+  private static final long serialVersionUID = 42l;
 
   // Representation Data
   // ===================

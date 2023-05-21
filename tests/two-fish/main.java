@@ -7,10 +7,8 @@ import java.security.InvalidKeyException;
 
 public class main {
 
-	static Twofish_Algorithm tfa = new Twofish_Algorithm();
-
     public static void showBytes(String label, byte[] argBytes) {
-        String hexString = tfa.toString(argBytes);
+        String hexString = Twofish_Algorithm.toString(argBytes);
         System.out.printf("%s (%d bytes) in hex: %s\n", label, argBytes.length, hexString);
     }
 
@@ -29,18 +27,18 @@ public class main {
         for (int ii = 0; ii < keysize; ii++)
             kb[ii] = (byte) ii;
         try {
-        	key = tfa.makeKey(kb);
+        	key = Twofish_Algorithm.makeKey(kb);
         } catch (InvalidKeyException ike) {
         	System.out.printf("*** ERROR : unexpected InvalidKeyException.\n%s\n", ike.getMessage());
         	ike.printStackTrace();
         	System.exit(1);
         }
 
-		byte[] cipherBytes = tfa.blockEncrypt(originalBytes, 0, key);
-		byte[] clearBytes = tfa.blockDecrypt(cipherBytes, 0, key);
+		byte[] cipherBytes = Twofish_Algorithm.blockEncrypt(originalBytes, 0, key);
+		byte[] clearBytes = Twofish_Algorithm.blockDecrypt(cipherBytes, 0, key);
         showBytes("cipherBytes", cipherBytes);
         showBytes("clearBytes", clearBytes);
-    	if (tfa.areEqual(originalBytes, clearBytes)) {
+    	if (Twofish_Algorithm.areEqual(originalBytes, clearBytes)) {
     		System.out.println("Ok");
     		return 0;
     	}

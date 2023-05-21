@@ -110,7 +110,7 @@ public class FitsRGroup extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new short[size];
 
 	int n = 0;
@@ -154,7 +154,7 @@ public class FitsRGroup extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new int[size];
 
 	int n = 0;
@@ -162,7 +162,7 @@ public class FitsRGroup extends FitsData {
 	try {
 	    switch (dataFormat) {
 	    case Fits.BYTE:
-		while (n<size) data[n++] = (int) dis.readUnsignedByte();
+		while (n<size) data[n++] = dis.readUnsignedByte();
 		break;
 	    case Fits.SHORT:
 		while (n<size) data[n++] = (int) dis.readShort();
@@ -198,7 +198,7 @@ public class FitsRGroup extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new float[size];
 
 	int n = 0;
@@ -239,7 +239,7 @@ public class FitsRGroup extends FitsData {
 	try {
 	    dataFile.seek(dataOffset+offset*bytesPerData);
 	    if (noValues < offset + size) {
-		size = (int) (noValues - offset);
+		size = (noValues - offset);
 	    }
 	    byte[] dbuf = new byte[size*bytesPerData];
 	    dataFile.read(dbuf);

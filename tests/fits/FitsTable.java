@@ -43,7 +43,7 @@ public class FitsTable extends FitsData {
 	    throw new FitsException("Missing TFIELDS keyword",
 				    FitsException.HEADER);
 	}
-	int ncol = (int) kw.getInt();
+	int ncol = kw.getInt();
 	columns = new ArrayList<FitsColumn>(ncol);
 	int recordSize = naxis[0];
 	noRows = naxis[1];
@@ -70,7 +70,7 @@ public class FitsTable extends FitsData {
 		    throw new FitsException("Missing TBCOLn keyword",
 					    FitsException.HEADER);
 		}
-		npos = (int) kw.getInt();
+		npos = kw.getInt();
 	    }
 	    kw = header.getKeyword("TTYPE"+n);
 	    ttype = (kw == null) ? "Label"+n : kw.getString();

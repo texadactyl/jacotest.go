@@ -14,6 +14,8 @@
  *  @author  P.Grosbol, ESO, <pgrosbol@eso.org>
  */
 public class FitsException extends Exception {
+
+	private static final long serialVersionUID = 42l; // "The Meaning of Life" according to Douglas Adams
     
     /** Define FITS exception types */
     final public static int NONE = 0;

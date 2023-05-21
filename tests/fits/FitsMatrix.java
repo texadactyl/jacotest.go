@@ -116,7 +116,7 @@ public class FitsMatrix extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new short[size];
 
 	int n = 0;
@@ -160,7 +160,7 @@ public class FitsMatrix extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new int[size];
 
 	int n = 0;
@@ -168,7 +168,7 @@ public class FitsMatrix extends FitsData {
 	try {
 	    switch (dataFormat) {
 	    case Fits.BYTE:
-		while (n<size) data[n++] = (int) dis.readUnsignedByte();
+		while (n<size) data[n++] = dis.readUnsignedByte();
 		break;
 	    case Fits.SHORT:
 		while (n<size) data[n++] = (int) dis.readShort();
@@ -204,7 +204,7 @@ public class FitsMatrix extends FitsData {
 	    throws FitsException {
 
 	if ((offset<0) || (size<1)) return data;
-	if (noValues < offset+size) size = (int) (noValues - offset);
+	if (noValues < offset+size) size = (noValues - offset);
 	if ((data == null) || (data.length<size)) data = new float[size];
 
 	int n = 0;
@@ -245,7 +245,7 @@ public class FitsMatrix extends FitsData {
 	try {
 	    dataFile.seek(dataOffset+offset*bytesPerData);
 	    if (noValues < offset + size) {
-		size = (int) (noValues - offset);
+		size = (noValues - offset);
 	    }
 	    byte[] dbuf = new byte[size*bytesPerData];
 	    dataFile.read(dbuf);
@@ -287,7 +287,7 @@ public class FitsMatrix extends FitsData {
 		throw new FitsException("Cannot convert data to BYTE",
 					FitsException.DATA);
 	    case Fits.SHORT:
-		while (n<sdata.length) dos.writeShort((short) sdata[n++]);
+		while (n<sdata.length) dos.writeShort(sdata[n++]);
 		break;
 	    case Fits.INT:
 		while (n<sdata.length) dos.writeInt((int) sdata[n++]);
@@ -349,7 +349,7 @@ public class FitsMatrix extends FitsData {
 		while (n<idata.length) dos.writeShort((short) idata[n++]);
 		break;
 	    case Fits.INT:
-		while (n<idata.length) dos.writeInt((int) idata[n++]);
+		while (n<idata.length) dos.writeInt(idata[n++]);
 		break;
 	    case Fits.FLOAT:
 		while (n<idata.length) dos.writeFloat((float) idata[n++]);
@@ -412,7 +412,7 @@ public class FitsMatrix extends FitsData {
 		while (n<data.length) dos.writeInt((int) data[n++]);
 		break;
 	    case Fits.FLOAT:
-		while (n<data.length) dos.writeFloat((float) data[n++]);
+		while (n<data.length) dos.writeFloat(data[n++]);
 		break;
 	    case Fits.DOUBLE:
 		while (n<data.length) dos.writeDouble((double) data[n++]);
