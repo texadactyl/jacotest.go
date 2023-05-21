@@ -286,7 +286,7 @@ public class FitsHeader {
     }
 
     /** Obtain a ListIterator for keywords in the header. */
-    final public ListIterator getKeywords(){
+    final public ListIterator <FitsKeyword> getKeywords(){
 		return keywords.listIterator();
     }
 

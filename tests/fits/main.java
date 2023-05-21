@@ -60,9 +60,9 @@ public class main { // formerly called TestFits
                         + "< with " + noKw + " keywords"
                         + " and " + size + " bytes of data");
                 System.out.println("   Keywords:");
-                ListIterator itr = hdr.getKeywords();
+                ListIterator <FitsKeyword> itr = hdr.getKeywords();
                 while (itr.hasNext()) {
-                    FitsKeyword kw = (FitsKeyword) itr.next();
+                    FitsKeyword kw = itr.next();
                     String kwName = kw.getName();
                     System.out.print("     " + kwName);
                     switch (kw.getType()) {
