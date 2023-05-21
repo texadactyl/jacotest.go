@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-05-21 | 2.0.0  | Implemented the 2nd report: Failure Summary. |
 | 2023-05-19 | 1.20  | Spelling corrections for the test case names - use hyphens consistently. |
 |            |       | Make log file names consistent: RESULT.test-case-name.COMMAND.log |
 |            |       | RESULT = PASSED, FAILED, or TIMEOUT |

@@ -54,6 +54,9 @@ func main() {
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
 	var deadlineSecs int = 60
+	now := time.Now()
+	nowStamp := now.Format("2006-01-02 15:04:05")
+	timeZone, _ := now.Zone()
 
 	// Positioned in the tree top directory?
 	handle, err := os.Open("VERSION.txt")
@@ -183,10 +186,9 @@ func main() {
 			FmtFatal("os.Create failed", global.ReportFilePath, err)
 		}
 		defer rptHandle.Close()
-		zone, _ := time.Now().Zone()
 		fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
 		fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
-			jvmName, deadlineSecs, time.Now().Format("2006-01-02 15:04:05"), zone)
+			jvmName, deadlineSecs, nowStamp, timeZone)
 		fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 		fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 
@@ -235,6 +237,53 @@ func main() {
 
 		// Show timeout errors
 		showResults("runner timeout", timeoutRunnerNames)
+		
+		// Grapes
+		outPath := global.FSumFilePath
+		outHandle := OutGrapeOpen(outPath, false)
+		OutGrapeText(outHandle, "Failed Test Case Summary - " + nowStamp + " " + timeZone)
+		
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "===========================")
+		OutGrapeText(outHandle, "panic: interface conversion")
+		OutGrapeText(outHandle, "===========================")
+		ExecGrape("logs", ".log", "panic: interface conversion", outHandle)
+		
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "=================================")
+		OutGrapeText(outHandle, "runtime error: index out of range")
+		OutGrapeText(outHandle, "=================================")
+		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
+		
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "============================")
+		OutGrapeText(outHandle, "could not find or load class")
+		OutGrapeText(outHandle, "============================")
+		ExecGrape("logs", ".log", "could not find or load class", outHandle)
+		
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "=====================================")
+		OutGrapeText(outHandle, "runtime error: invalid memory address")
+		OutGrapeText(outHandle, "=====================================")
+		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
+		
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "runtime.sigpanic")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "runtime.sigpanic", outHandle)
+		OutGrapeText(outHandle, " ")
+		
+		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "invalid bytecode")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
+		
+		err = outHandle.Close()
+		if err != nil {
+			FmtFatal("outHandle.Close failed:", outPath, err)
+		}
+		Logger(fmt.Sprintf("Wrote failed test case summary to: %s", outPath))
 
 		// Done. Show elapsed time and exit normally to the O/S.
 		tStop := time.Now()

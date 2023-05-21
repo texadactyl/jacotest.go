@@ -4,13 +4,17 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
 var flagVerbose = false
+const MODE_OUTPUT_FILE = 0644
 
 // Time-stamp log function
 func Logger(msg string) {
@@ -45,21 +49,21 @@ func FmtFatal(msg string, name string, err error) {
 }
 
 // If the specified directory does not yet exist, create it
-func MakeDir(dirPath string) {
-	info, err := os.Stat(dirPath)
+func MakeDir(pathDir string) {
+	info, err := os.Stat(pathDir)
 	if err == nil { // found it
 		if !info.IsDir() { // expected a directory, not a simple file !!
-			Fatal(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", dirPath))
+			Fatal(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", pathDir))
 		}
 	} else { // not found or an error occurred
 		if os.IsNotExist(err) {
 			// Create directory
-			err = os.Mkdir(dirPath, 0755)
+			err = os.Mkdir(pathDir, 0755)
 			if err != nil {
-				FmtFatal("MakeDir: os.MkDir failed", dirPath, err)
+				FmtFatal("MakeDir: os.MkDir failed", pathDir, err)
 			}
 		} else { // some type of error
-			FmtFatal("MakeDir: os.Stat failed", dirPath, err)
+			FmtFatal("MakeDir: os.Stat failed", pathDir, err)
 		}
 	}
 }
@@ -68,14 +72,14 @@ func MakeDir(dirPath string) {
 func storeText(targetDir string, argFile string, text string) {
 	// Create the log file
 	fullPath := filepath.Join(targetDir, argFile)
-	handle, err := os.Create(fullPath)
+	outHandle, err := os.Create(fullPath)
 	if err != nil {
 		Fatal(fmt.Sprintf("storeText: os.Create(%s) failed, err=%s", fullPath, err))
 	}
-	defer handle.Close()
+	defer outHandle.Close()
 
 	// Store the given text
-	_, err = fmt.Fprintln(handle, text)
+	_, err = fmt.Fprintln(outHandle, text)
 	if err != nil {
 		FmtFatal("storeText: fmt.Fprintln failed", fullPath, err)
 	}
@@ -280,4 +284,88 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 
 	// Return runner execution result
 	return stcode, outString // test case success
+}
+
+// Open a file for create or append
+func OutGrapeOpen(outPath string, append bool) *os.File {
+
+	var openFlags int
+	
+	if append {
+		openFlags = os.O_APPEND | os.O_WRONLY
+	} else {
+		openFlags = os.O_CREATE | os.O_WRONLY
+		_ = os.Remove(outPath)
+	}
+
+	outHandle, err := os.OpenFile(outPath, openFlags, MODE_OUTPUT_FILE)
+	if err != nil {
+		Fatal(fmt.Sprintf("storeText: os.Create(%s) failed, err=%s", outPath, err))
+	}
+
+	return outHandle
+	
+}
+
+// Write a text line to the given output file handle
+func OutGrapeText(outHandle *os.File, textLine string) {
+
+	_, err := fmt.Fprintln(outHandle, textLine)
+	if err != nil {
+		outPath, _ := filepath.Abs(filepath.Dir(outHandle.Name()))
+		FmtFatal("OutGrapeText: fmt.Fprintln failed", outPath, err)
+	}
+	
+}
+
+// Poor Man's `grep`
+func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.File) {
+
+	// Get the list of files in the directory
+	fileList, err := ioutil.ReadDir(pathDir)
+	if err != nil {
+		FmtFatal("ioutil.ReadDir failed:", pathDir, err)
+	}
+	
+	// For each .log file in the list, scan it for the search argument
+	counter := 0
+	for _, file := range fileList {
+	
+		fileName := file.Name()
+
+		// Skip subdirectories
+		if file.Mode().IsDir() { continue }
+		
+		// Skip files with extensions that do not match criteria
+		if fileExt != "" {
+			if path.Ext(fileName) != fileExt { continue }
+		}
+		
+		// Get all the bytes of the current selected file
+		filePath := filepath.Join(pathDir, fileName)
+		dataBytes, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			FmtFatal("ioutil.ReadFile failed:", fileName, err)
+		}
+		
+		// Convert bytes into an array of strings
+		dataStrings := strings.Split(string(dataBytes), "\n")
+
+		// For each string in the file, see if the search argument is present
+		for _, line := range dataStrings {
+			if strings.Index(line, searchArg) > -1 {
+				line := fmt.Sprintf("%s: %s", fileName, line)
+				line = strings.ReplaceAll(line, "\n", "")
+				OutGrapeText(outHandle, line)
+				counter += 1
+			}
+		}
+		
+	}
+	
+	if counter > 0 {
+		wstr := fmt.Sprintf("--- Total: %d", counter)
+		OutGrapeText(outHandle, wstr)
+	}
+	
 }
