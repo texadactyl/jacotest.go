@@ -1,14 +1,22 @@
-## Instructions
+This directory is essentially for those who are developing or maintaining jacotest.
 
-1. Edit file ```common_defs.txt``` to be appropriate for the local environment.  The version on github works fine on this author's laptop.
-2. To execute a script, position into the ```bash``` subdirectory first. Then, ```bash scriptname.sh```.
+## Set Up Instructions
+
+* Edit file ```common_defs.txt``` to be appropriate for the local environment.  This version of the directory on github works fine for this author's laptop but other users will undoubtedly need to edit the file.
+* Make sure that $HOME/go/bin is in the executable search $PATH.
 
 ## Common Definitions
 
-The file ```common_defs.txt``` is used by each script (```bash source```) to set up its processing.
+The file ```common_defs.txt``` is used by each script to set up its processing.
 
 ## Scripts
 
-* builder.sh - Build, vet, and install the jacotest executable.
+* builder.sh - Build, vet, and install the jacotest executable into the $HOME/go/bin directory.
 * jlinter.sh - Lint all of the Java test source files.
-* ujacobin.sh - Replace existing jacobin with that from github and then re-install the executable.
+* ujacobin.sh - Install (or replace an existing) jacobin with github contents. Then, re-install the jacobin executable into the $HOME/go/bin directory.
+
+## Command-line Operations
+
+To execute a script,
+* Position into the ```bash``` subdirectory.
+* Run: ```bash <script name>.sh```.
