@@ -1,6 +1,7 @@
 ## Instructions
 
-To execute a script, position into the ```bash``` subdirectory first. Then, ```bash scriptname.sh```.
+1. Edit file ```common_defs.txt``` to be appropriate for the local environment.  The version on github works fine on this author's laptop.
+2. To execute a script, position into the ```bash``` subdirectory first. Then, ```bash scriptname.sh```.
 
 ## Scripts
 
