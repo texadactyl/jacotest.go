@@ -9,6 +9,6 @@ The file ```common_defs.txt``` is used by each script (```bash source```) to set
 
 ## Scripts
 
-* builder.sh - Install the jacotest executable.
+* builder.sh - Install and vet the jacotest executable.
 * jlinter.sh - Lint all of the Java test source files.
 * ujacobin.sh - Replace existing jacobin with that from github and then re-install the executable.
