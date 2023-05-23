@@ -17,7 +17,6 @@ BRANCH='main'
 
 # Golang GOPATH and GOBIN directories:
 export GOPATH=$HOME/go
-export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 
 # Store jacobin root under this directory:
