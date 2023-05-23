@@ -10,5 +10,5 @@ To execute a script, position into the ```bash``` subdirectory first. Then, ```b
 
 ## Common Definitions
 
-The file common_defs.txt used by each script (```bash source```) to set up its processing.
+The file ```common_defs.txt``` is used by each script (```bash source```) to set up its processing.
 
