@@ -106,7 +106,7 @@ Two types of reports:
 
 This is a single file per jacotest run (Failure_Summary_YYYY-MM-DD_hh.mm.ss_```<jvm>```.txt) residing in the ```reports``` subdirectory. Failed test cases are listed by failure-category. Note that a it is possible to find a test case appear multiple times within a single category and across categories. 
 
-It is expected that the categories themselves will change over time and the number of failures listed with shrink significantly.
+It is expected that the categories themselves will change over time and the number of failures listed will shrink.
 
 ## Run Reports
 
