@@ -1,5 +1,4 @@
-set -e
-source ./periodic/common_defs.txt
+source ./common_defs.txt
 
 > $LOG # Make the log nil.
 logbegin
@@ -9,24 +8,18 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 
 # Position into src directory
-cd src
-if [ $? -ne 0 ]; then
-    oops 'FAILED: cd src'
-fi
+cd ../src
 
 # Remove all old stuff
-go clean -i -cache
+echo Clean the go cache '.....' 2>&1 | tee -a $LOG
+go clean -i -cache 2>&1 | tee -a $LOG
 
 # Build and install jacotest
+echo Build and install jacotest '.....' 2>&1 | tee -a $LOG
 go install 2>&1 | tee -a $LOG
-if [ $? -ne 0 ]; then
-    oops 'FAILED: go install'
-fi
 
 # Vet jacotest
+echo go-vet jacotest '.....' 2>&1 | tee -a $LOG
 go vet 2>&1 | tee -a $LOG
-if [ $? -ne 0 ]; then
-    oops 'FAILED: go vet'
-fi
 
 logend
