@@ -15,8 +15,10 @@ URL='https://github.com/platypusguy/jacobin'
 
 BRANCH='main'
 
-# Golang GOPATH directory:
+# Golang GOPATH and GOBIN directories:
 export GOPATH=$HOME/go
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
 
 # Store jacobin root under this directory:
 export JACOBIN_PARENT=$HOME/BASIS

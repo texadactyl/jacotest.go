@@ -3,12 +3,12 @@ source ./common_defs.txt
 > $LOG # Make the log nil.
 logbegin
 
-# Golang bin directory:
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
+# Update jacotest.go from github
+cd ..
+git pull 2>&1 | tee -a $LOG
 
 # Position into src directory
-cd ../src
+cd src
 
 # Remove all old stuff
 echo Clean the go cache '.....' 2>&1 | tee -a $LOG
