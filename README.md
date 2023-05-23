@@ -98,7 +98,19 @@ The ```logs``` directory holds the combined stdout and stderr for test cases whi
 
 # Test Case Results and Reports
 
-The RUN_REPORT_```<date and time stamp>```_```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table and reside in the reports subdirectory.
+Two types of reports:
+* Failed test case summary
+* Run reports (detailed)
+
+## Failed Test Case Summary
+
+This is a single file per jacotest run (Failure_Summary_YYYY-MM-DD_hh.mm.ss_```<jvm>```.txt) residing in the ```reports``` subdirectory. Failed test cases are listed by failure-category. Note that a it is possible to find a test case appear multiple times within a single category and across categories. 
+
+It is expected that the categories themselves will change over time and the number of failures listed with shrink significantly.
+
+## Run Reports
+
+The RUN_REPORT_YYYY-MM-DD_hh.mm.ss_```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table and reside in the ```reports``` subdirectory.
 
 Each report has 3 columns:
 * ```Test case name```
