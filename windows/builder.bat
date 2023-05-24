@@ -1,16 +1,14 @@
-set GOPATH=%USERPROFILE%\go
-set GOBIN=%GOPATH%\bin
-set PATH=%GOBIN%";"%PATH%
+set "GOPATH=%USERPROFILE%\go" || EXIT /B 1
+set "GOBIN=%GOPATH%\bin" || EXIT /B 1
+setx PATH "%GOBIN%";"%PATH%" || EXIT /B 1
 
-git pull
+cd ..  || EXIT /B 1
+git pull || EXIT /B 1
 
-go clean -i -cache
+cd src || EXIT /B 1
+go install || EXIT /B 1
 
-cd src
+go vet || EXIT /B 1
 
-go install
-
-go vet
-
-jacotest -h
+jacotest -h || EXIT /B 1
 
