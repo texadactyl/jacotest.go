@@ -10,5 +10,6 @@ go install || EXIT /B 1
 
 go vet || EXIT /B 1
 
+cd ..  || EXIT /B 1
 jacotest -h || EXIT /B 1
 
