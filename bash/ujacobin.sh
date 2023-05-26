@@ -22,7 +22,7 @@ echo Clean the go cache '.....' 2>&1 | tee -a $LOG
 go clean -i -cache 2>&1 | tee -a $LOG
 
 echo Build and install jacobin '.....' 2>&1 | tee -a $LOG
-go install 2>&1 | tee -a $LOG
+go install -a -v 2>&1 | tee -a $LOG
 
 echo 'Show jacobin version .....' 2>&1 | tee -a $LOG
 jacobin -version 2>&1 | tee -a $LOG
