@@ -3,7 +3,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
-| 2023-05-26 | 2.0.2  | Added test case: emission-line-spectra. |
+| 2023-05-28 | 2.0.3  | Added test case: emission-line-spectra. |
+| 2023-05-26 | 2.0.2  | Added test case: kalman-filtering. |
 | 2023-05-23 | 2.0.1  | Cleanup of bash scripts and store in a bash subdirectory. |
 | 2023-05-21 | 2.0.0  | Implemented the 2nd report: Failure Summary. |
 | 2023-05-19 | 1.20  | Spelling corrections for the test case names - use hyphens consistently. |
