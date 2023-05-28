@@ -24,6 +24,7 @@ export JACOBIN_PARENT=$HOME/BASIS
 
 # Jacobin home:
 export JACOBIN_HOME=$JACOBIN_PARENT/jacobin
+export JACOBIN_SRC=$JACOBIN_HOME/src
 
 # Jacobin unit test definitions:
 export JACOBIN_EXE=$HOME/go/bin/jacobin
