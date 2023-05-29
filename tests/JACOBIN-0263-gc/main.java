@@ -63,5 +63,12 @@ public class main {
     	double pct_gc = (double) et_gc * 0.1 / secs_overall;
     	System.out.print("% spent in gc = "); 
     	System.out.println(pct_gc); 
+    	
+    	if (pct_assign < 50.0)
+    		System.exit(0);
+    	else {
+    		System.out.println("*** ERROR, excessive time spent in loop-byte-assignment");
+    		System.exit(1);
+    	}
     }
 }
