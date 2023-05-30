@@ -2,20 +2,47 @@ public class main {
 
     public static void main(String[] args) throws Exception {
 
-        String msg = "Try to get run.go to crash in INVOKDESTATIC";
-        System.out.println(msg);
+        int errorCount = 0;
+        String s1Text = "String conversion and length exercises";
+        System.out.println(s1Text);
 
-        int keySize = 256;
-        int iterations = 65536;
-        char[] password = "This is a huge secret!".toCharArray();
-        System.out.println("password constructed");
-        String originalString = "Mary had a little lamb.";
-        System.out.println("originalString constructed");
-        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
-        byte[] msgBytes = originalString.getBytes();
-        System.out.println("msgBytes constructed");
+     	System.out.print("Starting text = ");
+        System.out.println(s1Text);
+       
+        char[] cText = s1Text.toCharArray();
+        if (s1Text.length() != cText.length) {
+        	errorCount += 1;
+        	System.out.println("ERROR, s1Text.length != cText.length");
+        }
+        String s2Text = new String(cText);
+         if (! s2Text.equals(s1Text)) {
+        	errorCount += 1;
+        	System.out.println("ERROR, cText, s2Text != s1Text");
+		 	System.out.print("s2Text = ");
+		    System.out.println(s2Text);
+        }
+        
+        byte[] bText = s1Text.getBytes();
+        if (s1Text.length() != bText.length) {
+        	errorCount += 1;
+        	System.out.println("ERROR, bText, s1Text.length != bText.length");
+        }
+        s2Text = new String(bText);
+         if (! s2Text.equals(s1Text)) {
+        	errorCount += 1;
+        	System.out.println("ERROR, s2Text != s1Text");
+		 	System.out.print("s2Text = ");
+		    System.out.println(s2Text);
+        }
 
-        System.out.println("No barfing");
+        // Check the error count
+        if (errorCount == 0) {
+            System.out.println("No errors detected");
+        } else {
+        	System.out.print("Number of errors = ");
+            System.out.println(errorCount);
+            System.exit(1);
+        }
     }
 
 }
