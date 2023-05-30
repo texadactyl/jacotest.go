@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-05-30 | 2.0.6  | Vastly improved test case: stringer. |
 | 2023-05-29 | 2.0.5  | Added test case: JACOBIN-0251-array-type-perf. |
 | 2023-05-29 | 2.0.4  | Added test case: JACOBIN-0263-gc. |
 | 2023-05-28 | 2.0.3  | Added test case: emission-line-spectra. |
