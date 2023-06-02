@@ -41,15 +41,19 @@ func main() {
 
 	// Skip over the JMOD header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
-
+	
 	// Prepare the reader for the zip archive
 	zipReader, err := zip.NewReader(offsetReader, int64(len(jmodBytes)-4))
 	if err != nil {
 		helpers.FmtFatal("zip.NewReader failed:", fullPath, err)
 	}
 
+	// Get the inclusion list from entry lib/classlist
+	countIncludedClasses := getInclusionCount(*zipReader)
+
 	// For each file entry within the zip reader, process it
-	totalCount := 0
+	countBytes := 0
+	countFiles := 0
 	for _, fileEntry := range zipReader.File {
 
 		// Has the right prefix and suffix?
@@ -75,13 +79,34 @@ func main() {
 		}
 
 		// Add byte count to total
-		totalCount += len(bytesClassFile)
+		countBytes += len(bytesClassFile)
+		countFiles += 1
 
 		_ = classHandle.Close()
 	}
 
-	megaBytes := float64(totalCount) / 1000000.0
-	fmt.Printf("Byte count for all class files: %f MB\n", megaBytes)
+	megaBytes := float64(countBytes) / 1000000.0
+	fmt.Printf("Total file count: %d\n", countFiles)
+	fmt.Printf("Selected file count: %d\n", countIncludedClasses)
+	fmt.Printf("Byte count for all class files: %.1f MB\n", megaBytes)
 
+}
+
+// Compute the count of classes to be included in the jacobin bootstrap load
+func getInclusionCount(reader zip.Reader) int {
+	fileName := "lib/classlist"
+	fh, err := reader.Open(fileName)
+	if err != nil {
+		helpers.Logger("Unable to read lib/classlist from jmod file. Loading all classes in jmod file.")
+		return 0
+	}
+
+	classlistContent, err := io.ReadAll(fh)
+	if err != nil {
+		helpers.FmtFatal("io.ReadAll failed for embedded file:", fileName, err)
+	}
+
+	classes := strings.Split(string(classlistContent), "\n")
+	return len(classes)
 }
 
