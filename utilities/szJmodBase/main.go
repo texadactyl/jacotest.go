@@ -19,6 +19,9 @@ func main() {
 
 	// Form the full path to the base JMOD
 	javaHome := os.Getenv("JAVA_HOME")
+	if javaHome == "" {
+		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
+	}
     fullPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + BaseJmod
 
 	// Open the JMOD file
