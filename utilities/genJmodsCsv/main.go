@@ -16,7 +16,7 @@ const ExpectedMagicNumber = 0x4A4D
 // Walk the base JMOD file and count the bytes for all classes/*.class entries
 func main() {
 
-	// Form the full path to the base JMOD
+	// Form the full path to the jmods directory
 	javaHome := os.Getenv("JAVA_HOME")
 	if javaHome == "" {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
@@ -29,7 +29,7 @@ func main() {
 		helpers.FmtFatal("os.Open(jmods directory) failed", dirPath, err)
 	}
 
-	// Get all the file entries in the logs directory
+	// Get all the file entries
 	names, err := dirOpened.Readdirnames(0) // get all entries
 	if err != nil {
 		helpers.FmtFatal("Readdirnames(jmods directory) failed", dirPath, err)
@@ -45,7 +45,7 @@ func main() {
 }
 
 func processJmodsFile(baseName string, fullPath string) {
-	// Open the JMOD file
+	// Open the jmod file
     _, err := os.Open(fullPath)
     if err != nil {
         helpers.FmtFatal("os.Open failed:", fullPath, err)
@@ -63,7 +63,7 @@ func processJmodsFile(baseName string, fullPath string) {
 		helpers.FmtFatal("fileMagicNumber != ExpectedMagicNumber:", fullPath, err)
 	}
 
-	// Skip over the JMOD header so that it is recognized as a ZIP file
+	// Skip over the jmod header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
 	
 	// Prepare the reader for the zip archive

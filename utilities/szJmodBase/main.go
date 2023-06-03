@@ -14,17 +14,17 @@ import (
 const BaseJmod = "java.base.jmod"
 const ExpectedMagicNumber = 0x4A4D
 
-// Walk the base JMOD file and count the bytes for all classes/*.class entries
+// Walk the base jmod file and count the bytes for all classes/*.class entries
 func main() {
 
-	// Form the full path to the base JMOD
+	// Form the full path to the base jmod
 	javaHome := os.Getenv("JAVA_HOME")
 	if javaHome == "" {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
     fullPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + BaseJmod
 
-	// Open the JMOD file
+	// Open the base jmod file
     _, err := os.Open(fullPath)
     if err != nil {
         helpers.FmtFatal("os.Open failed:", fullPath, err)
@@ -42,7 +42,7 @@ func main() {
 		helpers.FmtFatal("fileMagicNumber != ExpectedMagicNumber:", fullPath, err)
 	}
 
-	// Skip over the JMOD header so that it is recognized as a ZIP file
+	// Skip over the jmod header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
 	
 	// Prepare the reader for the zip archive
@@ -51,8 +51,8 @@ func main() {
 		helpers.FmtFatal("zip.NewReader failed:", fullPath, err)
 	}
 
-	// Get the inclusion list from entry lib/classlist
-	countIncludedClasses := getInclusionCount(*zipReader)
+	// Get the bootstrap list from entry lib/classlist
+	countIncludedClasses := getBootstrapCount(*zipReader)
 
 	// For each file entry within the zip reader, process it
 	countBytes := 0
@@ -96,7 +96,7 @@ func main() {
 }
 
 // Compute the count of classes to be included in the jacobin bootstrap load
-func getInclusionCount(reader zip.Reader) int {
+func getBootstrapCount(reader zip.Reader) int {
 	fileName := "lib/classlist"
 	fh, err := reader.Open(fileName)
 	if err != nil {
