@@ -32,8 +32,14 @@ func Fatal(msg string) {
 }
 
 // Log an error in a special format and croak
+// The name parameter is optional
 func FmtFatal(msg string, name string, err error) {
-	text := fmt.Sprintf("*** FATAL, %s\n\t\t%s\n\t\t%s", msg, name, err.Error())
+	var text string
+	if name == "" {
+		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s", msg, err.Error())
+	} else {
+		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s\n\t\t%s", msg, name, err.Error())
+	}
 	Logger(text)
 	os.Exit(1)
 }
