@@ -77,43 +77,24 @@ func processJmodsFile(baseName string, fullPath string) {
 	for _, fileEntry := range zipReader.File {
 
 		// Has the right prefix and suffix?
-		if !strings.HasPrefix(fileEntry.Name, "classes") {
-			continue // No, skip this entry
-		}
-		if !strings.HasSuffix(fileEntry.Name, ".class") {
-			continue
-		}
+		if ! strings.HasPrefix(fileEntry.Name, "classes/") { continue }
+		if ! strings.HasSuffix(fileEntry.Name, ".class") { continue }
 
 		// Remove the "classes/" prefix.
 		classFileName := strings.Replace(fileEntry.Name, "classes/", "", 1)
 		
-		// Form a.b.c
+		// Form array splut = [ "a", "b", etc ] based on a/b/etc
 		splut := strings.Split(classFileName, string(os.PathSeparator))
-		var a_b_c string
-		switch len(splut) {
-			case 1:
-				a_b_c = splut[0]
-			case 2:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1]
-			case 3:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2]
-			case 4:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2] + string(os.PathSeparator) + splut[3]
-			case 5:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2] + string(os.PathSeparator) + splut[3] + string(os.PathSeparator) + splut[4]
-			case 6:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2] + string(os.PathSeparator) + splut[3] + 
-				        string(os.PathSeparator) + splut[4] + string(os.PathSeparator) + splut[5]
-			case 7:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2] + string(os.PathSeparator) + splut[3] + 
-				        string(os.PathSeparator) + splut[4] + string(os.PathSeparator) + splut[5] + string(os.PathSeparator) + splut[6]
-			default:
-				a_b_c = splut[0] + string(os.PathSeparator) + splut[1] + string(os.PathSeparator) + splut[2] + string(os.PathSeparator) + splut[3] + 
-				        string(os.PathSeparator) + splut[4] + string(os.PathSeparator) + splut[5] + string(os.PathSeparator) + splut[6] + string(os.PathSeparator) + splut[7]
-		}	
+		lenSplut := len(splut)
+		if lenSplut < 2 { continue }
+		
+		classNamePrefix := splut[0]
+		for ii := 1; ii < lenSplut; ii++ {
+			classNamePrefix += string(os.PathSeparator) + splut[ii]
+		}
 		
 		// Log this a.b.c
-		fmt.Printf("prefix , %s , %s\n", baseName, a_b_c)
+		fmt.Printf("prefix , %s , %s\n", baseName, classNamePrefix)
 
 		// Add byte count to total
 		countFiles += 1
