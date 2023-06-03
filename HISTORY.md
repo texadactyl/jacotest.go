@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-03 | 2.0.10 | Rename mapJmods to genJmodsCsv. |
 | 2023-06-02 | 2.0.9  | Added utility: mapJmods. |
 | 2023-06-02 | 2.0.8  | Added utility: szJmodBase. |
 | 2023-05-30 | 2.0.7  | Added test case: taylor-series. |
