@@ -1,41 +1,41 @@
 package main
 
 import (
-	"os"
 	"bufio"
 	"fmt"
-	"log"
 	"hash/crc32"
+	"log"
+	"os"
 )
 
 const GobFile = "class_prefix_map.gob"
 
-func getAllTheBytes(filePath string) ([] byte) {
+func getAllTheBytes(filePath string) []byte {
 
 	// Open file
-    file, err := os.Open(filePath)
-    if err != nil {
-    	msg := fmt.Sprintf("os.Open(%s) failed", filePath)
-        log.Fatal(msg)
-    }
-    defer file.Close()
+	file, err := os.Open(filePath)
+	if err != nil {
+		msg := fmt.Sprintf("os.Open(%s) failed", filePath)
+		log.Fatal(msg)
+	}
+	defer file.Close()
 
 	// Get size of file in bytes
-    stats, statsErr := file.Stat()
-    if statsErr != nil {
-    	msg := fmt.Sprintf("file.Stat(%s) failed", filePath)
-        log.Fatal(msg)
-    }
-    var size int64 = stats.Size()
-    
-    // Make a big enough byte-array
-    bytes := make([] byte, size)
+	stats, statsErr := file.Stat()
+	if statsErr != nil {
+		msg := fmt.Sprintf("file.Stat(%s) failed", filePath)
+		log.Fatal(msg)
+	}
+	var size = stats.Size()
+
+	// Make a big enough byte-array
+	bytes := make([]byte, size)
 
 	// Read all the bytes
-    buffer := bufio.NewReader(file)
-    _, err = buffer.Read(bytes)
+	buffer := bufio.NewReader(file)
+	_, err = buffer.Read(bytes)
 
-    return bytes
+	return bytes
 }
 
 func main() {
@@ -52,9 +52,8 @@ func main() {
 
 	// Compte uint32 checksum
 	checkSum := crc32.ChecksumIEEE(bites)
-	
+
 	// Show checksum
 	log.Printf("Checksum (32 bits) of %s: %x\n", fullPath, checkSum)
-	
-}
 
+}
