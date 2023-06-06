@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-06 | 2.0.12 | Bug fixes: genGobFile. |
 | 2023-06-03 | 2.0.11 | Added utility: genGobFile. |
 | 2023-06-03 | 2.0.10 | Rename mapJmods to genJmodsCsv. |
 | 2023-06-02 | 2.0.9  | Added utility: mapJmods. |

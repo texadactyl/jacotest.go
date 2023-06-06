@@ -4,8 +4,8 @@ import (
 	"archive/zip"
 	"bytes"
 	"encoding/binary"
-	"fmt"
 	"encoding/gob"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -20,24 +20,24 @@ var xrefMap map[string]string
 func main() {
 
 	helpers.Logger("Begin")
-	
+
 	// Initialize the cross-reference map
 	xrefMap = make(map[string]string)
-	
+
 	// Form the full path to the jmod directory
 	javaHome := os.Getenv("JAVA_HOME")
 	if javaHome == "" {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
-    dirPath := javaHome + string(os.PathSeparator) + "jmods"
-    
+	dirPath := javaHome + string(os.PathSeparator) + "jmods"
+
 	// Open jmods directory
 	dirOpened, err := os.Open(dirPath)
 	if err != nil {
 		helpers.FmtFatal("os.Open(jmods directory) failed", dirPath, err)
 	}
 
-	// Get all the file entries in the logs directory
+	// Get all the file entries in the jmods directory
 	names, err := dirOpened.Readdirnames(0) // get all entries
 	if err != nil {
 		helpers.FmtFatal("Readdirnames(jmods directory) failed", dirPath, err)
@@ -46,31 +46,36 @@ func main() {
 	// For each jmods file, process it
 	countFiles := 0
 	countClasses := 0
+	countClasslists := 0
 	for index := range names {
 		name := names[index]
 		fullPath := filepath.Join(dirPath, name)
-		countClasses += processJmodsFile(name, fullPath)
+		xx, yy := processJmodsFile(name, fullPath)
+		countClasses += xx
+		countClasslists += yy
 		countFiles += 1
 	}
-	
+
 	msg := fmt.Sprintf("Total jmod files processed= %d", countFiles)
 	helpers.Logger(msg)
 	msg = fmt.Sprintf("Total classes added for all jmod files = %d", countClasses)
 	helpers.Logger(msg)
-	
+	msg = fmt.Sprintf("Total classlists found in all jmod files = %d", countClasslists)
+	helpers.Logger(msg)
+
 	// Open output gob file
 	outFile, err := os.Create(GobFile)
 	if err != nil {
 		helpers.FmtFatal("encoding os.Create failed", GobFile, err)
 	}
-	
+
 	// Create a gob encoder and encode the cross-reference map
-    inky := gob.NewEncoder(outFile)
+	inky := gob.NewEncoder(outFile)
 	err = inky.Encode(xrefMap)
 	if err != nil {
 		helpers.FmtFatal("gob Encode failed", "", err)
 	}
-	
+
 	// Close the output file
 	err = outFile.Close()
 	if err != nil {
@@ -78,18 +83,18 @@ func main() {
 	}
 
 	helpers.Logger("End")
-	
+
 }
 
-func processJmodsFile(baseName string, fullPath string) int {
+func processJmodsFile(baseName string, fullPath string) (int, int) {
 
 	// Open the jmods file
-    _, err := os.Open(fullPath)
-    if err != nil {
-        helpers.FmtFatal("os.Open failed:", fullPath, err)
-    }
-    
-    // Read entire file contents
+	_, err := os.Open(fullPath)
+	if err != nil {
+		helpers.FmtFatal("os.Open failed:", fullPath, err)
+	}
+
+	// Read entire file contents
 	jmodBytes, err := os.ReadFile(fullPath)
 	if err != nil {
 		helpers.FmtFatal("os.ReadFile failed:", fullPath, err)
@@ -103,7 +108,7 @@ func processJmodsFile(baseName string, fullPath string) int {
 
 	// Skip over the jmod header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
-	
+
 	// Prepare the reader for the zip archive
 	zipReader, err := zip.NewReader(offsetReader, int64(len(jmodBytes)-4))
 	if err != nil {
@@ -112,32 +117,30 @@ func processJmodsFile(baseName string, fullPath string) int {
 
 	// For each file entry within the zip reader, process it
 	countClasses := 0
+	countClasslists := 0
+	libClasslist := "lib" + string(os.PathSeparator) + "classlist"
 	for _, fileEntry := range zipReader.File {
 
-		// Has the right prefix and suffix?
-		if ! strings.HasPrefix(fileEntry.Name, "classes/") { continue }
-		if ! strings.HasSuffix(fileEntry.Name, ".class") { continue }
+		// Look for a "lib/classtlist" entry
+		if strings.HasPrefix(fileEntry.Name, libClasslist) {
+			msg := "=====>>>>> " + fullPath + " :: " + fileEntry.Name
+			helpers.Logger(msg)
+			countClasslists += 1
+			continue // Skip this entry after logging
+		}
 
-		// Remove the "classes/" prefix.
-		classFileName := strings.Replace(fileEntry.Name, "classes/", "", 1)
-		
-		// Form array splut = [ "a", "b", etc ] based on a/b/etc
-		splut := strings.Split(classFileName, string(os.PathSeparator))
-		lenSplut := len(splut)
-		if lenSplut < 2 { continue }
-		
-		// Compute class name prefix.
-		// Note: Right now, we are taking the whole class name.
-		// Yes, we could have just used the classFileName instead of computing a prefix.
-		// That could change in the future if we need to reduce the gob size.
-		// TODO: Is using a prefix vs the whole name worth it?
-		//classNamePrefix := splut[0]
-		//for ii := 1; ii < lenSplut; ii++ {
-		//	classNamePrefix += string(os.PathSeparator) + splut[ii]
-		//}
-		
+		// Has the right prefix and suffix?
+		if !strings.HasPrefix(fileEntry.Name, "classes") {
+			continue
+		}
+		if !strings.HasSuffix(fileEntry.Name, ".class") {
+			continue
+		}
+
+		// Remove the "classes" + string(os.PathSeparator) prefix.
+		classFileName := strings.Replace(fileEntry.Name, "classes"+string(os.PathSeparator), "", 1)
+
 		// Add to map
-		// TODO: do this? xrefMap[classNamePrefix] = baseName
 		xrefMap[classFileName] = baseName
 
 		// Add to count of classes
@@ -146,8 +149,7 @@ func processJmodsFile(baseName string, fullPath string) int {
 
 	msg := fmt.Sprintf("Total classes added for %s = %d", baseName, countClasses)
 	helpers.Logger(msg)
-	
-	return countClasses
+
+	return countClasses, countClasslists
 
 }
-
