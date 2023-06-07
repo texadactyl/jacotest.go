@@ -42,7 +42,7 @@ func main() {
 	// Open input file
 	inFile, err := os.Open(GobFile)
 	if err != nil {
-		log.Fatal("encoding os.Create:", err)
+		log.Fatal("decoding os.Open:", err)
 	}
 
 	// Create a decoder and receive a value.
