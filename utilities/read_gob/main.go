@@ -27,6 +27,7 @@ func main() {
 	}
 
 	// Find something interesting.
-	fmt.Printf("java/lang/String.class: {%s}\n", myMap["java/lang/String.class"])
+	fmt.Printf("com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class: {%s}\n", 
+                    myMap["com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class"])
 	
 }

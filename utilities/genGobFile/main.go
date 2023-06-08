@@ -13,7 +13,7 @@ import (
 )
 
 const ExpectedMagicNumber = 0x4A4D
-const GobFile = "class_prefix_map.gob" // TODO: This will move somewhere else, no doubt!
+const GobFile = "xx.gob" // TODO: This will move somewhere else, no doubt!
 var xrefMap map[string]string
 
 // Walk the base jmod file and count the bytes for all classes/*.class entries
@@ -121,7 +121,7 @@ func processJmodsFile(baseName string, fullPath string) (int, int) {
 	libClasslist := "lib" + string(os.PathSeparator) + "classlist"
 	for _, fileEntry := range zipReader.File {
 
-		// Look for a "lib/classtlist" entry
+		// Look for a "lib/classlist" entry
 		if strings.HasPrefix(fileEntry.Name, libClasslist) {
 			msg := "=====>>>>> " + fullPath + " :: " + fileEntry.Name
 			helpers.Logger(msg)

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const GobFile = "class_prefix_map.gob"
+const GobFile = "xx.gob"
 
 func main() {
 
@@ -25,7 +25,7 @@ func main() {
 	inky := gob.NewEncoder(outFile)
 
 	// Create an encoder and send a value.
-	err = inky.Encode(&m1)
+	err = inky.Encode(m1)
 	if err != nil {
 		log.Fatal("gob Encode:", err)
 	}
