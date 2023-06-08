@@ -20,13 +20,13 @@ func main() {
 	}
 
 	// Create a decoder and receive a value.
-	dinky := gob.NewDecoder(inFile)
-	err = dinky.Decode(&myMap)
+	decode := gob.NewDecoder(inFile)
+	err = decode.Decode(&myMap)
 	if err != nil {
 		log.Fatal("gob Decode:", err)
 	}
 
-	// Show the 2 maps
-	fmt.Println("Map:\n", myMap)
-
+	// Find something interesting.
+	fmt.Printf("java/lang/String.class: {%s}\n", myMap["java/lang/String.class"])
+	
 }
