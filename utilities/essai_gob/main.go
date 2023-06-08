@@ -54,7 +54,9 @@ func main() {
 
 	// Show the 2 maps
 	fmt.Println("m1 = ", m1)
+	fmt.Println("m1 com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class >>> ", m1["com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class"])
 	fmt.Println("m2 = ", m2)
+	fmt.Println("m2 com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class >>> ", m2["com/sun/crypto/provider/AESCipher$AES128_CBC_NoPadding.class"])
 
 	// Success?
 	if len(m1) != len(m2) {
