@@ -26,14 +26,14 @@ func main() {
 	jmodName := os.Args[1]
 	fileName :=  "classes/" + os.Args[2]
 
-	// Form the full path to the jmods directory
+	// Form the full path to the jmod file name
 	javaHome := os.Getenv("JAVA_HOME")
 	if javaHome == "" {
 		log.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
-    jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodName
+        jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodName
     
-    // Read entire jmod file contents
+        // Read entire jmod file contents
 	jmodBytes, err := os.ReadFile(jmodPath)
 	if err != nil {
 		log.Fatalf("os.ReadFile(%s) failed:\n%s\n", jmodPath, err.Error())
