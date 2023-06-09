@@ -14,7 +14,10 @@ import (
 const ExpectedMagicNumber = 0x4A4D
 
 func showHelp() {
-	fmt.Printf("\nUsage:  %s  <jmod name>  <file name>\n\n", filepath.Base(os.Args[0]))
+	fmt.Printf("\nUsage:  %s  <jmod name>  <class name>\n", filepath.Base(os.Args[0]))
+	fmt.Printf("Sample <jmod name>: java.base.jmod\n")
+	fmt.Printf("Sample <class name>: java/lang/String\n")
+	fmt.Printf("Do not supply prefix \"classes/\" nor suffix \".class\"\n\n")
 	os.Exit(1)
 }
 
@@ -24,7 +27,7 @@ func main() {
 		showHelp()
 	}
 	jmodName := os.Args[1]
-	fileName :=  "classes/" + os.Args[2]
+	fileName :=  "classes/" + os.Args[2] + ".class"
 
 	// Form the full path to the jmod file name
 	javaHome := os.Getenv("JAVA_HOME")
