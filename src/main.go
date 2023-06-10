@@ -268,6 +268,12 @@ func main() {
 		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
 		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "=====================================")
+		OutGrapeText(outHandle, "MethAreaFetch")
+		OutGrapeText(outHandle, "=====================================")
+		ExecGrape("logs", ".log", "MethAreaFetch", outHandle)
+
+		OutGrapeText(outHandle, " ")
 		OutGrapeText(outHandle, "================")
 		OutGrapeText(outHandle, "runtime.sigpanic")
 		OutGrapeText(outHandle, "================")

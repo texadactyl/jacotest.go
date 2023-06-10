@@ -26,17 +26,17 @@ func main() {
 	if len(os.Args) != 3 {
 		showHelp()
 	}
-	jmodName := os.Args[1]
-	fileName :=  "classes/" + os.Args[2] + ".class"
+	jmodFileName := os.Args[1]
+	classFileName :=  "classes/" + os.Args[2] + ".class"
 
 	// Form the full path to the jmod file name
 	javaHome := os.Getenv("JAVA_HOME")
 	if javaHome == "" {
 		log.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
-        jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodName
+	jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodFileName
     
-        // Read entire jmod file contents
+	// Read entire jmod file contents
 	jmodBytes, err := os.ReadFile(jmodPath)
 	if err != nil {
 		log.Fatalf("os.ReadFile(%s) failed:\n%s\n", jmodPath, err.Error())
@@ -58,19 +58,19 @@ func main() {
 	}
 
 	// Open the file within the zip archive
-	fileHandle, err := zipReader.Open(fileName)
+	fileHandle, err := zipReader.Open(classFileName)
 	if err != nil {
-		log.Fatalf("zipReader.Open(%s in %s) failed:\n%s\n", fileName, jmodPath, err.Error())
+		log.Fatalf("zipReader.Open(%s in %s) failed:\n%s\n", classFileName, jmodPath, err.Error())
 	}
 
 	// Read entire class file contents
 	classBytes, err := io.ReadAll(fileHandle)
 	if err != nil {
-		log.Fatalf("os.ReadAll(%s in %s) failed:\n%s\n", fileName, jmodPath, err.Error())
+		log.Fatalf("os.ReadAll(%s in %s) failed:\n%s\n", classFileName, jmodPath, err.Error())
 	}
 
 	byteCount := len(classBytes)
-	fmt.Printf("Total bye count of %s in %s = %d\n", fileName, jmodPath, byteCount)
+	fmt.Printf("Total bye count of %s in %s = %d\n", classFileName, jmodPath, byteCount)
 
 }
 

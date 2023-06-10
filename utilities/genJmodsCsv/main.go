@@ -88,13 +88,13 @@ func processJmodsFile(baseName string, fullPath string) {
 		lenSplut := len(splut)
 		if lenSplut < 2 { continue }
 		
-		classNamePrefix := splut[0]
+		className := splut[0]
 		for ii := 1; ii < lenSplut; ii++ {
-			classNamePrefix += string(os.PathSeparator) + splut[ii]
+			className += string(os.PathSeparator) + splut[ii]
 		}
 		
 		// Log this a.b.c
-		fmt.Printf("prefix , %s , %s\n", baseName, classNamePrefix)
+		fmt.Printf("prefix , %s , %s\n", baseName, className)
 
 		// Add byte count to total
 		countFiles += 1
