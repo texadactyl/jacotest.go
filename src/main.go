@@ -256,6 +256,18 @@ func main() {
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
 
 		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "invalid bytecode")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
+
+		OutGrapeText(outHandle, " ")
+		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "WaitClassStatus")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "WaitClassStatus", outHandle)
+
+		OutGrapeText(outHandle, " ")
 		OutGrapeText(outHandle, "============================")
 		OutGrapeText(outHandle, "could not find or load class")
 		OutGrapeText(outHandle, "============================")
@@ -279,11 +291,6 @@ func main() {
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "runtime.sigpanic", outHandle)
 		OutGrapeText(outHandle, " ")
-
-		OutGrapeText(outHandle, "================")
-		OutGrapeText(outHandle, "invalid bytecode")
-		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
 		err = outHandle.Close()
 		if err != nil {
