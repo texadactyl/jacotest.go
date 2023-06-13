@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-13 | 2.0.14 | Added test case: jarring. |
 | 2023-06-11 | 2.0.13 | Added additional failure report categories. |
 | 2023-06-06 | 2.0.12 | Bug fixes: genGobFile. |
 | 2023-06-03 | 2.0.11 | Added utility: genGobFile. |

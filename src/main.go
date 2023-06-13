@@ -134,7 +134,7 @@ func main() {
 	if flagVerbose {
 		Logger(fmt.Sprintf("Found JVM %s", wString))
 	}
-
+	
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
