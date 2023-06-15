@@ -13,6 +13,8 @@ import (
 
 const ExpectedMagicNumber = 0x4A4D
 
+var jmodBytes [] byte
+
 func showHelp() {
 	fmt.Printf("\nUsage:  %s  <jmod name>  <class name>\n", filepath.Base(os.Args[0]))
 	fmt.Printf("Sample <jmod name>: java.base.jmod\n")
@@ -22,6 +24,9 @@ func showHelp() {
 }
 
 func main() {
+
+	var zipLength int64
+	var err error
 
 	if len(os.Args) != 3 {
 		showHelp()
@@ -37,7 +42,7 @@ func main() {
 	jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodFileName
     
 	// Read entire jmod file contents
-	jmodBytes, err := os.ReadFile(jmodPath)
+	jmodBytes, err = os.ReadFile(jmodPath)
 	if err != nil {
 		log.Fatalf("os.ReadFile(%s) failed:\n%s\n", jmodPath, err.Error())
 	}
@@ -52,7 +57,8 @@ func main() {
 	ioReader := bytes.NewReader(jmodBytes[4:])
 	
 	// Prepare the reader for the zip archive
-	zipReader, err := zip.NewReader(ioReader, int64(len(jmodBytes)-4))
+	zipLength = int64(len(jmodBytes)-4)
+	zipReader, err := zip.NewReader(ioReader, zipLength)
 	if err != nil {
 		log.Fatalf("zip.NewReader(%s) failed:\n%s\n", jmodPath, err.Error())
 	}
