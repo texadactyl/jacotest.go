@@ -12,12 +12,12 @@ public class main {
         char[] cText = s1Text.toCharArray();
         if (s1Text.length() != cText.length) {
         	errorCount += 1;
-        	System.out.println("ERROR, s1Text.length != cText.length");
+        	System.out.println("*** ERROR, s1Text.length != cText.length");
         }
         String s2Text = new String(cText);
          if (! s2Text.equals(s1Text)) {
         	errorCount += 1;
-        	System.out.println("ERROR, cText, s2Text != s1Text");
+        	System.out.println("*** ERROR, cText, s2Text != s1Text");
 		 	System.out.print("s2Text = ");
 		    System.out.println(s2Text);
         }
@@ -25,12 +25,12 @@ public class main {
         byte[] bText = s1Text.getBytes();
         if (s1Text.length() != bText.length) {
         	errorCount += 1;
-        	System.out.println("ERROR, bText, s1Text.length != bText.length");
+        	System.out.println("*** ERROR, bText, s1Text.length != bText.length");
         }
         s2Text = new String(bText);
          if (! s2Text.equals(s1Text)) {
         	errorCount += 1;
-        	System.out.println("ERROR, s2Text != s1Text");
+        	System.out.println("*** ERROR, s2Text != s1Text");
 		 	System.out.print("s2Text = ");
 		    System.out.println(s2Text);
         }

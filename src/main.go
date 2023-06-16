@@ -134,7 +134,7 @@ func main() {
 	if flagVerbose {
 		Logger(fmt.Sprintf("Found JVM %s", wString))
 	}
-	
+
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
@@ -242,6 +242,11 @@ func main() {
 		outPath := global.FSumFilePath
 		outHandle := OutGrapeOpen(outPath, false)
 		OutGrapeText(outHandle, "Failed Test Case Summary - "+nowStamp+" "+timeZone)
+
+		OutGrapeText(outHandle, "\n================================")
+		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
+		OutGrapeText(outHandle, "=================================")
+		ExecGrape("logs", ".log", "*** ERROR", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")

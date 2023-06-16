@@ -87,7 +87,7 @@ public class main {
         System.out.println("Composite Score: " + res[0]);
         System.out.print("FFT (" + FFT_size + "): ");
         if (res[1] == 0.0)
-            System.out.println(" ERROR, INVALID NUMERICAL RESULT!");
+            System.out.println("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
         else
             System.out.println(res[1]);
 
@@ -98,7 +98,7 @@ public class main {
                 ", nz=" + Sparse_size_nz + "): " + res[4]);
         System.out.print("LU (" + LU_size + "x" + LU_size + "): ");
         if (res[5] == 0.0)
-            System.out.println(" ERROR, INVALID NUMERICAL RESULT!");
+            System.out.println("*** ERROR, INVALID NUMERICAL RESULT - LU!");
         else
             System.out.println(res[5]);
 

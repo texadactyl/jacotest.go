@@ -51,15 +51,15 @@ public class main {
 			}
 		}
 		if (! found) {
-			System.out.printf("ERROR :: name %s not found\n", name);
+			System.out.printf("*** ERROR :: name %s not found\n", name);
 			return 1;
 		}
 		if (! size.equals(zipTable[ix][1])) {
-			System.out.printf("ERROR :: For name %s, expected size = %s but observed %s\n", name, zipTable[ix][1], size);
+			System.out.printf("*** ERROR :: For name %s, expected size = %s but observed %s\n", name, zipTable[ix][1], size);
 			returnCode = 1;
 		}
 		if (! crc.equals(zipTable[ix][2])) {
-			System.out.printf("ERROR :: For name %s, expected crc = %s but observed %s\n", name, zipTable[ix][2], crc);
+			System.out.printf("*** ERROR :: For name %s, expected crc = %s but observed %s\n", name, zipTable[ix][2], crc);
 			returnCode = 1;
 		}
 		return returnCode;
