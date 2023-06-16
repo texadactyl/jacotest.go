@@ -13,7 +13,9 @@ import (
 )
 
 const ExpectedMagicNumber = 0x4A4D
-const GobFile = "xx.gob" // TODO: This will move somewhere else, no doubt!
+const JmodFileName = "java.base.jmod"
+const GobFile = "xx.gob"
+
 var xrefMap map[string]string
 
 // Walk the base jmod file and count the bytes for all classes/*.class entries
@@ -30,37 +32,10 @@ func main() {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
 	dirPath := javaHome + string(os.PathSeparator) + "jmods"
+	fullPath := filepath.Join(dirPath, JmodFileName)
+	countClasses := processJmodsFile(JmodFileName, fullPath)
 
-	// Open jmods directory
-	dirOpened, err := os.Open(dirPath)
-	if err != nil {
-		helpers.FmtFatal("os.Open(jmods directory) failed", dirPath, err)
-	}
-
-	// Get all the file entries in the jmods directory
-	names, err := dirOpened.Readdirnames(0) // get all entries
-	if err != nil {
-		helpers.FmtFatal("Readdirnames(jmods directory) failed", dirPath, err)
-	}
-
-	// For each jmods file, process it
-	countFiles := 0
-	countClasses := 0
-	countClasslists := 0
-	for index := range names {
-		name := names[index]
-		fullPath := filepath.Join(dirPath, name)
-		xx, yy := processJmodsFile(name, fullPath)
-		countClasses += xx
-		countClasslists += yy
-		countFiles += 1
-	}
-
-	msg := fmt.Sprintf("Total jmod files processed= %d", countFiles)
-	helpers.Logger(msg)
-	msg = fmt.Sprintf("Total classes added for all jmod files = %d", countClasses)
-	helpers.Logger(msg)
-	msg = fmt.Sprintf("Total classlists found in all jmod files = %d", countClasslists)
+	msg := fmt.Sprintf("Total classes added for all jmod files = %d", countClasses)
 	helpers.Logger(msg)
 
 	// Open output gob file
@@ -86,7 +61,7 @@ func main() {
 
 }
 
-func processJmodsFile(baseName string, fullPath string) (int, int) {
+func processJmodsFile(jmodFileName string, fullPath string) int {
 
 	// Open the jmods file
 	_, err := os.Open(fullPath)
@@ -117,17 +92,7 @@ func processJmodsFile(baseName string, fullPath string) (int, int) {
 
 	// For each file entry within the zip reader, process it
 	countClasses := 0
-	countClasslists := 0
-	libClasslist := "lib" + string(os.PathSeparator) + "classlist"
 	for _, fileEntry := range zipReader.File {
-
-		// Look for a "lib/classlist" entry
-		if strings.HasPrefix(fileEntry.Name, libClasslist) {
-			msg := "=====>>>>> " + fullPath + " :: " + fileEntry.Name
-			helpers.Logger(msg)
-			countClasslists += 1
-			continue // Skip this entry after logging
-		}
 
 		// Has the right prefix and suffix?
 		if !strings.HasPrefix(fileEntry.Name, "classes") {
@@ -141,15 +106,13 @@ func processJmodsFile(baseName string, fullPath string) (int, int) {
 		classFileName := strings.Replace(fileEntry.Name, "classes"+string(os.PathSeparator), "", 1)
 
 		// Add to map
-		xrefMap[classFileName] = baseName
+		xrefMap[classFileName] = jmodFileName
+		fmt.Println(classFileName)
 
 		// Add to count of classes
 		countClasses += 1
 	}
 
-	msg := fmt.Sprintf("Total classes added for %s = %d", baseName, countClasses)
-	helpers.Logger(msg)
-
-	return countClasses, countClasslists
+	return countClasses
 
 }
