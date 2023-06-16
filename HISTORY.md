@@ -5,7 +5,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :--: | :--: | :-- |
 | 2023-06-16 | 2.0.16 | Added test case: perf-base-instantiate. |
 |  |  | Added test case: simple-switch. |
-|  |  | Bug fixes: genGobFile. |
+|  |  | Enhancement: added Java application error detection to failure report. |
+|  |  | Bug fixes: utility genGobFile. |
 | 2023-06-15 | 2.0.15 | Added test case: get-property. |
 |  |  | Added test case: merkletrees. |
 | 2023-06-13 | 2.0.14 | Added test case: jarring. |
