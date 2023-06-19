@@ -59,8 +59,20 @@ public class main {
 
     public static void showBytes(String label, byte[] argBytes) {
         String b64 = Base64.getEncoder().encodeToString(argBytes);
-        System.out.println(label + ":\t" + b64);
+        System.out.print(label);
+        System.out.print(":\t");
+        System.out.println(b64);
     }
+
+	public static void noPrintf(String label, String string) {
+		// System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
+		System.out.print(label);
+		int sz = string.length();
+		System.out.print("[");
+		System.out.print(sz);
+		System.out.print(" bytes]:\t");
+		System.out.println(string);
+	}
 
     public static void main(String[] args) throws Exception {
 
@@ -71,7 +83,7 @@ public class main {
         int iterations = 65536;
         char[] password = "This is a huge secret!".toCharArray();
         String originalString = "Mary had a little lamb.";
-        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
+        noPrintf("Cleartext (string)", originalString);
         byte[] msgBytes = originalString.getBytes();
         showBytes("Cleartext (base 64)", msgBytes);
 
@@ -89,7 +101,7 @@ public class main {
         String decryptedString = new String(clearText, StandardCharsets.UTF_8);
 
         // Show that we got back the original message cleartext.
-        System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", decryptedString.length(), decryptedString);
+        noPrintf("Cleartext (string)", decryptedString);
         if (decryptedString.equals(originalString)) {
             System.out.println("Success!");
             System.exit(0);
