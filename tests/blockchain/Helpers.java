@@ -23,7 +23,9 @@ public class Helpers {
     }
     
 	public static void expObs(String label, String expected, String observed) {
-		System.out.print("*** ERROR, expected ");
+		System.out.print("*** ERROR, ");
+		System.out.print(label);
+		System.out.print(", expected ");
 		System.out.print(expected);
 		System.out.print(", observed ");
 		System.out.println(observed);		
