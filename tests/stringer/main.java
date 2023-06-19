@@ -131,7 +131,11 @@ public class main {
         String[] disjoint = ssaTrim.split(" ");
         printLabeledString("disjoint length: ", String.valueOf(disjoint.length));
         for (int ndx = 0; ndx < disjoint.length; ++ndx) {
-            System.out.printf("\tdisjoint[%d] = %s\n", ndx, disjoint[ndx]);
+            //System.out.printf("\tdisjoint[%d] = %s\n", ndx, disjoint[ndx]);
+            System.out.print("\tdisjoint[");
+            System.out.print(ndx);
+            System.out.print(" = ");
+            System.out.println(disjoint[ndx]);
         }
         errorCount += isItTrue("disjoint.length = 6", disjoint.length == 6);
 
