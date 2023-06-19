@@ -83,15 +83,21 @@ public class main {
             // Loop to read and print the zip file name till
             // the end
             while ((ze = Zs.getNextEntry()) != null) {
-            	if (ze.isDirectory())
-                	System.out.println("\t" + ze.getName());
-                else {
+            	if (ze.isDirectory()) {
+            		System.out.print("\t");
+                	System.out.println(ze.getName());
+                } else {
                 	Path path = Paths.get(ze.getName());
                 	String fileName = path.getFileName().toString();
                 	String size = String.valueOf(ze.getSize());
                 	String crc = String.valueOf(ze.getCrc());
                 	errorCount += lookup(fileName, size, crc);
-                	System.out.printf("\t\t%20s  %10s  %s\n", fileName, size, crc);
+                	System.out.print("\t\t");
+                	System.out.print(fileName);
+                	System.out.print("   ");
+                	System.out.print(size);
+                	System.out.print("   ");
+                	System.out.println(crc);
                 }
             }
  
