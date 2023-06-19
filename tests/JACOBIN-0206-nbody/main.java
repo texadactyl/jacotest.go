@@ -26,7 +26,14 @@ public final class main {
    static int ADVANCES = 50000000; // 50 million
 
 
-   public static void main(String[] args) {
+	public static void printBracketedObject(String label, Object value) {
+	    System.out.print(label);
+	    System.out.print(" = {");
+	    System.out.print(value);
+	    System.out.println("}");
+	}
+
+    public static void main(String[] args) {
       long t1, t2;
       double elapsedSeconds;
       int n = ADVANCES;
@@ -37,17 +44,17 @@ public final class main {
       System.out.println(msg);
         
       NBodySystem bodies = new NBodySystem();
-      System.out.printf("Initial energy: %.9f\n", bodies.energy());
+      printBracketedObject("Initial energy", bodies.energy());
       t1 = System.currentTimeMillis();
       for (int i = 0; i < n; ++i)
          bodies.advance(0.01);
       t2 = System.currentTimeMillis();
       elapsedSeconds = (double)(t2 - t1) / 1000.0;
-      System.out.printf("Final energy: %.9f\n", bodies.energy());
-      System.out.printf("Elapsed time: %.3f seconds\n", elapsedSeconds);
-   }
+      printBracketedObject("Final energy", bodies.energy());
+      printBracketedObject("Elapsed time (seconds)", elapsedSeconds);
+	}
 
-   final static class NBodySystem {
+	final static class NBodySystem {
       private static final double PI = 3.141592653589793;
       private static final double SOLAR_MASS = 4 * PI * PI;
       private static final double DAYS_PER_YEAR = 365.24;
