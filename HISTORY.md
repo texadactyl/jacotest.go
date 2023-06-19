@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-19 | 2.0.18 | printf, begone! |
 | 2023-06-19 | 2.0.17 | Added test case: imageio-output. |
 | 2023-06-16 | 2.0.16 | Added test case: perf-base-instantiate. |
 |  |  | Added test case: simple-switch. |
