@@ -12,7 +12,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |  |  | Added test case: merkletrees. |
 | 2023-06-13 | 2.0.14 | Added test case: jarring. |
 | 2023-06-11 | 2.0.13 | Added additional failure report categories. |
-| 2023-06-06 | 2.0.12 | Bug fixes: genGobFile. |
+| 2023-06-06 | 2.0.12 | Bug fixes: utility genGobFile. |
 | 2023-06-03 | 2.0.11 | Added utility: genGobFile. |
 | 2023-06-03 | 2.0.10 | Rename mapJmods to genJmodsCsv. |
 | 2023-06-02 | 2.0.9  | Added utility: mapJmods. |
