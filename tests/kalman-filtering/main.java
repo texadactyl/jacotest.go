@@ -48,11 +48,13 @@ public class main {
 	 * Return 0 if the input expression is true; else, return 1.
 	 */
 	private static int assertTrue(String label, boolean boolExpr) {
+		Helpers hh = new Helpers();
 		if (boolExpr) {
-			System.out.printf("%s is true\n", label);
+			hh.printLabeledString(label, "true");
 			return 0;
 		}
-		System.out.printf("*** ERROR, %s is false\n", label);
+		System.out print("*** ERROR, ");
+		hh.printLabeledString(label, "false");
 		return 1;
 	}
 
@@ -65,6 +67,7 @@ public class main {
                                        double initialStateVariance) {
                                        
         KalmanFilter kf = new KalmanFilter();
+        Helpers hh = new Helpers();
         
         // Initialize state transition matrix
         double cos = Math.cos(stepSizeRadians);
@@ -86,7 +89,7 @@ public class main {
         // Initialize state matrix to zeros
         kf.mx = new Matrix(2, 1);
         
-        System.out.println("Initialised Kalman Filter matrices: \n" + kf.toString());
+        hh.printLabeledString("Initialised Kalman Filter matrices", kf.toString());
         
         return kf;
     }
@@ -156,7 +159,10 @@ public class main {
         double dSteps = (double) mSteps;
         double mean = sum / dSteps;
         double variance = (sumSquares - sum * sum) / (dSteps * dSteps);
-        System.out.println("Residual mean: " + mean + ", variance: " + variance);
+        System.out.print("Residual mean: ");
+        System.out.print(mean);
+        System.out.print(", variance: ");
+        System.out.println(variance);
         errorCount += assertTrue("abs(mean) < 0.1", Math.abs(mean) < 0.1);
         errorCount += assertTrue("abs(variance) < 0.1", Math.abs(variance) < 0.1);
         

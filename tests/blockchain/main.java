@@ -12,6 +12,17 @@ public class main {
     static ArrayList<Block> blockchain
             = new ArrayList<Block>();
 
+	public static void rptErrorBlock(String label, int index, String obsHash, String expHash) {
+		System.out.print("*** ERROR, in ");
+		System.out.print(label);
+		System.out.print(", index ");
+		System.out.print(index);
+		System.out.print(", observed hash ");
+		System.out.print(obsHash);
+		System.out.print(", expected hash ");
+		System.out.println(expHash);
+	}
+
     // Check validity of the blockchain
     public static Boolean isChainValid() {
         Block currentBlock;
@@ -35,8 +46,7 @@ public class main {
                     .equals(
                             currentBlock
                                     .calculateHash())) {
-                System.out.printf("*** OOPS, CURRENT (index %d) block hash (%s) is not correct; should be %s\n",
-                        ii, currentBlock.getCurHash(), currentBlock.calculateHash());
+                rptErrorBlock("CURRENT block", ii, currentBlock.getCurHash(), currentBlock.calculateHash());
                 return false;
             }
 
@@ -48,8 +58,7 @@ public class main {
                     .equals(
                             currentBlock
                                     .getPrevHash())) {
-                System.out.printf("*** OOPS, PREVIOUS (index %d) block hash (%s) is not correct; should be %s\n",
-                        ii - 1, currentBlock.getCurHash(), currentBlock.calculateHash());
+                rptErrorBlock("PREVIOUS block", ii - 1, currentBlock.getCurHash(), currentBlock.calculateHash());
                 return false;
             }
         }

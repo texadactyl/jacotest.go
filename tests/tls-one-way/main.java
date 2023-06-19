@@ -23,19 +23,18 @@ public class main {
 		@Override
 		public void handshakeCompleted(HandshakeCompletedEvent event) {
 		
+			Helpers hh = new Helpers();
+		
 			try {
-			System.out.println("handshakeCompleted: peer: " + event.getPeerPrincipal().getName());
-			System.out.println("handshakeCompleted: cipher suite: " + event.getCipherSuite());
-			Certificate [] peerChain = event.getPeerCertificates();
-			int certCounter = 0;
-			for (Certificate cert : peerChain) {
-				X509Certificate xcert = (X509Certificate) cert;
-				System.out.printf("handshakeCompleted: cert %d DN: %s, type %s, issuer: %s\n",
-									++certCounter, xcert.getSubjectX500Principal().getName(), 
-									cert.getType(), xcert.getIssuerX500Principal().getName()); 
-			}
-			System.out.println("handshakeCompleted: end");
-			handshakeSemaphore = true;
+				hh.printLabeledString("handshakeCompleted: peer", event.getPeerPrincipal().getName());
+				hh.printLabeledString("handshakeCompleted: cipher suite", event.getCipherSuite());
+				Certificate [] peerChain = event.getPeerCertificates();
+				for (Certificate cert : peerChain) {
+					X509Certificate xcert = (X509Certificate) cert;
+					hh.printLabeledString("handshakeCompleted: issuer", xcert.getIssuerX500Principal().getName()); 
+				}
+				System.out.println("handshakeCompleted: end");
+				handshakeSemaphore = true;
 			} catch (SSLPeerUnverifiedException ee) {
 				ee.printStackTrace();
 				System.exit(1);

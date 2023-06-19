@@ -3,6 +3,8 @@ public class main {
     public static void main(String args[]) {
         String msg = "Testing basic statistical functions and a square root algorithm";
         System.out.println(msg);
+        
+        Helpers hh = new Helpers();
 
         int arraySize = 1000000;
         double[] x_elems = new double[arraySize];
@@ -36,16 +38,16 @@ public class main {
         long t2 = System.currentTimeMillis();
         double elapsedSeconds = (double) (t2 - t1) / 1000.0;
 
-        System.out.printf("array sizes: %d\n", x_elems.length);
-        System.out.printf("x-mean: %f\n", x_mean);
-        System.out.printf("x-stdev: %f\n", x_stdev);
-        System.out.printf("y-mean: %f\n", y_mean);
-        System.out.printf("y-stdev: %f\n", y_stdev);
-        System.out.printf("z-mean: %f\n", z_mean);
-        System.out.printf("z-stdev: %f\n", z_stdev);
-        System.out.printf("x - y correlation: %f\n", correl_x_y);
-        System.out.printf("x - z correlation: %f\n", correl_x_z);
-        System.out.printf("elapsed time: %.3f seconds\n", elapsedSeconds);
+        hh.printBracketedObject("array sizes", x_elems.length);
+        hh.printBracketedObject("x-mean", x_mean);
+        hh.printBracketedObject("x-stdev", x_stdev);
+        hh.printBracketedObject("y-mean", y_mean);
+        hh.printBracketedObject("y-stdev", y_stdev);
+        hh.printBracketedObject("z-mean", z_mean);
+        hh.printBracketedObject("z-stdev", z_stdev);
+        hh.printBracketedObject("x - y correlation", correl_x_y);
+        hh.printBracketedObject("x - z correlation", correl_x_z);
+        hh.printBracketedObject("elapsed time (seconds)", elapsedSeconds);
     }
 
 }
