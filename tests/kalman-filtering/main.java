@@ -53,7 +53,7 @@ public class main {
 			hh.printLabeledString(label, "true");
 			return 0;
 		}
-		System.out print("*** ERROR, ");
+		System.out.print("*** ERROR, ");
 		hh.printLabeledString(label, "false");
 		return 1;
 	}
