@@ -3,14 +3,20 @@ public class main {
     public static int checkObsExp(String label, double observed, double expected) {
         if (observed == expected)
             return 0;
-        System.out.printf("*** ERROR, expected %f, observed %f\n", expected, observed);
+        System.out.print("*** ERROR, expected ");
+        System.out.print(expected);
+        System.out.print(", observed ");
+        System.out.println(observed);
         return 1;
     }
 
     public static int checkObsExp(String label, int observed, int expected) {
         if (observed == expected)
             return 0;
-        System.out.printf("*** ERROR, expected %f, observed %f\n", expected, observed);
+        System.out.print("*** ERROR, expected ");
+        System.out.print(expected);
+        System.out.print(", observed ");
+        System.out.println(observed);
         return 1;
     }
 
