@@ -39,10 +39,10 @@ public class Block {
         this.timeStamp = new Date().getTime();
         this.previousHash = previousHash;
         this.hash = calculateHash();
-        if (verbose) {
-            System.out.printf("Block verbose data[0]=%d, hash=%s, previousHash=%s, timeStamp=%d\n",
-                    this.data[0], this.hash, this.previousHash, this.timeStamp);
-        }
+        //if (verbose) {
+        //    System.out.printf("Block verbose data[0]=%d, hash=%s, previousHash=%s, timeStamp=%d\n",
+        //            this.data[0], this.hash, this.previousHash, this.timeStamp);
+        //}
     }
 
     // Get block size
