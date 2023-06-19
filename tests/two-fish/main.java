@@ -9,17 +9,23 @@ public class main {
 
     public static void showBytes(String label, byte[] argBytes) {
         String hexString = Twofish_Algorithm.toString(argBytes);
-        System.out.printf("%s (%d bytes) in hex: %s\n", label, argBytes.length, hexString);
+        System.out.print(label);
+        System.out.print(" (");
+        System.out.print(argBytes.length);
+        System.out.print(" bytes) in hex: ");
+        System.out.println(hexString);
     }
 
 	private static int essai(int keysize, byte [] originalBytes) {
 	
-    	System.out.println("Trying key size " + keysize);
+    	System.out.print("Trying key size ");
+    	System.out.println(keysize);
     	Object key = null;
     	
 		int originalBytesize = originalBytes.length;
 		if (originalBytesize != 16) {
-			System.out.printf("*** ERROR: originalBytesize must be 16 but I saw: %d\n", originalBytesize);
+			System.out.print("*** ERROR: originalBytesize must be 16 but I saw: ");
+			System.out.println(originalBytesize);
 			return 1;
 		}
 
@@ -29,7 +35,8 @@ public class main {
         try {
         	key = Twofish_Algorithm.makeKey(kb);
         } catch (InvalidKeyException ike) {
-        	System.out.printf("*** ERROR : unexpected InvalidKeyException.\n%s\n", ike.getMessage());
+        	System.out.print("*** ERROR : unexpected InvalidKeyException: ");
+        	System.out.println(ike.getMessage());
         	ike.printStackTrace();
         	System.exit(1);
         }
@@ -42,7 +49,8 @@ public class main {
     		System.out.println("Ok");
     		return 0;
     	}
-    	System.out.println("*** ERROR: originalBytes and clearBytes comparison failed for key size " + keysize);
+    	System.out.print("*** ERROR: originalBytes and clearBytes comparison failed for key size ");
+    	System.out.println(keysize);
     	return 1;
     
 	}
@@ -52,7 +60,8 @@ public class main {
     	int errorCount = 0;
     	
         String originalString = "1234567890123456";
-        System.out.printf("originalString (string) [%d bytes]: %s\n", originalString.length(), originalString);
+        System.out.print("originalString (string): ");
+        System.out.println(originalString);
         byte[] originalBytes = originalString.getBytes();
         showBytes("originalBytes", originalBytes);
         
