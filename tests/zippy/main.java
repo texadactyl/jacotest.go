@@ -39,6 +39,23 @@ public class main {
 			{"remx_utilities.py", "6019",	"2295793381"}
         }; // 21 rows
 
+    public static void printLabeledString(String label, String value) {
+        System.out.print(label);
+        System.out.print(" = ");
+        System.out.println(value);
+    }
+
+    public static void errReport(String label, String name, String expected, String observed) {
+        System.out.print("*** ERROR, ");
+        System.out.print(label);
+        System.out.print(", for name ");
+        System.out.print(name);
+        System.out.print(", expected ");
+        System.out.print(expected);
+        System.out.print(", observed ");
+        System.out.println(observed);
+    }
+
 	public static int lookup(String name, String size, String crc) {
 		boolean found = false;
 		int ix = -1;
@@ -51,15 +68,15 @@ public class main {
 			}
 		}
 		if (! found) {
-			System.out.printf("*** ERROR :: name %s not found\n", name);
+			printLabeledString("*** ERROR :: name %s not found\n", name);
 			return 1;
 		}
 		if (! size.equals(zipTable[ix][1])) {
-			System.out.printf("*** ERROR :: For name %s, expected size = %s but observed %s\n", name, zipTable[ix][1], size);
+			errReport("SIZE", name, zipTable[ix][1], size);
 			returnCode = 1;
 		}
 		if (! crc.equals(zipTable[ix][2])) {
-			System.out.printf("*** ERROR :: For name %s, expected crc = %s but observed %s\n", name, zipTable[ix][2], crc);
+			errReport("CRC", name, zipTable[ix][2], crc);
 			returnCode = 1;
 		}
 		return returnCode;
