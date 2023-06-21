@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :--: | :--: | :-- |
 | 2023-06-21 | 2.0.19 | Added test case: aastore-field-type. |
 | 2023-06-20 | 2.0.18 | Added test case: stringer-2. |
+| | | Added test case: JACOBIN-0289-checkcast. |
 | | | Renamed test case stringer --> stringer-1. |
 | 2023-06-19 | 2.0.18 | printf, begone! |
 | 2023-06-19 | 2.0.17 | Added test case: imageio-output. |
