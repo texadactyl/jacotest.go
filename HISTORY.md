@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
 | 2023-06-21 | 2.0.19 | Added test case: aastore-field-type. |
+| | | Added test case: finally. |
 | | | Added test case: JACOBIN-0289-checkcast. |
 | | | Updated test case JACOBIN-0281-get-property. |
 | | | Prefixed test case names with JACOBIN-n. |

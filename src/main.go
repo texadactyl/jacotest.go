@@ -243,7 +243,7 @@ func main() {
 		outHandle := OutGrapeOpen(outPath, false)
 		OutGrapeText(outHandle, "Failed Test Case Summary - "+nowStamp+" "+timeZone)
 
-		OutGrapeText(outHandle, "\n================================")
+		OutGrapeText(outHandle, "\n=================================")
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "*** ERROR", outHandle)
@@ -268,9 +268,9 @@ func main() {
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
-		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "WaitClassStatus")
-		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "===============")
 		ExecGrape("logs", ".log", "WaitClassStatus", outHandle)
 
 		OutGrapeText(outHandle, "\n============================")
@@ -283,9 +283,9 @@ func main() {
 		OutGrapeText(outHandle, "=====================================")
 		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
-		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "MethAreaFetch")
-		OutGrapeText(outHandle, "=====================================")
+		OutGrapeText(outHandle, "===============")
 		ExecGrape("logs", ".log", "MethAreaFetch", outHandle)
 
 		OutGrapeText(outHandle, "\n================")
