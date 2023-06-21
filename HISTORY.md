@@ -3,7 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
-| 2023-06-21 | 2.0.19 | Added test case: aastore-field-type. |
+| 2023-06-21 | 2.0.19 | Added test case: JACOBIN-0288-aastore-field-type. |
 | | | Added test case: try-throw-catch. |
 | | | Added test case: finally. |
 | | | Added test case: JACOBIN-0289-checkcast. |
