@@ -8,6 +8,8 @@ at the operator command line or through Github Actions.
 
 All of the jactotest source code is written in Go as the name implies.  See the ```src``` directory under the project root.
 
+Some additional utilities have been developed and reside in the ```utilities``` directory under the project root.
+
 # Installation and Operations
 
 ### Preliminaries
