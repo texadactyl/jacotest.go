@@ -258,10 +258,10 @@ func main() {
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
 
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "AASTORE")
-		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "AASTORE", outHandle)
+		OutGrapeText(outHandle, "\n=======================")
+		OutGrapeText(outHandle, "array of incorrect type")
+		OutGrapeText(outHandle, "=======================")
+		ExecGrape("logs", ".log", "array of incorrect type", outHandle)
 
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
