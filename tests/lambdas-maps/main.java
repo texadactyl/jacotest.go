@@ -31,7 +31,8 @@ public class main {
         System.out.println("Lambdas and Maps");
 
         Sayable greeting = (name) -> {
-        	String msg = "Hello, " + name;
+        	String prefix = "Hello, ";
+        	String msg = prefix.concat(name);
             return msg;
         };
         String wstr = greeting.say("Theodore");
