@@ -243,10 +243,10 @@ func main() {
 		outHandle := OutGrapeOpen(outPath, false)
 		OutGrapeText(outHandle, "Failed Test Case Summary - "+nowStamp+" "+timeZone)
 
-		OutGrapeText(outHandle, "\n=================================")
-		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
-		OutGrapeText(outHandle, "=================================")
-		ExecGrape("logs", ".log", "*** ERROR", outHandle)
+		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "runtime error: invalid memory address")
+		OutGrapeText(outHandle, "=====================================")
+		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
@@ -258,15 +258,20 @@ func main() {
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
 
-		OutGrapeText(outHandle, "\n=======================")
-		OutGrapeText(outHandle, "array of incorrect type")
-		OutGrapeText(outHandle, "=======================")
-		ExecGrape("logs", ".log", "array of incorrect type", outHandle)
-
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
+
+		OutGrapeText(outHandle, "\n==================================")
+		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
+		OutGrapeText(outHandle, "=================================")
+		ExecGrape("logs", ".log", "*** ERROR", outHandle)
+
+		OutGrapeText(outHandle, "\n=======================")
+		OutGrapeText(outHandle, "array of incorrect type")
+		OutGrapeText(outHandle, "=======================")
+		ExecGrape("logs", ".log", "array of incorrect type", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "WaitClassStatus")
@@ -277,11 +282,6 @@ func main() {
 		OutGrapeText(outHandle, "could not find or load class")
 		OutGrapeText(outHandle, "============================")
 		ExecGrape("logs", ".log", "could not find or load class", outHandle)
-
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "runtime error: invalid memory address")
-		OutGrapeText(outHandle, "=====================================")
-		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "MethAreaFetch")
