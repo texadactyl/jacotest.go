@@ -34,10 +34,12 @@ public class main {
         s2Text = new String(cText);
      	rptStr("s2Text", s2Text);
         rptInt("s2Text length", s2Text.length());
+        System.out.println("Let's try to compare s2Text to S1Text .....");
         if (! s2Text.equals(s1Text)) {
         	errorCount += 1;
         	System.out.println("*** ERROR, s2Text != s1Text");
         }
+        System.out.println("Succeeding in comparing s2Text to S1Text");
         
         byte[] bText = s1Text.getBytes();
         wstr = new String(bText);
