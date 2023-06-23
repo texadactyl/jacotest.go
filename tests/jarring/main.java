@@ -47,9 +47,15 @@ public class main {
 
     public static void main(String args[]) {
 
-        String jvm = System.getProperty("java.vm.name");
-        System.out.print("JVM: ");
-        System.out.println(jvm);
+    	ProcessHandle ph = ProcessHandle.current();
+		ProcessHandle.Info info = ph.info();
+		String jvmPath = info.command().orElse("?");
+		if (jvmPath.equals("?")) {
+			System.out.println("*** ERROR, ProcessHandle.Info.command() failed.");
+			System.exit(1);
+		}
+        System.out.print("JVM executable: ");
+        System.out.println(jvmPath);
         System.out.print("Argument count: ");
         System.out.println(args.length);
         if (args.length > 0) {
@@ -57,9 +63,7 @@ public class main {
         }
         cmd("jar --create --verbose --main-class=main --file=jarring.jar main.java main.class uno");
         cmd("jar tf jarring.jar");
-        if (! jvm.equals("jacobin"))
-            jvm = "java";
-        String text = jvm + " -jar " + "jarring.jar RUNNER";
+        String text = jvmPath + " -jar " + "jarring.jar RUNNER";
         cmd(text);
 
     }

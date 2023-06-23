@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
 | 2023-06-23 | 2.0.21 | Added test case: JACOBIN-0296-new-fileinputstream |
+| | | Renamed test case JACOBIN-0235-system-exit to JACOBIN-0294-system-exit. |
 | 2023-06-22 | 2.0.20 | Added test case: stringer-valueof. |
 | | | Renamed test case JACOBIN-0234-string-length to JACOBIN-0290-string-length. |
 | 2023-06-21 | 2.0.19 | Added test case: JACOBIN-0288-aastore-field-type. |
