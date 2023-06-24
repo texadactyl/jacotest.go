@@ -39,8 +39,8 @@ public class main {
         	errorCount += 1;
         	System.out.println("*** ERROR, s2Text != s1Text");
         }
-        System.out.println("Succeeding in comparing s2Text to S1Text");
         
+        System.out.println("Let's try to make a byte array from s1Text .....");
         byte[] bText = s1Text.getBytes();
         wstr = new String(bText);
      	rptStr("bText", wstr);
@@ -50,6 +50,7 @@ public class main {
         	System.out.println("*** ERROR, bText, bText.length != s1Text.length");
         }
 
+        System.out.println("Let's try to make a String from a byte array .....");
         s3Text = new String(bText);
       	rptStr("s3Text", s3Text);
         rptInt("s3Text length", s3Text.length());
