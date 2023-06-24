@@ -38,7 +38,7 @@ public class main {
         System.out.println("Let's try to compare s2Text to S1Text .....");
         if (! s2Text.equals(s1Text)) {
         	errorCount += 1;
-        	System.out.println("*** ERROR, s2Text != s1Text");
+        	System.out.println("*** ERROR, s2Text (based on cText) != s1Text");
         }
         
         System.out.println("Let's try to make a byte array from s1Text .....");
