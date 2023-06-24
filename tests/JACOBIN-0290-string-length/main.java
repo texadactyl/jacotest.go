@@ -32,6 +32,7 @@ public class main {
         }
 
         s2Text = new String(cText);
+        System.out.println("Made s2Text from cText");
      	rptStr("s2Text", s2Text);
         rptInt("s2Text length", s2Text.length());
         System.out.println("Let's try to compare s2Text to S1Text .....");
