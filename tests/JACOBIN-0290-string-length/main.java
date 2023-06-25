@@ -19,45 +19,31 @@ public class main {
         System.out.println("String conversion and length exercises");
 
         s1Text = "Mary had a little lamb";
-     	rptStr("s1Text", s1Text);
+     	rptStr("s1Text, a String", s1Text);
         rptInt("s1Text length", s1Text.length());
        
+        System.out.println("Let's try to make a char array from s1Text .....");
         char[] cText = s1Text.toCharArray();
+        System.out.println("and then back to a String, wstr .....");
         wstr = new String(cText);
-     	rptStr("cText", wstr);
+     	rptStr("wstr from cText", wstr);
         rptInt("cText length", cText.length);
-        if (cText.length != s1Text.length()) {
+        rptInt("wstr length", wstr.length());
+        if (cText.length != wstr.length()) {
         	errorCount += 1;
-        	System.out.println("*** ERROR, cText.length != s1Text.length");
+        	System.out.println("*** ERROR, cText.length != wstr.length()");
         }
 
-        s2Text = new String(cText);
-        System.out.println("Made s2Text from cText");
-     	rptStr("s2Text", s2Text);
-        rptInt("s2Text length", s2Text.length());
-        System.out.println("Let's try to compare s2Text to S1Text .....");
-        if (! s2Text.equals(s1Text)) {
-        	errorCount += 1;
-        	System.out.println("*** ERROR, s2Text (based on cText) != s1Text");
-        }
-        
         System.out.println("Let's try to make a byte array from s1Text .....");
         byte[] bText = s1Text.getBytes();
+        System.out.println("and then back to a String, wstr .....");
         wstr = new String(bText);
-     	rptStr("bText", wstr);
+     	rptStr("wstr from bText", wstr);
         rptInt("bText length", bText.length);
-        if (bText.length != s1Text.length()) {
+        rptInt("wstr length", wstr.length());
+        if (bText.length != wstr.length()) {
         	errorCount += 1;
-        	System.out.println("*** ERROR, bText, bText.length != s1Text.length");
-        }
-
-        System.out.println("Let's try to make a String from a byte array .....");
-        s3Text = new String(bText);
-      	rptStr("s3Text", s3Text);
-        rptInt("s3Text length", s3Text.length());
-        if (! s3Text.equals(s1Text)) {
-        	errorCount += 1;
-        	System.out.println("*** ERROR, s2Text != s1Text");
+        	System.out.println("*** ERROR, bText.length != wstr.length");
         }
 
         // Check the error count

@@ -6,13 +6,13 @@ class main {
 
             switch (ii) {
                 case 0:
-                    System.out.println("0");
+                    System.out.println("case 0");
                     break;
                 case 1:
-                    System.out.println("1");
+                    System.out.println("case 1");
                     break;
                 case 2:
-                    System.out.println("2");
+                    System.out.println("case 2");
                     break;
                 default:
                     System.out.println("*** ERROR, switch-default failure");
