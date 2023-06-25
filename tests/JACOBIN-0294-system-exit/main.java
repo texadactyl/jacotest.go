@@ -8,9 +8,9 @@ public class main {
         System.out.println(dirstr);
         try {
             String line;
-            String [] nullstr = {};
+            String [] env = {"CLASSPATH=" + dirstr};
             File dir = new File(dirstr);
-            Process process = Runtime.getRuntime().exec(cmd, nullstr, dir);
+            Process process = Runtime.getRuntime().exec(cmd, env, dir);
             BufferedReader bri = new BufferedReader
                     (new InputStreamReader(process.getInputStream()));
             BufferedReader bre = new BufferedReader
