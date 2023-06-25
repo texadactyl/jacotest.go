@@ -250,7 +250,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		FmtFatal("ExecuteOneTest os.Getwd failed", "", err)
 	}
 
-	// Position to fullPathDir as the new working dir  (!!!!!!!!!!!!!!!!!!!!)
+	// Position to fullPathDir as the new working dir
 	err = os.Chdir(fullPathDir)
 	if err != nil {
 		FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
@@ -269,8 +269,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		return RC_COMP_ERROR, ""
 	}
 
-	// At this point, we are sitting in the test case directory
-	// and the classpath is the test case directory.
+	// At this point, we are sitting in the test case directory.
 	// Execute test "main.class".
 	testName := filepath.Base(fullPathDir)
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
@@ -289,6 +288,36 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 
 	// Return runner execution result
 	return stcode, outString // test case success
+}
+
+func ExecuteJavap(fullPathDir string) {
+
+	// Save the path of the current working dir
+	here, err := os.Getwd()
+	if err != nil {
+		FmtFatal("ExecuteOneTest os.Getwd failed", "", err)
+	}
+
+	// Position to fullPathDir as the new working dir
+	err = os.Chdir(fullPathDir)
+	if err != nil {
+		FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
+	}
+
+	// At this point, we are sitting in the test case directory.
+	// Execute "javap -v main.class".
+	output, err := exec.Command("javap", "-v", "main.class").Output()
+	if err != nil {
+		FmtFatal("ExecuteJavap: cmd.run(javap) failed.", "", err)
+	}
+	storeText(fullPathDir, "javap_main.log", string(output))
+
+	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
+	err = os.Chdir(here)
+	if err != nil {
+		FmtFatal("ExecuteJavap: os.Chdir failed.  Was trying to return here:", here, err)
+	}
+
 }
 
 // Open a file for create or append

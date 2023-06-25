@@ -213,6 +213,7 @@ func main() {
 				case RC_COMP_ERROR:
 					errCompileNames = append(errCompileNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+					continue // No need for javap execution in this case
 				case RC_EXEC_ERROR:
 					errRunnerNames = append(errRunnerNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
@@ -220,6 +221,7 @@ func main() {
 					timeoutRunnerNames = append(timeoutRunnerNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 				}
+				ExecuteJavap(fullPath)
 			}
 		}
 
