@@ -1,6 +1,6 @@
 public class main {
 
-	final static int NBYTES = 1000000;
+	final static int NBYTES = 10000;
 	final static int NLOOPS = 1000;
 
     public static void main(String[] args) {
@@ -64,7 +64,7 @@ public class main {
     	System.out.print("% spent in gc = "); 
     	System.out.println(pct_gc); 
     	
-    	if (pct_assign < 50.0)
+    	if (pct_assign < 20.0)
     		System.exit(0);
     	else {
     		System.out.println("*** ERROR, excessive time spent in loop-byte-assignment");
