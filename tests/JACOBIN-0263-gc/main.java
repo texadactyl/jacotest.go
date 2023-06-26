@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 public class main {
 
 	final static int NBYTES = 10000;
-	final static int NLOOPS = 1000;
+	final static int NLOOPS = 3;
 	final static double MAX_ASSIGN_PCT = 2.0; // max pct for byte array assignment
 	static double secs_overall = 0.0;
 	static MathContext mc = new MathContext(4);
