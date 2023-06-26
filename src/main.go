@@ -57,6 +57,7 @@ func main() {
 	now := time.Now()
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
+	exitStatus := 0 // optimistic
 
 	// Positioned in the tree top directory?
 	handle, err := os.Open("VERSION.txt")
@@ -211,13 +212,16 @@ func main() {
 					successNames = append(successNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 				case RC_COMP_ERROR:
+					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 					continue // No need for javap execution in this case
 				case RC_EXEC_ERROR:
+					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
 				case RC_EXEC_TIMEOUT:
+					exitStatus = 1
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 				}
@@ -307,5 +311,8 @@ func main() {
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 	}
 
-	Logger("End")
+	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
+	Logger(msg)
+	os.Exit(exitStatus)
+	
 }
