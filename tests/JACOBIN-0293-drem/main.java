@@ -1,5 +1,7 @@
 public class main {
     public static void main(String[] args) {
+    
+    	System.out.println("DREM exercises");
     	double d1, d2, d3;
     	d1 = 233.3;
     	d2 = 33.4;

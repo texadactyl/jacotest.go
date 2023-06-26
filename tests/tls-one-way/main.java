@@ -45,6 +45,8 @@ public class main {
 
     public static void main(String [] args) throws Exception {
     
+    	System.out.println("One-way TLS exercise (authenticate server only)");
+    
     	SSLSocket sslSocket;
 
     	System.out.println("main: Make cryptographically strong random number generator");

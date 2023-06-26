@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 public class main {
     public static void main(String args[]) throws IOException {
 
+		System.out.println("ImageIO exercise");
         File fileHandle = null;
 
         // Create an temporary file

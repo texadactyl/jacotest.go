@@ -177,8 +177,8 @@ func main() {
 	if flagExecute {
 		var successNames []string
 		var errCompileNames []string
-		var errRunnerNames []string
-		var timeoutRunnerNames []string
+		var errExecutionNames []string
+		var timeoutExecutionNames []string
 
 		// Initialise report file
 		rptHandle, err := os.Create(global.ReportFilePath)
@@ -215,10 +215,10 @@ func main() {
 					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 					continue // No need for javap execution in this case
 				case RC_EXEC_ERROR:
-					errRunnerNames = append(errRunnerNames, testCaseName)
+					errExecutionNames = append(errExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
 				case RC_EXEC_TIMEOUT:
-					timeoutRunnerNames = append(timeoutRunnerNames, testCaseName)
+					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 				}
 				ExecuteJavap(fullPath)
@@ -232,13 +232,13 @@ func main() {
 		}
 
 		// Show compilation errors
-		showResults("compilation", errCompileNames)
+		showResults("Compilation", errCompileNames)
 
-		// Show runner errors
-		showResults("runner failure", errRunnerNames)
+		// Show execution failures
+		showResults("Execution failure", errExecutionNames)
 
 		// Show timeout errors
-		showResults("runner timeout", timeoutRunnerNames)
+		showResults("Execution timeout", timeoutExecutionNames)
 
 		// Grapes
 		outPath := global.FSumFilePath

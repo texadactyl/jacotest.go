@@ -2,6 +2,8 @@ public class main {
 
     public static void main(String[] args) throws Exception {
     
+    	System.out.println("String manipulation and member functions - Part 2");
+
         int errorCount = 0;
         Helpers hh = new Helpers();
 

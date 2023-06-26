@@ -2,7 +2,7 @@ public class main {
 
     public static void main(String[] args) throws Exception {
 
-        String msg = "Four bit shifting test cases";
+        String msg = "Bit shifting test cases";
         System.out.println(msg);
 
         int errorCount = 0;

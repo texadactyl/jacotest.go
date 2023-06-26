@@ -174,6 +174,8 @@ public class main {
      */
 	public static void main(String [] args) {
 	
+		System.out.println("Exercise Kalman filtering");
+		
 		// Execute the phase-locked loop
 		int errorCount = testPhaseLockedLoop();
 		

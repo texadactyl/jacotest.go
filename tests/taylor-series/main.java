@@ -35,6 +35,8 @@ public class main {
     }
 
     public static void main(String[] args) {
+    
+    	System.out.println("Taylor series exercise");
 
         // Taylor series for e^x
         RationalPolynomial tsExp = RationalPolynomial.ZERO;

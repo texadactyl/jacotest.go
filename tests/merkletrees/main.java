@@ -21,6 +21,9 @@ class main {
     private static final int minDepth = 4;
   
     public static void main(String[] args) {
+    
+      System.out.println("Exercise the use of a Merkletree");
+      
       final var n = args.length > 0 ? Integer.parseInt(args[0]) : 20;
       final var maxDepth = (minDepth + 2 > n) ? minDepth + 2 : n;
       final var stretchDepth = maxDepth + 1;

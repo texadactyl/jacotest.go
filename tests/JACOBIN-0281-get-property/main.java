@@ -16,6 +16,7 @@ public class main {
 
     public static void main(String args[]) {
 
+	System.out.println("Exercise System.getProperty()");
 		int errorCount = 0;
         errorCount += reporter("file.separator");
         errorCount += reporter("java.class.path");

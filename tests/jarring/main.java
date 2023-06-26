@@ -1,5 +1,5 @@
 import java.io.*;
-import uno.dos.Calculator;
+import middle.calculator.Calculator;
 
 public class main {
 
@@ -47,6 +47,7 @@ public class main {
 
     public static void main(String args[]) {
 
+		System.out.println("Create and use a jar, exercising Runtime.getRuntime().exec()");
     	ProcessHandle ph = ProcessHandle.current();
 		ProcessHandle.Info info = ph.info();
 		String jvmPath = info.command().orElse("?");

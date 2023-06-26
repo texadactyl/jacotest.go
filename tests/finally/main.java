@@ -1,5 +1,7 @@
 public class main {
     public static void main(String[] args) {
+    
+    	System.out.println("Try-Catch-Finally exercise");
     	int errorCount = 0;
     	boolean finny = false;
 		try {

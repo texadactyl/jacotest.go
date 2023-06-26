@@ -6,7 +6,7 @@ public class main {
 
     public static void main(String[] args) {
     
-    	System.out.println("Allocation, deletion, gc, and timings");
+    	System.out.println("Timings for allocation, assignment, deletion, and gc");
     	System.out.print("Byte allocation size: ");
     	System.out.println(NBYTES);
     	System.out.print("Loop count: ");

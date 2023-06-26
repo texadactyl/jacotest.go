@@ -12,6 +12,8 @@ public class main {
 	}
 
 	public static void main(String args[]) {
+	
+		System.out.println("Cryptography with a deck of cards - https://www.schneier.com/academic/solitaire/");
 
 		// Effect: enciphers args[0] using args[1] as a key.  
 		//   If args[0] is not supplied, enciphers the string "SOLITAIRE".

@@ -3,7 +3,7 @@ import middle.pkgcalc.Calculator;
 public class main {
 
     public static void main(String args[]) {
-        System.out.println("Testing the use of import pkgcalc.Calculator");
+        System.out.println("Testing the use of import middle.pkgcalc.Calculator");
         Calculator obj = new Calculator();
         int result = obj.add(100, 200);
         if (result != 300) {

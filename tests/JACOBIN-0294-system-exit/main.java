@@ -1,3 +1,7 @@
+// NOTE: A CLASSPATH technique is used even though this is not necessary in POSIX systems.
+//       This was done in order to accomodate Windows testing environments where
+//       a subprocess does *NOT* inherit the current working directory from the parent process.
+
 import java.io.*;
 public class main {
 
@@ -35,6 +39,8 @@ public class main {
     public static void main(String args[]) {
 
 		if (args.length == 0) {
+			//Parent Process
+			System.out.println("parent: System.exit(nn) exercise");
 		    System.out.print("parent: Argument count: ");
 		    System.out.println(args.length);
 			String cwd = System.getProperty("user.dir");
@@ -57,6 +63,7 @@ public class main {
 		    	className = "main"; // openjdk
 		    else
 		    	className = "main.class"; // jacobin
+		    // Make use of a CLASSPATH that consists of one element: the parent's current working directory (cwd).
 		    String cmdLnArray[] = new String[] {jvmName, "-cp", cwd, className, "123"};
 		    cmdLine = String.join(" ", cmdLnArray);
 		    int statusCode = commander(cmdLine);
@@ -68,7 +75,10 @@ public class main {
 		    	System.out.println(statusCode);
 		    	System.exit(1);
 		    }
+		    
 		} else {
+			// Child process
+			System.out.println("child: System.exit(nn) exercise");
 		    System.out.print("child: Argument count: ");
 		    System.out.println(args.length);
 			String cwd = System.getProperty("user.dir");

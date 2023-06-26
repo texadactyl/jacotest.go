@@ -1,6 +1,8 @@
 class main {
 
     public static void main(String[] args) {
+    
+    	System.out.println("Try a switch structure with an integer argument");
 
         for (int ii = 0; ii < 3; ii++) {
 

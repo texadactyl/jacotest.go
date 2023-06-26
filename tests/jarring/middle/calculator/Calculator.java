@@ -1,4 +1,4 @@
-package uno.dos;
+package middle.calculator;
 
 public class Calculator {
 
