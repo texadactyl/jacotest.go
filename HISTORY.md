@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-26 | 2.1.2 | Removed negative tests (useful 6 months ago) and shortened JACOBIN-0263-gc. |
 | 2023-06-25 | 2.1.1 | Generate `javap -v` logs for all test cases. |
 | 2023-06-25 | 2.0.22 | Fixed logging to be clearer in a few tests. |
 | 2023-06-23 | 2.0.21 | Added test case: JACOBIN-0296-new-fileinputstream. |
