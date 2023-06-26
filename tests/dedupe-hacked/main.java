@@ -28,6 +28,7 @@ public class main {
         boolean nosubdirs = false;
         boolean quiet = false;
 
+		System.out.println("FileDedupe was adapted for use with jacotest.go");
         printCopyright();
         
         //if( args.length == 0 ) {
