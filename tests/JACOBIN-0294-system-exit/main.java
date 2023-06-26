@@ -1,16 +1,12 @@
 import java.io.*;
 public class main {
 
-    public static int commander(String cmd, String dirstr) {
+    public static int commander(String cmd) {
         System.out.print("commander: Begin, cmd=");
-        System.out.print(cmd);
-        System.out.print(", dirstr=");
-        System.out.println(dirstr);
+        System.out.println(cmd);
         try {
             String line;
-            String [] env = {"CLASSPATH=" + dirstr};
-            File dir = new File(dirstr);
-            Process process = Runtime.getRuntime().exec(cmd, env, dir);
+            Process process = Runtime.getRuntime().exec(cmd);
             BufferedReader bri = new BufferedReader
                     (new InputStreamReader(process.getInputStream()));
             BufferedReader bre = new BufferedReader
@@ -54,13 +50,16 @@ public class main {
 		    System.out.print("parent: JVM executable: ");
 		    System.out.println(jvmPath);
 		    File file = new File(jvmPath);
-		    String jvmName = file.getName();
-		    String text;
-		    if (jvmName.equals("java"))
-		    	text = jvmPath.concat(" main 123"); // OpenJDK
+		    String jvmName = file.getName().toLowerCase();
+		    String cmdLine;
+		    String className;
+		    if (jvmName.equals("java") || jvmName.equals("java.exe"))
+		    	className = "main"; // openjdk
 		    else
-		    	text = jvmPath.concat(" main.class 123"); // jacobin
-		    int statusCode = commander(text, cwd);
+		    	className = "main.class"; // jacobin
+		    String cmdLnArray[] = new String[] {jvmName, "-cp", cwd, className, "123"};
+		    cmdLine = String.join(" ", cmdLnArray);
+		    int statusCode = commander(cmdLine);
 		    if (statusCode == 42) {
 		    	System.out.println("parent: The child process exited with 42 as expected.");
 		    	System.exit(0);
