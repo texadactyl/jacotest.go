@@ -1,8 +1,19 @@
+import java.math.MathContext;
+import java.math.BigDecimal;
+
 public class main {
 
 	final static int NBYTES = 10000;
 	final static int NLOOPS = 1000;
 	final static double MAX_ASSIGN_PCT = 2.0; // max pct for byte array assignment
+	static double secs_overall = 0.0;
+	static MathContext mc = new MathContext(4);
+
+	public static double roundedPct(long inputMsecs) {		
+		double pct = ((double) inputMsecs) * 0.1 / secs_overall;
+		BigDecimal bd = new BigDecimal(pct, mc);
+		return bd.doubleValue();
+	}
 
     public static void main(String[] args) {
     
@@ -44,31 +55,36 @@ public class main {
         }        
     	long t2_overall = System.currentTimeMillis();
     	
-    	double secs_overall = (double) (t2_overall - t1_overall) / 1000.0;
+    	secs_overall = (double) (t2_overall - t1_overall) / 1000.0;
     	System.out.print("Overall elapsed time = "); 
     	System.out.print(secs_overall); 
     	System.out.println(" seconds"); 
     	
-    	double pct_allocate = (double) et_allocate * 0.1 / secs_overall;
+    	double pct_allocate = roundedPct(et_allocate);
     	System.out.print("% spent in new byte [...] = "); 
     	System.out.println(pct_allocate); 
     	
-    	double pct_assign = (double) et_assign * 0.1 / secs_overall;
+    	double pct_assign = roundedPct(et_assign);
     	System.out.print("% spent in loop-byte-assignment = "); 
     	System.out.println(pct_assign); 
     	
-    	double pct_null = (double) et_null * 0.1 / secs_overall;
+    	double pct_null = roundedPct(et_null);
     	System.out.print("% spent in setting byte array null = "); 
     	System.out.println(pct_null); 
     	
-    	double pct_gc = (double) et_gc * 0.1 / secs_overall;
+    	double pct_gc = roundedPct(et_gc);
     	System.out.print("% spent in gc = "); 
     	System.out.println(pct_gc); 
     	
-    	if (pct_assign < MAX_ASSIGN_PCT)
+    	if (pct_assign < MAX_ASSIGN_PCT) {
+    		System.out.println("Success!");
     		System.exit(0);
-    	else {
-    		System.out.println("*** ERROR, excessive time spent in loop-byte-assignment");
+    	} else {
+    		System.out.print("*** ERROR, excessive time (");
+    		System.out.print(pct_assign);
+    		System.out.print(" %) spent in byte-assignment. Expecting it to be < ");
+    		System.out.print(MAX_ASSIGN_PCT);
+    		System.out.println("%");
     		System.exit(1);
     	}
     }
