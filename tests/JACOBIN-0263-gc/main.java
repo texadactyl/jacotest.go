@@ -1,7 +1,7 @@
 public class main {
 
-	final static int NBYTES = 100000000;
-	final static int NLOOPS = 10;
+	final static int NBYTES = 1000000;
+	final static int NLOOPS = 1000;
 
     public static void main(String[] args) {
     
