@@ -6,6 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2023-06-27 | 2.1.4 | Added new categories to failure summary. |
 | 2023-06-26 | 2.1.3 | Ensured that every test case made a System.out.println(...) announcement. |
 | | | Added test case: JACOBIN-0301-putstatic. |
+| | | Added test case: JACOBIN-0303-securerandom. |
 | 2023-06-26 | 2.1.2 | Removed negative tests (useful 6 months ago) and shortened JACOBIN-0263-gc. |
 | 2023-06-25 | 2.1.1 | Generate `javap -v` logs for all test cases. |
 | 2023-06-25 | 2.0.22 | Fixed logging to be clearer in a few tests. |
