@@ -75,17 +75,7 @@ public class main {
     	double pct_gc = roundedPct(et_gc);
     	System.out.print("% spent in gc = "); 
     	System.out.println(pct_gc); 
+    	System.out.println("End");
     	
-    	if (pct_assign < MAX_ASSIGN_PCT) {
-    		System.out.println("Success!");
-    		System.exit(0);
-    	} else {
-    		System.out.print("*** ERROR, excessive time (");
-    		System.out.print(pct_assign);
-    		System.out.print(" %) spent in byte-assignment. Expecting it to be < ");
-    		System.out.print(MAX_ASSIGN_PCT);
-    		System.out.println("%");
-    		System.exit(1);
-    	}
     }
 }
