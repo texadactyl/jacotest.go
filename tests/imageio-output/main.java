@@ -43,5 +43,6 @@ public class main {
             ee.printStackTrace();
             System.exit(1);
         }
+		System.out.println("Success!");
     }
 }

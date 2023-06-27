@@ -264,6 +264,26 @@ func main() {
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
 
+		OutGrapeText(outHandle, "\n===============")
+		OutGrapeText(outHandle, "AALOAD: Invalid")
+		OutGrapeText(outHandle, "===============")
+		ExecGrape("logs", ".log", "AALOAD: Invalid", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
+
+		OutGrapeText(outHandle, "\n============================================")
+		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
+		OutGrapeText(outHandle, "============================================")
+		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
+
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
