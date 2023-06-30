@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class Block {
 
+	private boolean verbose = false;
+
     // Every block contains
     // a hash, previous hash and
     // data of the transaction made
@@ -22,12 +24,7 @@ public class Block {
         // * current data
         // * current timestamp
         // * previous hash value
-        String calculatedhash
-                = HashGen.sha256(
-                this.previousHash
-                        + Long.toString(this.timeStamp)
-                        + this.data);
-
+        String calculatedhash = HashGen.sha256(this.previousHash + Long.toString(this.timeStamp) + this.data);
         return calculatedhash;
     }
 
@@ -39,15 +36,15 @@ public class Block {
         this.timeStamp = new Date().getTime();
         this.previousHash = previousHash;
         this.hash = calculateHash();
-        //if (verbose) {
-        //    System.out.printf("Block verbose data[0]=%d, hash=%s, previousHash=%s, timeStamp=%d\n",
-        //            this.data[0], this.hash, this.previousHash, this.timeStamp);
-        //}
+        if (verbose)
+            System.out.printf("Block verbose: data[0]=%d, hash=%s, previousHash=%s, timeStamp=%d\n",
+                    this.data[0], this.hash, this.previousHash, this.timeStamp);
     }
 
     // Get block size
     public long getSize() {
-        return this.hash.length() + this.previousHash.length() + this.data.length + 8;
+    	long size = this.hash.length() + this.previousHash.length() + this.data.length + 8;
+        return size;
     }
 
     // Get current hash

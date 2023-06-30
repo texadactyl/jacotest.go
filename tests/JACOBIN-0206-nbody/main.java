@@ -24,13 +24,30 @@ STDOUT:
 public final class main {
 
    static int ADVANCES = 50000000; // 50 million
-
+    public static final double EPSILON = 1e-15;    // relative error tolerance
 
 	public static void printBracketedObject(String label, Object value) {
 	    System.out.print(label);
 	    System.out.print(" = {");
 	    System.out.print(value);
 	    System.out.println("}");
+	}
+
+	public static double absValue(double arg) {
+		if (arg < 0.0)
+			return -arg;
+		return arg;
+	}
+
+	public static double sqrtNewton(double arg) {
+
+        double est = arg; // estimate of the square root of c
+        // repeatedly apply Newton update step until desired precision is achieved
+        while (absValue(est - arg / est) > (EPSILON * est)) {
+            est = ( arg / est + est) * 0.5;
+        }
+        return est;
+        
 	}
 
     public static void main(String[] args) {
@@ -153,7 +170,7 @@ public final class main {
                final double dz = bodies[ioffset + z] - bodies[joffset + z];
 
                final double dSquared = dx * dx + dy * dy + dz * dz;
-               final double distance = Math.sqrt(dSquared);
+               final double distance = sqrtNewton(dSquared);
                final double mag = dt / (dSquared * distance);
 
                final double jmass = bodies[joffset + mass];
@@ -206,7 +223,7 @@ public final class main {
                dy = iy - bodies[joffset + y];
                dz = iz - bodies[joffset + z];
 
-               distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+               distance = sqrtNewton(dx * dx + dy * dy + dz * dz);
                e -= (imass * bodies[joffset + mass]) / distance;
             }
          }
