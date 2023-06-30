@@ -6,7 +6,7 @@ public class Helpers {
         System.out.println(value);
     }
 
-    public void printBracketedObject(String label, Object value) {
+    public void printLabeledDouble(String label, double value) {
         System.out.print(label);
         System.out.print(" = {");
         System.out.print(value);

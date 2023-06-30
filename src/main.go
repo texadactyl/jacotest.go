@@ -249,11 +249,6 @@ func main() {
 		outHandle := OutGrapeOpen(outPath, false)
 		OutGrapeText(outHandle, "Failed Test Case Summary - "+nowStamp+" "+timeZone)
 
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "runtime error: invalid memory address")
-		OutGrapeText(outHandle, "=====================================")
-		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
-
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
 		OutGrapeText(outHandle, "===========================")
@@ -269,15 +264,15 @@ func main() {
 		OutGrapeText(outHandle, "===============")
 		ExecGrape("logs", ".log", "AALOAD: Invalid", outHandle)
 
+		OutGrapeText(outHandle, "\n===============")
+		OutGrapeText(outHandle, "BALOAD: Invalid")
+		OutGrapeText(outHandle, "===============")
+		ExecGrape("logs", ".log", "BALOAD: Invalid", outHandle)
+
 		OutGrapeText(outHandle, "\n============================================")
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
 		OutGrapeText(outHandle, "============================================")
 		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
@@ -288,6 +283,16 @@ func main() {
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "*** ERROR", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
+
+		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "runtime error: invalid memory address")
+		OutGrapeText(outHandle, "=====================================")
+		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
 		OutGrapeText(outHandle, "\n=======================")
 		OutGrapeText(outHandle, "array of incorrect type")

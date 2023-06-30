@@ -6,7 +6,7 @@ public class main {
         
         Helpers hh = new Helpers();
 
-        int arraySize = 1000000;
+        int arraySize = 1000;
         double[] x_elems = new double[arraySize];
         double[] y_elems = new double[arraySize];
         double[] z_elems = new double[arraySize];
@@ -20,7 +20,7 @@ public class main {
             double dblx = (double) (ndx % 256);
             x_elems[ndx] = dblx;
             y_elems[ndx] = -dblx;
-            z_elems[ndx] = Math.sin(dblx);
+            z_elems[ndx] = Library.squareRoot(dblx);
         }
         double[] output = Library.meanStdev(x_elems);
         double x_mean = output[0];
@@ -38,16 +38,16 @@ public class main {
         long t2 = System.currentTimeMillis();
         double elapsedSeconds = (double) (t2 - t1) / 1000.0;
 
-        hh.printBracketedObject("array sizes", x_elems.length);
-        hh.printBracketedObject("x-mean", x_mean);
-        hh.printBracketedObject("x-stdev", x_stdev);
-        hh.printBracketedObject("y-mean", y_mean);
-        hh.printBracketedObject("y-stdev", y_stdev);
-        hh.printBracketedObject("z-mean", z_mean);
-        hh.printBracketedObject("z-stdev", z_stdev);
-        hh.printBracketedObject("x - y correlation", correl_x_y);
-        hh.printBracketedObject("x - z correlation", correl_x_z);
-        hh.printBracketedObject("elapsed time (seconds)", elapsedSeconds);
+        hh.printLabeledString("array sizes", String.valueOf(x_elems.length));
+        hh.printLabeledDouble("x-mean", x_mean);
+        hh.printLabeledDouble("x-stdev", x_stdev);
+        hh.printLabeledDouble("y-mean", y_mean);
+        hh.printLabeledDouble("y-stdev", y_stdev);
+        hh.printLabeledDouble("z-mean", z_mean);
+        hh.printLabeledDouble("z-stdev", z_stdev);
+        hh.printLabeledDouble("x - y correlation", correl_x_y);
+        hh.printLabeledDouble("x - z correlation", correl_x_z);
+        hh.printLabeledDouble("elapsed time (seconds)", elapsedSeconds);
     }
 
 }
