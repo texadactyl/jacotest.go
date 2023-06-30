@@ -7,7 +7,7 @@ public class main {
             return 0;
         }
         System.out.print(label);
-        System.out.print(" *FAILED* array length comparison ");
+        System.out.print(" *** ERROR, array length comparison ");
         System.out.print(size1);
         System.out.print(" : ");
         System.out.println(size2);

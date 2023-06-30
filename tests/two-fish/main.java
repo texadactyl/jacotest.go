@@ -24,7 +24,7 @@ public class main {
     	
 		int originalBytesize = originalBytes.length;
 		if (originalBytesize != 16) {
-			System.out.print("*** ERROR: originalBytesize must be 16 but I saw: ");
+			System.out.print("*** ERROR, originalBytesize must be 16 but I saw: ");
 			System.out.println(originalBytesize);
 			return 1;
 		}
@@ -35,7 +35,7 @@ public class main {
         try {
         	key = Twofish_Algorithm.makeKey(kb);
         } catch (InvalidKeyException ike) {
-        	System.out.print("*** ERROR : unexpected InvalidKeyException: ");
+        	System.out.print("*** ERROR, unexpected InvalidKeyException: ");
         	System.out.println(ike.getMessage());
         	ike.printStackTrace();
         	System.exit(1);
@@ -49,7 +49,7 @@ public class main {
     		System.out.println("Ok");
     		return 0;
     	}
-    	System.out.print("*** ERROR: originalBytes and clearBytes comparison failed for key size ");
+    	System.out.print("*** ERROR, originalBytes and clearBytes comparison failed for key size ");
     	System.out.println(keysize);
     	return 1;
     

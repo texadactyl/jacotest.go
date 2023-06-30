@@ -50,7 +50,7 @@ public class main {
             System.out.println("compareHexFormat :: Success");
             return 0;
         }
-        System.out.println("compareHexFormat :: *** FAILED");
+        System.out.println("compareHexFormat :: *** ERROR");
         return 1;
     }
 
@@ -61,7 +61,7 @@ public class main {
             System.out.println("compareHexFormat :: Success");
             return 0;
         }
-        System.out.println("compareHexFormat :: *** FAILED");
+        System.out.println("compareHexFormat :: *** ERROR");
         return 1;
     }
 
@@ -90,7 +90,7 @@ public class main {
             System.out.println("Success :: IntStream mean close enough to 4096.0");
         } else {
             errorCount += 1;
-            printLabeledString("*** FAILED :: IntStream mean out of bounds {4000, 4200}. Observed: ", String.valueOf(meanie));
+            printLabeledString("*** ERROR :: IntStream mean out of bounds {4000, 4200}. Observed: ", String.valueOf(meanie));
         }
 
         // RandomGenerator Factory #2
@@ -102,7 +102,7 @@ public class main {
             System.out.println("Success :: RandomGeneratorFactory name and group comparison test");
         } else {
             errorCount += 1;
-            System.out.println("*** FAILED :: expected RandomGeneratorFactory name=L32X64MixRandom and group=LXM");
+            System.out.println("*** ERROR :: expected RandomGeneratorFactory name=L32X64MixRandom and group=LXM");
         }
 
         // InstantSource testing
@@ -117,7 +117,7 @@ public class main {
             System.out.println("Success :: InstantSource feature test comparison");
         } else {
             errorCount += 1;
-            System.out.println("*** FAILED :: InstantSource feature test comparison");
+            System.out.println("*** ERROR :: InstantSource feature test comparison");
         }
 
         // Hex format
@@ -139,7 +139,7 @@ public class main {
             System.out.println("Success :: hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
         } else {
             errorCount += 1;
-            System.out.println("*** FAILED :: hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
+            System.out.println("*** ERROR :: hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
             System.out.println(Arrays.toString(bytes));
         }
 

@@ -10,7 +10,7 @@ public class main {
         int a = -100;
         int b = a >> 2;
         if (b != -25) {
-            System.out.print("FAILED trying -100 >> 2. Expected -25. Observed ");
+            System.out.print("*** ERROR, trying -100 >> 2. Expected -25. Observed ");
             System.out.println(b);
             errorCount += 1;
         } else
@@ -18,7 +18,7 @@ public class main {
 
         b = a << 3;
         if (b != -800) {
-            System.out.print("FAILED trying -100 << 3. Expected -800. Observed ");
+            System.out.print("*** ERROR, trying -100 << 3. Expected -800. Observed ");
             System.out.println(b);
             errorCount += 1;
         } else
@@ -27,7 +27,7 @@ public class main {
         a = 100;
         b = a >> 2;
         if (b != 25) {
-            System.out.print("FAILED trying +100 >> 2. Expected 25. Observed ");
+            System.out.print("*** ERROR, trying +100 >> 2. Expected 25. Observed ");
             System.out.println(b);
             errorCount += 1;
         } else
@@ -35,7 +35,7 @@ public class main {
 
         b = a << 3;
         if (b != 800) {
-            System.out.print("FAILED trying +100 << 3. Expected 800. Observed ");
+            System.out.print("*** ERROR, trying +100 << 3. Expected 800. Observed ");
             System.out.println(b);
             errorCount += 1;
         } else

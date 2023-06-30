@@ -12,7 +12,7 @@ public class main {
             printLabeledString("Success :: ", label);
             return 0;
         }
-        printLabeledString("*** FAILED :: ", label);
+        printLabeledString("*** ERROR, ", label);
         printLabeledString("*** observed value :: ", observed);
         return 1;
     }

@@ -8,7 +8,7 @@ public class main {
         Calculator obj = new Calculator();
         int result = obj.add(100, 200);
         if (result != 300) {
-            System.out.println("runner: *** FAILED *** middle.pkgcalc.Calculator did not get a result of 300");
+            System.out.println("runner: *** ERROR, middle.pkgcalc.Calculator did not get a result of 300");
             System.out.print("runner: ************** observed a result of ");
             System.out.println(result);
             return 1;

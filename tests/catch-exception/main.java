@@ -9,7 +9,7 @@ public class main {
             System.out.println("Caught NumberFormatException");
             System.exit(0);
         }
-        System.out.println("*** FAILED to catch NumberFormatException");
+        System.out.println("*** ERROR, failed to catch NumberFormatException");
         System.exit(1);
     }
 }

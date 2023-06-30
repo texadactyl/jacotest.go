@@ -106,7 +106,7 @@ public class main {
             System.out.println("Success!");
             System.exit(0);
         }
-        System.out.println("*** FAILED *** decryptedString != originalString");
+        System.out.println("*** ERROR *** decryptedString != originalString");
         System.exit(1);
     }
 

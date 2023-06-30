@@ -29,17 +29,17 @@ public class main {
         System.out.println();
 
         if (cars.size() != 3) {
-            System.out.println("cars.size() != 3 FAILED");
+            System.out.println("cars.size() != 3 *** ERROR");
             errorCount += 1;
         }
         String first = cars.get(0);
         String last = cars.get(cars.size() - 1);
         if (first != "Volvo") {
-            System.out.println("first != Volvo FAILED");
+            System.out.println("first != Volvo *** ERROR");
             errorCount += 1;
         }
         if (last != "Mazda") {
-            System.out.println("last != Mazda FAILED");
+            System.out.println("last != Mazda *** ERROR");
             errorCount += 1;
         }
 

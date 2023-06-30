@@ -16,7 +16,7 @@ public class main {
         System.out.print("c should be -47 : ");
         System.out.println(c);
         if (c > 0) {
-            System.out.print("FAILED Expected c < 0. Observed ");
+            System.out.print("*** ERROR, Expected c < 0. Observed ");
             System.out.println(c);
             ++errorCount;
         } else
@@ -27,7 +27,7 @@ public class main {
         System.out.print("c should be 13 - 60 = -47 : ");
         System.out.println(c);
         if (c != -47) {
-            System.out.print("FAILED Expected b - a == -47. Observed ");
+            System.out.print("*** ERROR, Expected b - a == -47. Observed ");
             System.out.println(c);
             ++errorCount;
         } else
@@ -40,7 +40,7 @@ public class main {
         if (c < 0) {
             System.out.println("Success trying c = ~60 ==> -61");
         } else {
-            System.out.print("FAILED trying c = ~60. Expected -61. Observed ");
+            System.out.print("*** ERROR, trying c = ~60. Expected -61. Observed ");
             System.out.println(c);
             ++errorCount;
         }

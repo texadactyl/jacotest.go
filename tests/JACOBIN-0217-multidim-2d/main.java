@@ -33,6 +33,6 @@ public class main {
             System.out.println("Success :: i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0");
             return;
         }
-        System.out.println("***FAILED");
+        System.out.println("*** ERROR, expected :: i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0");
     }
 } 

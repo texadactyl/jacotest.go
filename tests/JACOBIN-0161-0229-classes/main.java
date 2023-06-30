@@ -8,7 +8,7 @@ public class main {
 
     public static int checkNumEqual(String text, long xx, long yy) {
         if (xx == yy) return 0;
-        System.out.print("*** checkNumEqual: compare failed !! ");
+        System.out.print("*** ERROR, checkNumEqual: compare failed");
         System.out.print(text);
         System.out.print(" !! ");
         System.out.print(xx);
@@ -21,7 +21,7 @@ public class main {
 
     public static int checkNumUnequal(String text, long xx, long yy) {
         if (xx != yy) return 0;
-        System.out.print("*** checkNumUnequal: equal but should not be !! ");
+        System.out.print("*** ERROR, checkNumUnequal: equal but should not be !! ");
         System.out.print(text);
         System.out.print(" !! ");
         System.out.print(xx);
@@ -34,7 +34,7 @@ public class main {
 
     public static int checkStrEqual(String text, String xx, String yy) {
         if (xx == yy) return 0;
-        System.out.print("*** checkStrEqual: compare failed !! ");
+        System.out.print("*** ERROR, checkStrEqual: compare failed !! ");
         System.out.print(text);
         System.out.print(" !! ");
         System.out.print(xx);
@@ -47,7 +47,7 @@ public class main {
 
     public static int checkStrUnequal(String text, String xx, String yy) {
         if (xx != yy) return 0;
-        System.out.print("*** checkStrUnequal: equal but should not be !! ");
+        System.out.print("*** ERROR, checkStrUnequal: equal but should not be !! ");
         System.out.print(text);
         System.out.print(" !! ");
         System.out.print(xx);

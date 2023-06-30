@@ -50,7 +50,7 @@ public class main {
         if (success) {
             System.out.println("Signature verified");
         } else {
-            System.out.println("*** FAILED, Signature verification");
+            System.out.println("*** ERROR, Signature verification");
             System.exit(1);
         }
     }

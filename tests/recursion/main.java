@@ -40,7 +40,7 @@ public class main {
 		factoResult = factorial(factoStart);
 		System.out.println(factoResult);
 		if (factoResult != 39916800) {
-            System.out.print("FAILED factorial test. Expected 39916800. Observed ");
+            System.out.print("*** ERROR, factorial test. Expected 39916800, observed ");
             System.out.println(factoResult);
             errorCount += 1;
 		}
@@ -55,7 +55,7 @@ public class main {
 		System.out.print("\nEnding element = ");
 		System.out.println(fiboResult);
 		if (fiboResult != 377) {
-            System.out.print("FAILED factorial test. Expected 377. Observed ");
+            System.out.print("*** ERROR, factorial test. Expected 377, observed ");
             System.out.println(factoResult);
             errorCount += 1;
 		}

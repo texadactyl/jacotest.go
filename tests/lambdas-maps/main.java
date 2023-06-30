@@ -21,7 +21,7 @@ public class main {
             return 0;
         }
         System.out.print(label);
-        System.out.println(" FAILED");
+        System.out.println(" *** ERROR");
         return 1;
     }
 
