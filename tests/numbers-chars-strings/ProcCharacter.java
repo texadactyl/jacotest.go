@@ -12,14 +12,14 @@ public class ProcCharacter {
             System.out.println("Success: Character.isLetter(AA)");
         else {
             errorCount += 1;
-            System.out.println("FAILED: Character.isLetter(AA) is true, observed false");
+            System.out.println("*** ERROR, Character.isLetter(AA) is true, observed false");
         }
 
         if (!Character.isDigit(AA))
             System.out.println("Success: not Character.isDigit(AA)");
         else {
             errorCount += 1;
-            System.out.println("FAILED: Character.isDigit(AA) is false, observed true");
+            System.out.println("*** ERROR, Character.isDigit(AA) is false, observed true");
         }
 
         char aa = Character.toLowerCase(AA);
@@ -27,7 +27,7 @@ public class ProcCharacter {
             System.out.println("Success: Lower case of AA is 'a'");
         else {
             errorCount += 1;
-            System.out.print("FAILED: Lower case of AA is 'a', observed: ");
+            System.out.print("*** ERROR, Lower case of AA is 'a', observed: ");
             System.out.println(aa);
         }
 
@@ -36,7 +36,7 @@ public class ProcCharacter {
             System.out.println("Success: Character.String(AA) is \"a\"");
         else {
             errorCount += 1;
-            System.out.print("FAILED: Character.String(AA) is \"a\", observed: ");
+            System.out.print("*** ERROR, Character.String(AA) is \"a\", observed: ");
             System.out.println(ss);
         }
 

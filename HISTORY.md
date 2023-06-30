@@ -3,6 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 |    Date    | Version | Contents |
 | :--: | :--: | :-- |
+| 2023-06-30 | 2.1.5 | Minor revisions to test cases kalman-filtering, linked-list, numbers-chars-strings, specrel, vectors. |
 | 2023-06-27 | 2.1.4 | Added new categories to failure summary. |
 | 2023-06-26 | 2.1.3 | Ensured that every test case made a System.out.println(...) announcement. |
 | | | Added test case: JACOBIN-0301-putstatic. |

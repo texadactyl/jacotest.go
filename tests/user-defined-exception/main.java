@@ -19,19 +19,18 @@ public class main {
             throw new MyException("Throwing a user-defined exception!");
         } catch (MyException ex) {
             System.out.println("Success - Caught a user-defined exception as expected");
-
             // Print the message from MyException object
             System.out.println(ex.getMessage());
             System.exit(0);
         } catch (Exception ex) {
-            System.out.println("*** FAILED *** Caught an unexpected exception !!!");
-
-            // Print the message from MyException object
+            System.out.println("*** ERROR *** Caught an unexpected exception !!!");
+            // Print the message from Exception object
             System.out.println(ex.getMessage());
             System.exit(1);
         }
-        System.out.println("*** FAILED *** Expected to catch a MyException !!!");
-        System.out.println("************** No exception was thrown !!!");
+        
+        System.out.println("*** ERROR *** Expected to catch a MyException !!!");
+        System.out.println("************* No exception was thrown !!!");
         System.exit(1);
     }
 

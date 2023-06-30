@@ -11,8 +11,8 @@ public class main {
             System.out.println(" ok");
             return 0;
         }
-        System.out.print(label);
-        System.out.println(" FAILED");
+        System.out.print("*** ERROR, ");
+        System.out.println(label);
         return 1;
     }
 

@@ -25,6 +25,12 @@ public class Matrix {
     public final int m;
     public final double[] mem;
 
+	public double absValue(double arg) {
+		if (arg < 0.0)
+			return -arg;
+		return arg;
+	}
+
     /**
      * Creates a new matrix, initialized to zeros
      *
@@ -278,9 +284,9 @@ public class Matrix {
 
         for (int i = 0; i < n; i++) {
             int ibest = i;
-            double vbest = Math.abs(scratch.get(ibest, ibest));
+            double vbest = absValue(scratch.get(ibest, ibest));
             for (int ii = i + 1; ii < n; ii++) {
-                double v = Math.abs(scratch.get(ii, i));
+                double v = absValue(scratch.get(ii, i));
                 if (v > vbest) {
                     ibest = ii;
                     vbest = v;

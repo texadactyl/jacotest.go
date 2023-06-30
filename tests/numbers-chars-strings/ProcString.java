@@ -19,7 +19,7 @@ public class ProcString {
             System.out.println("Success: palindrome.length() == 17");
         else {
             errorCount += 1;
-            System.out.print("FAILED: palindrome.length() == 17, observed ");
+            System.out.print("*** ERROR, palindrome.length() == 17, observed ");
             System.out.println(ii);
         }
 
@@ -38,7 +38,7 @@ public class ProcString {
             System.out.println("Success: SS1.concat(SS2) length makes sense");
         else {
             errorCount += 1;
-            System.out.println("FAILED: SS1.concat(SS2) length does not make sense");
+            System.out.println("*** ERROR, SS1.concat(SS2) length does not make sense");
         }
 
         ss = String.format("%s %%%% %d %d %c %02x %.2f %f %h", SS1, 42L, 42, '@', 0x2a, pi, pi, SS2);
@@ -50,7 +50,7 @@ public class ProcString {
             System.out.println("Success: Formatted string length makes sense");
         else {
             errorCount += 1;
-            System.out.print("FAILED: Formatted string length does not make sense, observed: ");
+            System.out.print("*** ERROR, Formatted string length does not make sense, observed: ");
             System.out.println(ss.length());
         }
 
@@ -59,7 +59,7 @@ public class ProcString {
             System.out.println("Success: SS1.charAt(3) == 'y'");
         else {
             errorCount += 1;
-            System.out.print("FAILED: SS1.charAt(3) should == 'y', observed: ");
+            System.out.print("*** ERROR, SS1.charAt(3) should == 'y', observed: ");
             System.out.println(ch);
         }
 
@@ -68,7 +68,7 @@ public class ProcString {
             System.out.println("Success: SS1.compareToIgnoreCase( SS1_FLIPPED )");
         else {
             errorCount += 1;
-            System.out.print("FAILED: SS1.compareToIgnoreCase( SS1_FLIPPED ), observed: ");
+            System.out.print("*** ERROR, SS1.compareToIgnoreCase( SS1_FLIPPED ), observed: ");
             System.out.println(ii);
         }
 

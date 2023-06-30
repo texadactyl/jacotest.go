@@ -16,7 +16,7 @@ public class ProcDouble {
             System.out.println(dd);
         } else {
             errorCount += 1;
-            System.out.print("FAILED: Unboxed Double not = 15, observed = ");
+            System.out.print("*** ERROR, Unboxed Double not = 15, observed = ");
             System.out.println(dd);
         }
 
@@ -30,7 +30,7 @@ public class ProcDouble {
             System.out.println("Success: DD.byteValue()");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.byteValue() = 0x05, observed = ");
+            System.out.print("*** ERROR, DD.byteValue() = 0x05, observed = ");
             System.out.println(bite);
         }
 
@@ -39,7 +39,7 @@ public class ProcDouble {
             System.out.println("Success: DD : DD_DITTO is zero");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.compareTo(DD_DITTO)==0, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_DITTO)==0, observed = ");
             System.out.println(cc);
         }
 
@@ -47,7 +47,7 @@ public class ProcDouble {
             System.out.println("Success: DD equals DD_DITTO");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.compareTo(DD_DITTO)==0, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_DITTO)==0, observed = ");
             System.out.println(cc);
         }
 
@@ -56,7 +56,7 @@ public class ProcDouble {
             System.out.println("Success: DD.compareTo(DD_SMALLER)");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.compareTo(DD_SMALLER)==1, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_SMALLER)==1, observed = ");
             System.out.println(cc);
         }
 
@@ -65,7 +65,7 @@ public class ProcDouble {
             System.out.println("Success: DD.compareTo(DD_LARGER)");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.compareTo(DD_LARGER)==-1, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_LARGER)==-1, observed = ");
             System.out.println(cc);
         }
 
@@ -79,7 +79,7 @@ public class ProcDouble {
             System.out.println("Success: ds42 == di42 == db42");
         else {
             errorCount += 1;
-            System.out.print("FAILED: ds42 == di42 == db42, observed: ds42==");
+            System.out.print("*** ERROR, ds42 == di42 == db42, observed: ds42==");
             System.out.print(ds42);
             System.out.print(", di42==");
             System.out.print(di42);
@@ -92,7 +92,7 @@ public class ProcDouble {
             System.out.println("Success: DD.toString()");
         else {
             errorCount += 1;
-            System.out.print("FAILED: DD.toString() = 5, observed = ");
+            System.out.print("*** ERROR, DD.toString() = 5, observed = ");
             System.out.println(ss);
         }
 

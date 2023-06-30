@@ -15,7 +15,7 @@ public class ProcInteger {
             System.out.println(ii);
         } else {
             errorCount += 1;
-            System.out.print("FAILED: Unboxed Integer not = 15, observed = ");
+            System.out.print("*** ERROR, Unboxed Integer not = 15, observed = ");
             System.out.println(ii);
         }
 
@@ -29,7 +29,7 @@ public class ProcInteger {
             System.out.println("Success: II.byteValue()");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.byteValue() = 0x05, observed = ");
+            System.out.print("*** ERROR, II.byteValue() = 0x05, observed = ");
             System.out.println(bite);
         }
 
@@ -38,7 +38,7 @@ public class ProcInteger {
             System.out.println("Success: II : II_DITTO is zero");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.compareTo(II_DITTO)==0, observed = ");
+            System.out.print("*** ERROR, II.compareTo(II_DITTO)==0, observed = ");
             System.out.println(cc);
         }
 
@@ -46,7 +46,7 @@ public class ProcInteger {
             System.out.println("Success: II equals II_DITTO");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.compareTo(II_DITTO)==0, observed = ");
+            System.out.print("*** ERROR, II.compareTo(II_DITTO)==0, observed = ");
             System.out.println(cc);
         }
 
@@ -55,7 +55,7 @@ public class ProcInteger {
             System.out.println("Success: II.compareTo(II_SMALLER)");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.compareTo(II_SMALLER)==1, observed = ");
+            System.out.print("*** ERROR, II.compareTo(II_SMALLER)==1, observed = ");
             System.out.println(cc);
         }
 
@@ -64,7 +64,7 @@ public class ProcInteger {
             System.out.println("Success: II.compareTo(II_LARGER)");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.compareTo(II_LARGER)==-1, observed = ");
+            System.out.print("*** ERROR, II.compareTo(II_LARGER)==-1, observed = ");
             System.out.println(cc);
         }
 
@@ -75,7 +75,7 @@ public class ProcInteger {
             System.out.println("Success: base 10 == base8 == base16");
         else {
             errorCount += 1;
-            System.out.print("FAILED: base 10 == base8 == base16, observed: base10==");
+            System.out.print("*** ERROR, base 10 == base8 == base16, observed: base10==");
             System.out.print(base10);
             System.out.print(", base8==");
             System.out.print(base8);
@@ -88,7 +88,7 @@ public class ProcInteger {
             System.out.println("Success: II.toString()");
         else {
             errorCount += 1;
-            System.out.print("FAILED: II.toString() = 5, observed = ");
+            System.out.print("*** ERROR, II.toString() = 5, observed = ");
             System.out.println(ss);
         }
 
