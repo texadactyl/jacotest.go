@@ -3,7 +3,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 <br>
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
-|<img width=90/>|<img width=60/>|<img width=500/>|
+|<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-06-30 | 2.1.5 | Revised test case specrel to compute abs() and sqrt() in Java instead of using library functions. |
 | | | Minor revisions to test cases kalman-filtering, linked-list, numbers-chars-strings, vectors. |
 | | | For consistency, revised some test cases to use the string "*** ERROR" when an error is detected. |
