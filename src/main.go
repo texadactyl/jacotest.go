@@ -28,19 +28,27 @@ func showHelp() {
 }
 
 // Show results
-func showResults(category string, arrayNames []string) {
+func showResults(category string, arrayNames []string, outHandle *os.File, showList bool) {
+	var msg string
 	suffix := "test case"
 	errorCount := len(arrayNames)
 	if errorCount > 0 {
 		if errorCount > 1 {
 			suffix = suffix + "s"
 		}
-		Logger(fmt.Sprintf("%s errors in %d %s", category, errorCount, suffix))
-		for _, name := range arrayNames {
-			Logger(fmt.Sprintf("	 %s", name))
+		msg = fmt.Sprintf("%s errors in %d %s", category, errorCount, suffix)
+		Logger(msg)
+		OutGrapeText(outHandle, msg)
+		if showList {
+			for _, name := range arrayNames {
+				msg = fmt.Sprintf("	 %s", name)
+				Logger(msg)
+			}
 		}
 	} else {
-		Logger(fmt.Sprintf("No %s errors", category))
+		msg = fmt.Sprintf("No %s errors", category)
+		Logger(msg)
+		OutGrapeText(outHandle, msg)
 	}
 }
 
@@ -229,25 +237,27 @@ func main() {
 			}
 		}
 
+		// Summary output file
+		outPath := global.SumFilePath
+		outHandle := OutGrapeOpen(outPath, false)
+
 		// Show successes
-		Logger(fmt.Sprintf("Success in %d test cases", len(successNames)))
+		msg := fmt.Sprintf("Success in %d test cases", len(successNames))
+		Logger(msg)
+		OutGrapeText(outHandle, msg)
 		for _, name := range successNames {
-			Logger(fmt.Sprintf("	 %s", name))
+			msg = fmt.Sprintf("	 %s", name)
+			OutGrapeText(outHandle, msg)
 		}
 
 		// Show compilation errors
-		showResults("Compilation", errCompileNames)
-
-		// Show execution failures
-		showResults("Execution failure", errExecutionNames)
+		showResults("Compilation", errCompileNames, outHandle, true)
 
 		// Show timeout errors
-		showResults("Execution timeout", timeoutExecutionNames)
+		showResults("Execution timeout", timeoutExecutionNames, outHandle, true)
 
-		// Grapes
-		outPath := global.FSumFilePath
-		outHandle := OutGrapeOpen(outPath, false)
-		OutGrapeText(outHandle, "Failed Test Case Summary - "+nowStamp+" "+timeZone)
+		// Show execution failures
+		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
@@ -269,11 +279,6 @@ func main() {
 		OutGrapeText(outHandle, "===============")
 		ExecGrape("logs", ".log", "BALOAD: Invalid", outHandle)
 
-		OutGrapeText(outHandle, "\n============================================")
-		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
-		OutGrapeText(outHandle, "============================================")
-		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
-
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
@@ -283,6 +288,11 @@ func main() {
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "*** ERROR", outHandle)
+
+		OutGrapeText(outHandle, "\n============================================")
+		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
+		OutGrapeText(outHandle, "============================================")
+		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
 		OutGrapeText(outHandle, "but it did not contain method")
@@ -323,7 +333,7 @@ func main() {
 		if err != nil {
 			FmtFatal("outHandle.Close failed:", outPath, err)
 		}
-		Logger(fmt.Sprintf("Wrote failed test case summary to: %s", outPath))
+		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
 		// Done. Show elapsed time and exit normally to the O/S.
 		tStop := time.Now()
@@ -334,5 +344,5 @@ func main() {
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 	Logger(msg)
 	os.Exit(exitStatus)
-	
+
 }

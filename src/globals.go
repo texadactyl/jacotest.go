@@ -18,7 +18,7 @@ const RC_EXEC_TIMEOUT = 3
 
 // Path constants
 const PATH_RUN_REPORT = "./reports/RUN_REPORT_%s_%s.md"
-const PATH_GRAPE_REPORT = "./reports/Failure_Summary_%s_%s.txt"
+const PATH_GRAPE_REPORT = "./reports/Summary_%s_%s.txt"
 const PATH_REPORTS = "./reports"
 const PATH_LOGS = "./logs"
 const PATH_TESTS = "./tests"
@@ -29,9 +29,9 @@ type GlobalsStruct struct {
 	Version        string        // Software version string
 	DirTests       string        // Full path of tests directory
 	DirLogs        string        // Full path of logs directory
-	DirReports	   string        // Full path of reports directory
-	ReportFilePath string        // Full path of the complete report file
-	FSumFilePath   string        // Full path of the Failure Summary Report file
+	DirReports     string        // Full path of reports directory
+	ReportFilePath string        // Full path of the detailed report file
+	SumFilePath    string        // Full path of the Summary file
 	FlagVerbose    bool          // Verbose logging? true/false
 	JvmName        string        // JVM name: "openjdk" or "jacobin"
 	JvmExe         string        // JVM executable file: "java" or "jacobin"
@@ -89,15 +89,15 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_LOGS, err)
 	}
 	MakeDir(absLogs)
-	
+
 	absReports, err := filepath.Abs(PATH_REPORTS)
 	if err != nil {
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_REPORTS, err)
 	}
 	MakeDir(absReports)
-	
+
 	nowString := time.Now().Format("2006-01-02_15.04.05")
-	
+
 	absReportFile, err := filepath.Abs(fmt.Sprintf(PATH_RUN_REPORT, nowString, jvmName))
 	if err != nil {
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_RUN_REPORT, err)
@@ -118,7 +118,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 		DirLogs:        absLogs,
 		DirReports:     absReports,
 		ReportFilePath: absReportFile,
-		FSumFilePath:	absSummaryFile,
+		SumFilePath:    absSummaryFile,
 		FlagVerbose:    flagVerbose,
 		JvmExe:         jvmExe,
 		JvmName:        jvmName,
