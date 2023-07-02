@@ -12,7 +12,7 @@ public class Formulae {
 
 	public static double sqrtNewton(double arg) {
 
-        double est = arg; // estimate of the square root of c
+        double est = arg;
         // repeatedly apply Newton update step until desired precision is achieved
         while (absValue(est - arg / est) > (epsilon * est)) {
             est = ( arg / est + est) * 0.5;

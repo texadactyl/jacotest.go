@@ -22,7 +22,8 @@ public class main {
 
 
     public static void main(String args[]) {
-        String msg = "SciMark2: Benchmark measuring performance	of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.";
+    
+        String msg = "SciMark2: Benchmark measuring performance of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.";
         System.out.println(msg);
 
         double min_time = Constants.RESOLUTION_DEFAULT;
@@ -82,42 +83,45 @@ public class main {
 
         // print out results
 
-        System.out.println(String.format("SciMark 2.0a, elasped time = %.2fs", elapsed_seconds));
+        System.out.print(String.format("SciMark 2.0a, elasped time in seconds = "));
+        System.out.println(elapsed_seconds);
         System.out.println("URL: https://math.nist.gov/scimark2/index.html");
-        System.out.println("Composite Score: " + res[0]);
-        System.out.print("FFT (" + FFT_size + "): ");
+        System.out.print("Composite Score: ");
+        System.out.println(res[0]);
+        System.out.print("FFT (");
+        System.out.print(FFT_size);
+        System.out.print("): ");
         if (res[1] == 0.0)
             System.out.println("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
         else
             System.out.println(res[1]);
 
-        System.out.println("SOR (" + SOR_size + "x" + SOR_size + "): "
-                + "  " + res[2]);
-        System.out.println("Monte Carlo : " + res[3]);
-        System.out.println("Sparse matmult (N=" + Sparse_size_M +
-                ", nz=" + Sparse_size_nz + "): " + res[4]);
-        System.out.print("LU (" + LU_size + "x" + LU_size + "): ");
+        System.out.print("SOR (");
+        System.out.print(SOR_size);
+        System.out.print("x");
+        System.out.print(SOR_size);
+        System.out.print("): ");
+        System.out.println(res[2]);
+        
+        System.out.print("Monte Carlo : ");
+        System.out.println(res[3]);
+        
+        System.out.print("Sparse matmult (N=");
+        System.out.print(Sparse_size_M);
+        System.out.print(", nz=");
+        System.out.print(Sparse_size_nz);
+        System.out.print("): ");
+        System.out.println(res[4]);
+        
+        System.out.print("LU (");
+        System.out.print(LU_size);
+        System.out.print("x");
+        System.out.print(LU_size);
+        System.out.print("): ");
         if (res[5] == 0.0)
             System.out.println("*** ERROR, INVALID NUMERICAL RESULT - LU!");
         else
             System.out.println(res[5]);
-
-        // print out System info
-        System.out.println("java.vendor: " +
-                System.getProperty("java.vendor"));
-        System.out.println("java.version: " +
-                System.getProperty("java.version"));
-        System.out.println("java..vm.vendor: " +
-                System.getProperty("java.vm.vendor"));
-        System.out.println("java.vm.version: " +
-                System.getProperty("java.vm.version"));
-        System.out.println("os.arch: " +
-                System.getProperty("os.arch"));
-        System.out.println("os.name: " +
-                System.getProperty("os.name"));
-        System.out.println("os.version: " +
-                System.getProperty("os.version"));
-
 
     }
 

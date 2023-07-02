@@ -231,13 +231,15 @@ public class Random {
 
     private void initialize(int seed) {
 
+		MathLite ml = new MathLite();
         int jseed, k0, k1, j0, j1, iloop;
 
         this.seed = seed;
+        int absSeed = ml.abs(seed);
 
         m = new int[17];
 
-        jseed = Math.min(Math.abs(seed), m1);
+        jseed = absSeed < m1 ? absSeed : m1;
         if (jseed % 2 == 0) --jseed;
         k0 = 9069 % m2;
         k1 = 9069 / m2;

@@ -197,9 +197,10 @@ public class kernel {
     private static double normabs(double x[], double y[]) {
         int N = x.length;
         double sum = 0.0;
+        MathLite ml = new MathLite();
 
         for (int i = 0; i < N; i++)
-            sum += Math.abs(x[i] - y[i]);
+            sum += ml.abs(x[i] - y[i]);
 
         return sum;
     }
