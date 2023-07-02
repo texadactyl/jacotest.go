@@ -5,7 +5,7 @@ public class main {
         if (pv.equals("null")) {
         	System.out.print("*** ERROR, ");
 		    System.out.print(property);
-		    System.out.print(": null");
+		    System.out.println(": null");
 		    return 1;
         }
         System.out.print(property);
