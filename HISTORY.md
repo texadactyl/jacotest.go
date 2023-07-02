@@ -5,6 +5,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-02 | 2.2.1 | Fix output of JACOBIN-0281-get-property. |
+| | | New test case: trig-simple. |
+| | | Revamp of scimark2 to avoid Math library and INVOKEDYNAMIC. |
 | 2023-07-01 | 2.2.0 | "Failure Summary" --> "Summary". |
 | | | All result lists are now in the Summary_YYYY-MM-DD_hh.mm.ss file in reports directory. |
 | | | Console output no longer includes result lists. |
