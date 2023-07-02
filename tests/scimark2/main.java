@@ -1,5 +1,3 @@
-import java.util.Properties;
-
 /**
  * SciMark2: A Java numerical benchmark measuring performance
  * of computational kernels for FFTs, Monte Carlo simulation,

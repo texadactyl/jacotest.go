@@ -31,7 +31,6 @@
 // all.  Instead it is intended to be clean, portable, and easy to 
 // understand.
 
-import java.lang.*;
 import java.io.Serializable;
 
 public final class SolitaireCipher implements Serializable, Cloneable {
@@ -146,8 +145,9 @@ public final class SolitaireCipher implements Serializable, Cloneable {
     // Step three: Perform a triple cut.
     int at_jokerA = keyDeck.findBottom(jokerA);
     int at_jokerB = keyDeck.findBottom(jokerB);
-    keyDeck.tripleCut(Math.min(at_jokerA, at_jokerB), 
-                      Math.max(at_jokerA, at_jokerB) + 1);
+    int minnie = at_jokerA < at_jokerB ? at_jokerA : at_jokerB;
+    int maxie = at_jokerA > at_jokerB ? at_jokerA : at_jokerB;
+    keyDeck.tripleCut(minnie, maxie + 1);
 
     // Step four: Perform a count cut.
     byte count = keyDeck.peekBottom(0);

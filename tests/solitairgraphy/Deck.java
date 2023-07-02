@@ -32,9 +32,7 @@
 // sake of consistency, the joker with the bigger symbol should be 
 // considered Joker B.
 
-import java.lang.*;
 import java.io.Serializable;
-import java.util.Random;
 
 public class Deck 
 implements Serializable, Cloneable
@@ -171,15 +169,21 @@ implements Serializable, Cloneable
   // =========================
   public void shuffle() {
     // Effect: changes the order of the cards to a random
-    //   pattern.  
+    //   pattern. 
     shuffle(new Random());
   } // shuffle()
+
+  public int abs(int arg) {
+		if (arg < 0)
+			return -arg;
+		return arg;
+  }
 
   public void shuffle(Random rand) {
     // Effect: changes the order of the cards to a random
     //   pattern using the specified random number generator.
     for (int i = 0; i < marker; i++) {
-      int swap = Math.abs(rand.nextInt() % marker);
+      int swap = this.abs(rand.nextInt() % marker);
       byte buffer = cards[i];
       cards[i] = cards[swap];
       cards[swap] = buffer;
