@@ -27,6 +27,8 @@ public class FitsData {
     protected long dataOffset = 0;
     protected byte[] dataArray = null;
     protected boolean isRAFile = false;
+    
+    private MathLite ml = new MathLite();
 
     /** Constructor for FitsData class given a FITS header with 
      *  associated data unit as a file.
@@ -99,7 +101,7 @@ public class FitsData {
 	    naxis[n] = nax[n];
 	    size *= naxis[n];
 	}
-	size *= Math.abs(this.bitpix)/8;
+	size *= ml.abs(this.bitpix)/8;
 	if (size < 0) throw new FitsException("Data size less than zero",
 					      FitsException.DATA);
 

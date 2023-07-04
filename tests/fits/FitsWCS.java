@@ -50,6 +50,8 @@ public class FitsWCS {
     protected double[]   amdx = new double[MPS];
     protected double[]   amdy = new double[MPS];
 
+    private MathLite ml = new MathLite();
+
     /** Default constructor for FitsWCS class.
      */
     public FitsWCS() {
@@ -220,29 +222,29 @@ public class FitsWCS {
 	double  fi = 0.0;
 	double  th = 0.0;
 	double  ro = 0.0;
-	double  sdp = Math.sin(Math.toRadians(crval[1]));
-	double  cdp = Math.cos(Math.toRadians(crval[1]));
-	double  sap = Math.sin(Math.toRadians(crval[0]));
-	double  cap = Math.cos(Math.toRadians(crval[0]));
+	double  sdp = ml.sin(ml.toRadians(crval[1]));
+	double  cdp = ml.cos(ml.toRadians(crval[1]));
+	double  sap = ml.sin(ml.toRadians(crval[0]));
+	double  cap = ml.cos(ml.toRadians(crval[0]));
 	switch (cproj[0]) {
 	    case ARC:
-		break;
+			break;
 	    case STG:
-		break;
+			break;
 	    case TAN:
-		ro = Math.sqrt(wcs[0]*wcs[0] + wcs[0]*wcs[0]);
-		fi = Math.atan2( -wcs[1], wcs[0]);
-		th = Math.atan(1.0/Math.toRadians(ro));
-		double ccdfi = Math.cos(th) * 
-		    Math.cos(fi - Math.toRadians(crval[1]));
-		double csdfi = Math.cos(th) * 
-		    Math.sin(fi - Math.toRadians(crval[1]));
-		wcs[0] = Math.atan2(Math.sin(th)*cdp - sdp*ccdfi, -csdfi);
-		wcs[0] = Math.toDegrees(wcs[0]) + crval[0];
-		wcs[1] = Math.toDegrees(Math.asin(Math.sin(th)*sdp+cdp*ccdfi));
-		break;
+			ro = ml.sqrt(wcs[0]*wcs[0] + wcs[0]*wcs[0]);
+			fi = ml.atan2( -wcs[1], wcs[0]);
+			th = ml.atan(1.0/ml.toRadians(ro));
+			double ccdfi = ml.cos(th) * 
+				ml.cos(fi - ml.toRadians(crval[1]));
+			double csdfi = ml.cos(th) * 
+				ml.sin(fi - ml.toRadians(crval[1]));
+			wcs[0] = ml.atan2(ml.sin(th)*cdp - sdp*ccdfi, -csdfi);
+			wcs[0] = ml.toDegrees(wcs[0]) + crval[0];
+			wcs[1] = ml.toDegrees(ml.asin(ml.sin(th)*sdp+cdp*ccdfi));
+			break;
 	    case LIN:
-		for (int j=0; j<nax; j++) wcs[j] += crval[j];
+			for (int j=0; j<nax; j++) wcs[j] += crval[j];
 	}
 
 	return wcs;

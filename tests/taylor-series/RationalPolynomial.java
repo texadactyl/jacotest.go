@@ -35,7 +35,7 @@ public class RationalPolynomial {
     // return c = a + b
     public RationalPolynomial plus(RationalPolynomial b) {
         RationalPolynomial a = this;
-        RationalPolynomial c = new RationalPolynomial(BigRational.ZERO, Math.max(a.deg, b.deg));
+        RationalPolynomial c = new RationalPolynomial(BigRational.ZERO, a.deg > b.deg ? a.deg : b.deg);
         for (int i = 0; i <= a.deg; i++) c.coef[i] = c.coef[i].plus(a.coef[i]);
         for (int i = 0; i <= b.deg; i++) c.coef[i] = c.coef[i].plus(b.coef[i]);
         c.deg = c.degree();
@@ -45,7 +45,7 @@ public class RationalPolynomial {
     // return c = a - b
     public RationalPolynomial minus(RationalPolynomial b) {
         RationalPolynomial a = this;
-        RationalPolynomial c = new RationalPolynomial(BigRational.ZERO, Math.max(a.deg, b.deg));
+        RationalPolynomial c = new RationalPolynomial(BigRational.ZERO, a.deg > b.deg ? a.deg : b.deg);
         for (int i = 0; i <= a.deg; i++) c.coef[i] = c.coef[i].plus(a.coef[i]);
         for (int i = 0; i <= b.deg; i++) c.coef[i] = c.coef[i].minus(b.coef[i]);
         c.deg = c.degree();

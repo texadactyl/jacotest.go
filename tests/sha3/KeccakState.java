@@ -30,6 +30,12 @@ abstract class KeccakState {
 
     abstract byte getNumberOfRoundsPerPermutation();
 
+	int minimum(int a, int b) {
+		if (a < b) return a;
+		return b;
+	}
+
+
     /**
      * Absorbs the given input into the Keccak state, reading blocks of at most
      * {@code bitrate} bits at a time, and permuting the entire state after each
@@ -51,9 +57,10 @@ abstract class KeccakState {
         assert inputLengthInBits >= 0;
         assert bitrate > 0;
         int inputBitIndex = 0;
+        int readLength;
         do {
-            int readLength = Math.
-                    min(bitrate, inputLengthInBits - inputBitIndex);
+        	
+            readLength = minimum(bitrate, inputLengthInBits - inputBitIndex);
             absorbBitsIntoState(input, inputBitIndex, readLength);
             permute();
             inputBitIndex += bitrate;
@@ -163,12 +170,12 @@ abstract class KeccakState {
         assert bitrate > 0;
         assert outputLengthInBits > 0;
         byte[] output = createOutputArray(outputLengthInBits);
-        int writeLength = Math.min(bitrate, outputLengthInBits);
+        int writeLength = minimum(bitrate, outputLengthInBits);
         squeezeBitsFromState(output, 0, writeLength);
         for (int outputBitIndex = bitrate; outputBitIndex < outputLengthInBits;
              outputBitIndex += bitrate) {
             permute();
-            writeLength = Math.min(bitrate, outputLengthInBits - outputBitIndex);
+            writeLength = minimum(bitrate, outputLengthInBits - outputBitIndex);
             squeezeBitsFromState(output, outputBitIndex, writeLength);
         }
         return output;

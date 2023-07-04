@@ -23,6 +23,8 @@ public class FitsRGroup extends FitsData {
     private double zero = 0.0;
     private double scale = 1.0;
     private FitsWCS wcs;
+    
+    private MathLite ml = new MathLite();
 
     /** Constructor for FitsRGroup class given a FITS prime matrix or
      *  an image extension header with associated data unit as a file.
@@ -50,7 +52,7 @@ public class FitsRGroup extends FitsData {
 	}
  
 	dataFormat = kw.getInt();
-	bytesPerData = Math.abs(dataFormat)/8;
+	bytesPerData = ml.abs(dataFormat)/8;
 	noValues = (int) (size / bytesPerData);
     
         wcs = new FitsWCS(header);

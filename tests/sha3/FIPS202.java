@@ -370,7 +370,7 @@ public final class FIPS202 {
 
     private static byte byteValueOfBinaryAtIndex(int bitIndex, String bitString) {
         int bitsRemaining = bitString.length() - bitIndex;
-        int byteBitStopIndex = Math.min(8, bitsRemaining);
+        int byteBitStopIndex = 8 < bitsRemaining ? 8 : bitsRemaining;
         byte byteValue = (byte) 0;
         for (int byteBitIndex = 0; byteBitIndex < byteBitStopIndex;
              ++byteBitIndex) {
@@ -484,11 +484,14 @@ public final class FIPS202 {
         int byteLimit = (bitLimit + 8 - 1) / 8;
         int hexDigitLimit = byteLimit * 2;
         StringBuilder bitString = new StringBuilder(bitLimit);
+        int wdelta;
+        int bitsRequiredFromHexPair;
         for (int hexCharIndex = 0, bitsSoFar = 0;
              hexCharIndex < hexDigitLimit && bitsSoFar < bitLimit;
              hexCharIndex += 2, bitsSoFar += 8) {
             byte hexPairValue = byteValueOfHexPairAtIndex(hex, hexCharIndex);
-            int bitsRequiredFromHexPair = Math.min(8, bitLimit - bitsSoFar);
+            wdelta = bitLimit - bitsSoFar;
+            bitsRequiredFromHexPair = 8 < wdelta ? 8 : wdelta;
             appendBitsFromByte(hexPairValue, bitsRequiredFromHexPair, bitString);
         }
         return bitString.toString();
