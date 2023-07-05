@@ -1,7 +1,5 @@
 // SHA-3 calculator: https://emn178.github.io/online-tools/sha3_512.html
 
-import java.util.Properties;
-
 public class main {
 
     public static class Benchmark {

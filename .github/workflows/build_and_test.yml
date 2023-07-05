@@ -47,3 +47,4 @@ jobs:
         which java
         which javac
         ./src/jacotest -x -j openjdk -t 60 
+        ls -l ./reports
