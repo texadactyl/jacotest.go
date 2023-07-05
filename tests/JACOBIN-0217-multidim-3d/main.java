@@ -41,7 +41,7 @@ public class main {
 		// Check arrays
         for (int ii = 0; ii < IMAX; ++ii) {
             for (int jj = 0; jj < JMAX; ++jj) {
-                //System.out.printf("2D ii=%d, jj=%d: %d %f %f %s\n", ii, jj, i2d[ii][jj], f2d[ii][jj], d2d[ii][jj], s2d[ii][jj]);
+                // DEBUGGING System.out.printf("2D ii=%d, jj=%d: %d %f %f %s\n", ii, jj, i2d[ii][jj], f2d[ii][jj], d2d[ii][jj], s2d[ii][jj]);
                 if (i2d[ii][jj] != ii + jj + 1) {
                 	System.out.print("*** ERROR in 2D when ii=");
                 	System.out.print(ii);
@@ -50,7 +50,7 @@ public class main {
                 	errorCount += 1;
                 }
                 for (int kk = 0; kk < KMAX; ++kk) {
-                    //System.out.printf("3D ii=%d, jj=%d, kk=%d: %d %f %f %s\n", ii, jj, kk, i3d[ii][jj][kk], f3d[ii][jj][kk], d3d[ii][jj][kk], s3d[ii][jj][kk]);
+                    // DEBUGGING System.out.printf("3D ii=%d, jj=%d, kk=%d: %d %f %f %s\n", ii, jj, kk, i3d[ii][jj][kk], f3d[ii][jj][kk], d3d[ii][jj][kk], s3d[ii][jj][kk]);
 		            if (i3d[ii][jj][kk] != ii + jj + kk + 10) {
 		            	System.out.print("*** ERROR in 3D when ii=");
 		            	System.out.print(ii);

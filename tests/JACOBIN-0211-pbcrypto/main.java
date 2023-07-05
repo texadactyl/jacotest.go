@@ -65,7 +65,6 @@ public class main {
     }
 
 	public static void noPrintf(String label, String string) {
-		// System.out.printf("Cleartext (string) [%d bytes]:\t%s\n", originalString.length(), originalString);
 		System.out.print(label);
 		int sz = string.length();
 		System.out.print("[");

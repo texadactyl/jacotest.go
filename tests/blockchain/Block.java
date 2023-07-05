@@ -37,8 +37,14 @@ public class Block {
         this.previousHash = previousHash;
         this.hash = calculateHash();
         if (verbose)
-            System.out.printf("Block verbose: data[0]=%d, hash=%s, previousHash=%s, timeStamp=%d\n",
-                    this.data[0], this.hash, this.previousHash, this.timeStamp);
+            System.out.print("Block verbose: data[0]=");
+            System.out.print(this.data[0]);
+            System.out.print(", hash=");
+            System.out.print(this.hash);
+            System.out.print(", previousHash=");
+            System.out.print(this.previousHash);
+            System.out.print(", timeStamp=");
+            System.out.println(this.timeStamp);
     }
 
     // Get block size
