@@ -36,7 +36,8 @@ public class main {
 			expObs("Ciphertext", expectedCiphertext, ciphertext);
 			errorCount++;
 		}
-		System.out.println("Outputtext: " + outputtext);
+		System.out.print("Outputtext: ");
+		System.out.println(outputtext);
 		if (outputtext.length() > plaintext.length())
 			plaintext += "X";
 		if (! outputtext.equals(plaintext)) {
