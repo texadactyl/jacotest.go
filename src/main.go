@@ -217,7 +217,7 @@ func main() {
 				_, err := os.Stat(mainFile)
 				if err != nil {
 					msg := fmt.Sprintf("File %s does not exist - skipping directory", mainFile)
-					LogError(msg)
+					LogWarning(msg)
 					continue
 				}
 				resultCode, outlog := ExecuteOneTest(fullPath)

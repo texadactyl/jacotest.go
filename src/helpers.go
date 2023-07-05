@@ -22,6 +22,12 @@ func Logger(msg string) {
 	fmt.Printf("%s %s\n", now.Format("15:04:05"), msg)
 }
 
+// Log a warning
+func LogWarning(msg string) {
+	text := fmt.Sprintf("*** Warning :: %s", msg)
+	Logger(text)
+}
+
 // Log an error
 func LogError(msg string) {
 	text := fmt.Sprintf("*** ERROR :: %s", msg)
