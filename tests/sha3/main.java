@@ -1,7 +1,6 @@
 // SHA-3 calculator: https://emn178.github.io/online-tools/sha3_512.html
 
 import java.util.Properties;
-import java.util.Random;
 
 public class main {
 
