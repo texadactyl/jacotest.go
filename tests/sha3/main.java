@@ -21,45 +21,49 @@ public class main {
         }
     }
 
-    public static void main(String args[]) {
-        String msg = "SHA-3 hashing tests";
-        System.out.println(msg);
-
-        int msgSize = 100000000;
-        byte[] messageBytes;
-
-        // look for runtime options
-        if (args.length > 0) {
-            if (args.length != 1 || args[0].equalsIgnoreCase("-h")) {
-                System.out.println("\nUsage: [message size]\n");
-                System.exit(1);
-            }
-            msgSize = Integer.parseInt(args[0]);
-        }
-
-        // hash a nil message and get expected result
-        messageBytes = "".getBytes();
+	public static int essai(int counter, byte[] messageBytes, String expectedHashHex) {
         Benchmark bmkNilMsg = new Benchmark(messageBytes);
-        String expectedHashHex = "a69f73cca23a9ac5c8b567dc185a756e97c982164fe25859e0d1dcc1475c80a615b2123af1f5f94c11e3e9402c3ac558f500199d95b6d3e301758586281dcd26";
+        System.out.print(counter);
+        System.out.print(". Expected: ");
+        System.out.println(expectedHashHex);
+        System.out.print(counter);
+        System.out.print(". Observed: ");
+        System.out.println(bmkNilMsg.hashHex);
         if (!bmkNilMsg.hashHex.equalsIgnoreCase(expectedHashHex)) {
-            System.out.println("*** Did not get the expected hash of a nil message!");
-            System.out.println(String.format("*** Expected %d bytes: %s", expectedHashHex.length() / 2, expectedHashHex));
-            System.out.println(String.format("*** Observed %d bytes: %s", bmkNilMsg.hashLength, bmkNilMsg.hashHex));
+            System.out.println("*** ERROR, Did not get the expected hash of a nil message!");
+            return 1;
+        }
+        return 0;
+	}
+
+    public static void main(String args[]) {
+        String msg = "SHA-3 hashing testa";
+        System.out.println(msg);
+        int errorCount = 0;
+
+        byte[] messageBytes = "".getBytes();
+        String expectedHashHex = "A69F73CCA23A9AC5C8B567DC185A756E97C982164FE25859E0D1DCC1475C80A615B2123AF1F5F94C11E3E9402C3AC558F500199D95B6D3E301758586281DCD26";
+        errorCount += essai(1, messageBytes, expectedHashHex);
+
+        messageBytes = "Mary had a little lamb".getBytes();
+        expectedHashHex = "A19E4E4CAFF1ACB5E2FA0D97ED241FFA3132597F698320E6D9EC1FF13BF6A0DA711A4C0A0443749E1D310841A71F0C06988828B1FFCADF4A117FC366C350A272";
+        errorCount += essai(2, messageBytes, expectedHashHex);
+
+        messageBytes = new byte[4096];
+        for (int ii = 0; ii < 4096; ++ii) {
+        	messageBytes[ii] = (byte) (ii & 0xff);
+        }
+        expectedHashHex = "29D131EB6FAE7E2A457BA8E36852C3E763B282EDBD93E6767715B7F0FCA916E897CB691C2393708EFDE7F9E4F357C5DE291552C386D5848E63E39C8AC657C9CF";
+        errorCount += essai(3, messageBytes, expectedHashHex);
+
+        if (errorCount == 0) {
+            System.out.println("No errors detected");
+            System.exit(0);
+        } else {
+            System.out.print("Number of errors = ");
+            System.out.println(String.valueOf(errorCount));
             System.exit(1);
         }
-
-        // generate a non-nil message body
-        Random rd = new Random();
-        messageBytes = new byte[msgSize];
-        rd.nextBytes(messageBytes);
-
-        // run the benchmark
-        Benchmark bmk = new Benchmark(messageBytes);
-
-        // print results
-        System.out.println(String.format("message size = %d bytes", messageBytes.length));
-        System.out.println(String.format("elapsed time = %.2f seconds", bmk.elapsedSeconds));
-
     }
 
 }
