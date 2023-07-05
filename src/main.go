@@ -213,6 +213,13 @@ func main() {
 			if entry.IsDir() {
 				testCaseName := entry.Name()
 				fullPath := filepath.Join(global.DirTests, testCaseName)
+				mainFile := fullPath + string(os.PathSeparator) + "main.java"
+				_, err := os.Stat(mainFile)
+				if err != nil {
+					msg := fmt.Sprintf("File %s does not exist - skipping directory", mainFile)
+					LogError(msg)
+					continue
+				}
 				resultCode, outlog := ExecuteOneTest(fullPath)
 				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
