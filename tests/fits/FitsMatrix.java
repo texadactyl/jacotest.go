@@ -25,8 +25,6 @@ public class FitsMatrix extends FitsData {
     private double scale = 1.0;
     private FitsWCS wcs;
     
-    private MathLite ml = new MathLite();
-
     /**
      * Constructor for FitsMatrix class given a FITS prime matrix or
      * an image extension header with associated data unit as a file.
@@ -51,7 +49,7 @@ public class FitsMatrix extends FitsData {
         }
 
         dataFormat = kw.getInt();
-        bytesPerData = ml.abs(dataFormat) / 8;
+        bytesPerData = Math.abs(dataFormat) / 8;
         noValues = (int) (size / bytesPerData);
 
         wcs = new FitsWCS(header);
@@ -85,7 +83,7 @@ public class FitsMatrix extends FitsData {
         super(bitpix, nax);
         type = Fits.IMAGE;
         dataFormat = bitpix;
-        bytesPerData = ml.abs(dataFormat) / 8;
+        bytesPerData = Math.abs(dataFormat) / 8;
         noValues = (int) (size / bytesPerData);
         wcs = new FitsWCS(nax.length);
     }

@@ -25,8 +25,6 @@ public class main { // formerly called TestFits
      * @param argv array of arguments i.e.  FITS files
      */
     
-    private static MathLite ml = new MathLite();
-
     public static void main(String[] argv) {
         //if (argv.length < 1) {
         //    System.out.println("Error: must have at least one argument");
@@ -178,7 +176,7 @@ public class main { // formerly called TestFits
                         }
                         mean = mean / npix;
                         rms = rms / npix - mean * mean;
-                        rms = ((0.0 < rms) ? ml.sqrt(rms) : 0.0);
+                        rms = ((0.0 < rms) ? Math.sqrt(rms) : 0.0);
                         float dtime =
                                 (float) (1000.0 * (System.currentTimeMillis() - time) /
                                         ((double) nval));
@@ -223,7 +221,7 @@ public class main { // formerly called TestFits
                                             - time) / ((double) nrow));
                             mean = mean / npix;
                             rms = rms / npix - mean * mean;
-                            rms = ((0.0 < rms) ? ml.sqrt(rms) : 0.0);
+                            rms = ((0.0 < rms) ? Math.sqrt(rms) : 0.0);
                             System.out.println("      no,mean,rms: " + npix
                                     + ", " + (float) mean + ", "
                                     + (float) rms + "; "
@@ -247,7 +245,7 @@ public class main { // formerly called TestFits
                                             - time) / ((double) nrow));
                             mean = mean / npix;
                             rms = rms / npix - mean * mean;
-                            rms = ((0.0 < rms) ? ml.sqrt(rms) : 0.0);
+                            rms = ((0.0 < rms) ? Math.sqrt(rms) : 0.0);
                             System.out.println("      no,mean,rms: " + npix
                                     + ", " + (float) mean + ", "
                                     + (float) rms + "; "

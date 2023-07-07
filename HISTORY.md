@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-07-07 | 2.3.1 | New option: -N. When specified, it is assumed that compiles are unnecessary. |
 | 2023-07-05 | 2.2.3 | Guard against empty test directories. Bypass them. |
 | 2023-07-04 | 2.2.2 | Replace Java Math from test cases with MathLite. |
 | 2023-07-02 | 2.2.1 | Fix output of JACOBIN-0281-get-property. |

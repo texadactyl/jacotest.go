@@ -21,8 +21,6 @@ public class FitsHeader {
     private HashMap<String, ArrayList<FitsKeyword>> commentHash;
     private int headerSpace = 0;
 
-    private MathLite ml = new MathLite();
-
     /** Default constructor for empty FitsHeader class  */
     public FitsHeader() {
 	keywords = new ArrayList<FitsKeyword>();
@@ -194,7 +192,7 @@ public class FitsHeader {
 	}
 
 	kw = kwHash.get("BITPIX");       // get no. of bytes per value
-	long n_byte = ml.abs(kw.getInt())/8;
+	long n_byte = Math.abs(kw.getInt())/8;
 
 	long  d_size = 1;
 	for (int n=1; n<=naxis; n++) {

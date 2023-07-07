@@ -149,16 +149,15 @@ public class LU {
         int N = A.length;
         int M = A[0].length;
         int minMN = M < N ? M : N;
-        MathLite ml = new MathLite();
 
         for (int j = 0; j < minMN; j++) {
             // find pivot in column j and  test for singularity.
 
             int jp = j;
 
-            double t = ml.abs(A[j][j]);
+            double t = Math.abs(A[j][j]);
             for (int i = j + 1; i < M; i++) {
-                double ab = ml.abs(A[i][j]);
+                double ab = Math.abs(A[i][j]);
                 if (ab > t) {
                     jp = i;
                     t = ab;

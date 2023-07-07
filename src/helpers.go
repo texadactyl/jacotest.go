@@ -246,7 +246,7 @@ func compileOneTree(fullPathDir string) int {
 // 0 : success
 // 1 : compilation errors
 // 2 : run errors
-func ExecuteOneTest(fullPathDir string) (int, string) {
+func ExecuteOneTest(fullPathDir string, flagCompile bool) (int, string) {
 	var stcode int
 	global := GetGlobalRef()
 
@@ -262,17 +262,19 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
 	}
 
-	// Compile every .java file in the tree
-	errorCount := compileOneTree(fullPathDir)
+	if flagCompile {
+		// Compile every .java file in the tree
+		errorCount := compileOneTree(fullPathDir)
 
-	// If there was at least one compilation error, go no further
-	if errorCount > 0 {
-		// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
-		err2 := os.Chdir(here)
-		if err2 != nil {
-			FmtFatal("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here, err2)
+		// If there was at least one compilation error, go no further
+		if errorCount > 0 {
+			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
+			err2 := os.Chdir(here)
+			if err2 != nil {
+				FmtFatal("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here, err2)
+			}
+			return RC_COMP_ERROR, ""
 		}
-		return RC_COMP_ERROR, ""
 	}
 
 	// At this point, we are sitting in the test case directory.

@@ -30,11 +30,12 @@ public class main {
      * The state transformation is just a rotation by a fixed angle in radians.
      * The output matrix projects one of the dimensions. 
      */
+     
+    final static double PI = 3.14159265;
 
 	// Model parameters:
-	static MathLite ml = new MathLite();
     final static double mAmplitude = 10.0;	// Maximum ideal signal value
-    final static double mStepSizeRadians = ml.PI / 17.01; // Step angle in radians
+    final static double mStepSizeRadians = PI / 17.01; // Step angle in radians
     final static int mTransitionPoint = 1000; // Every transition point, do an abrupt phase shift
     final static double mTransitionFactor = 0.75; // Phase shift factor, multiplied by Pi
     final static double mNoiseAmplitude = 1000000.0; // Maximum noise value, initial measurement variance value in KalmanFilter.mR matrix
@@ -69,8 +70,8 @@ public class main {
         Helpers hh = new Helpers();
         
         // Initialize state transition matrix
-        double cos = ml.cos(stepSizeRadians);
-        double sin = ml.sin(stepSizeRadians);
+        double cos = Math.cos(stepSizeRadians);
+        double sin = Math.sin(stepSizeRadians);
         System.out.print("initializePLL: cosine: ");
         System.out.print(cos);
         System.out.print(", sine: ");
@@ -116,9 +117,9 @@ public class main {
         
         // At a transition point?
         if (ii % mTransitionPoint == 0) {
-            phi = phi + ml.PI * mTransitionFactor; // Yes - abrupt adjustment!
+            phi = phi + PI * mTransitionFactor; // Yes - abrupt adjustment!
         }
-        return mAmplitude * ml.sin(phi);
+        return mAmplitude * Math.sin(phi);
     }
 
     /** 
@@ -177,8 +178,8 @@ public class main {
         System.out.print(mean);
         System.out.print(", variance: ");
         System.out.println(variance);
-        errorCount += assertTrue("abs(mean) < 0.5", ml.abs(mean) < 0.5);
-        errorCount += assertTrue("abs(variance) < 0.5", ml.abs(variance) < 0.5);
+        errorCount += assertTrue("abs(mean) < 0.5", Math.abs(mean) < 0.5);
+        errorCount += assertTrue("abs(variance) < 0.5", Math.abs(variance) < 0.5);
         
         return errorCount;
     }

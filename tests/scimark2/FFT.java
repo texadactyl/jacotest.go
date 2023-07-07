@@ -62,8 +62,7 @@ public class FFT {
             double d = data[i] - copy[i];
             diff += d * d;
         }
-        MathLite ml = new MathLite();
-        return ml.sqrt(diff / nd);
+        return Math.sqrt(diff / nd);
     }
 
     /**
@@ -116,10 +115,9 @@ public class FFT {
             double w_real = 1.0;
             double w_imag = 0.0;
 
-            MathLite ml = new MathLite();
-            double theta = 2.0 * direction * ml.PI / (2.0 * (double) dual);
-            double s = ml.sin(theta);
-            double t = ml.sin(theta / 2.0);
+            double theta = 2.0 * direction * Math.PI / (2.0 * (double) dual);
+            double s = Math.sin(theta);
+            double t = Math.sin(theta / 2.0);
             double s2 = 2.0 * t * t;
 
             /* a = 0 */

@@ -16,10 +16,11 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 60, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display\n")
-	fmt.Printf("\t-c : Clean all of the .class files and .log files\n\n")
-	fmt.Printf("\t-x : Compile and execute all of the tests\n")
+	fmt.Printf("\t-c : Clean all of the .log files\n")
+	fmt.Printf("\t-N : No need to recompile the test cases\n")
+	fmt.Printf("\t-x : Execute all of the tests\n")
 	fmt.Printf("\t-v : Verbose logging\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: openjdk\n")
@@ -59,6 +60,7 @@ func main() {
 	var wString string
 	flagClean := false
 	flagExecute := false
+	flagCompile := true
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
 	var deadlineSecs int = 60
@@ -96,7 +98,10 @@ func main() {
 			flagClean = true // Force a pre-clean when executing tests
 
 		case "-c":
-			flagClean = true
+			flagClean = true // clean the logs directory
+
+		case "-N":
+			flagCompile = false // Do not compile anything
 
 		case "-v":
 			flagVerbose = true
@@ -150,11 +155,6 @@ func main() {
 
 	// Process clean request
 	if flagClean {
-		// Clean up .class files
-		err := filepath.WalkDir(global.DirTests, CleanOneTest)
-		if err != nil {
-			Fatal(fmt.Sprintf("Cleaner returned an error\nerror=%s", err.Error()))
-		}
 
 		// Open logs directory
 		fileOpened, err := os.Open(global.DirLogs)
@@ -220,7 +220,7 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, outlog := ExecuteOneTest(fullPath)
+				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile)
 				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:

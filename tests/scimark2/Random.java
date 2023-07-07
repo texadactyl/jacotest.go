@@ -231,11 +231,10 @@ public class Random {
 
     private void initialize(int seed) {
 
-		MathLite ml = new MathLite();
         int jseed, k0, k1, j0, j1, iloop;
 
         this.seed = seed;
-        int absSeed = ml.abs(seed);
+        int absSeed = Math.abs(seed);
 
         m = new int[17];
 

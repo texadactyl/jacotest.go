@@ -36,8 +36,6 @@ public class Discharge {
 	final int GREEN = 2;
 	final int BLUE = 3;
 	
-	MathLite ml = new MathLite();
-
 	public void oops(String msg) {
         System.out.println("\n*** Oops,  " + msg + " !!!\n");
         System.exit(1);
@@ -97,7 +95,7 @@ public class Discharge {
             // Sum the gaussian emission line profile for all lines
             for (int jj = 0; jj < countEmLines; jj++) {
                 delta = wavelength[jj] - wave;
-                sum = sum + strength[jj] * ml.exp(-delta * delta / lineWidth2);
+                sum = sum + strength[jj] * Math.exp(-delta * delta / lineWidth2);
             }
             // The intensity of this spectra element = sum
             intensity[ii] = sum;

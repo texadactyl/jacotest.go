@@ -55,8 +55,6 @@ class KeccakUtilities {
         RAW_ROTATION_CONSTANTS = rotOffsets;
     }
     
-    MathLite ml = new MathLite();
-
     /**
      * Returns a two-dimensional array of rotation offset values which apply to
      * a Keccak sponge with the given lane length.
@@ -103,7 +101,7 @@ class KeccakUtilities {
              ++roundIndex) {
             long roundConstant = 0L;
             for (int j = 0; j <= l; ++j) {
-                int index = (int) ml.pow(2.0, j) - 1;
+                int index = (int) Math.pow(2.0, j) - 1;
                 boolean isHigh = rc(j + 7 * roundIndex);
                 if (isHigh) {
                     roundConstant += 1L << index;
