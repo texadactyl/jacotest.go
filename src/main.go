@@ -291,9 +291,9 @@ func main() {
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
-		OutGrapeText(outHandle, "\n=====================")
-		OutGrapeText(outHandle, "LoadClassFromNameOnly")
-		OutGrapeText(outHandle, "=====================")
+		OutGrapeText(outHandle, "\n==================")
+		OutGrapeText(outHandle, "invalid class name")
+		OutGrapeText(outHandle, "==================")
 		ExecGrape("logs", ".log", "LoadClassFromNameOnly", outHandle)
 
 		OutGrapeText(outHandle, "\n==================================")
