@@ -294,7 +294,7 @@ func main() {
 		OutGrapeText(outHandle, "\n==================")
 		OutGrapeText(outHandle, "invalid class name")
 		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "LoadClassFromNameOnly", outHandle)
+		ExecGrape("logs", ".log", "invalid class name", outHandle)
 
 		OutGrapeText(outHandle, "\n==================================")
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
