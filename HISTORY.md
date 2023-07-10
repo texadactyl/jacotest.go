@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2023-07-10 | 2.3.3 |  Updted test case: JACOBIN-0311-for-loop-G-pop. |
+| 2023-07-10 | 2.3.3 |  Updated test case: JACOBIN-0311-for-loop-G-pop. |
 | | | Renamed test case: java-math --> math-in-java-source. |
 | 2023-07-08 | 2.3.2 |  New test case: JACOBIN-0310-vector-survivor. |
 | | | New test case: vector-survivor-2. |
