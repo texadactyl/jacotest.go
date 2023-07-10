@@ -1,5 +1,5 @@
 public class main {
-	private static final int NLOOPS = 10;
+	private static final int NLOOPS = 10000;
 	private static final double Pi = 3.14159265;
 	public static void main(String args[]) {    
     	double xx, yy;
