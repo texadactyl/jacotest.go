@@ -8,6 +8,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | Renamed test case: java-math --> math-in-java-source. |
 | 2023-07-08 | 2.3.2 |  New test case: JACOBIN-0310-vector-survivor. |
 | | | New test case: vector-survivor-2. |
+| | | New test case: JACOBIN-0311-for-loop-G-pop. |
 | 2023-07-07 | 2.3.1 | New option: -N. When specified, it is assumed that compiles are unnecessary. |
 | | | Removed MathLite from all test cases where it was used. |
 | | | New test case: java-math. |
