@@ -45,6 +45,24 @@ public class Helpers {
 		return 1;
 	}
 
+	// Check (II)I
+	public int checker(String label, int arg1, int arg2, int calculatedValue, int expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-i(");
+    	System.out.print(arg1);
+    	System.out.print(", ");
+    	System.out.print(arg2);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (expectedValue == calculatedValue) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
 	// Check (J)J
 	public int checker(String label, long argument, long calculatedValue, long expectedValue) {
     	System.out.print(label);
@@ -61,13 +79,11 @@ public class Helpers {
 		return 1;
 	}
 
-	// Check (II)I
-	public int checker(String label, int arg1, int arg2, int calculatedValue, int expectedValue) {
+	// Check (J)I
+	public int checker(String label, long argument, int calculatedValue, int expectedValue) {
     	System.out.print(label);
-    	System.out.print("-i(");
-    	System.out.print(arg1);
-    	System.out.print(", ");
-    	System.out.print(arg2);
+    	System.out.print("-j(");
+    	System.out.print(argument);
     	System.out.print(")=");
     	System.out.print(calculatedValue);
 		if (expectedValue == calculatedValue) {
@@ -99,6 +115,24 @@ public class Helpers {
 
 	// Check (JI)I
 	public int checker(String label, long arg1, int arg2, int calculatedValue, int expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-i(");
+    	System.out.print(arg1);
+    	System.out.print(", ");
+    	System.out.print(arg2);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (expectedValue == calculatedValue) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
+	// Check (JI)J
+	public int checker(String label, long arg1, int arg2, long calculatedValue, long expectedValue) {
     	System.out.print(label);
     	System.out.print("-j(");
     	System.out.print(arg1);
@@ -147,8 +181,42 @@ public class Helpers {
 		return 1;
 	}
 
+	// Check (D)J
+	public int checker(String label, double argument, long calculatedValue, long expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-j(");
+    	System.out.print(argument);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (expectedValue == calculatedValue) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
 	// Check (DD)D
 	public int checker(String label, double arg1, double arg2, double calculatedValue, double expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-d(");
+    	System.out.print(arg1);
+    	System.out.print(", ");
+    	System.out.print(arg2);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (relErr(expectedValue, calculatedValue) < EpsilonD) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
+	// Check (DI)D
+	public int checker(String label, double arg1, int arg2, double calculatedValue, double expectedValue) {
     	System.out.print(label);
     	System.out.print("-d(");
     	System.out.print(arg1);
@@ -192,7 +260,7 @@ public class Helpers {
     	System.out.print(argument);
     	System.out.print(")=");
     	System.out.print(calculatedValue);
-		if (relErr((double)expectedValue, (double)calculatedValue) < EpsilonD) { // JACOBIN-312
+		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
 			System.out.println(" ok");
 			return 0;
 		}
@@ -201,6 +269,58 @@ public class Helpers {
 		return 1;
 	}
 	
+	// Check (F)I
+	public int checker(String label, float argument, int calculatedValue, int expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-i(");
+    	System.out.print(argument);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (expectedValue == calculatedValue) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+	
+	// Check (FF)F
+	public int checker(String label, float arg1, float arg2, float calculatedValue, float expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-f(");
+    	System.out.print(arg1);
+    	System.out.print(", ");
+    	System.out.print(arg2);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
+	// Check (FI)F
+	public int checker(String label, float arg1, int arg2, float calculatedValue, float expectedValue) {
+    	System.out.print(label);
+    	System.out.print("-f(");
+    	System.out.print(arg1);
+    	System.out.print(", ");
+    	System.out.print(arg2);
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected ");
+    	System.out.println(expectedValue);
+		return 1;
+	}
+
 	// Check (FFF)F
 	public int checker(String label, float arg1, float arg2, float arg3, float calculatedValue, float expectedValue) {
     	System.out.print(label);
@@ -212,12 +332,30 @@ public class Helpers {
     	System.out.print(arg3);
     	System.out.print(")=");
     	System.out.print(calculatedValue);
-		if (relErr((double)expectedValue, (double)calculatedValue) < EpsilonD) { // JACOBIN-312
+		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
 			System.out.println(" ok");
 			return 0;
 		}
 		System.out.print(" *** ERROR, expected ");
     	System.out.println(expectedValue);
+		return 1;
+	}
+
+	// Check ()D with a range
+	public int checkerRange(String label, double calculatedValue, double rangeLow, double rangeHigh) {
+    	System.out.print(label);
+    	System.out.print("-d(");
+    	System.out.print(")=");
+    	System.out.print(calculatedValue);
+		if (calculatedValue >= rangeLow && calculatedValue < rangeHigh) {
+			System.out.println(" ok");
+			return 0;
+		}
+		System.out.print(" *** ERROR, expected in range [");
+    	System.out.print(rangeLow);
+    	System.out.print(", ");
+    	System.out.print(rangeHigh);
+    	System.out.println(")");
 		return 1;
 	}
 
