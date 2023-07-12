@@ -4,7 +4,6 @@ public class main {
 	private static final double Pi_2 = Pi * 0.5;
 	private static final double Pi_4 = Pi * 0.25;
 	private static final double Pi_8 = Pi * 0.125;
-	private static final double epsilon = 1.0e-6;
 
     public static void main(String[] args) {
     
@@ -339,10 +338,10 @@ public class main {
         dd = Math.ulp(-1178326541d);
         errorCount += hh.checker("ulp", -1178326541d, dd, 2.384185791015625e-07d);
  
-        ff = Math.ulp(12345f);
-        errorCount += hh.checker("ulp", 12345f, ff, 1.8189894e-12f);
+        ff = Math.ulp(123.45f);
+        errorCount += hh.checker("ulp", 123.45f, ff, 7.6293945E-6f);
         ff = Math.ulp(0.0f);
-        errorCount += hh.checker("ulp", 0.0f, ff, 5e-324);
+        errorCount += hh.checker("ulp", 0.0f, ff, 1.4E-45f);
  
         hh.byebye(errorCount);
 

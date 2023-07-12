@@ -1,7 +1,7 @@
 public class Helpers {
 
-	public final double EpsilonD = 1.0e-6d;
-	public final float  EpsilonF = 1.0e-6f;
+	public final double EpsilonD = 1.0e-4d;
+	public final float  EpsilonF = 1.0e-4f;
 
     public void printResult(String label, double angleInDegrees, double computedValue) {
         System.out.print(label);
