@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-12 | 2.3.5 |  Finalised test case: JACOBIN-0314-java-lang-math (renamed). |
+| | | New test case: JACOBIN-0314-java-lang-strictmath. |
 | 2023-07-11 | 2.3.4 |  New test case: JACOBIN-0312-FCMPG. |
 | | | New test case: java-lang-math. |
 | | | Deleted test case: trig-simple. |
