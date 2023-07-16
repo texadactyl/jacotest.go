@@ -69,10 +69,12 @@ public class NBodySystem {
      double px = 0.0;
      double py = 0.0;
      double pz = 0.0;
+     int ioffset;
+     double imass;
 
      for (int i = 0; i < BODY_COUNT; ++i) {
-        final int ioffset = BODY_SIZE * i;
-        double imass = outerSSBodies[ioffset + mass];
+        ioffset = BODY_SIZE * i;
+        imass = outerSSBodies[ioffset + mass];
 
         px += outerSSBodies[ioffset + vx] * imass;
         py += outerSSBodies[ioffset + vy] * imass;
@@ -90,17 +92,6 @@ public class NBodySystem {
 		return arg;
 	}
 
-	public double sqrtNewton(double arg) {
-
-        double est = arg; // estimate of the square root of c
-        // repeatedly apply Newton update step until desired precision is achieved
-        while (absValue(est - arg / est) > (EPSILON * est)) {
-            est = ( arg / est + est) * 0.5;
-        }
-        return est;
-        
-	}
-
   public void advance(double dt) {
      final double[] bodies = outerSSBodies;
 
@@ -116,7 +107,7 @@ public class NBodySystem {
            final double dz = bodies[ioffset + z] - bodies[joffset + z];
 
            final double dSquared = dx * dx + dy * dy + dz * dz;
-           final double distance = sqrtNewton(dSquared);
+           final double distance = Math.sqrt(dSquared);
            final double mag = dt / (dSquared * distance);
 
            final double jmass = bodies[joffset + mass];
@@ -169,7 +160,7 @@ public class NBodySystem {
            dy = iy - bodies[joffset + y];
            dz = iz - bodies[joffset + z];
 
-           distance = sqrtNewton(dx * dx + dy * dy + dz * dz);
+           distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
            e -= (imass * bodies[joffset + mass]) / distance;
         }
      }

@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class main {
 
-    static long CHAIN_LENGTH = 10000; // Number of chain elements
-    static int MAX_ELEM_SIZE = 32767; // Maximum size of a single element
-    static boolean VERBOSE = false;
+    static final long CHAIN_LENGTH = 10000; // Number of chain elements
+    static final int MAX_ELEM_SIZE = 32767; // Maximum size of a single element
+    static final boolean VERBOSE = false;
 
     static ArrayList<Block> blockchain
             = new ArrayList<Block>();
@@ -84,14 +84,14 @@ public class main {
 
         // Generate the block chain
         System.out.println("Generate .....");
-        int elemSize;
+        long elemSize;
         byte[] elemBytes;
         long totalPayloadSize = 0L;
         long totalChainSize = 0L;
         Block block;
         for (int ii = 0; ii < CHAIN_LENGTH; ++ii) {
-            elemSize = RR.nextInt(MAX_ELEM_SIZE);
-            totalPayloadSize += (long) elemSize;
+            elemSize = RR.nextLong(MAX_ELEM_SIZE);
+            totalPayloadSize += elemSize;
             elemBytes = new byte[MAX_ELEM_SIZE];
             RR.nextBytes(elemBytes);
             if (VERBOSE) {
