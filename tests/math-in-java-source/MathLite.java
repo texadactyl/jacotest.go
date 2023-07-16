@@ -15,7 +15,7 @@ public class MathLite {
         return diff / standard;
     }
     public double relErr(double standard, double arg) {
-        return relErr(double standard, double arg, EPSILON);
+        return relErr(standard, arg, EPSILON);
     }
 
     public int abs(int arg) {
