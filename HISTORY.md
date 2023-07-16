@@ -6,6 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-16 | 2.3.7 |  Update test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
 | | | Amend math-in-java-source to instantiate other classes as static final. |
+| | | New test case: JACOBIN-0319-println-object. |
 | 2023-07-13 | 2.3.6 |  New test case: JACOBIN-0314-loop-survival. |
 | 2023-07-12 | 2.3.5 |  Finalised test case: JACOBIN-0314-java-lang-math (renamed). |
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
