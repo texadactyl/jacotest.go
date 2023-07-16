@@ -8,11 +8,14 @@ public class MathLite {
 	public final int EXP_ITERATIONS = 32;
 
     // Relative Error i.e. how close is the argument to the standard?
-    public double relErr(double standard, double arg) {
+    public double relErr(double standard, double arg, double errorTolerance) {
         double diff = this.abs(standard - arg);
-        if (this.abs(standard) < EPSILON)
+        if (this.abs(standard) < errorTolerance)
             return diff;
         return diff / standard;
+    }
+    public double relErr(double standard, double arg) {
+        return relErr(double standard, double arg, EPSILON);
     }
 
     public int abs(int arg) {

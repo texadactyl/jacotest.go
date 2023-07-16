@@ -1,7 +1,7 @@
 public class main {
 
-	final static MathLite ml = new MathLite();
-	final static Helpers hh = new Helpers();
+	static MathLite ml = new MathLite();
+	static Helpers hh = new Helpers();
 	
 	public static void printSine(double radians) {
 		double dd = ml.sin(radians);
