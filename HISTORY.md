@@ -4,7 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2023-07-16 | 2.3.6 |  Update test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
+| 2023-07-16 | 2.3.7 |  Update test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
+| 2023-07-13 | 2.3.6 |  New test case: JACOBIN-0314-loop-survival. |
 | 2023-07-12 | 2.3.5 |  Finalised test case: JACOBIN-0314-java-lang-math (renamed). |
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
 | 2023-07-11 | 2.3.4 |  New test case: JACOBIN-0312-FCMPG. |
