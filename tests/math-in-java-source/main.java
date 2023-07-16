@@ -1,24 +1,20 @@
 public class main {
+
+	final static MathLite ml = new MathLite();
+	final static Helpers hh = new Helpers();
 	
 	public static void printSine(double radians) {
-		MathLite ml = new MathLite();
-		Helpers hh = new Helpers();
 		double dd = ml.sin(radians);
 		hh.printLabeledObjects("printSine", radians, dd);
 	}
 
 	public static void printCosine(double radians) {
-		MathLite ml = new MathLite();
-		Helpers hh = new Helpers();
 		double dd = ml.cos(radians);
 		hh.printLabeledObjects("printCosine", radians, dd);
 	}
 
 	public static void main(String[] args){
     
-    	MathLite ml = new MathLite();
-    	Helpers hh = new Helpers();
-    	
     	int errorCount = 0;
 		double tolerance = 0.00001;
 		double tan30 = 0.577350269;
