@@ -62,7 +62,7 @@ public class main {
         if (args.length > 0) {
             System.exit(runner());
         }
-        cmd("jar --create --verbose --main-class=main --file=jarring.jar main.java main.class uno");
+        cmd("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
         cmd("jar tf jarring.jar");
         String text = jvmPath + " -jar " + "jarring.jar RUNNER";
         cmd(text);
