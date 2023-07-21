@@ -9,9 +9,13 @@ public class main {
         int errorCount = 0;
         Helpers hh = new Helpers();
 
+        System.out.println("Helpers initialised");
+
         String ssa = "\n  123:Alice456Bob7890Charley's Angels:Greece:Italy:France--!  ";
         String workString;
+        System.out.println("before ssa.toLowerCase()");
         String ssaLC = ssa.toLowerCase();
+        System.out.println("after ssa.toLowerCase()");
         String ssaUC = ssa.toUpperCase();
         String ssaTrim = ssa.trim();
 
@@ -21,8 +25,6 @@ public class main {
 
 		String abc = "abc";
 		String def = "def";
-
-        System.out.println("String method tests");
 
         hh.printLabeledString("ssa: ", ssa);
         errorCount += hh.isItTrue("ssa.length() = 63", ssa.length() == 63);

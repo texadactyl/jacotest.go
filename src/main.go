@@ -201,6 +201,10 @@ func main() {
 		fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 		fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 
+		// Initialise summary output file
+		outPath := global.SumFilePath
+		outHandle := OutGrapeOpen(outPath, false)
+
 		// Get all of the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)
 		if err != nil {
@@ -243,10 +247,6 @@ func main() {
 				ExecuteJavap(fullPath)
 			}
 		}
-
-		// Summary output file
-		outPath := global.SumFilePath
-		outHandle := OutGrapeOpen(outPath, false)
 
 		// Show successes
 		msg := fmt.Sprintf("Success in %d test cases", len(successNames))
