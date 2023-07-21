@@ -5,17 +5,17 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-21 | 2.3.8 |  Support error category 'PUTFIELD: invalid attempt'. |
-| 2023-07-16 | 2.3.7 |  Updated test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
-| | | Amend math-in-java-source to instantiate other classes as static final. |
+| 2023-07-16 | 2.3.7 |  Amended test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
+| | | Amended math-in-java-source to instantiate other classes as static final. |
 | | | New test case: JACOBIN-0319-println-object. |
 | 2023-07-13 | 2.3.6 |  New test case: JACOBIN-0314-loop-survival. |
-| 2023-07-12 | 2.3.5 |  Updated test case: JACOBIN-0314-java-lang-math. |
+| 2023-07-12 | 2.3.5 |  Amended test case: JACOBIN-0314-java-lang-math. |
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
 | 2023-07-11 | 2.3.4 |  New test case: JACOBIN-0312-FCMPG. |
 | | | New test case: java-lang-math, using Math/StrictMath function calls, |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus, leveraging jacobin classloader/javaLangMath.go.
 | | | Deleted test case: trig-simple because it is a subset of math-in-java-source. |
-| 2023-07-10 | 2.3.3 |  Updated test case: JACOBIN-0311-for-loop-G-pop. |
+| 2023-07-10 | 2.3.3 |  Amended test case: JACOBIN-0311-for-loop-G-pop. |
 | | | Renamed test case: java-math --> math-in-java-source. |
 | 2023-07-08 | 2.3.2 |  New test case: JACOBIN-0310-vector-survivor. |
 | | | New test case: vector-survivor-2. |
@@ -24,8 +24,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | Removed MathLite from all test cases where it was used. |
 | | | New test case: java-math. |
 | 2023-07-05 | 2.2.3 | Guard against empty test directories. Bypass them. |
-| 2023-07-04 | 2.2.2 | Replace Java Math from test cases with MathLite. |
-| 2023-07-02 | 2.2.1 | Fix output of JACOBIN-0281-get-property. |
+| 2023-07-04 | 2.2.2 | Replaced Java Math from test cases with MathLite. |
+| 2023-07-02 | 2.2.1 | Fixed output of JACOBIN-0281-get-property. |
 | | | New test case: trig-simple. |
 | | | Revamp of scimark2 to avoid Math library and INVOKEDYNAMIC. |
 | | | Revamp of solitairgraphy to avoid Math library and INVOKEDYNAMIC. |
@@ -36,11 +36,11 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2023-06-30 | 2.1.5 | Revised test case specrel to compute abs() and sqrt() in Java instead of using library functions. |
 | | | Minor revisions to test cases kalman-filtering, linked-list, numbers-chars-strings, vectors. |
 | | | For consistency, revised some test cases to use the string "*** ERROR" when an error is detected. |
-| | | Test case JACOBIN-0231-stats updated to get closer to passing; avoiding as error reported elsewhere. |
+| | | Test case JACOBIN-0231-stats amended to get closer to passing; avoiding as error reported elsewhere. |
 | | | Revised test case JACOBIN-0206-nbody to compute abs() and sqrt() in Java instead of using library functions. |
 | | | Split JACOBIN-0206-nbody into 2 files. |
 | 2023-06-27 | 2.1.4 | Added new categories to failure summary. |
-| 2023-06-26 | 2.1.3 | Ensured that every test case made a System.out.println(...) announcement. |
+| 2023-06-26 | 2.1.3 | Ensure that every test case made a System.out.println(...) announcement. |
 | | | Added test case: JACOBIN-0301-putstatic. |
 | | | Added test case: JACOBIN-0303-securerandom. |
 | 2023-06-26 | 2.1.2 | Removed negative tests (useful 6 months ago) and shortened JACOBIN-0263-gc. |
@@ -55,7 +55,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | Added test case: try-throw-catch. |
 | | | Added test case: finally. |
 | | | Added test case: JACOBIN-0289-checkcast. |
-| | | Updated test case JACOBIN-0281-get-property. |
+| | | Amended test case JACOBIN-0281-get-property. |
 | | | Prefixed test case names with JACOBIN-n. |
 | 2023-06-20 | 2.0.18 | Added test case: stringer-2. |
 | | | Renamed test case stringer --> stringer-1. |
