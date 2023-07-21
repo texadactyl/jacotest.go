@@ -13,7 +13,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
 | 2023-07-11 | 2.3.4 |  New test case: JACOBIN-0312-FCMPG. |
 | | | New test case: java-lang-math, using Math/StrictMath function calls, |
-| | | &sp;&sp;&sp; thus, leveraging jacobin classloader/javaLangMath.go.
+| | | &nbsp;&nbsp;&nbsp;thus, leveraging jacobin classloader/javaLangMath.go.
 | | | Deleted test case: trig-simple because it is a subset of math-in-java-source. |
 | 2023-07-10 | 2.3.3 |  Updated test case: JACOBIN-0311-for-loop-G-pop. |
 | | | Renamed test case: java-math --> math-in-java-source. |
