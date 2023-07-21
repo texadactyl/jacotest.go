@@ -267,6 +267,11 @@ func main() {
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		OutGrapeText(outHandle, "\n===========================")
+		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
+		OutGrapeText(outHandle, "===========================")
+		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
+
+		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
 		OutGrapeText(outHandle, "===========================")
 		ExecGrape("logs", ".log", "panic: interface conversion", outHandle)
