@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-21 | 2.3.8 |  Support error category 'PUTFIELD: invalid attempt'. |
+| | |  New test case: JACOBIN-0322-throw-null. |
 | 2023-07-16 | 2.3.7 |  Amended test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
 | | | Amended math-in-java-source to instantiate other classes as static final. |
 | | | New test case: JACOBIN-0319-println-object. |
