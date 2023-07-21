@@ -204,6 +204,8 @@ func main() {
 		// Initialise summary output file
 		outPath := global.SumFilePath
 		outHandle := OutGrapeOpen(outPath, false)
+		msg := fmt.Sprintf("%s version %s\n", MyName, global.Version)
+		OutGrapeText(outHandle, msg)
 
 		// Get all of the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)
@@ -249,7 +251,7 @@ func main() {
 		}
 
 		// Show successes
-		msg := fmt.Sprintf("Success in %d test cases", len(successNames))
+		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
 		Logger(msg)
 		OutGrapeText(outHandle, msg)
 		for _, name := range successNames {
