@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-07-22 | 2.3.9 |  New test case: JACOBIN-0322-default-locale. |
 | 2023-07-21 | 2.3.8 |  Support error category 'PUTFIELD: invalid attempt'. |
 | | |  New test case: JACOBIN-0322-throw-null. |
 | 2023-07-16 | 2.3.7 |  Amended test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
