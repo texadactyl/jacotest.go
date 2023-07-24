@@ -236,7 +236,6 @@ func main() {
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
-					continue // No need for javap execution in this case
 				case RC_EXEC_ERROR:
 					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
@@ -246,7 +245,6 @@ func main() {
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 				}
-				ExecuteJavap(fullPath)
 			}
 		}
 
@@ -272,6 +270,11 @@ func main() {
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
 		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
@@ -312,11 +315,6 @@ func main() {
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
 		OutGrapeText(outHandle, "============================================")
 		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "runtime error: invalid memory address")

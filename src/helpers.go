@@ -40,6 +40,11 @@ func LogTimeout(msg string) {
 	Logger(text)
 }
 
+// Get a file name's stem i.e. w/o the file name extension
+func getFileNameStem(fileName string) string {
+	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
+}
+
 // Log an error and croak
 func Fatal(msg string) {
 	text := fmt.Sprintf("*** FATAL :: %s", msg)
@@ -191,12 +196,12 @@ func compileOneTree(fullPathDir string) int {
 		// Get full path of file name
 		fullPathFile := filepath.Join(fullPathDir, fileName)
 
-		// If a directory, recur
+		// If a directory, we will recur
 		fileInfo, err := os.Stat(fullPathFile)
 		if err != nil {
 			FmtFatal("compileOneTree: os.Stat failed", fullPathFile, err)
 		}
-		if fileInfo.IsDir() { // === RECURSION ===
+		if fileInfo.IsDir() {
 
 			// Save the path of the current working dir
 			here, err := os.Getwd()
@@ -210,6 +215,7 @@ func compileOneTree(fullPathDir string) int {
 				FmtFatal("compileOneTree os.Chdir failed.  Was targeting:", fullPathDir, err)
 			}
 
+			// RECURSION at new working dir
 			errorCount += compileOneTree(fullPathFile)
 
 			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
@@ -218,10 +224,12 @@ func compileOneTree(fullPathDir string) int {
 				FmtFatal("compileOneTree os.Chdir failed.  Was trying to return here:", here, err2)
 			}
 
+			// Carry on to the next directory entry
 			continue
 
 		}
 
+		// Not a directory.
 		// If not a .java file, skip it
 		if filepath.Ext(fileName) != ".java" {
 			continue
@@ -233,6 +241,23 @@ func compileOneTree(fullPathDir string) int {
 		// Run compilation
 		statusCode, _ = runner("javac", "javac", filepath.Base(fullPathDir), fileName)
 		errorCount += statusCode
+	}
+
+	// Compiled every .java file in the current directory.
+	// For each .class file produced, generate javap output.
+	matches, err := filepath.Glob(fullPathDir + "/*.class")
+	if err != nil {
+		FmtFatal("compileOneTree: filepath.Glob("+fullPathDir+"/*.class"+") failed.", "", err)
+	}
+	for _, match := range matches {
+		className := filepath.Base(match)
+		// Execute "javap -v X.class"
+		// and store the console output in the current directory.
+		output, err := exec.Command("javap", "-v", className).Output()
+		if err != nil {
+			FmtFatal("compileOneTree: exec.Command(javap "+className+") failed.", "", err)
+		}
+		storeText(fullPathDir, "javap_"+className+".log", string(output))
 	}
 
 	// Return compilation error count to caller
@@ -296,36 +321,6 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool) (int, string) {
 
 	// Return runner execution result
 	return stcode, outString // test case success
-}
-
-func ExecuteJavap(fullPathDir string) {
-
-	// Save the path of the current working dir
-	here, err := os.Getwd()
-	if err != nil {
-		FmtFatal("ExecuteOneTest os.Getwd failed", "", err)
-	}
-
-	// Position to fullPathDir as the new working dir
-	err = os.Chdir(fullPathDir)
-	if err != nil {
-		FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
-	}
-
-	// At this point, we are sitting in the test case directory.
-	// Execute "javap -v main.class".
-	output, err := exec.Command("javap", "-v", "main.class").Output()
-	if err != nil {
-		FmtFatal("ExecuteJavap: cmd.run(javap) failed.", "", err)
-	}
-	storeText(fullPathDir, "javap_main.log", string(output))
-
-	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
-	err = os.Chdir(here)
-	if err != nil {
-		FmtFatal("ExecuteJavap: os.Chdir failed.  Was trying to return here:", here, err)
-	}
-
 }
 
 // Open a file for create or append

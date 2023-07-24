@@ -4,23 +4,24 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2023-07-24 | 2.3.10 |  New test cases: JACOBIN-0325-super-1 and JACOBIN-0325-super-2. |
-| 2023-07-22 | 2.3.9 |  New test case: JACOBIN-0322-default-locale. |
+| 2023-07-24 | 2.3.11 | JACOBIN-0326: Ensure that `javap` is run on every compiled .class file. |
+| 2023-07-24 | 2.3.10 | New test cases: JACOBIN-0325-super-1 and JACOBIN-0325-super-2. |
+| 2023-07-22 | 2.3.9 | New test case: JACOBIN-0322-default-locale. |
 | 2023-07-21 | 2.3.8 |  Support error category 'PUTFIELD: invalid attempt'. |
-| | |  New test case: JACOBIN-0322-throw-null. |
-| 2023-07-16 | 2.3.7 |  Amended test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
+| | | New test case: JACOBIN-0322-throw-null. |
+| 2023-07-16 | 2.3.7 | Amended test cases to use Math class: JACOBIN-0206-nbody, blockchain, specrel. |
 | | | Amended math-in-java-source to instantiate other classes as static final. |
 | | | New test case: JACOBIN-0319-println-object. |
-| 2023-07-13 | 2.3.6 |  New test case: JACOBIN-0314-loop-survival. |
-| 2023-07-12 | 2.3.5 |  Amended test case: JACOBIN-0314-java-lang-math. |
+| 2023-07-13 | 2.3.6 | New test case: JACOBIN-0314-loop-survival. |
+| 2023-07-12 | 2.3.5 | Amended test case: JACOBIN-0314-java-lang-math. |
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
-| 2023-07-11 | 2.3.4 |  New test case: JACOBIN-0312-FCMPG. |
+| 2023-07-11 | 2.3.4 | New test case: JACOBIN-0312-FCMPG. |
 | | | New test case: java-lang-math, using Math/StrictMath function calls, |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus, leveraging jacobin classloader/javaLangMath.go.
 | | | Deleted test case: trig-simple because it is a subset of math-in-java-source. |
-| 2023-07-10 | 2.3.3 |  Amended test case: JACOBIN-0311-for-loop-G-pop. |
+| 2023-07-10 | 2.3.3 | Amended test case: JACOBIN-0311-for-loop-G-pop. |
 | | | Renamed test case: java-math --> math-in-java-source. |
-| 2023-07-08 | 2.3.2 |  New test case: JACOBIN-0310-vector-survivor. |
+| 2023-07-08 | 2.3.2 | New test case: JACOBIN-0310-vector-survivor. |
 | | | New test case: vector-survivor-2. |
 | | | New test case: JACOBIN-0311-for-loop-G-pop. |
 | 2023-07-07 | 2.3.1 | New option: -N. When specified, it is assumed that compiles are unnecessary. |
