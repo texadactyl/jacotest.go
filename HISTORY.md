@@ -5,7 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-07-24 | 2.3.11 | JACOBIN-0326: Ensure that `javap` is run on every compiled .class file. |
-| | | Deleted the windows subdirectory. The one tool there was no longer used. |
+| | | Deleted the bash and windows subdirectories. The tools are no longer used. |
 | 2023-07-24 | 2.3.10 | New test cases: JACOBIN-0325-super-1 and JACOBIN-0325-super-2. |
 | 2023-07-22 | 2.3.9 | New test case: JACOBIN-0322-default-locale. |
 | 2023-07-21 | 2.3.8 |  Support error category 'PUTFIELD: invalid attempt'. |
