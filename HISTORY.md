@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-07-31 | 2.3.12 | Capture "is nil" category in summary report. |
 | 2023-07-24 | 2.3.11 | JACOBIN-0326: Ensure that `javap` is run on every compiled .class file. |
 | | | Deleted the bash and windows subdirectories. The tools are no longer used. |
 | 2023-07-24 | 2.3.10 | New test cases: JACOBIN-0325-super-1 and JACOBIN-0325-super-2. |

@@ -271,11 +271,6 @@ func main() {
 		OutGrapeText(outHandle, "===========================")
 		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
 
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
-
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
 		OutGrapeText(outHandle, "===========================")
@@ -302,14 +297,24 @@ func main() {
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
 		OutGrapeText(outHandle, "\n==================")
-		OutGrapeText(outHandle, "invalid class name")
+		OutGrapeText(outHandle, "is nil")
 		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "invalid class name", outHandle)
+		ExecGrape("logs", ".log", "is nil", outHandle)
 
 		OutGrapeText(outHandle, "\n==================================")
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "*** ERROR", outHandle)
+
+		OutGrapeText(outHandle, "\n==================")
+		OutGrapeText(outHandle, "invalid class name")
+		OutGrapeText(outHandle, "==================")
+		ExecGrape("logs", ".log", "invalid class name", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n============================================")
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
