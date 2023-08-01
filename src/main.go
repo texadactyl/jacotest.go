@@ -266,6 +266,11 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
+		OutGrapeText(outHandle, "\n==================")
+		OutGrapeText(outHandle, "class.Data")
+		OutGrapeText(outHandle, "==================")
+		ExecGrape("logs", ".log", "class.Data", outHandle)
+
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
@@ -295,11 +300,6 @@ func main() {
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
-
-		OutGrapeText(outHandle, "\n==================")
-		OutGrapeText(outHandle, "is nil")
-		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "is nil", outHandle)
 
 		OutGrapeText(outHandle, "\n==================================")
 		OutGrapeText(outHandle, "*** ERROR (detected in test case)")
