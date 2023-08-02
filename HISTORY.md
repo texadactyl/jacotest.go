@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-08-02 | 2.3.15 | New test case: enigma-machine (Alan Turing). |
 | 2023-08-02 | 2.3.14 | New test case: JACOBIN-0329-nonfinals. |
 | 2023-08-01 | 2.3.13 | Change capture category "is nil" to "data.Class" in summary report to avoid duplicate entries. |
 | 2023-07-31 | 2.3.12 | Capture "is nil" category in summary report. |

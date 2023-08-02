@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/fs"
 	"os"
 	"os/exec"
 	"path"
@@ -11,8 +10,6 @@ import (
 	"strings"
 	"time"
 )
-
-var flagVerbose = false
 
 const MODE_OUTPUT_FILE = 0644
 
@@ -38,11 +35,6 @@ func LogError(msg string) {
 func LogTimeout(msg string) {
 	text := fmt.Sprintf("*** TIMEOUT :: %s", msg)
 	Logger(text)
-}
-
-// Get a file name's stem i.e. w/o the file name extension
-func getFileNameStem(fileName string) string {
-	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
 }
 
 // Log an error and croak
@@ -153,34 +145,9 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 	return RC_NORMAL, outString
 }
 
-// Remove the .class file of one test
-// The caller is walking a tree.
-func CleanOneTest(fullPath string, dirEntry fs.DirEntry, err error) error {
-	// If not a directory, skip it
-	if dirEntry.IsDir() {
-		return nil
-	}
-
-	// Anything but .class or .jar will be skipped
-	switch filepath.Ext(fullPath) {
-	case ".class":
-	default:
-		return nil // skip this directory entry
-	}
-
-	// Its a candidate for removal
-	err = os.Remove(fullPath)
-	if err != nil {
-		FmtFatal("CleanOneTest: os.Remove failed", fullPath, err)
-	}
-	if flagVerbose {
-		Logger(fmt.Sprintf("CleanOneTest: Removed: %s", fullPath))
-	}
-	return nil
-}
-
-// Compile all .java files in the directory tree rooted at fullPathDir
-func compileOneTree(fullPathDir string) int {
+// Compile all .java files in the directory tree rooted at fullPathDir.
+// Then, javap all .class files in the directory tree rooted at fullPathDir.
+func compileOneTree(fullPathDir string, flagTreeTop bool) int {
 	var statusCode int
 
 	// Get all of the directory entries from fullPathDir
@@ -216,12 +183,12 @@ func compileOneTree(fullPathDir string) int {
 			}
 
 			// RECURSION at new working dir
-			errorCount += compileOneTree(fullPathFile)
+			errorCount += compileOneTree(fullPathFile, false)
 
 			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
-			err2 := os.Chdir(here)
-			if err2 != nil {
-				FmtFatal("compileOneTree os.Chdir failed.  Was trying to return here:", here, err2)
+			err = os.Chdir(here)
+			if err != nil {
+				FmtFatal("compileOneTree os.Chdir failed.  Was trying to return here:", here, err)
 			}
 
 			// Carry on to the next directory entry
@@ -235,7 +202,12 @@ func compileOneTree(fullPathDir string) int {
 			continue
 		}
 
-		// We have a simple file with extension .java
+		// If not at tree top, skip compilation because it has already been done.
+		if !flagTreeTop {
+			continue
+		}
+
+		// We have a simple file with extension .java in the tree top.
 		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(fullPathDir), fileName))
 
 		// Run compilation
@@ -271,9 +243,8 @@ func compileOneTree(fullPathDir string) int {
 // 0 : success
 // 1 : compilation errors
 // 2 : run errors
-func ExecuteOneTest(fullPathDir string, flagCompile bool) (int, string) {
+func ExecuteOneTest(fullPathDir string, flagCompile bool, global GlobalsStruct) (int, string) {
 	var stcode int
-	global := GetGlobalRef()
 
 	// Save the path of the current working dir
 	here, err := os.Getwd()
@@ -289,7 +260,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool) (int, string) {
 
 	if flagCompile {
 		// Compile every .java file in the tree
-		errorCount := compileOneTree(fullPathDir)
+		errorCount := compileOneTree(fullPathDir, true)
 
 		// If there was at least one compilation error, go no further
 		if errorCount > 0 {

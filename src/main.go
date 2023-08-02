@@ -57,6 +57,7 @@ func main() {
 	tStart := time.Now()
 	var Args []string
 	var wString string
+	flagVerbose := false
 	flagExecute := false
 	flagCompile := true
 	jvmName := "jacobin" // default virtual machine name
@@ -200,7 +201,7 @@ func main() {
 			FmtFatal("Error in accessing directory", global.DirTests, err)
 		}
 
-		// For each test case, execute it
+		// For each test case subdirectory of tests, run it.
 		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
 		for _, entry := range entries {
 			if entry.IsDir() {
@@ -213,7 +214,7 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, rawlog := ExecuteOneTest(fullPath, flagCompile)
+				resultCode, rawlog := ExecuteOneTest(fullPath, flagCompile, global)
 				outlog := strings.ReplaceAll(rawlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:
