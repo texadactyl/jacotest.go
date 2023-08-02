@@ -39,12 +39,10 @@ Open a terminal window / command prompt.
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-c]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+Usage:  jacotest  [-h]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
 
 where
 	-h : This display
-	-c : Clean all of the .class files and .log files
-
 	-x : Compile and execute all of the tests
 	-v : Verbose logging
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
@@ -130,7 +128,7 @@ Assuming compilation is successful, then execution begins.  If the execution exp
 
 Whether the current test is successful or not, flow moves on to the next test case.  Flow concludes when all of the test cases have been attempted.
 
-For example, from a jvm=jacobin report, the following is one result:
+For example, from a jvm=jacobin report, the following used to be one result:
 	
 ![rpt_example_result](https://user-images.githubusercontent.com/11318756/233359231-b914b0b7-32ea-43ae-a0c3-4d09e31bc044.png)
 
