@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"os"
 	"os/exec"
 	"path"
@@ -147,53 +148,30 @@ func runner(cmdName string, cmdExec string, dirName string, argFile string) (int
 
 // Compile all .java files in the directory tree rooted at fullPathDir.
 // Then, javap all .class files in the directory tree rooted at fullPathDir.
-func compileOneTree(fullPathDir string, flagTreeTop bool) int {
+func compileOneTree(pathTreeTop string) int {
 	var statusCode int
 
 	// Get all of the directory entries from fullPathDir
-	entries, err := os.ReadDir(fullPathDir)
+	entries, err := os.ReadDir(pathTreeTop)
 	if err != nil {
-		FmtFatal("compileOneTree: os.ReadDir failed", fullPathDir, err)
+		FmtFatal("compileOneTree: os.ReadDir failed", pathTreeTop, err)
 	}
-	// Process each directory entry
+	// Compile every .java file at the top level.
+	// If there are subdirectories (package), they will automatically be compiled as well.
 	errorCount := 0
 	for _, dirEntry := range entries {
 		fileName := dirEntry.Name()
 
 		// Get full path of file name
-		fullPathFile := filepath.Join(fullPathDir, fileName)
+		fullPathFile := filepath.Join(pathTreeTop, fileName)
 
-		// If a directory, we will recur
+		// If a directory, we will skip it
 		fileInfo, err := os.Stat(fullPathFile)
 		if err != nil {
 			FmtFatal("compileOneTree: os.Stat failed", fullPathFile, err)
 		}
 		if fileInfo.IsDir() {
-
-			// Save the path of the current working dir
-			here, err := os.Getwd()
-			if err != nil {
-				FmtFatal("compileOneTree os.Getwd failed", "", err)
-			}
-
-			// Position to fullPathDir as the new working dir  (!!!!!!!!!!!!!!!!!!!!)
-			err = os.Chdir(fullPathFile)
-			if err != nil {
-				FmtFatal("compileOneTree os.Chdir failed.  Was targeting:", fullPathDir, err)
-			}
-
-			// RECURSION at new working dir
-			errorCount += compileOneTree(fullPathFile, false)
-
-			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
-			err = os.Chdir(here)
-			if err != nil {
-				FmtFatal("compileOneTree os.Chdir failed.  Was trying to return here:", here, err)
-			}
-
-			// Carry on to the next directory entry
 			continue
-
 		}
 
 		// Not a directory.
@@ -202,34 +180,41 @@ func compileOneTree(fullPathDir string, flagTreeTop bool) int {
 			continue
 		}
 
-		// If not at tree top, skip compilation because it has already been done.
-		if !flagTreeTop {
-			continue
-		}
-
 		// We have a simple file with extension .java in the tree top.
-		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(fullPathDir), fileName))
+		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(pathTreeTop), fileName))
 
 		// Run compilation
-		statusCode, _ = runner("javac", "javac", filepath.Base(fullPathDir), fileName)
+		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), fileName)
 		errorCount += statusCode
 	}
 
-	// Compiled every .java file in the current directory.
-	// For each .class file produced, generate javap output.
-	matches, err := filepath.Glob(fullPathDir + "/*.class")
-	if err != nil {
-		FmtFatal("compileOneTree: filepath.Glob("+fullPathDir+"/*.class"+") failed.", "", err)
+	// If any compilation errors, return now.
+	if errorCount > 0 {
+		return errorCount
 	}
-	for _, match := range matches {
-		className := filepath.Base(match)
-		// Execute "javap -v X.class"
-		// and store the console output in the current directory.
-		output, err := exec.Command("javap", "-v", className).Output()
-		if err != nil {
-			FmtFatal("compileOneTree: exec.Command(javap "+className+") failed.", "", err)
+
+	// Compiled every .java file in the tree without errors.
+	// For each .class file produced, generate javap output.
+	err = filepath.WalkDir(pathTreeTop, func(absFilePath string, dirent fs.DirEntry, err error) error {
+		if dirent.IsDir() {
+			return nil
 		}
-		storeText(fullPathDir, "javap_"+className+".log", string(output))
+		if !strings.HasSuffix(dirent.Name(), ".class") {
+			return nil
+		}
+		//fmt.Printf("DEBUG absFilePath=%s .....\n", absFilePath)
+		output, err := exec.Command("javap", "-v", absFilePath).Output()
+		if err != nil {
+			FmtFatal("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", "", err)
+		}
+		dirPath := filepath.Dir(absFilePath)
+		outFile := "javap_" + dirent.Name() + ".log"
+		//fmt.Printf("DEBUG outFile %s .....\n", outFile)
+		storeText(dirPath, outFile, string(output))
+		return nil
+	})
+	if err != nil {
+		FmtFatal("filepath.WalkDir failed", "", err)
 	}
 
 	// Return compilation error count to caller
@@ -260,7 +245,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, global GlobalsStruct) 
 
 	if flagCompile {
 		// Compile every .java file in the tree
-		errorCount := compileOneTree(fullPathDir, true)
+		errorCount := compileOneTree(fullPathDir)
 
 		// If there was at least one compilation error, go no further
 		if errorCount > 0 {
