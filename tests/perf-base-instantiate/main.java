@@ -7,7 +7,7 @@ import javax.crypto.*;
 
 public class main {
 
-    static int MAX_LOOPS = 1000000;
+    final static int MAX_LOOPS = 1000000;
 
     public static void runner(byte [] bbuf, char [] cbuf) throws Exception {
    		ByteArrayInputStream a1 = new  ByteArrayInputStream(bbuf);
@@ -38,6 +38,10 @@ public class main {
         System.out.println("Import and instantiate performance test");
     	System.out.print("Loop count: ");
     	System.out.println(MAX_LOOPS);
+    	if (MAX_LOOPS < 1) {
+    		System.out.println("*** ERROR, MAX_LOOPS (static int) < 1");
+    		System.exit(1);
+    	}
 
     	byte [] bbuf = new byte [1024];
     	char [] cbuf = new char[1024];

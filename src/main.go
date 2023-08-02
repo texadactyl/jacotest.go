@@ -16,9 +16,8 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 60, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display\n")
-	fmt.Printf("\t-c : Clean all of the .log files\n")
 	fmt.Printf("\t-N : No need to recompile the test cases\n")
 	fmt.Printf("\t-x : Execute all of the tests\n")
 	fmt.Printf("\t-v : Verbose logging\n")
@@ -58,7 +57,6 @@ func main() {
 	tStart := time.Now()
 	var Args []string
 	var wString string
-	flagClean := false
 	flagExecute := false
 	flagCompile := true
 	jvmName := "jacobin" // default virtual machine name
@@ -74,7 +72,7 @@ func main() {
 	if err != nil {
 		Fatal("You are not positioned in the jacotest tree top directory")
 	}
-	handle.Close()
+	_ = handle.Close()
 
 	// Initialise Args to the command-line arguments
 	for _, singleVar := range os.Args[1:] {
@@ -95,10 +93,6 @@ func main() {
 
 		case "-x":
 			flagExecute = true
-			flagClean = true // Force a pre-clean when executing tests
-
-		case "-c":
-			flagClean = true // clean the logs directory
 
 		case "-N":
 			flagCompile = false // Do not compile anything
@@ -135,8 +129,8 @@ func main() {
 	}
 
 	// Make sure that at least one of -c or -x was specified
-	if !flagClean && !flagExecute {
-		LogError("Must specify -h, -c, or -x")
+	if !flagExecute {
+		LogError("Must specify -h or -x")
 		showHelp()
 	}
 
@@ -153,32 +147,25 @@ func main() {
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
 	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
 
-	// Process clean request
-	if flagClean {
+	// Open logs directory
+	fileOpened, err := os.Open(global.DirLogs)
+	if err != nil {
+		FmtFatal("os.Open failed", global.DirLogs, err)
+	}
 
-		// Open logs directory
-		fileOpened, err := os.Open(global.DirLogs)
+	// Get all the file entries in the logs directory
+	names, err := fileOpened.Readdirnames(0) // get all entries
+	if err != nil {
+		FmtFatal("Readdirnames failed", global.DirLogs, err)
+	}
+
+	// For each logs entry, remove it
+	for index := range names {
+		name := names[index]
+		fullPath := filepath.Join(global.DirLogs, name)
+		err := os.Remove(fullPath)
 		if err != nil {
-			FmtFatal("os.Open failed", global.DirLogs, err)
-		}
-
-		// Get all the file entries in the logs directory
-		names, err := fileOpened.Readdirnames(0) // get all entries
-		if err != nil {
-			FmtFatal("Readdirnames failed", global.DirLogs, err)
-		}
-
-		// For each logs entry, remove it
-		for index := range names {
-			name := names[index]
-			fullPath := filepath.Join(global.DirLogs, name)
-			err := os.Remove(fullPath)
-			if err != nil {
-				Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
-			}
-			if flagVerbose {
-				Logger(fmt.Sprintf("Removed: %s", fullPath))
-			}
+			Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
 		}
 	}
 
@@ -189,7 +176,7 @@ func main() {
 		var errExecutionNames []string
 		var timeoutExecutionNames []string
 
-		// Initialise report file
+		// Initialise detailed report file
 		rptHandle, err := os.Create(global.ReportFilePath)
 		if err != nil {
 			FmtFatal("os.Create failed", global.ReportFilePath, err)
@@ -201,7 +188,7 @@ func main() {
 		fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
 		fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 
-		// Initialise summary output file
+		// Initialise summary report file
 		outPath := global.SumFilePath
 		outHandle := OutGrapeOpen(outPath, false)
 		msg := fmt.Sprintf("%s version %s\n", MyName, global.Version)
@@ -226,8 +213,8 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile)
-				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
+				resultCode, rawlog := ExecuteOneTest(fullPath, flagCompile)
+				outlog := strings.ReplaceAll(rawlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)
@@ -266,11 +253,6 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
-		OutGrapeText(outHandle, "\n==================")
-		OutGrapeText(outHandle, "class.Data")
-		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "class.Data", outHandle)
-
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
@@ -296,6 +278,11 @@ func main() {
 		OutGrapeText(outHandle, "===============")
 		ExecGrape("logs", ".log", "BALOAD: Invalid", outHandle)
 
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
+
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
@@ -307,14 +294,14 @@ func main() {
 		ExecGrape("logs", ".log", "*** ERROR", outHandle)
 
 		OutGrapeText(outHandle, "\n==================")
+		OutGrapeText(outHandle, "class.Data")
+		OutGrapeText(outHandle, "==================")
+		ExecGrape("logs", ".log", "class.Data", outHandle)
+
+		OutGrapeText(outHandle, "\n==================")
 		OutGrapeText(outHandle, "invalid class name")
 		OutGrapeText(outHandle, "==================")
 		ExecGrape("logs", ".log", "invalid class name", outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n============================================")
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
