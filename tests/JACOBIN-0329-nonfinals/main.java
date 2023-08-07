@@ -39,7 +39,7 @@ public class main {
 		errorCount += isItTrue("d42 = fd42", d42 == fd42);
 		errorCount += isItTrue("cc = fcc", cc == fcc);
 		errorCount += isItTrue("bb = fbb", bb == fbb);
-		System.exit(errorCount);
+		assert(errorCount == 0);
 	}
 
 }

@@ -57,7 +57,7 @@ public class main {
         errorCount += hh.isItTrue("ss2.length() = 23", ss2.length() == 23);
         errorCount += hh.isItTrue("ss2 = ss1", ss2.equals(ss1));
         
-		hh.byebye(errorCount);
+		assert(errorCount == 0);
     }
 }
 

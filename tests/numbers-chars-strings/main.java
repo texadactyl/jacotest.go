@@ -13,9 +13,6 @@ public class main {
 
         System.out.print("\nError count = ");
         System.out.println(errorCount);
-        if (errorCount > 0) {
-            System.out.println("Going to thrrow an Exception next .....");
-            throw new Exception("Test case failure !!");
-        }
+        assert (errorCount == 0);
     }
 }

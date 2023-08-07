@@ -52,15 +52,16 @@ public class main {
 		ProcessHandle.Info info = ph.info();
 		String jvmPath = info.command().orElse("?");
 		if (jvmPath.equals("?")) {
-			System.out.println("*** ERROR, ProcessHandle.Info.command() failed.");
-			System.exit(1);
+			throw new AssertionError("*** ERROR, ProcessHandle.Info.command() failed");
 		}
         System.out.print("JVM executable: ");
         System.out.println(jvmPath);
         System.out.print("Argument count: ");
         System.out.println(args.length);
         if (args.length > 0) {
-            System.exit(runner());
+            int statusCode = runner();
+            assert (statusCode == 0);
+            System.exit(0);
         }
         cmd("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
         cmd("jar tf jarring.jar");

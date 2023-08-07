@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-08-02 | 2.4.1 | All test cases with failure exits now use assert or throw new AssertionError. |
 | 2023-08-02 | 2.3.16 | Fix WalkDir logic for javap. |
 | 2023-08-02 | 2.3.15 | New test case: enigma-machine (Alan Turing). |
 | 2023-08-02 | 2.3.14 | New test case: JACOBIN-0329-nonfinals. |

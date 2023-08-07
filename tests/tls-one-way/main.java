@@ -82,7 +82,7 @@ public class main {
 	        }
 			catch (InterruptedException ee) {
 				ee.printStackTrace();
-				System.exit(1);
+				throw new AssertionError("InterruptedException");
 			}
 			if (handshakeSemaphore) { break; }
         }

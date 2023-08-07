@@ -64,14 +64,7 @@ public class main {
             }
         }
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-            System.exit(0);
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.print(String.valueOf(errorCount));
-            System.exit(1);
-        }
+        assert(errorCount == 0);
 
     }
     

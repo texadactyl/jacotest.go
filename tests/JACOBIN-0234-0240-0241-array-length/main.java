@@ -37,13 +37,7 @@ public class main {
         String[] arr_String = new String[8192];
         errorCount += displayResult("String", arr_String.length, 8192);
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 }
 

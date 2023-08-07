@@ -60,11 +60,6 @@ public class main {
         errorCount += isItTrue("After removing all elements, vint.isEmpty() is true", vint.isEmpty());
 
         // Check the error count
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            printLabeledString("Number of errors = ", String.valueOf(errorCount));
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 }

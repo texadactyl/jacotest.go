@@ -39,7 +39,7 @@ class main {
               + stretchTree.getHash()
               + " check: "
               + ck);
-      if (! ck) System.exit(1);
+      assert (ck);
   
       final var longLivedTree = TreeNode.make(maxDepth);
   
@@ -63,7 +63,7 @@ class main {
               + longLivedTree.getHash()
               + " check: "
               + ck);
-      if (! ck) System.exit(1);
+      assert (ck);
     }
   
     private static class TreeNode {

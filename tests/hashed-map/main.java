@@ -36,13 +36,7 @@ public class main {
         capitalCities.clear();
         errorCount += checker("capitalCities.size() == 0", capitalCities.size() == 0);
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 }
 

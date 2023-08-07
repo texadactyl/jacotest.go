@@ -33,14 +33,7 @@ public class main {
         errorCount += reporter("user.home");
         errorCount += reporter("user.name");
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-            System.exit(0);
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(String.valueOf(errorCount));
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 
 }

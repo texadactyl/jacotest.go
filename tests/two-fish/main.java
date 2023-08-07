@@ -74,7 +74,7 @@ public class main {
         
         System.out.print("Error count = ");
         System.out.println(errorCount);
-        System.exit(errorCount);
+        assert(errorCount == 0);
 
     }
 

@@ -67,14 +67,7 @@ public class main {
 		    String cmdLnArray[] = new String[] {jvmName, "-cp", cwd, className, "123"};
 		    cmdLine = String.join(" ", cmdLnArray);
 		    int statusCode = commander(cmdLine);
-		    if (statusCode == 42) {
-		    	System.out.println("parent: The child process exited with 42 as expected.");
-		    	System.exit(0);
-		    } else {
-		    	System.out.print("*** ERROR, parent: expected 42 but the child process exited with status ");
-		    	System.out.println(statusCode);
-		    	System.exit(1);
-		    }
+		    assert (statusCode == 42);
 		    
 		} else {
 			// Child process

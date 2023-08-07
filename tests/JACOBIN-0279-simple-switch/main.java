@@ -17,8 +17,7 @@ class main {
                     System.out.println("case 2");
                     break;
                 default:
-                    System.out.println("*** ERROR, switch-default failure");
-                    System.exit(1);
+                    throw new AssertionError("switch-default failure");
             }
 
         }

@@ -112,14 +112,10 @@ public class main {
 
         // How did we do?
         System.out.println("Validate .....");
-        if (isChainValid()) {
-            System.out.println("Valid blockchain at the end");
-            printLabeledString("Total chain size in bytes: ", String.valueOf(totalChainSize));
-            printLabeledString("Total payload size in bytes: ", String.valueOf(totalPayloadSize));
-        } else {
-            System.out.println("INVALID blockchain at the end");
-            System.exit(1);
-        }
+        assert (isChainValid());
+        System.out.println("Valid blockchain at the end");
+        printLabeledString("Total chain size in bytes: ", String.valueOf(totalChainSize));
+        printLabeledString("Total payload size in bytes: ", String.valueOf(totalPayloadSize));
     }
 }
 

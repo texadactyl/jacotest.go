@@ -4,7 +4,7 @@ public class main {
     	System.out.println("CHECKCAST exercise .....");
 		String pv = System.getProperty("java.home");
 		if (pv.equals("foobar"))
-			System.exit(1);
+			throw new AssertionError("checkcast error?");
     }
     
 }

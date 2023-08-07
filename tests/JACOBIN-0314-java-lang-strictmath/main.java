@@ -343,7 +343,7 @@ public class main {
         ff = StrictMath.ulp(0.0f);
         errorCount += hh.checker("ulp", 0.0f, ff, 1.4E-45f);
  
-        hh.byebye(errorCount);
+        assert(errorCount == 0);
 
     }
 

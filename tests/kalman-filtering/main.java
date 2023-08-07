@@ -195,13 +195,7 @@ public class main {
 		int errorCount = testPhaseLockedLoop();
 		
 		// How did we do?
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
         
 	}
 	

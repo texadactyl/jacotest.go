@@ -90,7 +90,7 @@ public class main {
         System.out.print(FFT_size);
         System.out.print("): ");
         if (res[1] == 0.0)
-            System.out.println("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
+            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
         else
             System.out.println(res[1]);
 
@@ -117,7 +117,7 @@ public class main {
         System.out.print(LU_size);
         System.out.print("): ");
         if (res[5] == 0.0)
-            System.out.println("*** ERROR, INVALID NUMERICAL RESULT - LU!");
+            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - LU!");
         else
             System.out.println(res[5]);
 

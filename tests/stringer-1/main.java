@@ -123,7 +123,7 @@ public class main {
         }
         errorCount += hh.isItTrue("disjoint.length = 6", disjoint.length == 6);
 
-		hh.byebye(errorCount);
+		assert(errorCount == 0);
     }
 }
 

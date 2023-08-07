@@ -80,7 +80,7 @@ public class main {
 		printCosine(400.0 * ml.PI);
 		printCosine((400.0 * ml.PI) % (2.0 * ml.PI));
 
-		hh.byebye(errorCount);
+		assert(errorCount == 0);
 		
     }
 

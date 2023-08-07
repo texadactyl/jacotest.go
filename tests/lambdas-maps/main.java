@@ -71,13 +71,7 @@ public class main {
         errorCount += checker("map with 3 entries", counter == 5);
         errorCount += checker("Map get(4) == delta", hm.get(4) == "delta");
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 }  
 

@@ -7,7 +7,6 @@ public class main {
             System.out.println("Caught NullPointerException");
             System.exit(0);
         }
-        System.out.println("*** ERROR, failed to catch NullPointerException");
-        System.exit(1);
+        throw new AssertionError("failed to catch NullPointerException");
     }
 }

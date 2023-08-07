@@ -131,13 +131,7 @@ public class main {
             ie.printStackTrace();
         }
         
-        if (errorCount == 0) {
-            System.out.println("All entries have been verified");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
         
     }
  

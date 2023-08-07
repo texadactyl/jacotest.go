@@ -40,13 +40,7 @@ public class main {
         errorCount += isItTrue("'A' --> \"A\"", s2d[0][0].equals("A"));
     	System.out.println("Did not crash!");
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-            System.exit(0);
-        } else {
-            printLabeledString("Number of errors = ", String.valueOf(errorCount));
-            System.exit(1);
-        }
+        assert (errorCount == 0);
 
     }
     

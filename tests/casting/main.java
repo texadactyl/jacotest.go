@@ -51,11 +51,6 @@ public class main {
         errorCount += isItTrue("bb == 1", bb == 1, String.valueOf(bb));
 
         // Check the error count
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            printLabeledString("Number of errors = ", String.valueOf(errorCount));
-            System.exit(1);
-        }
+        assert (errorCount == 0);
     }
 }

@@ -22,16 +22,11 @@ public class main {
             // Print the message from MyException object
             System.out.println(ex.getMessage());
             System.exit(0);
-        } catch (Exception ex) {
-            System.out.println("*** ERROR *** Caught an unexpected exception !!!");
-            // Print the message from Exception object
-            System.out.println(ex.getMessage());
-            System.exit(1);
         }
         
         System.out.println("*** ERROR *** Expected to catch a MyException !!!");
         System.out.println("************* No exception was thrown !!!");
-        System.exit(1);
+        throw new AssertionError("failed to throw MyException");
     }
 
 }

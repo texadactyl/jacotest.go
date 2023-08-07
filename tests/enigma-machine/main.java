@@ -18,13 +18,13 @@ public class main {
 			System.out.printf("*** ERROR, unequal char array lengths. len(ca1)=%d, len(ca2)=%d.\n", len1, len2);
 			System.out.println(ca1.toString());
 			System.out.println(ca2.toString());
-			System.exit(1);
+			throw new AssertionError("array lengths");
 		}
 		if (! Arrays.equals(ca1, ca2)) {
 			System.out.println("*** ERROR, unequal char array values.");
 			System.out.println(ca1.toString());
 			System.out.println(ca2.toString());
-			System.exit(1);
+			throw new AssertionError("array contents");
 		}
 	}
 

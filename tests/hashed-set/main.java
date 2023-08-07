@@ -37,13 +37,7 @@ public class main {
         cars.clear();
         errorCount += checker("cars.size() == 0", cars.size() == 0);
 
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-            System.exit(1);
-        }
+        assert (errorCount == 0);
 
     }
 }

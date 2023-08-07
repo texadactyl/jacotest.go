@@ -47,11 +47,6 @@ public class main {
         boolean success = signature.verify(baSignature);
 
         // Test for success
-        if (success) {
-            System.out.println("Signature verified");
-        } else {
-            System.out.println("*** ERROR, Signature verification");
-            System.exit(1);
-        }
+        assert (success);
     }
 }

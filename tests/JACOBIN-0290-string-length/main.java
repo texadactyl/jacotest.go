@@ -47,11 +47,7 @@ public class main {
         }
 
         // Check the error count
-        if (errorCount == 0) {
-            System.out.println("No errors detected");
-        } else {
-        	System.out.print("Number of errors = ");
-        }
+        assert (errorCount == 0);
     }
 
 }
