@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -192,7 +193,15 @@ func main() {
 		// Initialise summary report file
 		outPath := global.SumFilePath
 		outHandle := OutGrapeOpen(outPath, false)
-		msg := fmt.Sprintf("%s version %s\n", MyName, global.Version)
+		msg := fmt.Sprintf("%s version %s", MyName, global.Version)
+		OutGrapeText(outHandle, msg)
+		msg = fmt.Sprintf("O/S %s, arch %s", runtime.GOOS, runtime.GOARCH)
+		OutGrapeText(outHandle, msg)
+		if flagCompile {
+			msg = "All test cases will be compiled\n"
+		} else {
+			msg = "All test cases are assumed to be previously compiled\n"
+		}
 		OutGrapeText(outHandle, msg)
 
 		// Get all of the subdirectories (test cases) under tests

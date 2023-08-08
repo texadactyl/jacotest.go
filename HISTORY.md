@@ -4,6 +4,11 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-08-08 | 2.4.2 | Moved the grape functions from helpers.go into a new source file (grape.go). |
+| | | Added the JVM -ea option to jacobin and openjdk-java invocations. |
+| | | Added the -Xlint:all option to javac invocations. |
+| | | Identified the O/S type and machine architecture in the summary report. |
+| | | Note whether or not compilations will occur in the summary report. |
 | 2023-08-02 | 2.4.1 | All test cases with failure exits now use assert or throw new AssertionError. |
 | 2023-08-02 | 2.3.16 | Fix WalkDir logic for javap. |
 | 2023-08-02 | 2.3.15 | New test case: enigma-machine (Alan Turing). |
