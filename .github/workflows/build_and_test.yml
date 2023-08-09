@@ -31,6 +31,7 @@ jobs:
     - name: Build Jacotest
       run: |
         cd src
+        go get github.com/mattn/go-sqlite3
         go build -o . -v ./...
         cd ..
         pwd
