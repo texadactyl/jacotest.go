@@ -21,7 +21,8 @@ const Tracing = false
 const tableHistory = "history"
 
 // History table columns
-const colTestCaseName = "test_case"
+const colTestCase = "test_case"
+const colJvm = "jvm"
 const colDate = "date_utc"
 const colTime = "time_utc"
 const colResult = "result"
@@ -70,19 +71,20 @@ Internal function to initialise a jacotest database.
 func initDB() {
 
 	text := "CREATE TABLE " + tableHistory + " ("
-	text += colTestCaseName + " VARCHAR NOT NULL, "
+	text += colTestCase + " VARCHAR NOT NULL, "
+	text += colJvm + " VARCHAR NOT NULL, "
 	text += colDate + " VARCHAR NOT NULL, "
 	text += colTime + " VARCHAR NOT NULL, "
 	text += colResult + " VARCHAR NOT NULL, "
 	text += colFailText + " VARCHAR, "
-	text += "PRIMARY KEY (" + colTestCaseName + ", " + colDate + ", " + colTime + ") )"
+	text += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
 	if Tracing {
 		msg := fmt.Sprintf("DBTRACE: initDB: %s", text)
 		Logger(msg)
 	}
 	sqlFunc(text)
 
-	text = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCaseName + ")"
+	text = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
 	if Tracing {
 		msg := fmt.Sprintf("DBTRACE: initDB: %s", text)
 		Logger(msg)
@@ -166,11 +168,13 @@ func DBClose() {
 DBStorePassed - Store a PASSED jacotest test case result.
 */
 func DBStorePassed(testCaseName string) {
+	global := GetGlobalRef()
+	q_jvm := "'" + global.JvmName + "'"
 	q_tcn := "'" + testCaseName + "'"
 	q_date := "'" + getUtcDate() + "'"
 	q_time := "'" + getUtcTime() + "'"
 	text := "INSERT INTO " + tableHistory + " VALUES("
-	text += q_tcn + ", " + q_date + ", " + q_time + ", 'passed', NULL)"
+	text += q_tcn + ", " + q_jvm + ", " + q_date + ", " + q_time + ", 'passed', NULL)"
 	if Tracing {
 		msg := fmt.Sprintf("DBTRACE: DBStorePassed: %s", text)
 		Logger(msg)
@@ -182,12 +186,14 @@ func DBStorePassed(testCaseName string) {
 DBStoreFailed - Store a FAILED jacotest test case result.
 */
 func DBStoreFailed(testCaseName, failText string) {
+	global := GetGlobalRef()
+	q_jvm := "'" + global.JvmName + "'"
 	q_tcn := "'" + testCaseName + "'"
 	q_date := "'" + getUtcDate() + "'"
 	q_time := "'" + getUtcTime() + "'"
 	q_fail_text := "'" + failText + "'"
 	text := "INSERT INTO " + tableHistory + " VALUES("
-	text += q_tcn + ", " + q_date + ", " + q_time + ", 'failed', " + q_fail_text + ")"
+	text += q_tcn + ", " + q_jvm + ", " + q_date + ", " + q_time + ", 'failed', " + q_fail_text + ")"
 	if Tracing {
 		msg := fmt.Sprintf("DBTRACE: DBStoreFailed: %s", text)
 		Logger(msg)
