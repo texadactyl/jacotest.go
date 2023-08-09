@@ -125,4 +125,4 @@ History columns:
 * UTC date (YYYY-MM-DD)
 * UTC time (hh:mm:ss)
 * Result: passed, failed, or timeout
-* Failure text if failed
+* Failure text if failed; otherwise nil
