@@ -178,6 +178,9 @@ func main() {
 		var errExecutionNames []string
 		var timeoutExecutionNames []string
 
+		// Open database
+		DBOpen()
+
 		// Initialise detailed report file
 		rptHandle, err := os.Create(global.ReportFilePath)
 		if err != nil {
@@ -229,18 +232,22 @@ func main() {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
+					DBStorePassed(testCaseName)
 				case RC_COMP_ERROR:
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+					DBStoreFailed(testCaseName, "Compile error")
 				case RC_EXEC_ERROR:
 					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
+					// DBStoreFailed calls will be made in ExecGrape
 				case RC_EXEC_TIMEOUT:
 					exitStatus = 1
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+					DBStoreFailed(testCaseName, "Timeout")
 				}
 			}
 		}
@@ -355,6 +362,10 @@ func main() {
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 	}
 
+	// Close database
+	DBClose()
+
+	// Bye bye
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 	Logger(msg)
 	os.Exit(exitStatus)

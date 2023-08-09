@@ -44,6 +44,18 @@ func Fatal(msg string) {
 	os.Exit(1)
 }
 
+// Get UTC date string, YYYY-MM-DD
+func getUtcDate() string {
+	now := time.Now().UTC()
+	return now.Format("2006-01-02")
+}
+
+// Get UTC time string, hh:mm:ss
+func getUtcTime() string {
+	now := time.Now().UTC()
+	return now.Format("15:04:05")
+}
+
 // Log an error in a special format and croak
 func FmtFatal(msg string, name string, err error) {
 	var text string

@@ -80,8 +80,10 @@ func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.F
 		// For each string in the file, see if the search argument is present
 		for _, line := range dataStrings {
 			if strings.Index(line, searchArg) > -1 {
-				line := fmt.Sprintf("%s: %s", fileName, line)
 				line = strings.ReplaceAll(line, "\n", "")
+				fnameTokens := strings.Split(fileName, ".")
+				DBStoreFailed(fnameTokens[1], line)
+				line := fmt.Sprintf("%s: %s", fileName, line)
 				OutGrapeText(outHandle, line)
 				counter += 1
 			}
