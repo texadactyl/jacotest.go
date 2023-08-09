@@ -280,6 +280,11 @@ func main() {
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
+		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "null class name")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "null class name", outHandle)
+
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
