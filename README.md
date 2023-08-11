@@ -24,35 +24,42 @@ Install git, go, and java version 17 such that the executables ```git```, ```go`
 
 Install ```jacobin``` such that its executable resides in a directory whose absolute path is an element of the ```PATH``` environment variable.  It is recommended that this directory be the ```bin``` subdirectory under ```go```.
 
+### Sqlite Database Run-time and Database Browser
+
+Jacotest uses an sqlite database to store test case results in addition to logging and summary reports - discussed later on. The following are steps to install the sqlite run-time and the sqlite browser:
+* Click on https://www.sqlitetutorial.net/download-install-sqlite/ . Follow the instructions.
+* Go to https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.12.2-win64.msi and do the usual Windows MSI installation.
+
 ### Installation of jacotest
 
 Open a terminal window / command prompt.
 
-* Change directory to user's home directory
+* Assuming that you wish to install jacotest under the home directory,
      - cd $HOME (on Linux, MacOS, or Unix)
      - cd %HOMEPATH% (Windows)
 * git clone https://github.com/texadactyl/jacotest.go
 * cd jacotest.go/src
-* go install
+* go get github.com/mattn/go-sqlite3
+* go install -v ./...
 * cd ..
 
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-x]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+Usage:  jacotest  [-h]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
 
 where
 	-h : This display
-	-x : Compile and execute all of the tests
+	-N : No need to recompile the test cases
+	-x : Execute all of the tests
 	-v : Verbose logging
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
 	-j : This is the JVM to use in executing all test cases.  Default: openjdk
-jacotest version: 1.02
-
-Built with: go1.20.2
-BuildData vcs.revision: a28c14db3637665cbb8e8a2492d1df78cd67f7d9
-BuildData vcs.time: 2023-05-02 06:46:35 CDT
-BuildData vcs.modified: false
+jacotest version: 2.5.1
+Built with: go1.20.5
+BuildData vcs.revision: 0a2d9a48575b3864d5c2905c0b8e61bb2e56f78f
+BuildData vcs.time: 2023-08-09 12:44:09 CDT
+BuildData vcs.modified: true
 ```
 
 ### Jacotest Operations
@@ -80,60 +87,42 @@ The ```-v``` (verbose logging) parameter is intended for jacotest software debug
 # Test Case Overview
 
 Each test case occupies a directory immediately under the directory ```tests```.  The test case source code follows the following conventions:
-* For a given test case, there is a main.java file whose .class file starts execution for the test case following compilation.
+* For a given test case, there is a main.java file whose main.class file starts execution for the given test case following a successful compilation.
 * Additional source files (helper.java, etc.) can be present for test case modularity.
-* No package statements should appear in any of the source code.
+* Package statements and related subdirectories containing .java source files are limited to specific tests that are testing the JVM's ability to handle Java packaging.
 
 # Test Case Run
 
-Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a two-step process:
+Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a multi-step process:
 1) Compilation of all *.java files with ```javac```.
-2) If compilation is successful, then execution proceeds under the control of one of the 2 JVMs: ```java``` or ```jacobin```.
-
-After all test cases are run, a report file is available under the root in the following name format: ```RUN-REPORT-<jvm>.md``` where ```<jvm>``` is either java or jacobin. 
-
-The ```logs``` directory holds the combined stdout and stderr for test cases which experienced either compilation errors or execution errors.  Files here have the following name format: ```<result>-TestCaseDirectoryName-<exec>.log``` where:
-* ```<result>``` : FAILED or TIMEOUT
-* ```<exec>``` : javac or one of the JVMs (java or jacobin)
+2) Assuming that compilation was successful for a given test case, then `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
+3) If compilation is successful, then execution proceeds under the control of one of two JVMs: ```java``` or ```jacobin```.
 
 # Test Case Results and Reports
 
-Two types of reports:
-* Failed test case summary
-* Run reports (detailed)
+The following are jacotest output:
+* Logs of individual test cases
+* Test case summary covering all test cases
+* Database holding all of the run summaries
 
-## Failed Test Case Summary
+### Logs
 
-This is a single file per jacotest run (Failure_Summary_YYYY-MM-DD_hh.mm.ss_```<jvm>```.txt) residing in the ```reports``` subdirectory. Failed test cases are listed by failure-category. Note that a it is possible to find a test case appear multiple times within a single category and across categories. 
+At the beginning of each run, the ```logs``` directory is cleaned out. For the current run, the detailed results of each test case is recorded as a single file in the logs directory. Files are prefixed with ```PASSED.``` or ```FAILED```, depending on the outcome.
 
-It is expected that the categories themselves will change over time and the number of failures listed will shrink.
+### Test Case Summary
 
-## Run Reports
+This is a single file per jacotest run (Summary_YYYY-MM-DD_hh.mm.ss_```<jvm>```.txt) residing in the ```reports``` subdirectory. The results of all test cases for a single run are contained in this file. 
 
-The RUN_REPORT_YYYY-MM-DD_hh.mm.ss_```<jvm>```.md files are an encapsulation of the test case results associated with a particular batch run of the named jvm.  The report files are implemented as a Markdown table and reside in the ```reports``` subdirectory.
+### Database
 
-Each report has 3 columns:
-* ```Test case name```
-* ```Result``` - Success, FAILED, or TIMEOUT
-* ```Console Output``` - Line by line details of stdout & stderror combined if a result is FAILED or TIMEOUT
+The sqlite database file resides in the ```database``` directory. If the file or its directory does not yet exist, jacotest will automatically create it.
 
-It is ununsual that a test case fails compilation.  But, if this happens, execution is not attempted.  There will be a javac .log file is left in the ```logs``` subdirectory.  The report shows a COMP-ERROR in the Results column.  Flow moves on to the next test case.
+There is one table called ```history```. Each record contained therein represents the result of running a specific test case with the indicated JVM.
 
-One of the tests (negtest-comp-error) has 2 deliberate compilation errors. This is not a test of the JVM but a test of whether or not jacotest can detect them and move on to the next test case.
-
-Assuming compilation is successful, then execution begins.  If the execution experiences a FAILED or TIMEOUT result, then 
-* A .log file is left in the ```logs``` subdirectory for both FAILED and TIMEOUT results.  
-* A stack trace might appear in the ```Console Output``` column if the JVM had trouble in a FAILED case.
-* A TIMEOUT result indicates that the test case was overdue and was killed.
-
-Whether the current test is successful or not, flow moves on to the next test case.  Flow concludes when all of the test cases have been attempted.
-
-For example, from a jvm=jacobin report, the following used to be one result:
-	
-![rpt_example_result](https://user-images.githubusercontent.com/11318756/233359231-b914b0b7-32ea-43ae-a0c3-4d09e31bc044.png)
-
-The first line "Four bit shifting cases" was emited from a System.out.println(...) statement as soon as the test case started execution. 
-
-The FAILED result indicates that at least one part of the test was unsuccessful. Out of the 4 operations, 2 of them had errors so the test case failed as a whole. 
-
-If you look at the same test case in the jvm=openjdk report, you will see "n/a" in the 3rd column. The test case shows a PASSED status so jacotest discarded the stdout/stderr information. 
+History columns:
+* Test case name (E.g. JACOBIN-0329-nonfinals)
+* JVM name (jacobin, openjdk, etc.)
+* UTC date (YYYY-MM-DD)
+* UTC time (hh:mm:ss)
+* Result: passed, failed, or timeout
+* Failure text if failed; otherwise nil
