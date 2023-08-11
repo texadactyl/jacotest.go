@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2023-08-11 | 2.5.2 | New test case: playfair. |
+| 2023-08-11 | 2.5.2 | New test case: playfair (cryptography). |
 | 2023-08-09 | 2.5.1 | Implement sqlite3 database. |
 | 2023-08-08 | 2.4.2 | Moved the grape functions from helpers.go into a new source file (grape.go). |
 | | | Added the JVM -ea option to jacobin and openjdk-java invocations. |
