@@ -16,8 +16,9 @@ public class main {
 
 	private static void printLabeledValue(String label, Object value) {
 		System.out.print(label);
-		System.out.print(": ");
-		System.out.println(value);
+		System.out.print(": [");
+		System.out.print(value);
+		System.out.println("]");
 	}
 
      public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class main {
 
         String alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
         String clearText = "Mary had a little lamb whose fleece was white as snow!";
-        String expectedClearText = "MARR HAD A LITTLE LAMB WHOSE FLEECE WAS WHITE AS SNOW";
+        String expectedClearText = "MARR HAD A LITTLE LAMB WHOSE FLEECE WAS WHITE AS SNOW ";
         String clearKey = "qazwsx123$%^";
         
         printLabeledValue("Raw cleartext", clearText);
@@ -63,8 +64,9 @@ public class main {
 
         String clearText2 = pf.arraylistToString(pf.prepareDecryptedText(decryptedArrayList));
         printLabeledValue("Raw cleartext 2",  clearText2);
+        printLabeledValue("Expected cleartext 2", expectedClearText);
         
-        assert(clearText2 == expectedClearText);
+        assert(clearText2.equals(expectedClearText));
         
         System.out.println("..... END .....");
 
