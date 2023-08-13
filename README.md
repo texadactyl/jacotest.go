@@ -17,7 +17,7 @@ Some additional utilities have been developed and reside in the ```utilities``` 
 In all O/S installations, the following steps must be taken prior to use of ```jacotest```:
 * If there is no ```go``` subdirectory under the user's home directory, create it.
 * If there is no ```bin``` subdirectory under ```go```, create it.
-* The ```GOPATH``` environment variable must be set to the ```go``` subdirectory full path. 
+* The ```GOPATH``` environment variable must be set to the ```go``` subdirectory full path. After this is done, logout and then re-login.
 * Ensure that the full path of the ```bin``` subdirectory of ```go``` is an element of the ```PATH``` environment variable.
 
 Install git, go, and java version 17 such that the executables ```git```, ```go```, ```javac```, ```java``` reside in a directory whose absolute path is an element of the ```PATH``` environment variable.
