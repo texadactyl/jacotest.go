@@ -28,15 +28,21 @@ Install ```jacobin``` such that its executable resides in a directory whose abso
 
 * Browse to https://medium.com/@yaravind/go-sqlite-on-windows-f91ef2dacfe
 * Follow the instructions for the combined 32- and 64- bit Windows installation. It references https://jmeubank.github.io/tdm-gcc/
-* **Do not use the 32-bit-only installation**
-* Be sure to put the resultant bin folder in the PATH. You may have to logout and re-login afterwards.
+* **Do not use the 32-bit-only installation** ; use this one: **MinGW-w64 based**
+* Be sure to put the resultant bin folder in the PATH.
 
 ### Sqlite Database Run-time and Database Browser
 
 Jacotest uses an sqlite database to store test case results in addition to logging and summary reports - discussed later on. The following are steps to install the sqlite run-time and the sqlite browser:
 * Click on https://www.sqlitetutorial.net/download-install-sqlite/ . Follow the instructions.
-* Be sure to put the resultant bin folder in the PATH. You may have to logout and re-login afterwards.
+* Be sure to put the resultant bin folder in the PATH.
 * Go to https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.12.2-win64.msi and do the usual Windows MSI installation.
+
+### Make PATH Updates Permanent
+
+In order to make sure that all of the PATH updates are effective,
+* Logout and re-login afterwards.
+* Check the new elements of the PATH variable.
 
 ### Installation of jacotest
 
