@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-08-16 | 2.5.4 | New test case: charset-encoding. |
 | 2023-08-15 | 2.5.3 | New test cases: desi (DES cryptography) and two-pass (a simple Assembler). |
 | 2023-08-11 | 2.5.2 | New test case: playfair (cryptography). |
 | | | Adopted go version 1.21. |
