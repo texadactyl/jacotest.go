@@ -63,7 +63,7 @@ func main() {
 	flagCompile := true
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	var deadlineSecs int = 60
+	deadlineSecs := 60
 	now := time.Now()
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
@@ -207,7 +207,7 @@ func main() {
 		}
 		OutGrapeText(outHandle, msg)
 
-		// Get all of the subdirectories (test cases) under tests
+		// Get all the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)
 		if err != nil {
 			FmtFatal("Error in accessing directory", global.DirTests, err)

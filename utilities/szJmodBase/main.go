@@ -22,15 +22,15 @@ func main() {
 	if javaHome == "" {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
-    fullPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + BaseJmod
+	fullPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + BaseJmod
 
 	// Open the base jmod file
-    _, err := os.Open(fullPath)
-    if err != nil {
-        helpers.FmtFatal("os.Open failed:", fullPath, err)
-    }
-    
-    // Read entire file contents
+	_, err := os.Open(fullPath)
+	if err != nil {
+		helpers.FmtFatal("os.Open failed:", fullPath, err)
+	}
+
+	// Read entire file contents
 	jmodBytes, err := os.ReadFile(fullPath)
 	if err != nil {
 		helpers.FmtFatal("os.ReadFile failed:", fullPath, err)
@@ -44,7 +44,7 @@ func main() {
 
 	// Skip over the jmod header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
-	
+
 	// Prepare the reader for the zip archive
 	zipReader, err := zip.NewReader(offsetReader, int64(len(jmodBytes)-4))
 	if err != nil {
@@ -112,4 +112,3 @@ func getBootstrapCount(reader zip.Reader) int {
 	classes := strings.Split(string(classlistContent), "\n")
 	return len(classes)
 }
-

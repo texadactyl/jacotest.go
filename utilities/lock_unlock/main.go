@@ -20,7 +20,7 @@ func main() {
 	tStop := time.Now()
 	elapsedMillies := tStop.Sub(tStart).Milliseconds()
 	elapsedSecs = float64(elapsedMillies) / 1000.0
-	fmt.Printf("Finished in %0.3f seconds after %d million loops\n", elapsedSecs, IMAX / 1000000)
-	fmt.Printf("Cost = %0.3f seconds per loop\n", elapsedSecs / float64(IMAX))
+	fmt.Printf("Finished in %0.3f seconds after %d million loops\n", elapsedSecs, IMAX/1000000)
+	fmt.Printf("Cost = %0.3f seconds per loop\n", elapsedSecs/float64(IMAX))
 
 }

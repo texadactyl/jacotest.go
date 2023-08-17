@@ -21,8 +21,8 @@ func main() {
 	if javaHome == "" {
 		helpers.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
-    dirPath := javaHome + string(os.PathSeparator) + "jmods"
-    
+	dirPath := javaHome + string(os.PathSeparator) + "jmods"
+
 	// Open jmods directory
 	dirOpened, err := os.Open(dirPath)
 	if err != nil {
@@ -41,17 +41,17 @@ func main() {
 		fullPath := filepath.Join(dirPath, name)
 		processJmodsFile(name, fullPath)
 	}
-	
+
 }
 
 func processJmodsFile(baseName string, fullPath string) {
 	// Open the jmod file
-    _, err := os.Open(fullPath)
-    if err != nil {
-        helpers.FmtFatal("os.Open failed:", fullPath, err)
-    }
-    
-    // Read entire file contents
+	_, err := os.Open(fullPath)
+	if err != nil {
+		helpers.FmtFatal("os.Open failed:", fullPath, err)
+	}
+
+	// Read entire file contents
 	jmodBytes, err := os.ReadFile(fullPath)
 	if err != nil {
 		helpers.FmtFatal("os.ReadFile failed:", fullPath, err)
@@ -65,7 +65,7 @@ func processJmodsFile(baseName string, fullPath string) {
 
 	// Skip over the jmod header so that it is recognized as a ZIP file
 	offsetReader := bytes.NewReader(jmodBytes[4:])
-	
+
 	// Prepare the reader for the zip archive
 	zipReader, err := zip.NewReader(offsetReader, int64(len(jmodBytes)-4))
 	if err != nil {
@@ -77,22 +77,28 @@ func processJmodsFile(baseName string, fullPath string) {
 	for _, fileEntry := range zipReader.File {
 
 		// Has the right prefix and suffix?
-		if ! strings.HasPrefix(fileEntry.Name, "classes/") { continue }
-		if ! strings.HasSuffix(fileEntry.Name, ".class") { continue }
+		if !strings.HasPrefix(fileEntry.Name, "classes/") {
+			continue
+		}
+		if !strings.HasSuffix(fileEntry.Name, ".class") {
+			continue
+		}
 
 		// Remove the "classes/" prefix.
 		classFileName := strings.Replace(fileEntry.Name, "classes/", "", 1)
-		
+
 		// Form array splut = [ "a", "b", etc ] based on a/b/etc
 		splut := strings.Split(classFileName, string(os.PathSeparator))
 		lenSplut := len(splut)
-		if lenSplut < 2 { continue }
-		
+		if lenSplut < 2 {
+			continue
+		}
+
 		className := splut[0]
 		for ii := 1; ii < lenSplut; ii++ {
 			className += string(os.PathSeparator) + splut[ii]
 		}
-		
+
 		// Log this a.b.c
 		fmt.Printf("prefix , %s , %s\n", baseName, className)
 
@@ -103,4 +109,3 @@ func processJmodsFile(baseName string, fullPath string) {
 	fmt.Printf("TOTAL , %s , %d\n", baseName, countFiles)
 
 }
-

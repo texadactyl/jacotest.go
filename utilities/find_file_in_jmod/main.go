@@ -13,7 +13,7 @@ import (
 
 const ExpectedMagicNumber = 0x4A4D
 
-var jmodBytes [] byte
+var jmodBytes []byte
 
 func showHelp() {
 	fmt.Printf("\nUsage:  %s  <jmod name>  <class name>\n", filepath.Base(os.Args[0]))
@@ -32,7 +32,7 @@ func main() {
 		showHelp()
 	}
 	jmodFileName := os.Args[1]
-	classFileName :=  "classes/" + os.Args[2] + ".class"
+	classFileName := "classes/" + os.Args[2] + ".class"
 
 	// Form the full path to the jmod file name
 	javaHome := os.Getenv("JAVA_HOME")
@@ -40,7 +40,7 @@ func main() {
 		log.Fatal("os.GetEnv failed to find JAVA_HOME")
 	}
 	jmodPath := javaHome + string(os.PathSeparator) + "jmods" + string(os.PathSeparator) + jmodFileName
-    
+
 	// Read entire jmod file contents
 	jmodBytes, err = os.ReadFile(jmodPath)
 	if err != nil {
@@ -55,9 +55,9 @@ func main() {
 
 	// Skip over the jmod header so that it is recognized as a ZIP file
 	ioReader := bytes.NewReader(jmodBytes[4:])
-	
+
 	// Prepare the reader for the zip archive
-	zipLength = int64(len(jmodBytes)-4)
+	zipLength = int64(len(jmodBytes) - 4)
 	zipReader, err := zip.NewReader(ioReader, zipLength)
 	if err != nil {
 		log.Fatalf("zip.NewReader(%s) failed:\n%s\n", jmodPath, err.Error())
@@ -79,4 +79,3 @@ func main() {
 	fmt.Printf("Total bye count of %s in %s = %d\n", classFileName, jmodPath, byteCount)
 
 }
-

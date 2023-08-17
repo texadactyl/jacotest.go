@@ -43,4 +43,3 @@ func FmtFatal(msg string, name string, err error) {
 	Logger(text)
 	os.Exit(1)
 }
-

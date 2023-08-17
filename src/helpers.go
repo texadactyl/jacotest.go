@@ -131,7 +131,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	outBytes, err := cmd.CombinedOutput()
 	outString := string(outBytes)
 
-	// Error occured?
+	// Error occurred?
 	if err != nil { // YES
 		// Timeout?
 		if ctx.Err() == context.DeadlineExceeded { // YES
@@ -148,7 +148,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 		return RC_EXEC_ERROR, outString
 	}
 
-	// No errors occured.
+	// No errors occurred.
 	// If not a compile run, store outString.
 	if cmdExec != "javac" {
 		storeText(global.DirLogs, "PASSED."+infix+".log", outString)
