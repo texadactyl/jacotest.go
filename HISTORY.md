@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-08-19 | 2.5.6 | New test case: JACOBIN-0337-static-inits. |
 | 2023-08-18 | 2.5.5 | New test case: parse-int. |
 | 2023-08-16 | 2.5.4 | New test case: charset-encoding. |
 | 2023-08-15 | 2.5.3 | New test cases: desi (DES cryptography) and two-pass (a simple Assembler). |
