@@ -2,7 +2,7 @@ import java.lang.Thread;
 
 public class main {
 
-    final static int NLOOPS = 10000000;
+    final static int NLOOPS = 1_000_000;
 
     private static void showResult(String elemType, int length, long t1, long t2) {
         double elapsedSeconds = (double) (t2 - t1) / 1000.0;
