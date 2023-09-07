@@ -1,4 +1,3 @@
-import java.math.MathContext;
 import java.math.BigDecimal;
 
 public class main {
@@ -6,12 +5,15 @@ public class main {
 	final static int NBYTES = 10000;
 	final static int NLOOPS = 3;
 	final static double MAX_ASSIGN_PCT = 20.0; // max pct for byte array assignment
-	static double secs_overall = 0.0;
-	static MathContext mc = new MathContext(4);
 
-	public static double roundedPct(long inputMsecs) {		
-		double pct = ((double) inputMsecs) * 0.1 / secs_overall;
-		BigDecimal bd = new BigDecimal(pct, mc);
+	public static double roundedPct(long inputMsecs, double secsOverall) {	
+		double pct;
+		if (secsOverall < 0.001) { // Divisor too small?
+    		System.out.println("WARNING from roundedPct: Overall elapsed time in seconds is too small - not useful for computing percentages!"); 
+    		return -42.0;
+		}
+		pct = ((double) inputMsecs) * 0.1 / secsOverall;
+		BigDecimal bd = new BigDecimal(pct);
 		return bd.doubleValue();
 	}
 
@@ -23,6 +25,7 @@ public class main {
     	System.out.print("Loop count: ");
     	System.out.println(NLOOPS);
     	
+		double secsOverall = 0.0;
     	long t1, t2, t3, t4, t5;
     	long et_allocate = 0, et_assign = 0, et_null = 0, et_gc = 0;
     	
@@ -55,24 +58,24 @@ public class main {
         }        
     	long t2_overall = System.currentTimeMillis();
     	
-    	secs_overall = (double) (t2_overall - t1_overall) / 1000.0;
+    	secsOverall = (double) (t2_overall - t1_overall) / 1000.0;
     	System.out.print("Overall elapsed time = "); 
-    	System.out.print(secs_overall); 
+    	System.out.print(secsOverall); 
     	System.out.println(" seconds"); 
     	
-    	double pct_allocate = roundedPct(et_allocate);
+    	double pct_allocate = roundedPct(et_allocate, secsOverall);
     	System.out.print("% spent in new byte [...] = "); 
     	System.out.println(pct_allocate); 
     	
-    	double pct_assign = roundedPct(et_assign);
+    	double pct_assign = roundedPct(et_assign, secsOverall);
     	System.out.print("% spent in loop-byte-assignment = "); 
     	System.out.println(pct_assign); 
     	
-    	double pct_null = roundedPct(et_null);
+    	double pct_null = roundedPct(et_null, secsOverall);
     	System.out.print("% spent in setting byte array null = "); 
     	System.out.println(pct_null); 
     	
-    	double pct_gc = roundedPct(et_gc);
+    	double pct_gc = roundedPct(et_gc, secsOverall);
     	System.out.print("% spent in gc = "); 
     	System.out.println(pct_gc); 
     	System.out.println("End");
