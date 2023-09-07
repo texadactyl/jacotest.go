@@ -206,6 +206,12 @@ func main() {
 			msg = "All test cases are assumed to be previously compiled\n"
 		}
 		OutGrapeText(outHandle, msg)
+		outLines, err := exec.Command(jvmExe, "--version").Output()
+		if err != nil {
+			FmtFatal("Error in getting the JVM version", global.DirTests, err)
+		}
+		OutGrapeText(outHandle, "Using this JVM:")
+		OutGrapeText(outHandle, string(outLines))
 
 		// Get all the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)

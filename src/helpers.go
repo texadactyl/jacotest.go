@@ -154,7 +154,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 		storeText(global.DirLogs, "PASSED."+infix+".log", outString)
 	}
 
-	// Return outString and a normaal status code to caller
+	// Return outString and a normal status code to caller
 	return RC_NORMAL, outString
 }
 
