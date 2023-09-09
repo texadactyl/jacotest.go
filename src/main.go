@@ -17,10 +17,11 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 60, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-q]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display\n")
 	fmt.Printf("\t-N : No need to recompile the test cases\n")
 	fmt.Printf("\t-x : Execute all of the tests\n")
+	fmt.Printf("\t-q : Print the test case results where there was a change\n")
 	fmt.Printf("\t-v : Verbose logging\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: openjdk\n")
@@ -60,6 +61,7 @@ func main() {
 	var wString string
 	flagVerbose := false
 	flagExecute := false
+	flagLastTwo := false
 	flagCompile := true
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
@@ -95,6 +97,10 @@ func main() {
 
 		case "-x":
 			flagExecute = true
+			flagLastTwo = true
+
+		case "-q":
+			flagLastTwo = true
 
 		case "-N":
 			flagCompile = false // Do not compile anything
@@ -131,10 +137,13 @@ func main() {
 	}
 
 	// Make sure that at least one of -c or -x was specified
-	if !flagExecute {
-		LogError("Must specify -h or -x")
+	if !flagExecute && !flagLastTwo {
+		LogError("Must specify -h or -x or -q")
 		showHelp()
 	}
+
+	// Open database
+	DBOpen(flagVerbose)
 
 	// Make sure that the jvmExe file can be found in the O/S PATH
 	wString, err = exec.LookPath(jvmExe)
@@ -177,9 +186,6 @@ func main() {
 		var errCompileNames []string
 		var errExecutionNames []string
 		var timeoutExecutionNames []string
-
-		// Open database
-		DBOpen()
 
 		// Initialise detailed report file
 		rptHandle, err := os.Create(global.ReportFilePath)
@@ -371,6 +377,11 @@ func main() {
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
+	}
+
+	// Print result records?
+	if flagLastTwo {
+		DBPrtChanges()
 	}
 
 	// Close database

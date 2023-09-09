@@ -15,7 +15,7 @@ import (
 	"os"
 )
 
-const Tracing = false
+var Tracing = false
 
 // History table
 const tableHistory = "history"
@@ -46,9 +46,10 @@ Internal function to run an SQL statement and handle any errors.
 func sqlFunc(text string) {
 
 	if Tracing {
-		msg := fmt.Sprintf("DBTRACE: sqlFunc: %s", text)
+		msg := fmt.Sprintf("sqlFunc: %s", text)
 		Logger(msg)
 	}
+
 	statement, err := sqliteDatabase.Prepare(text) // Prepare SQL Statement
 	if err != nil {
 		FmtFatal("sqlFunc: sqliteDatabase.Prepare failed", text, err)
@@ -62,6 +63,25 @@ func sqlFunc(text string) {
 }
 
 /*
+Internal function to run an SQL select query and handle any errors. The output is returned to caller.
+*/
+func sqlQuery(text string) *sql.Rows {
+
+	if Tracing {
+		msg := fmt.Sprintf("sqlFunc: %s", text)
+		Logger(msg)
+	}
+
+	rows, err := sqliteDatabase.Query(text)
+	if err != nil {
+		FmtFatal("sqlQuery: sqliteDatabase.Query failed", text, err)
+	}
+
+	return rows
+
+}
+
+/*
 Internal function to initialise a jacotest database.
 
 * Create database (includes file creation/re-creation).
@@ -69,6 +89,10 @@ Internal function to initialise a jacotest database.
 * Create secondary indexes.
 */
 func initDB() {
+
+	if Tracing {
+		Logger("initDB: Begin")
+	}
 
 	text := "CREATE TABLE " + tableHistory + " ("
 	text += colTestCase + " VARCHAR NOT NULL, "
@@ -78,18 +102,14 @@ func initDB() {
 	text += colResult + " VARCHAR NOT NULL, "
 	text += colFailText + " VARCHAR, "
 	text += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
-	if Tracing {
-		msg := fmt.Sprintf("DBTRACE: initDB: %s", text)
-		Logger(msg)
-	}
 	sqlFunc(text)
 
 	text = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
-	if Tracing {
-		msg := fmt.Sprintf("DBTRACE: initDB: %s", text)
-		Logger(msg)
-	}
 	sqlFunc(text)
+
+	if Tracing {
+		Logger("initDB: End")
+	}
 
 }
 
@@ -101,10 +121,11 @@ DBOpen - Database Open
 * Connect to DB.
 * Validate DB.
 */
-func DBOpen() {
+func DBOpen(flagVerbose bool) {
 
+	Tracing = flagVerbose
 	if Tracing {
-		Logger("DBTRACE: DBOpen begins")
+		Logger("DBOpen: Begin")
 	}
 
 	// Database directory
@@ -121,30 +142,36 @@ func DBOpen() {
 	_, err = os.Stat(pathDatabase)
 	if err != nil {
 		if Tracing {
-			Logger("DBTRACE: DBOpen database file inaccessible: " + err.Error())
+			Logger("DBOpen: database file inaccessible: " + err.Error())
 		}
 		sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
 		if err != nil {
-			msg := fmt.Sprintf("DBOpen: sql.Open(create) with driver %s failed", driverDatabase)
-			FmtFatal(msg, pathDatabase, err)
+			FmtFatal("DBOpen: sql.Open(create) failed", pathDatabase, err)
 		}
 		initDB()
+
+		if Tracing {
+			Logger("DBOpen: End, database created")
+		}
 		return
 	}
 
 	// Connect to pre-existing database
 	if Tracing {
-		Logger("DBTRACE: DBOpen database file exists")
+		Logger("DBOpen database file exists")
 	}
 	sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
 	if err != nil {
-		msg := fmt.Sprintf("DBOpen: sql.Open(pre-existing) with driver %s failed", driverDatabase)
-		FmtFatal(msg, pathDatabase, err)
+		FmtFatal("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
 	}
 
 	// sqliteDatabase stays open until process exit
 
 	// TODO: Validate database
+
+	if Tracing {
+		Logger("DBOpen: End")
+	}
 
 }
 
@@ -154,49 +181,136 @@ DBClose - Store a PASSED jacotest test case result.Close the database
 func DBClose() {
 
 	if Tracing {
-		Logger("DBTRACE: DBClose")
+		Logger("DBClose: Begin")
 	}
+
 	err := sqliteDatabase.Close()
 	if err != nil {
-		msg := fmt.Sprintf("DBClose: sql.Close with driver %s failed", driverDatabase)
-		FmtFatal(msg, pathDatabase, err)
+		FmtFatal("DBClose: sql.Close failed", pathDatabase, err)
+	}
+
+	if Tracing {
+		Logger("DBClose: End")
 	}
 
 }
 
 /*
-DBStorePassed - Store a PASSED jacotest test case result.
+DBStorePassed - Store a PASSED jacotest test case resjvmult.
 */
 func DBStorePassed(testCaseName string) {
+
 	global := GetGlobalRef()
-	q_jvm := "'" + global.JvmName + "'"
-	q_tcn := "'" + testCaseName + "'"
-	q_date := "'" + getUtcDate() + "'"
-	q_time := "'" + getUtcTime() + "'"
-	text := "INSERT INTO " + tableHistory + " VALUES("
-	text += q_tcn + ", " + q_jvm + ", " + q_date + ", " + q_time + ", 'passed', NULL)"
-	if Tracing {
-		msg := fmt.Sprintf("DBTRACE: DBStorePassed: %s", text)
-		Logger(msg)
-	}
-	sqlFunc(text)
+
+	jvm := "'" + global.JvmName + "'"
+	tcn := "'" + testCaseName + "'"
+	dateUTC := "'" + getUtcDate() + "'"
+	timeUTC := "'" + getUtcTime() + "'"
+	sqlText := "INSERT INTO " + tableHistory + " VALUES("
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
+
+	sqlFunc(sqlText)
 }
 
 /*
 DBStoreFailed - Store a FAILED jacotest test case result.
 */
 func DBStoreFailed(testCaseName, failText string) {
+
 	global := GetGlobalRef()
-	q_jvm := "'" + global.JvmName + "'"
-	q_tcn := "'" + testCaseName + "'"
-	q_date := "'" + getUtcDate() + "'"
-	q_time := "'" + getUtcTime() + "'"
-	q_fail_text := "'" + failText + "'"
-	text := "INSERT INTO " + tableHistory + " VALUES("
-	text += q_tcn + ", " + q_jvm + ", " + q_date + ", " + q_time + ", 'failed', " + q_fail_text + ")"
-	if Tracing {
-		msg := fmt.Sprintf("DBTRACE: DBStoreFailed: %s", text)
-		Logger(msg)
+
+	jvm := "'" + global.JvmName + "'"
+	tcn := "'" + testCaseName + "'"
+	dateUTC := "'" + getUtcDate() + "'"
+	timeUTC := "'" + getUtcTime() + "'"
+	qFailText := "'" + failText + "'"
+	sqlText := "INSERT INTO " + tableHistory + " VALUES("
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
+
+	sqlFunc(sqlText)
+}
+
+/*
+DBPrtChanges - Print result records that have changed since previous run.
+Note that history rows are ordered by test case name, date descending, and time descending.
+*/
+func DBPrtChanges() {
+
+	// Query going from most recent first to least recent last for each combination of test case and JVM.
+	sqlText := "SELECT test_case, jvm, date_utc desc, time_utc, result, COALESCE(fail_text, 'n/a') FROM history ORDER BY test_case, date_utc DESC, time_utc DESC"
+
+	// Previous result record w.r.t. date and time
+	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText string
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText string = "", "", "", "", "", ""
+
+	// Get all of the history table rows.
+	var msg string
+	counter := 0
+	rows := sqlQuery(sqlText)
+	Logger("Looking for test cases with changed results .....")
+
+	// High level scan.
+	for rows.Next() {
+		// Get next history row back in time.
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+		if err != nil {
+			FmtFatal("DBPrtChanges: rows.Scan failed", pathDatabase, err)
+		}
+
+		// Same test case as last test case?
+		if curTestCase != prvTestCase {
+			// No, this is a new one.
+			// Make it current and continue.
+			curTestCase = prvTestCase
+			curJvm = prvJvm
+			curDateUTC = prvDateUTC
+			curTimeUTC = prvTimeUTC
+			curResult = prvResult
+			curFailText = prvFailText
+			continue
+		}
+
+		// Same test case as last one.
+		// Same result?
+		if prvResult != curResult || prvFailText != curFailText {
+			// Not the same result. Show the changes.
+			counter += 1
+			fmt.Printf("\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
+			fmt.Printf("\tprv  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText)
+		}
+
+		// Skip to a new test case.
+		for rows.Next() {
+			// Get next history row back in time.
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+			if err != nil {
+				FmtFatal("DBPrtChanges: rows.Scan/skipping failed", pathDatabase, err)
+			}
+
+			// Same as last test case?
+			if curTestCase == prvTestCase {
+				continue // Same: Skip this history record.
+			} else {
+				// Reached a new test case.
+				// Make it current and continue.
+				curTestCase = prvTestCase
+				curJvm = prvJvm
+				curDateUTC = prvDateUTC
+				curTimeUTC = prvTimeUTC
+				curResult = prvResult
+				curFailText = prvFailText
+				break // Escape from skipping. Resume high-level scan.
+			}
+		}
 	}
-	sqlFunc(text)
+
+	// Done. How many changed results?
+	if counter == 0 {
+		msg = "No test cases with changed results"
+	} else {
+		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
+	}
+	Logger(msg)
 }
