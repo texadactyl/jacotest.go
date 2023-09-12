@@ -140,7 +140,7 @@ The sqlite database file resides in the ```database``` directory. If the file or
 There is one table in the database: ```history```. Each record contained therein represents the result of running a specific test case with the indicated JVM.
 
 History columns:
-* test_case: Test case name (E.g. JACOBIN-0329-nonfinals)
+* test_case: Test case name (directory name under ```tests```)
 * jvm: JVM name ("jacobin" or "openjdk")
 * date_utc: UTC date (YYYY-MM-DD)
 * time_utc: UTC time (hh:mm:ss)
