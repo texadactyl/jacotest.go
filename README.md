@@ -141,7 +141,7 @@ There is one table in the database: ```history```. Each record contained therein
 
 History columns:
 * test_case: Test case name (E.g. JACOBIN-0329-nonfinals)
-* jvm: JVM name (jacobin, openjdk, etc.)
+* jvm: JVM name ("jacobin" or "openjdk")
 * date_utc: UTC date (YYYY-MM-DD)
 * time_utc: UTC time (hh:mm:ss)
 * result: "passed", "failed", or "timeout"
