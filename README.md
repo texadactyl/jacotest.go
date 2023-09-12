@@ -137,7 +137,7 @@ This is a single file per jacotest run (Summary_YYYY-MM-DD_hh.mm.ss_```<jvm>```.
 
 The sqlite database file resides in the ```database``` directory. If the file or its directory does not yet exist, jacotest will automatically create it.
 
-There is one table called ```history```. Each record contained therein represents the result of running a specific test case with the indicated JVM.
+There is one table in the database: ```history```. Each record contained therein represents the result of running a specific test case with the indicated JVM.
 
 History columns:
 * Test case name (E.g. JACOBIN-0329-nonfinals)
