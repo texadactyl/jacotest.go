@@ -282,25 +282,20 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "runtime error: invalid memory address")
-		OutGrapeText(outHandle, "=====================================")
-		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
-
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "Failed to load class")
-		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "Failed to load class", outHandle)
-
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
 		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
@@ -311,6 +306,16 @@ func main() {
 		OutGrapeText(outHandle, "runtime error: index out of range")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
+
+		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "runtime error: invalid memory address")
+		OutGrapeText(outHandle, "=====================================")
+		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
+
+		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "Failed to load class")
+		OutGrapeText(outHandle, "================")
+		ExecGrape("logs", ".log", "Failed to load class", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "AALOAD: Invalid")
@@ -336,11 +341,6 @@ func main() {
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
 		OutGrapeText(outHandle, "============================================")
 		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n=======================")
 		OutGrapeText(outHandle, "array of incorrect type")
