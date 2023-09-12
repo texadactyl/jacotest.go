@@ -140,9 +140,9 @@ The sqlite database file resides in the ```database``` directory. If the file or
 There is one table in the database: ```history```. Each record contained therein represents the result of running a specific test case with the indicated JVM.
 
 History columns:
-* Test case name (E.g. JACOBIN-0329-nonfinals)
-* JVM name (jacobin, openjdk, etc.)
-* UTC date (YYYY-MM-DD)
-* UTC time (hh:mm:ss)
-* Result: passed, failed, or timeout
-* Failure text if failed; otherwise NULL
+* test_case: Test case name (E.g. JACOBIN-0329-nonfinals)
+* jvm: JVM name (jacobin, openjdk, etc.)
+* date_utc: UTC date (YYYY-MM-DD)
+* time_utc: UTC time (hh:mm:ss)
+* result: Passed, failed, or timeout
+* fail_text: reason for failure if failed; otherwise NULL
