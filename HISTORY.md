@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-09-12 | 2.6.1 | Implement issue #18: Retry on SQL INSERT duplicate key errors. |
 | 2023-09-09 | 2.6.0 | Implement issue #16: display on console which test case results have changed. |
 | 2023-09-07 | 2.5.8 | Implement issue #15: show the JVM version in the summary report. |
 | 2023-09-07 | 2.5.7 | Fix issue #14: test case JACOBIN-0263-gc. |

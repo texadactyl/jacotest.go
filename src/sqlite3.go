@@ -13,9 +13,12 @@ import (
 	"fmt"
 	_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
 	"os"
+	"time"
 )
 
 var Tracing = false
+
+const msecsSleep = 1000
 
 // History table
 const tableHistory = "history"
@@ -43,7 +46,7 @@ var sqliteDatabase *sql.DB
 /*
 Internal function to run an SQL statement and handle any errors.
 */
-func sqlFunc(text string) {
+func sqlFunc(text string) error {
 
 	if Tracing {
 		msg := fmt.Sprintf("sqlFunc: %s", text)
@@ -57,8 +60,13 @@ func sqlFunc(text string) {
 
 	_, err = statement.Exec() // Execute SQL Statements
 	if err != nil {
-		FmtFatal("sqlFunc: statement.Exec failed", text, err)
+		msg := fmt.Sprintf("sqlFunc: statement.Exec failed: %s", text)
+		LogError(msg)
+		return err
 	}
+
+	// No errors
+	return nil
 
 }
 
@@ -68,7 +76,7 @@ Internal function to run an SQL select query and handle any errors. The output i
 func sqlQuery(text string) *sql.Rows {
 
 	if Tracing {
-		msg := fmt.Sprintf("sqlFunc: %s", text)
+		msg := fmt.Sprintf("sqlQuery: %s", text)
 		Logger(msg)
 	}
 
@@ -94,18 +102,24 @@ func initDB() {
 		Logger("initDB: Begin")
 	}
 
-	text := "CREATE TABLE " + tableHistory + " ("
-	text += colTestCase + " VARCHAR NOT NULL, "
-	text += colJvm + " VARCHAR NOT NULL, "
-	text += colDate + " VARCHAR NOT NULL, "
-	text += colTime + " VARCHAR NOT NULL, "
-	text += colResult + " VARCHAR NOT NULL, "
-	text += colFailText + " VARCHAR, "
-	text += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
-	sqlFunc(text)
+	sqlText := "CREATE TABLE " + tableHistory + " ("
+	sqlText += colTestCase + " VARCHAR NOT NULL, "
+	sqlText += colJvm + " VARCHAR NOT NULL, "
+	sqlText += colDate + " VARCHAR NOT NULL, "
+	sqlText += colTime + " VARCHAR NOT NULL, "
+	sqlText += colResult + " VARCHAR NOT NULL, "
+	sqlText += colFailText + " VARCHAR, "
+	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
+	err := sqlFunc(sqlText)
+	if err != nil {
+		FmtFatal("initDB: unrecoverable SQL create-table error", sqlText, err)
+	}
 
-	text = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
-	sqlFunc(text)
+	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
+	err = sqlFunc(sqlText)
+	if err != nil {
+		FmtFatal("initDB: unrecoverable SQL create-index error", sqlText, err)
+	}
 
 	if Tracing {
 		Logger("initDB: End")
@@ -209,7 +223,20 @@ func DBStorePassed(testCaseName string) {
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 
-	sqlFunc(sqlText)
+	err := sqlFunc(sqlText)
+	if err != nil {
+		time.Sleep(msecsSleep * time.Millisecond)
+		dateUTC = "'" + getUtcDate() + "'"
+		timeUTC = "'" + getUtcTime() + "'"
+		sqlText = "INSERT INTO " + tableHistory + " VALUES("
+		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
+		err := sqlFunc(sqlText)
+		if err != nil {
+			FmtFatal("DBStorePassed: 2nd try failed", sqlText, err)
+		}
+		msg := fmt.Sprintf("DBStorePassed: 2nd try is a success: %s", sqlText)
+		Logger(msg)
+	}
 }
 
 /*
@@ -227,7 +254,21 @@ func DBStoreFailed(testCaseName, failText string) {
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 
-	sqlFunc(sqlText)
+	err := sqlFunc(sqlText)
+	if err != nil {
+		time.Sleep(msecsSleep * time.Millisecond)
+		dateUTC = "'" + getUtcDate() + "'"
+		timeUTC = "'" + getUtcTime() + "'"
+		sqlText = "INSERT INTO " + tableHistory + " VALUES("
+		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
+		err := sqlFunc(sqlText)
+		if err != nil {
+			FmtFatal("DBStoreFailed: 2nd try failed", sqlText, err)
+		}
+		msg := fmt.Sprintf("DBStoreFailed: 2nd try is a success: %s", sqlText)
+		Logger(msg)
+	}
+
 }
 
 /*
