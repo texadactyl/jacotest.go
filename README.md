@@ -145,4 +145,4 @@ History columns:
 * date_utc: UTC date (YYYY-MM-DD)
 * time_utc: UTC time (hh:mm:ss)
 * result: "passed", "failed", or "timeout"
-* fail_text: Reason for failure if failed; otherwise NULL
+* fail_text: Reason for failure if failed; otherwise SQL "NULL"
