@@ -144,5 +144,5 @@ History columns:
 * jvm: JVM name (jacobin, openjdk, etc.)
 * date_utc: UTC date (YYYY-MM-DD)
 * time_utc: UTC time (hh:mm:ss)
-* result: Passed, failed, or timeout
-* fail_text: reason for failure if failed; otherwise NULL
+* result: "passed", "failed", or "timeout"
+* fail_text: Reason for failure if failed; otherwise NULL
