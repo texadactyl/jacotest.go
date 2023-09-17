@@ -6,6 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-09-17 | 2.6.2 | Complement jacobin PR #71 - JACOBIN-354. |
 | | | New test case: catch-assertion-error |
+| | | New test case: nth-root |
 | 2023-09-12 | 2.6.1 | Implement issue #18: Retry on SQL INSERT duplicate key errors. |
 | 2023-09-09 | 2.6.0 | Implement issue #16: display on console which test case results have changed. |
 | 2023-09-07 | 2.5.8 | Implement issue #15: show the JVM version in the summary report. |
