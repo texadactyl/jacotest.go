@@ -56,7 +56,8 @@ public class Model extends Car { ////////// Subclass
         super();
         System.out.println("Model constructor: That was the Car constructor!");
         System.out.print("Model constructor: I am a type of ");
-        System.out.println(getCategory());
+        String ss = getCategory();
+        System.out.println(ss);
         System.out.print("Model constructor: My brand is ");
         System.out.println(getBrand());
         System.out.print("Model constructor: My model is ");
