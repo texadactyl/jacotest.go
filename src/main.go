@@ -293,9 +293,9 @@ func main() {
 		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "INVOKEVIRTUAL: Class method not found")
+		OutGrapeText(outHandle, "Class method not found")
 		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "INVOKEVIRTUAL: Class method not found", outHandle)
+		ExecGrape("logs", ".log", "Class method not found", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
 		OutGrapeText(outHandle, "but it did not contain method")
