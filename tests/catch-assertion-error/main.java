@@ -1,0 +1,19 @@
+public class main {
+	
+	public static void main(String[] args) {
+		int x = 1;
+		int y = 2;
+		try {
+			System.out.println("x=1; y=2; assert x == y; .....");
+			assert x == y;
+			System.out.println("*** ERROR, failed to catch the AssertionError");
+			System.exit(1);
+		} catch (AssertionError ae) {
+			System.out.println("Caught the AssertionError");
+			System.exit(0);
+		}
+	}
+
+
+}
+
