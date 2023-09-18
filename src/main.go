@@ -297,11 +297,6 @@ func main() {
 		OutGrapeText(outHandle, "=============================")
 		ExecGrape("logs", ".log", "Class method not found", outHandle)
 
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
-
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
 		OutGrapeText(outHandle, "===========================")
@@ -311,6 +306,16 @@ func main() {
 		OutGrapeText(outHandle, "runtime error: index out of range")
 		OutGrapeText(outHandle, "=================================")
 		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "AssertionError")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "AssertionError", outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "runtime error: invalid memory address")
