@@ -288,6 +288,11 @@ func main() {
 		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
+		OutGrapeText(outHandle, "PUTSTATIC type unrecognized")
+		OutGrapeText(outHandle, "===========================")
+		ExecGrape("logs", ".log", "PUTSTATIC type unrecognized", outHandle)
+
+		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
 		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
