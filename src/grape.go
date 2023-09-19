@@ -41,7 +41,7 @@ func OutGrapeText(outHandle *os.File, textLine string) {
 }
 
 // Poor Man's `grep`
-func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.File) int {
+func ExecGrape(pathDir string, fileExt string, searchArg string, tblErrCases map[string]int, outHandle *os.File) int {
 
 	// Get the list of files in the directory
 	fileList, err := os.ReadDir(pathDir)
@@ -82,7 +82,9 @@ func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.F
 			if strings.Index(line, searchArg) > -1 {
 				line = strings.ReplaceAll(line, "\n", "")
 				fnameTokens := strings.Split(fileName, ".")
-				DBStoreFailed(fnameTokens[1], line)
+				testCase := fnameTokens[1]                        // collect test case name
+				tblErrCases[testCase] = tblErrCases[testCase] + 1 // bump grep-hit count
+				DBStoreFailed(testCase, line)                     // Write failure record to database
 				line := fmt.Sprintf("%s: %s", fileName, line)
 				OutGrapeText(outHandle, line)
 				counter += 1
