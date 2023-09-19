@@ -186,6 +186,7 @@ func main() {
 		var errCompileNames []string
 		var errExecutionNames []string
 		var timeoutExecutionNames []string
+		counterGrapes := 0
 
 		// Initialise detailed report file
 		rptHandle, err := os.Create(global.ReportFilePath)
@@ -285,102 +286,102 @@ func main() {
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "nvalid bytecode", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTSTATIC type unrecognized")
 		OutGrapeText(outHandle, "===========================")
-		ExecGrape("logs", ".log", "PUTSTATIC type unrecognized", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "PUTSTATIC type unrecognized", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
 		OutGrapeText(outHandle, "===========================")
-		ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
 		OutGrapeText(outHandle, "Class method not found")
 		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "Class method not found", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "Class method not found", outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "panic: interface conversion")
 		OutGrapeText(outHandle, "===========================")
-		ExecGrape("logs", ".log", "panic: interface conversion", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "panic: interface conversion", outHandle)
 
 		OutGrapeText(outHandle, "\n=================================")
 		OutGrapeText(outHandle, "runtime error: index out of range")
 		OutGrapeText(outHandle, "=================================")
-		ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "runtime error: index out of range", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
 		OutGrapeText(outHandle, "AssertionError")
 		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "AssertionError", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "AssertionError", outHandle)
 
 		OutGrapeText(outHandle, "\n=============================")
 		OutGrapeText(outHandle, "but it did not contain method")
 		OutGrapeText(outHandle, "=============================")
-		ExecGrape("logs", ".log", "but it did not contain method", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "but it did not contain method", outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "runtime error: invalid memory address")
 		OutGrapeText(outHandle, "=====================================")
-		ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "runtime error: invalid memory address", outHandle)
 
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "Failed to load class")
 		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "Failed to load class", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "Failed to load class", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "AALOAD: Invalid")
 		OutGrapeText(outHandle, "===============")
-		ExecGrape("logs", ".log", "AALOAD: Invalid", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "AALOAD: Invalid", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "BALOAD: Invalid")
 		OutGrapeText(outHandle, "===============")
-		ExecGrape("logs", ".log", "BALOAD: Invalid", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "BALOAD: Invalid", outHandle)
 
 		OutGrapeText(outHandle, "\n==================")
 		OutGrapeText(outHandle, "class.Data")
 		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "class.Data", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "class.Data", outHandle)
 
 		OutGrapeText(outHandle, "\n==================")
 		OutGrapeText(outHandle, "invalid class name")
 		OutGrapeText(outHandle, "==================")
-		ExecGrape("logs", ".log", "invalid class name", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "invalid class name", outHandle)
 
 		OutGrapeText(outHandle, "\n============================================")
 		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
 		OutGrapeText(outHandle, "============================================")
-		ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", outHandle)
 
 		OutGrapeText(outHandle, "\n=======================")
 		OutGrapeText(outHandle, "array of incorrect type")
 		OutGrapeText(outHandle, "=======================")
-		ExecGrape("logs", ".log", "array of incorrect type", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "array of incorrect type", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "WaitClassStatus")
 		OutGrapeText(outHandle, "===============")
-		ExecGrape("logs", ".log", "WaitClassStatus", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "WaitClassStatus", outHandle)
 
 		OutGrapeText(outHandle, "\n============================")
 		OutGrapeText(outHandle, "could not find or load class")
 		OutGrapeText(outHandle, "============================")
-		ExecGrape("logs", ".log", "could not find or load class", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "could not find or load class", outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "MethAreaFetch")
 		OutGrapeText(outHandle, "===============")
-		ExecGrape("logs", ".log", "MethAreaFetch", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "MethAreaFetch", outHandle)
 
 		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "runtime.sigpanic")
 		OutGrapeText(outHandle, "================")
-		ExecGrape("logs", ".log", "runtime.sigpanic", outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "runtime.sigpanic", outHandle)
 
 		err = outHandle.Close()
 		if err != nil {
@@ -392,6 +393,12 @@ func main() {
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
+
+		// Discrepancies in error total?
+		if len(errExecutionNames) != counterGrapes {
+			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterGrapes))
+		}
+
 	}
 
 	// Print result records?

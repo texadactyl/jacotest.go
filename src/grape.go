@@ -41,7 +41,7 @@ func OutGrapeText(outHandle *os.File, textLine string) {
 }
 
 // Poor Man's `grep`
-func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.File) {
+func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.File) int {
 
 	// Get the list of files in the directory
 	fileList, err := os.ReadDir(pathDir)
@@ -95,5 +95,7 @@ func ExecGrape(pathDir string, fileExt string, searchArg string, outHandle *os.F
 		wstr := fmt.Sprintf("--- Total: %d", counter)
 		OutGrapeText(outHandle, wstr)
 	}
+
+	return counter
 
 }

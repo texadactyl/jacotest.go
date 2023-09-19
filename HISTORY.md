@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-09-19 | 2.6.4 | New summary report category: "PUTSTATIC type unrecognized". |
+| | | Catch discrepancies between total error executions and the total from log-greps. |
 | 2023-09-17 | 2.6.3 | New test case: rsa-mini. |
 | 2023-09-17 | 2.6.2 | Complement jacobin PR #71 - JACOBIN-354. |
 | | | New test case: catch-assertion-error |
