@@ -82,6 +82,7 @@ public class main {
         // Generate two random prime numbers of half the key size
         BigInteger p = generateRandomPrime(keySize / 2, rand);
         BigInteger q = generateRandomPrime(keySize / 2, rand);
+        System.out.println("Primes (p, q): (" + p + ", " + q + ")");
 
         // Calculate n = modulus and phi
         BigInteger n = p.multiply(q);
