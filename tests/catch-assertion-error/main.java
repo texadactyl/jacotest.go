@@ -9,7 +9,7 @@ public class main {
 			System.out.println("*** ERROR, failed to catch the AssertionError");
 			System.exit(1);
 		} catch (AssertionError ae) {
-			System.out.println("Caught the AssertionError");
+			System.out.println("Caught the Assertion-Error");
 			System.exit(0);
 		}
 	}
