@@ -286,6 +286,11 @@ func main() {
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "stack underflow")
+		OutGrapeText(outHandle, "================")
+		counterGrapes += ExecGrape("logs", ".log", "stack underflow", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
 		counterGrapes += ExecGrape("logs", ".log", "nvalid bytecode", tblErrCases, outHandle)

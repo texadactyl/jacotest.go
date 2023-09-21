@@ -4,7 +4,9 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-09-21 | 2.6.6 | New failure category: stack underflow. |
 | 2023-09-20 | 2.6.5 | ':' added by Unka Andoo. |
+| | | | Go 1.21.1 |
 | 2023-09-19 | 2.6.4 | New summary report category: "PUTSTATIC type unrecognized". |
 | | | Catch discrepancies between total error executions and the total from log-greps. |
 | 2023-09-17 | 2.6.3 | New test case: rsa-mini. |
