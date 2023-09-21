@@ -3,6 +3,10 @@
 	RSA key generation, public key encryption, and private key decryption.
 	This is fine for an academic exercisee but not for production.
 
+        Note that this file is almost the same as its counterpart in rsa-mini.
+	The difference is that SecureRandom is avoided here.
+        It was hoped that C-language libraries would be avoided but probably not 100%!
+
  ***/
 
 import java.math.BigInteger;
