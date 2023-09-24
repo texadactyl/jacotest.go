@@ -291,6 +291,11 @@ func main() {
 		counterGrapes += ExecGrape("logs", ".log", "stack underflow", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "stack overflow")
+		OutGrapeText(outHandle, "================")
+		counterGrapes += ExecGrape("logs", ".log", "stack overflow", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "invalid bytecode")
 		OutGrapeText(outHandle, "================")
 		counterGrapes += ExecGrape("logs", ".log", "nvalid bytecode", tblErrCases, outHandle)
@@ -310,10 +315,10 @@ func main() {
 		OutGrapeText(outHandle, "=============================")
 		counterGrapes += ExecGrape("logs", ".log", "Class method not found", tblErrCases, outHandle)
 
-		OutGrapeText(outHandle, "\n===========================")
-		OutGrapeText(outHandle, "panic: interface conversion")
-		OutGrapeText(outHandle, "===========================")
-		counterGrapes += ExecGrape("logs", ".log", "panic: interface conversion", tblErrCases, outHandle)
+		OutGrapeText(outHandle, "\n========================================")
+		OutGrapeText(outHandle, "go panic because of interface conversion")
+		OutGrapeText(outHandle, "========================================")
+		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n=================================")
 		OutGrapeText(outHandle, "runtime error: index out of range")
@@ -325,20 +330,10 @@ func main() {
 		OutGrapeText(outHandle, "=============================")
 		counterGrapes += ExecGrape("logs", ".log", "AssertionError", tblErrCases, outHandle)
 
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		counterGrapes += ExecGrape("logs", ".log", "but it did not contain method", tblErrCases, outHandle)
-
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "runtime error: invalid memory address")
 		OutGrapeText(outHandle, "=====================================")
 		counterGrapes += ExecGrape("logs", ".log", "runtime error: invalid memory address", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "Failed to load class")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "Failed to load class", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n===============")
 		OutGrapeText(outHandle, "AALOAD: Invalid")
@@ -349,6 +344,16 @@ func main() {
 		OutGrapeText(outHandle, "BALOAD: Invalid")
 		OutGrapeText(outHandle, "===============")
 		counterGrapes += ExecGrape("logs", ".log", "BALOAD: Invalid", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "Failed to load class")
+		OutGrapeText(outHandle, "================")
+		counterGrapes += ExecGrape("logs", ".log", "Failed to load class", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n=============================")
+		OutGrapeText(outHandle, "but it did not contain method")
+		OutGrapeText(outHandle, "=============================")
+		counterGrapes += ExecGrape("logs", ".log", "but it did not contain method", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n==================")
 		OutGrapeText(outHandle, "class.Data")
