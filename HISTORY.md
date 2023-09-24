@@ -5,9 +5,9 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2023-09-24 | 2.6.7 | New failure category: stack overflow. |
-| | | | Re-worded failure category pertaining to interface conversion. |
+| | | Re-worded failure category pertaining to interface conversion. |
 | 2023-09-21 | 2.6.6 | New failure category: stack underflow. |
-| | | | New test case: rsa-unrandom. |
+| | | New test case: rsa-unrandom. |
 | 2023-09-20 | 2.6.5 | ':' added by Unka Andoo. |
 | | | Upgraded to golang 1.21.1 |
 | 2023-09-19 | 2.6.4 | New summary report category: "PUTSTATIC type unrecognized". |
