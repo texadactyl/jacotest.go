@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-09-26 | 2.6.8 | New failure category: INVOKEVIRTUAL: Native method requested. |
 | 2023-09-24 | 2.6.7 | New failure category: stack overflow. |
 | | | Re-worded failure category pertaining to interface conversion. |
 | 2023-09-21 | 2.6.6 | New failure category: stack underflow. |

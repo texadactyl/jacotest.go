@@ -286,6 +286,11 @@ func main() {
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "INVOKEVIRTUAL: Native method requested")
+		OutGrapeText(outHandle, "================")
+		counterGrapes += ExecGrape("logs", ".log", "INVOKEVIRTUAL: Native method requested", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n================")
 		OutGrapeText(outHandle, "stack underflow")
 		OutGrapeText(outHandle, "================")
 		counterGrapes += ExecGrape("logs", ".log", "stack underflow", tblErrCases, outHandle)
