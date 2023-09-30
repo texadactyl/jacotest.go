@@ -24,14 +24,16 @@ public class main {
 	 	ByteBuffer bytebuffer1 = ByteBuffer.wrap(argString.getBytes());  
 	 	bytebuffer1.rewind();
 	 	int hash1 = bytebuffer1.hashCode();
+	 	byte[] bytearray1 = bytebuffer1.array();
 	 	printer("bytebuffer 1 hash value", hash1);
 		CharBuffer charbuffer = argCharset.decode(bytebuffer1);  
 		ByteBuffer bytebuffer2 = argCharset.encode(charbuffer);  
 	 	bytebuffer2.rewind();
 	 	int hash2 = bytebuffer2.hashCode();
+	 	byte[] bytearray2 = bytebuffer2.array();
 	 	
 	 	assert hash1 == hash2 : "hash1 != hash2 after Charset decode and encode";
-	 	assert bytebuffer2.equals(bytebuffer1) : "ByteBuffers not equal after Charset decode and encode";
+	 	assert bytearray2.equals(bytearray1) : "byte arrays not equal after Charset decode and encode";
 	 	
 	 	// CharsetDecoder
 	 	
@@ -68,9 +70,10 @@ public class main {
 	 	bytebuffer2.rewind();
 		hash2 = bytebuffer2.hashCode();
 		printer("Encoder's hash value", hash2);
+	 	bytearray2 = bytebuffer2.array();
 		
 	 	assert hash1 == hash2 :  "hash1 != hash2 after CharsetEncode";
-	 	assert bytebuffer2.equals(bytebuffer1) : "ByteBuffers not equal after CharsetEncode";
+	 	assert bytearray2.equals(bytearray1) : "byte arrays not equal after CharsetEncode";
 		
 	}
 
