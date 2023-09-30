@@ -5,6 +5,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.CharacterCodingException;
+import java.util.Arrays;
 
 public class main {
 
@@ -26,14 +27,16 @@ public class main {
 	 	int hash1 = bytebuffer1.hashCode();
 	 	byte[] bytearray1 = bytebuffer1.array();
 	 	printer("bytebuffer 1 hash value", hash1);
+	 	printer("byte array 1 length", bytearray1.length);
 		CharBuffer charbuffer = argCharset.decode(bytebuffer1);  
 		ByteBuffer bytebuffer2 = argCharset.encode(charbuffer);  
 	 	bytebuffer2.rewind();
 	 	int hash2 = bytebuffer2.hashCode();
 	 	byte[] bytearray2 = bytebuffer2.array();
+	 	printer("byte array 2 length", bytearray2.length);
 	 	
 	 	assert hash1 == hash2 : "hash1 != hash2 after Charset decode and encode";
-	 	assert bytearray2.equals(bytearray1) : "byte arrays not equal after Charset decode and encode";
+	 	assert Arrays.equals(bytearray1, bytearray2) : "byte arrays not equal after Charset decode and encode";
 	 	
 	 	// CharsetDecoder
 	 	
@@ -69,11 +72,12 @@ public class main {
     	bytebuffer2 = csen.encode(charbuffer);   
 	 	bytebuffer2.rewind();
 		hash2 = bytebuffer2.hashCode();
-		printer("Encoder's hash value", hash2);
+		printer("CharsetEncoder hash value", hash2);
 	 	bytearray2 = bytebuffer2.array();
+	 	printer("CharsetEncoder byte array 2 length", bytearray2.length);
 		
 	 	assert hash1 == hash2 :  "hash1 != hash2 after CharsetEncode";
-	 	assert bytearray2.equals(bytearray1) : "byte arrays not equal after CharsetEncode";
+	 	assert Arrays.equals(bytearray1, bytearray2) : "byte arrays not equal after CharsetEncode";
 		
 	}
 
