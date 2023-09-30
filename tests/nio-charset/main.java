@@ -30,8 +30,8 @@ public class main {
 	 	bytebuffer2.rewind();
 	 	int hash2 = bytebuffer2.hashCode();
 	 	
-	 	assert hash1 == hash2;
-	 	assert bytebuffer2.equals(bytebuffer1);
+	 	assert hash1 == hash2 : "hash1 != hash2 after Charset decode and encode";
+	 	assert bytebuffer2.equals(bytebuffer1) : "ByteBuffers not equal after Charset decode and encode";
 	 	
 	 	// CharsetDecoder
 	 	
@@ -40,7 +40,7 @@ public class main {
 		printer("Decoder Maximum number of characters per byte of input", csde.maxCharsPerByte());
 		printer("Decoder Autodetecting?", csde.isAutoDetecting());
 
-		assert csde.replacement().equals("\uFFFD");
+		assert csde.replacement().equals("\uFFFD") : "csde.replacement() != \uFFFD";
 		
 		CodingErrorAction cea1 = csde.malformedInputAction();
 		argString = cea1.toString();
@@ -54,13 +54,13 @@ public class main {
 		byte[] repl = "\uFFFE".getBytes();
 		printer("Encoder Legal replacement value?", csen.isLegalReplacement(repl));
 
-		assert csen.replacement().equals("\uFFFD");
+		assert csen.replacement().equals("\uFFFD") : "csen.replacement() != \uFFFD";
 		
 		cea1 = csde.malformedInputAction();
 		argString = cea1.toString();
 		printer("Encoder's current action for malformed-input errors", argString);
 		
-		// Use Charset encoder and decoder
+		// Use CharsetEncoder/Decoder
 		
 		bytebuffer1.rewind();
     	charbuffer = csde.decode(bytebuffer1);  
@@ -69,8 +69,8 @@ public class main {
 		hash2 = bytebuffer2.hashCode();
 		printer("Encoder's hash value", hash2);
 		
-	 	assert hash1 == hash2;
-	 	assert bytebuffer2.equals(bytebuffer1);
+	 	assert hash1 == hash2 :  "hash1 != hash2 after CharsetEncode";
+	 	assert bytebuffer2.equals(bytebuffer1) : "ByteBuffers not equal after CharsetEncode";
 		
 	}
 
