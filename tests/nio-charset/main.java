@@ -50,9 +50,6 @@ public class main {
 		printer("Encoder Maximum number of bytes per character of input", csen.maxBytesPerChar());
 		byte[] repl = "\uFFFE".getBytes();
 		printer("Encoder Legal replacement value?", csen.isLegalReplacement(repl));
-
-		assert csen.replacement().equals("\uFFFD") : "csen.replacement() != \uFFFD";
-		
 		cea1 = csde.malformedInputAction();
 		argString = cea1.toString();
 		printer("Encoder's current action for malformed-input errors", argString);
@@ -65,7 +62,8 @@ public class main {
 	 	bytebuffer2.rewind();
 		int hash2 = bytebuffer2.hashCode();
 		printer("hash2 after CharsetEncoder", hash2);
-	 	byte[] bytearray2 = bytebuffer2.array();
+	 	byte[] bytearray2 = new byte [ bytebuffer2.limit() ];
+	 	bytebuffer2.get(bytearray2);
 	 	printer("byte array 2 length after CharsetEncoder", bytearray2.length);
 	 	printer("byte array 2 as String", Arrays.toString(bytearray2));
 		
