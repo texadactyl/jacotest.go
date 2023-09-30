@@ -27,8 +27,8 @@ public class main {
 	 	int hash1 = bytebuffer1.hashCode();
 	 	printer("hash1", hash1);
 	 	byte[] bytearray1 = bytebuffer1.array();
-	 	printer("bytebuffer 1 hash value", hash1);
 	 	printer("byte array 1 length", bytearray1.length);
+	 	printer("byte array 1 as String", Arrays.toString(bytearray1));
 		CharBuffer charbuffer = argCharset.decode(bytebuffer1);  
 		ByteBuffer bytebuffer2 = argCharset.encode(charbuffer);  
 	 	bytebuffer2.rewind();
@@ -36,6 +36,7 @@ public class main {
 	 	printer("hash2", hash2);
 	 	byte[] bytearray2 = bytebuffer2.array();
 	 	printer("byte array 2 length", bytearray2.length);
+	 	printer("byte array 2 as String", Arrays.toString(bytearray2));
 	 	
 	 	assert hash1 == hash2 : "hash1 != hash2 after Charset decode and encode";
 	 	assert Arrays.equals(bytearray1, bytearray2) : "byte arrays not equal after Charset decode and encode";
