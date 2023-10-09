@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-10-09 | 2.6.11 | Fix double grep hit caused by "AssertionError". |
 | 2023-09-30 | 2.6.10 | New test cases: nio-charset, JACOBIN-369-simplified-290. |
 | 2023-09-28 | 2.6.9 | New test case: JACOBIN-0369-getbytes. |
 | 2023-09-26 | 2.6.8 | New failure category: INVOKEVIRTUAL: Native method requested. |

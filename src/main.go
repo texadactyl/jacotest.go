@@ -330,10 +330,10 @@ func main() {
 		OutGrapeText(outHandle, "=================================")
 		counterGrapes += ExecGrape("logs", ".log", "runtime error: index out of range", tblErrCases, outHandle)
 
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "AssertionError")
-		OutGrapeText(outHandle, "=============================")
-		counterGrapes += ExecGrape("logs", ".log", "AssertionError", tblErrCases, outHandle)
+		OutGrapeText(outHandle, "\n===================")
+		OutGrapeText(outHandle, "Exception in thread")
+		OutGrapeText(outHandle, "===================")
+		counterGrapes += ExecGrape("logs", ".log", "Exception in thread", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "runtime error: invalid memory address")
