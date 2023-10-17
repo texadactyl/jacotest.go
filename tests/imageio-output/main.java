@@ -16,7 +16,7 @@ public class main {
             fileHandle = File.createTempFile("random-ish", ".png");
         } catch (IOException ee) {
             ee.printStackTrace();
-            System.exit(1);
+            throw new AssertionError("File.createTempFile IOException");
         }
 
         // Image dimensions
@@ -43,7 +43,7 @@ public class main {
             ImageIO.write(img, "png", fileHandle);
         } catch (IOException ee) {
             ee.printStackTrace();
-            System.exit(1);
+            throw new AssertionError("ImageIO.write IOException");
         }
 		System.out.println("Success!");
     }

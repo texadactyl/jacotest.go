@@ -84,7 +84,8 @@ class main {
 		double darg2 = Math.pow(root, nth);
 		reporter("Final argument", darg2);
 		
-		System.exit(areTheyClose("Original argument and final argument", (double) arg, darg2));
+		int result = areTheyClose("Original argument and final argument", (double) arg, darg2);
+		assert(result == 0);
 	
 	}
 }

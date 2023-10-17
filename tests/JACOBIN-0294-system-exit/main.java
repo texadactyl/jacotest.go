@@ -50,8 +50,7 @@ public class main {
 			ProcessHandle.Info info = ph.info();
 			String jvmPath = info.command().orElse("?");
 			if (jvmPath.equals("?")) {
-				System.out.println("*** ERROR, parent: ProcessHandle.Info.command() failed.");
-				System.exit(1);
+				throw new AssertionError("*** ERROR, parent: ProcessHandle.Info.command() failed.");
 			}
 		    System.out.print("parent: JVM executable: ");
 		    System.out.println(jvmPath);

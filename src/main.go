@@ -285,9 +285,19 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
-		OutGrapeText(outHandle, "\n================")
+		OutGrapeText(outHandle, "\n==============")
+		OutGrapeText(outHandle, "AssertionError")
+		OutGrapeText(outHandle, "==============")
+		counterGrapes += ExecGrape("logs", ".log", "AssertionError", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n=====================")
+		OutGrapeText(outHandle, "NumberFormatException")
+		OutGrapeText(outHandle, "=====================")
+		counterGrapes += ExecGrape("logs", ".log", "NumberFormatException", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n======================================")
 		OutGrapeText(outHandle, "INVOKEVIRTUAL: Native method requested")
-		OutGrapeText(outHandle, "================")
+		OutGrapeText(outHandle, "======================================")
 		counterGrapes += ExecGrape("logs", ".log", "INVOKEVIRTUAL: Native method requested", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n================")

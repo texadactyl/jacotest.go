@@ -105,8 +105,7 @@ public class main {
             System.out.println("Success!");
             System.exit(0);
         }
-        System.out.println("*** ERROR *** decryptedString != originalString");
-        throw new AssertionError("decryption");
+        throw new AssertionError("*** ERROR, decryptedString != originalString");
     }
 
 }
