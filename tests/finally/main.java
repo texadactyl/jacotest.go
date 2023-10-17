@@ -1,26 +1,23 @@
+import java.lang.NumberFormatException;
+
 public class main {
     public static void main(String[] args) {
     
     	System.out.println("Try-Catch-Finally exercise");
-    	int errorCount = 0;
     	boolean finny = false;
 		try {
 			double dud = Double.valueOf("foobar");
-			System.out.print("*** ERROR, I should not get here! dud=");
-			System.out.println(dud);
-			++errorCount;
+			throw new AssertionError("*** ERROR, I did not catch an exception from Double.valueOf(\"foobar\")!");
+		} catch (NumberFormatException ex) {
+			System.out.println("Caught the Number Format Exception!");
 		} catch (Exception ex) {
-			System.out.println("Caught the throw!");
-			System.out.println(ex);
+			throw new AssertionError("Caught an unexpected exception!");
 		} finally {
 			System.out.println("Finally!");
 			finny = true;
 		}
 		if (! finny) {
-			System.out.println("*** ERROR, I did not pass through finally!");
-			++errorCount;
+			throw new AssertionError("*** ERROR, I did not pass through finally!");
 		}
-		
-		assert (errorCount == 0);
     }
 }
