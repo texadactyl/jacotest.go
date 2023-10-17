@@ -16,7 +16,7 @@ public class main {
 				System.out.println(" ***ERROR, did not throw an exception");
 				return 1;
 			} catch (NumberFormatException ex) {
-				System.out.println(" threw NumberFormatException as expected");
+				System.out.println(" threw Number Format Exception as expected");
 				return 0;
 			} catch (Exception ex) {
 				System.out.println(" ***ERROR, threw an unexpected type of exception");
