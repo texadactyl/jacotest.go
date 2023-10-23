@@ -41,6 +41,8 @@ public class main {
         // Taylor series for e^x
         RationalPolynomial tsExp = RationalPolynomial.ZERO;
         for (int ii = 0; ii < NTERMS; ii++) {
+            System.out.print("==================== ii=");
+            System.out.println(ii);
             BigRational coef = new BigRational(1, factorial(ii));
             RationalPolynomial term = new RationalPolynomial(coef, ii);
             tsExp = tsExp.plus(term);
