@@ -63,7 +63,10 @@ public class Twofish_Properties // implicit no-argument constructor
     };
 
     static {
-        if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ": Looking for " + ALGORITHM + " properties");
+        if (GLOBAL_DEBUG) {
+        	String arg = ">>> " + NAME + ": Looking for " + ALGORITHM + " properties";
+        	System.err.println(arg);
+        }
         String it = ALGORITHM + ".properties";
         InputStream is = Twofish_Properties.class.getResourceAsStream(it);
         boolean ok = is != null;
@@ -71,13 +74,18 @@ public class Twofish_Properties // implicit no-argument constructor
             try {
                 properties.load(is);
                 is.close();
-                if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ": Properties file loaded OK...");
+                if (GLOBAL_DEBUG) {
+                	String arg = ">>> " + NAME + ": Properties file loaded OK...";
+                	System.err.println(arg);
+                }
             } catch (Exception x) {
                 ok = false;
             }
         if (!ok) {
-            if (GLOBAL_DEBUG)
-                System.err.println(">>> " + NAME + ": WARNING: Unable to load \"" + it + "\" from CLASSPATH.");
+            if (GLOBAL_DEBUG) {
+                String arg = ">>> " + NAME + ": WARNING: Unable to load \"" + it + "\" from CLASSPATH.";
+                System.err.println(arg);
+            }
             if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ":          Will use default values instead...");
             int n = DEFAULT_PROPERTIES.length;
             for (int i = 0; i < n; i++)
@@ -119,7 +127,8 @@ public class Twofish_Properties // implicit no-argument constructor
      */
     public static void list(PrintWriter out) {
         out.println("#");
-        out.println("# ----- Begin " + ALGORITHM + " properties -----");
+        String arg = "# ----- Begin " + ALGORITHM + " properties -----";
+        out.println(arg);
         out.println("#");
         String key, value;
         Enumeration enump = properties.propertyNames();
@@ -129,7 +138,8 @@ public class Twofish_Properties // implicit no-argument constructor
             out.println(key + " = " + value);
         }
         out.println("#");
-        out.println("# ----- End " + ALGORITHM + " properties -----");
+        arg = "# ----- End " + ALGORITHM + " properties -----";
+        out.println(arg);
     }
 
 //    public synchronized void load(InputStream in) throws IOException {}
@@ -156,7 +166,8 @@ public class Twofish_Properties // implicit no-argument constructor
      * the key <code>Trace.<i>label</i></code>.
      */
     static boolean isTraceable(String label) {
-        String s = getProperty("Trace." + label);
+    	String arg = "Trace.".concat(label);
+        String s = getProperty(arg);
         if (s == null)
             return false;
         //return new Boolean(s).booleanValue();
@@ -177,7 +188,8 @@ public class Twofish_Properties // implicit no-argument constructor
      * @return The required debugging level for the designated class.
      */
     static int getLevel(String label) {
-        String s = getProperty("Debug.Level." + label);
+    	String arg = "Debug.Level.".concat(label);
+        String s = getProperty(arg);
         if (s == null) {
             s = getProperty("Debug.Level.*");
             if (s == null)
