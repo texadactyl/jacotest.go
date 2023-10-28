@@ -35,7 +35,7 @@ public class main {
         System.out.println(text);
 
         // Sign original cleartext
-        byte[] clearTextBytes = text.getBytes("UTF-8");
+        byte[] clearTextBytes = text.getBytes();
         ecdsa.update(clearTextBytes);
         byte[] baSignature = ecdsa.sign();
 

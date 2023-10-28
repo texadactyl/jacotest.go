@@ -7,7 +7,8 @@ import java.security.InvalidKeyException;
 
 public class main {
 
-    public static void showBytes(String label, byte[] argBytes) {
+    private static void showBytes(String label, byte[] argBytes) {
+    
         String hexString = Twofish_Algorithm.toString(argBytes);
         System.out.print(label);
         System.out.print(" (");
@@ -16,7 +17,7 @@ public class main {
         System.out.println(hexString);
     }
 
-	private static int essai(int keysize, byte [] originalBytes) {
+	private static int tryTwoFish(int keysize, byte [] originalBytes) {
 	
     	System.out.print("Trying key size ");
     	System.out.println(keysize);
@@ -67,10 +68,10 @@ public class main {
         byte[] originalBytes = originalString.getBytes();
         showBytes("originalBytes", originalBytes);
         
-        errorCount += essai(8, originalBytes);
-        errorCount += essai(16, originalBytes);
-        errorCount += essai(24, originalBytes);
-        errorCount += essai(32, originalBytes);
+        errorCount += tryTwoFish(8, originalBytes);
+        errorCount += tryTwoFish(16, originalBytes);
+        errorCount += tryTwoFish(24, originalBytes);
+        errorCount += tryTwoFish(32, originalBytes);
         
         System.out.print("Error count = ");
         System.out.println(errorCount);

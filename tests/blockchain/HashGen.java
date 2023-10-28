@@ -18,7 +18,7 @@ public class HashGen {
 
             byte[] hash
                     = sha.digest(
-                    input.getBytes("UTF-8"));
+                    input.getBytes());
 
             // hexHash will contain
             // the Hexadecimal hash

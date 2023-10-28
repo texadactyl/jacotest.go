@@ -63,30 +63,33 @@ public class Twofish_Properties // implicit no-argument constructor
     };
 
     static {
-        if (GLOBAL_DEBUG) {
-        	String arg = ">>> " + NAME + ": Looking for " + ALGORITHM + " properties";
-        	System.err.println(arg);
-        }
+        String arg = ">>> " + NAME + ": Looking for " + ALGORITHM + " properties";
+      	System.out.println(arg);
         String it = ALGORITHM + ".properties";
         InputStream is = Twofish_Properties.class.getResourceAsStream(it);
         boolean ok = is != null;
-        if (ok)
+        if (ok) {
             try {
+				arg = ">>> " + NAME + ": trying properties.load for " + ALGORITHM + " properties";
+			  	System.out.println(arg);
                 properties.load(is);
                 is.close();
                 if (GLOBAL_DEBUG) {
-                	String arg = ">>> " + NAME + ": Properties file loaded OK...";
+                	arg = ">>> " + NAME + ": Properties file loaded OK...";
                 	System.err.println(arg);
                 }
-            } catch (Exception x) {
+            } catch (Exception dummy) {
+            	arg = ">>> " + NAME + ": No luck with the properties.load function";
+            	System.out.println(arg);
                 ok = false;
             }
-        if (!ok) {
+        } 
+        if (! ok) {
             if (GLOBAL_DEBUG) {
-                String arg = ">>> " + NAME + ": WARNING: Unable to load \"" + it + "\" from CLASSPATH.";
+                arg = ">>> " + NAME + ": WARNING: Unable to load \"" + it + "\" from CLASSPATH.";
                 System.err.println(arg);
             }
-            if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ":          Will use default values instead...");
+            if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ": Will use default values instead...");
             int n = DEFAULT_PROPERTIES.length;
             for (int i = 0; i < n; i++)
                 properties.put(
