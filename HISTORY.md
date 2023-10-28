@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-10-28 | 2.6.15 | Remove "UTF-8" from string.getBytes() calls. |
 | 2023-10-24 | 2.6.14 | Get past INVOKEDYNAMIC in two-fish". |
 | 2023-10-22 | 2.6.13 | New test case: cmath-in-java-source. |
 | 2023-10-17 | 2.6.12 | JACOBIN-379. |
@@ -154,3 +155,4 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |  |  | Added test case: java17-enhancements. |
 |  |  | Added test cases: vectors, lambdas-maps, hashed-set, and threading. |
 | 2023-04-01 | 1.0  | First version. |
+
