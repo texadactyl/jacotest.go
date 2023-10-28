@@ -45,7 +45,7 @@ jobs:
 
     - name: Run Test Cases
       run: |
-        which java
-        which javac
+        java --version
+        javac --version
         ./src/jacotest -x -j openjdk -t 60 
         ls -l ./reports
