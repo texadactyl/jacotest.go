@@ -4,12 +4,14 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-11-05 | 2.6.17 | New test case: JACOBIN-0393--two-strings
+| 2023-10-31 | 2.6.16 | New test case: JACOBIN-0386-0387-strings-again. |
 | 2023-10-28 | 2.6.15 | Remove "UTF-8" from string.getBytes() calls. |
 | 2023-10-24 | 2.6.14 | Get past INVOKEDYNAMIC in two-fish". |
 | 2023-10-22 | 2.6.13 | New test case: cmath-in-java-source. |
 | 2023-10-17 | 2.6.12 | JACOBIN-379. |
 | 2023-10-09 | 2.6.11 | Fix double grep hit caused by "AssertionError". |
-| 2023-09-30 | 2.6.10 | New test cases: nio-charset, JACOBIN-369-simplified-290. |
+| 2023-09-30 | 2.6.10 | New test cases: nio-charset, JACOBIN-0369-simplified-0290. |
 | 2023-09-28 | 2.6.9 | New test case: JACOBIN-0369-getbytes. |
 | 2023-09-26 | 2.6.8 | New failure category: INVOKEVIRTUAL: Native method requested. |
 | 2023-09-24 | 2.6.7 | New failure category: stack overflow. |
