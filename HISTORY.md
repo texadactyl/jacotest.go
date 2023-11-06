@@ -4,7 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2023-11-05 | 2.6.17 | New test case: JACOBIN-0393--two-strings
+| 2023-11-06 | 2.6.18 | Expanded test case JACOBIN-0393-two-strings |
+| 2023-11-05 | 2.6.17 | New test case: JACOBIN-0393-two-strings |
 | 2023-10-31 | 2.6.16 | New test case: JACOBIN-0386-0387-strings-again. |
 | 2023-10-28 | 2.6.15 | Remove "UTF-8" from string.getBytes() calls. |
 | 2023-10-24 | 2.6.14 | Get past INVOKEDYNAMIC in two-fish". |
