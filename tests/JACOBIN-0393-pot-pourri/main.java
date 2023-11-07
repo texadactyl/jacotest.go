@@ -4,7 +4,7 @@ public class main {
 	
 		boolean tryFormatting = true;
 	
-		String fmtString = "All together now! %% String:%s byte:0x%02X char:%c double:'%e' float:'%5.2f' int:%d long:%d short:%d boolean:%T %t\n";
+		String fmtString = "All together now! %% String:%s byte:0x%02X char:%c double:'%e' float:'%5.2f' int:%d long:%d short:%d\n";
 		String fmt = "%f\n";
 
 		String beetlejuice = "Beetlejuice";
@@ -20,12 +20,12 @@ public class main {
 		
 		if (tryFormatting) {
 			System.out.printf("Hello!\n");
-			System.out.printf(fmtString, beetlejuice, bb, cc, dd, ff, ii, jj, ss, zz, zz);
+			System.out.printf(fmtString, beetlejuice, bb, cc, dd, ff, ii, jj, ss);
 
-			string = String.format(fmtString, beetlejuice, bb, cc, dd, ff, ii, jj, ss, zz, zz);
+			string = String.format(fmtString, beetlejuice, bb, cc, dd, ff, ii, jj, ss);
 			System.out.print(string);
 
-			string = fmtString.formatted(beetlejuice, bb, cc, dd, ff, ii, jj, ss, zz, zz);
+			string = fmtString.formatted(beetlejuice, bb, cc, dd, ff, ii, jj, ss);
 			System.out.print(string);
 		}		
 	}
