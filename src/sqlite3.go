@@ -218,16 +218,16 @@ func DBStorePassed(testCaseName string) {
 
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
-	dateUTC := "'" + getUtcDate() + "'"
-	timeUTC := "'" + getUtcTime() + "'"
+	dateUTC := "'" + GetUtcDate() + "'"
+	timeUTC := "'" + GetUtcTime() + "'"
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 
 	err := sqlFunc(sqlText)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
-		dateUTC = "'" + getUtcDate() + "'"
-		timeUTC = "'" + getUtcTime() + "'"
+		dateUTC = "'" + GetUtcDate() + "'"
+		timeUTC = "'" + GetUtcTime() + "'"
 		sqlText = "INSERT INTO " + tableHistory + " VALUES("
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 		err := sqlFunc(sqlText)
@@ -248,8 +248,8 @@ func DBStoreFailed(testCaseName, failText string) {
 
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
-	dateUTC := "'" + getUtcDate() + "'"
-	timeUTC := "'" + getUtcTime() + "'"
+	dateUTC := "'" + GetUtcDate() + "'"
+	timeUTC := "'" + GetUtcTime() + "'"
 	qFailText := "'" + failText + "'"
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
@@ -257,8 +257,8 @@ func DBStoreFailed(testCaseName, failText string) {
 	err := sqlFunc(sqlText)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
-		dateUTC = "'" + getUtcDate() + "'"
-		timeUTC = "'" + getUtcTime() + "'"
+		dateUTC = "'" + GetUtcDate() + "'"
+		timeUTC = "'" + GetUtcTime() + "'"
 		sqlText = "INSERT INTO " + tableHistory + " VALUES("
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 		err := sqlFunc(sqlText)

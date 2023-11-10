@@ -45,18 +45,18 @@ func Fatal(msg string) {
 }
 
 // Get UTC date string, YYYY-MM-DD
-func getUtcDate() string {
+func GetUtcDate() string {
 	now := time.Now().UTC()
 	return now.Format("2006-01-02")
 }
 
-// Get UTC time string, hh:mm:ss
-func getUtcTime() string {
+// Get UTC time string in the format of hh:mm:ss.ddd.
+func GetUtcTime() string {
 	now := time.Now().UTC()
-	return now.Format("15:04:05")
+	return now.Format("15:04:05.000")
 }
 
-// Log an error in a special format and croak
+// Log an error in a special format and croak.
 func FmtFatal(msg string, name string, err error) {
 	var text string
 	if name != "" {
@@ -68,7 +68,7 @@ func FmtFatal(msg string, name string, err error) {
 	os.Exit(1)
 }
 
-// If the specified directory does not yet exist, create it
+// If the specified directory does not yet exist, create it.
 func MakeDir(pathDir string) {
 	info, err := os.Stat(pathDir)
 	if err == nil { // found it
@@ -88,7 +88,7 @@ func MakeDir(pathDir string) {
 	}
 }
 
-// Store a log
+// Store a log file in the specified directory.
 func storeText(targetDir string, argFile string, text string) {
 	// Create the log file
 	fullPath := filepath.Join(targetDir, argFile)
@@ -105,7 +105,8 @@ func storeText(targetDir string, argFile string, text string) {
 	}
 }
 
-// Run a subprocess and return result + output log as a string
+// Run a subprocess and return result + output log as a string.
+// (internal function)
 // 0 : success
 // 1 : failure
 // 2 : timeout
@@ -158,8 +159,9 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	return RC_NORMAL, outString
 }
 
-// Compile all .java files in the directory tree rooted at fullPathDir.
-// Then, javap all .class files in the directory tree rooted at fullPathDir.
+// Compile all .java files in the directory tree rooted at pathTreeTop.
+// Then, javap all .class files in the directory tree rooted at pathTreeTop.
+// (internal function)
 func compileOneTree(pathTreeTop string) int {
 	var statusCode int
 
@@ -233,8 +235,10 @@ func compileOneTree(pathTreeTop string) int {
 	return errorCount
 }
 
-// 1. Compile all source files of one test
-// 2. Run the test
+// Execute the requested test case.
+// (internal function)
+// 1. Compile all source files of one test case.
+// 2. Run the test case.
 //
 // Return:
 // 0 : success
