@@ -316,9 +316,9 @@ func main() {
 		counterGrapes += ExecGrape("logs", ".log", "nvalid bytecode", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
-		OutGrapeText(outHandle, "PUTSTATIC: type unrecognized")
+		OutGrapeText(outHandle, "PUTSTATIC: field ")
 		OutGrapeText(outHandle, "===========================")
-		counterGrapes += ExecGrape("logs", ".log", "PUTSTATIC: type unrecognized", tblErrCases, outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "PUTSTATIC: field ", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n===========================")
 		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
