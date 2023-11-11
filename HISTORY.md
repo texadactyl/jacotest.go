@@ -7,6 +7,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2023-11-11 | 2.6.21 | Test case stringer-1 fixed and expanded. |
 | | | Fixed test case playfair. |
 | | | Fixed JACOBIN-0319-println-object. |
+| | | jacobin PUTSTATIC field name adjustment. |
 | 2023-11-10 | 2.6.20 | Test case JACOBIN-0322-default-locale expanded. |
 | 2023-11-08 | 2.6.19 | New test case: JACOBIN-0393-pot-pourri |
 | 2023-11-06 | 2.6.18 | Expanded test case JACOBIN-0393-two-strings |
