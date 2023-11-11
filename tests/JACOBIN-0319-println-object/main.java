@@ -13,10 +13,6 @@ public class main {
 		obj = ss;
 		printLabeledObject("String ss: ", obj);
 		
-		Runtime RR = Runtime.getRuntime();
-		obj = RR;
-		printLabeledObject("Runtime RR: ", obj);
-		
 		int ii = 42;
 		obj = ii;
 		printLabeledObject("int ii: ", obj);
@@ -29,13 +25,14 @@ public class main {
 		obj = ff;
 		printLabeledObject("float ff: ", obj);
 		
-		double dd = 42f;
+		double dd = 42d;
 		obj = dd;
 		printLabeledObject("double dd: ", obj);
 		
 		byte bb = 0x42;
 		obj = bb;
 		printLabeledObject("byte bb: ", obj);
+		
     }
 
 }
