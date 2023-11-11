@@ -14,14 +14,7 @@ import java.util.*;
 
 public class main {
 
-	private static void printLabeledValue(String label, Object value) {
-		System.out.print(label);
-		System.out.print(": [");
-		System.out.print(value);
-		System.out.println("]");
-	}
-
-     public static void main(String[] args) {
+	public static void main(String[] args) {
      
      	Playfair pf = new Playfair();
 
@@ -30,11 +23,11 @@ public class main {
         String expectedClearText = "MARR HAD A LITTLE LAMB WHOSE FLEECE WAS WHITE AS SNOW ";
         String clearKey = "qazwsx123$%^";
         
-        printLabeledValue("Raw cleartext", clearText);
-        printLabeledValue("Raw key", clearKey);
+        System.out.printf("Raw cleartext: \"%s\"\n", clearText);
+        System.out.printf("Raw key: \"%s\"\n", clearKey);
 
         String clearKeyPrepared = pf.prepareEncryptionKey(clearKey + alphabet);
-        printLabeledValue("Prepared key", clearKeyPrepared);
+        System.out.printf("Prepared key: \"%s\"\n", clearKeyPrepared);
 
         String[][] keyMatrix = pf.tableMatrix(clearKeyPrepared);
         
@@ -42,29 +35,29 @@ public class main {
         System.out.println("..... ENCRYPTION .....");
 
         String cleartextFormatted = pf.formatText(clearText);
-        printLabeledValue("Formatted cleartext",  cleartextFormatted);
+        System.out.printf("Formatted cleartext: \"%s\"\n",  cleartextFormatted);
 
         ArrayList<String> cleartextPrepared = pf.prepareText(cleartextFormatted);
-        printLabeledValue("Prepared cleartext",  cleartextPrepared);
+        System.out.printf("Prepared cleartext: \"%s\"\n",  cleartextPrepared);
 
         ArrayList<String> encryptedArrayList = pf.encryptDecrypt("e", cleartextPrepared);
-        printLabeledValue("Prepared ciphertext",  encryptedArrayList);
+        System.out.printf("Prepared ciphertext: \"%s\"\n",  encryptedArrayList);
         
         String encryptedText = pf.arraylistToString(encryptedArrayList);
-        printLabeledValue("Raw ciphertext",  encryptedText);
+        System.out.printf("Raw ciphertext: \"%s\"\n",  encryptedText);
 
         // Decryption --------------------------------------------------
         System.out.println("..... DECRYPTION .....");
 
         ArrayList<String> decryptedArrayList = pf.encryptDecrypt("d", encryptedArrayList);
-        printLabeledValue("Cleartext2 as an array list",  decryptedArrayList);
+        System.out.printf("Cleartext2 as an array list: \"%s\"\n",  decryptedArrayList);
         
         ArrayList<String> clearText2Prepared = pf.prepareDecryptedText(decryptedArrayList);
-        printLabeledValue("Prepared clearText2",  clearText2Prepared);
+        System.out.printf("Prepared clearText2: \"%s\"\n",  clearText2Prepared);
 
         String clearText2 = pf.arraylistToString(pf.prepareDecryptedText(decryptedArrayList));
-        printLabeledValue("Raw cleartext 2",  clearText2);
-        printLabeledValue("Expected cleartext 2", expectedClearText);
+        System.out.printf("Raw cleartext 2: \"%s\"\n",  clearText2);
+        System.out.printf("Expected cleartext 2: \"%s\"\n", expectedClearText);
         
         assert(clearText2.equals(expectedClearText));
         
