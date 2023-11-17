@@ -286,6 +286,11 @@ func main() {
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		OutGrapeText(outHandle, "\n========================================")
+		OutGrapeText(outHandle, "Invalid type of object ref")
+		OutGrapeText(outHandle, "========================================")
+		counterGrapes += ExecGrape("logs", ".log", "Invalid type of object ref", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n========================================")
 		OutGrapeText(outHandle, "go panic because of interface conversion")
 		OutGrapeText(outHandle, "========================================")
 		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
