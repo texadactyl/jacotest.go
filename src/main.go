@@ -285,6 +285,21 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
+		OutGrapeText(outHandle, "\n========================================")
+		OutGrapeText(outHandle, "go panic because of interface conversion")
+		OutGrapeText(outHandle, "========================================")
+		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "is not castable with respect to")
+		OutGrapeText(outHandle, "=====================================")
+		counterGrapes += ExecGrape("logs", ".log", "is not castable with respect to", tblErrCases, outHandle)
+
+		OutGrapeText(outHandle, "\n=====================================")
+		OutGrapeText(outHandle, "go panic because of javaPrimitives")
+		OutGrapeText(outHandle, "=====================================")
+		counterGrapes += ExecGrape("logs", ".log", "go panic because of javaPrimitives", tblErrCases, outHandle)
+
 		OutGrapeText(outHandle, "\n==============")
 		OutGrapeText(outHandle, "AssertionError")
 		OutGrapeText(outHandle, "==============")
@@ -329,11 +344,6 @@ func main() {
 		OutGrapeText(outHandle, "Class method not found")
 		OutGrapeText(outHandle, "=============================")
 		counterGrapes += ExecGrape("logs", ".log", "Class method not found", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n========================================")
-		OutGrapeText(outHandle, "go panic because of interface conversion")
-		OutGrapeText(outHandle, "========================================")
-		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n=================================")
 		OutGrapeText(outHandle, "runtime error: index out of range")

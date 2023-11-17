@@ -24,6 +24,10 @@ public class ProcDouble {
         Double DD_DITTO = 5.0;
         Double DD_LARGER = 6.0;
         Double DD_SMALLER = 4.0;
+        System.out.printf("DD = %f\n", DD);
+        System.out.printf("DD_DITTO = %f\n", DD_DITTO);
+        System.out.printf("DD_LARGER = %f\n", DD_LARGER);
+        System.out.printf("DD_SMALLER = %f\n", DD_SMALLER);
 
         bite = DD.byteValue();
         if (bite == 0x05)
@@ -36,27 +40,33 @@ public class ProcDouble {
 
         cc = DD.compareTo(DD_DITTO);
         if (cc == 0)
-            System.out.println("Success: DD : DD_DITTO is zero");
+            System.out.println("Success: DD.compareTo(DD_DITTO) returned zero");
         else {
             errorCount += 1;
-            System.out.print("*** ERROR, DD.compareTo(DD_DITTO)==0, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_DITTO) should be 0, observed ");
             System.out.println(cc);
         }
 
         if (DD.equals(DD_DITTO))
-            System.out.println("Success: DD equals DD_DITTO");
+            System.out.println("Success: DD.equals(DD_DITTO)");
         else {
             errorCount += 1;
-            System.out.print("*** ERROR, DD.compareTo(DD_DITTO)==0, observed = ");
-            System.out.println(cc);
+            System.out.println("*** ERROR, DD.equals(DD_DITTO) is true, observed false");
+        }
+
+        if (! DD.equals(DD_SMALLER))
+            System.out.println("Success: Not true that DD.equals(DD_SMALLER)");
+        else {
+            errorCount += 1;
+            System.out.println("*** ERROR, DD.equals(DD_SMALLER) is false, observed true");
         }
 
         cc = DD.compareTo(DD_SMALLER);
-        if (cc == 1)
+        if (cc > 0)
             System.out.println("Success: DD.compareTo(DD_SMALLER)");
         else {
             errorCount += 1;
-            System.out.print("*** ERROR, DD.compareTo(DD_SMALLER)==1, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_SMALLER) should be > 0, observed ");
             System.out.println(cc);
         }
 
@@ -65,7 +75,7 @@ public class ProcDouble {
             System.out.println("Success: DD.compareTo(DD_LARGER)");
         else {
             errorCount += 1;
-            System.out.print("*** ERROR, DD.compareTo(DD_LARGER)==-1, observed = ");
+            System.out.print("*** ERROR, DD.compareTo(DD_LARGER) should be < 0, observed ");
             System.out.println(cc);
         }
 
@@ -88,7 +98,9 @@ public class ProcDouble {
         }
 
         ss = DD.toString();
-        if (ss.equals("5.0"))
+        double dd1 = DD.doubleValue();
+        double dd2 = Double.parseDouble(ss);
+        if (dd1 == dd2)
             System.out.println("Success: DD.toString()");
         else {
             errorCount += 1;
