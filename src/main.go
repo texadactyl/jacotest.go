@@ -296,9 +296,9 @@ func main() {
 		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "is not castable with respect to")
+		OutGrapeText(outHandle, "go panic because of CHECKCAST:")
 		OutGrapeText(outHandle, "=====================================")
-		counterGrapes += ExecGrape("logs", ".log", "is not castable with respect to", tblErrCases, outHandle)
+		counterGrapes += ExecGrape("logs", ".log", "go panic because of CHECKCAST:", tblErrCases, outHandle)
 
 		OutGrapeText(outHandle, "\n=====================================")
 		OutGrapeText(outHandle, "go panic because of javaPrimitives")
