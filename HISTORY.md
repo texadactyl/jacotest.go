@@ -4,6 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-11-20 | 2.7.0 | Resolved JACOBIN-405. |
+| | | Implemented file ERROR_CATEGORIES.txt. |
 | 2023-11-19 | 2.6.22 | Work-around until JACOBIN-405 is addressed. |
 | 2023-11-11 | 2.6.21 | Test case stringer-1 fixed and expanded. |
 | | | Fixed test case playfair. |

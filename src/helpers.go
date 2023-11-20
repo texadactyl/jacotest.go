@@ -12,6 +12,7 @@ import (
 )
 
 const MODE_OUTPUT_FILE = 0644
+const FLAGS_OPEN = os.O_CREATE | os.O_WRONLY
 
 // Time-stamp log function
 func Logger(msg string) {
@@ -66,6 +67,17 @@ func FmtFatal(msg string, name string, err error) {
 	}
 	Logger(text)
 	os.Exit(1)
+}
+
+// Write a text line to the given output file handle.
+func WriteOutputText(outHandle *os.File, textLine string) {
+
+	_, err := fmt.Fprintln(outHandle, textLine)
+	if err != nil {
+		outPath, _ := filepath.Abs(filepath.Dir(outHandle.Name()))
+		FmtFatal("OutGrapeText: fmt.Fprintln failed", outPath, err)
+	}
+
 }
 
 // If the specified directory does not yet exist, create it.

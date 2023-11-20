@@ -40,7 +40,7 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 		}
 		msg = fmt.Sprintf("%s errors in %d %s", category, arrayCount, suffix)
 		Logger(msg)
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 		if showList {
 			for _, name := range arrayNames {
 				msg = fmt.Sprintf("	 %s", name)
@@ -50,7 +50,7 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 	} else {
 		msg = fmt.Sprintf("No %s errors", category)
 		Logger(msg)
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 	}
 }
 
@@ -187,7 +187,7 @@ func main() {
 		var errExecutionNames []string
 		tblErrCases := make(map[string]int)
 		var timeoutExecutionNames []string
-		counterGrapes := 0
+		counterErrCases := 0
 
 		// Initialise detailed report file
 		rptHandle, err := os.Create(global.ReportFilePath)
@@ -203,23 +203,26 @@ func main() {
 
 		// Initialise summary report file
 		outPath := global.SumFilePath
-		outHandle := OutGrapeOpen(outPath, false)
+		outHandle, err := os.OpenFile(outPath, FLAGS_OPEN, MODE_OUTPUT_FILE)
+		if err != nil {
+			Fatal(fmt.Sprintf("os.OpenFile(%s) failed, err=%s", outPath, err))
+		}
 		msg := fmt.Sprintf("%s version %s", MyName, global.Version)
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 		msg = fmt.Sprintf("O/S %s, arch %s", runtime.GOOS, runtime.GOARCH)
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 		if flagCompile {
 			msg = "All test cases will be compiled\n"
 		} else {
 			msg = "All test cases are assumed to be previously compiled\n"
 		}
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 		outLines, err := exec.Command(jvmExe, "--version").Output()
 		if err != nil {
 			FmtFatal("Error in getting the JVM version", global.DirTests, err)
 		}
-		OutGrapeText(outHandle, "Using this JVM:")
-		OutGrapeText(outHandle, string(outLines))
+		WriteOutputText(outHandle, "Using this JVM:")
+		WriteOutputText(outHandle, string(outLines))
 
 		// Get all the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)
@@ -227,6 +230,7 @@ func main() {
 			FmtFatal("Error in accessing directory", global.DirTests, err)
 		}
 
+		// Phase 1
 		// For each test case subdirectory of tests, run it.
 		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
 		for _, entry := range entries {
@@ -270,10 +274,10 @@ func main() {
 		// Show successes
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
 		Logger(msg)
-		OutGrapeText(outHandle, msg)
+		WriteOutputText(outHandle, msg)
 		for _, name := range successNames {
 			msg = fmt.Sprintf("	 %s", name)
-			OutGrapeText(outHandle, msg)
+			WriteOutputText(outHandle, msg)
 		}
 
 		// Show compilation errors
@@ -285,160 +289,25 @@ func main() {
 		// Show execution failures
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
-		OutGrapeText(outHandle, "\n========================================")
-		OutGrapeText(outHandle, "Invalid type of object ref")
-		OutGrapeText(outHandle, "========================================")
-		counterGrapes += ExecGrape("logs", ".log", "Invalid type of object ref", tblErrCases, outHandle)
+		// Phases 2 and 3
+		counterErrCases += Phases2And3(tblErrCases, outHandle)
 
-		OutGrapeText(outHandle, "\n========================================")
-		OutGrapeText(outHandle, "go panic because of interface conversion")
-		OutGrapeText(outHandle, "========================================")
-		counterGrapes += ExecGrape("logs", ".log", "go panic because of interface conversion", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "go panic because of CHECKCAST:")
-		OutGrapeText(outHandle, "=====================================")
-		counterGrapes += ExecGrape("logs", ".log", "go panic because of CHECKCAST:", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "go panic because of javaPrimitives")
-		OutGrapeText(outHandle, "=====================================")
-		counterGrapes += ExecGrape("logs", ".log", "go panic because of javaPrimitives", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n==============")
-		OutGrapeText(outHandle, "AssertionError")
-		OutGrapeText(outHandle, "==============")
-		counterGrapes += ExecGrape("logs", ".log", "AssertionError", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=====================")
-		OutGrapeText(outHandle, "NumberFormatException")
-		OutGrapeText(outHandle, "=====================")
-		counterGrapes += ExecGrape("logs", ".log", "NumberFormatException", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n======================================")
-		OutGrapeText(outHandle, "INVOKEVIRTUAL: Native method requested")
-		OutGrapeText(outHandle, "======================================")
-		counterGrapes += ExecGrape("logs", ".log", "INVOKEVIRTUAL: Native method requested", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "stack underflow")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "stack underflow", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "stack overflow")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "stack overflow", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "invalid bytecode")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "nvalid bytecode", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===========================")
-		OutGrapeText(outHandle, "PUTSTATIC: field ")
-		OutGrapeText(outHandle, "===========================")
-		counterGrapes += ExecGrape("logs", ".log", "PUTSTATIC: field ", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===========================")
-		OutGrapeText(outHandle, "PUTFIELD: invalid attempt")
-		OutGrapeText(outHandle, "===========================")
-		counterGrapes += ExecGrape("logs", ".log", "PUTFIELD: invalid attempt", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "Class method not found")
-		OutGrapeText(outHandle, "=============================")
-		counterGrapes += ExecGrape("logs", ".log", "Class method not found", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=================================")
-		OutGrapeText(outHandle, "runtime error: index out of range")
-		OutGrapeText(outHandle, "=================================")
-		counterGrapes += ExecGrape("logs", ".log", "runtime error: index out of range", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===================")
-		OutGrapeText(outHandle, "Exception in thread")
-		OutGrapeText(outHandle, "===================")
-		counterGrapes += ExecGrape("logs", ".log", "Exception in thread", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=====================================")
-		OutGrapeText(outHandle, "runtime error: invalid memory address")
-		OutGrapeText(outHandle, "=====================================")
-		counterGrapes += ExecGrape("logs", ".log", "runtime error: invalid memory address", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===============")
-		OutGrapeText(outHandle, "AALOAD: Invalid")
-		OutGrapeText(outHandle, "===============")
-		counterGrapes += ExecGrape("logs", ".log", "AALOAD: Invalid", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===============")
-		OutGrapeText(outHandle, "BALOAD: Invalid")
-		OutGrapeText(outHandle, "===============")
-		counterGrapes += ExecGrape("logs", ".log", "BALOAD: Invalid", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "Failed to load class")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "Failed to load class", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=============================")
-		OutGrapeText(outHandle, "but it did not contain method")
-		OutGrapeText(outHandle, "=============================")
-		counterGrapes += ExecGrape("logs", ".log", "but it did not contain method", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n==================")
-		OutGrapeText(outHandle, "class.Data")
-		OutGrapeText(outHandle, "==================")
-		counterGrapes += ExecGrape("logs", ".log", "class.Data", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n==================")
-		OutGrapeText(outHandle, "invalid class name")
-		OutGrapeText(outHandle, "==================")
-		counterGrapes += ExecGrape("logs", ".log", "invalid class name", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n============================================")
-		OutGrapeText(outHandle, "FetchUTF8stringFromCPEntryNumber: cp.CpIndex")
-		OutGrapeText(outHandle, "============================================")
-		counterGrapes += ExecGrape("logs", ".log", "FetchUTF8stringFromCPEntryNumber: cp.CpIndex", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n=======================")
-		OutGrapeText(outHandle, "array of incorrect type")
-		OutGrapeText(outHandle, "=======================")
-		counterGrapes += ExecGrape("logs", ".log", "array of incorrect type", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===============")
-		OutGrapeText(outHandle, "WaitClassStatus")
-		OutGrapeText(outHandle, "===============")
-		counterGrapes += ExecGrape("logs", ".log", "WaitClassStatus", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n============================")
-		OutGrapeText(outHandle, "could not find or load class")
-		OutGrapeText(outHandle, "============================")
-		counterGrapes += ExecGrape("logs", ".log", "could not find or load class", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n===============")
-		OutGrapeText(outHandle, "MethAreaFetch")
-		OutGrapeText(outHandle, "===============")
-		counterGrapes += ExecGrape("logs", ".log", "MethAreaFetch", tblErrCases, outHandle)
-
-		OutGrapeText(outHandle, "\n================")
-		OutGrapeText(outHandle, "runtime.sigpanic")
-		OutGrapeText(outHandle, "================")
-		counterGrapes += ExecGrape("logs", ".log", "runtime.sigpanic", tblErrCases, outHandle)
-
+		// Phases 1/2/3 are done.
+		// Close summary reprt handle.
 		err = outHandle.Close()
 		if err != nil {
 			FmtFatal("outHandle.Close failed:", outPath, err)
 		}
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
-		// Done. Show elapsed time and exit normally to the O/S.
+		// Show elapsed time and exit normally to the O/S.
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 
 		// Discrepancies in error total?
-		if len(errExecutionNames) != counterGrapes {
-			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterGrapes))
+		if len(errExecutionNames) != counterErrCases {
+			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterErrCases))
 			Logger(fmt.Sprintf("Test cases not falling into a summary report error category:"))
 			for testCase, counter := range tblErrCases {
 				if counter > 0 { // ignore if this test case was grepped at least once
@@ -448,7 +317,7 @@ func main() {
 			}
 		}
 
-	}
+	} // if flagExecute
 
 	// Print result records?
 	if flagLastTwo {

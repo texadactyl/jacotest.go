@@ -1,0 +1,31 @@
+# jacotest error categories
+# -------------------------
+AALOAD: Invalid
+array of incorrect type
+AssertionError
+BALOAD: Invalid
+but it did not contain method
+CHECKCAST:
+Class method not found
+class.Data
+could not find or load class
+Exception in thread
+Failed to load class
+FetchUTF8stringFromCPEntryNumber: cp.CpIndex
+go panic because of interface conversion
+go panic because of javaPrimitives
+INVOKEVIRTUAL: Native method requested
+Invalid type of object ref
+Invalid bytecode
+invalid class name
+MethAreaFetch
+NumberFormatException
+PUTFIELD: invalid attempt
+PUTSTATIC: field 
+runtime error: index out of range
+runtime error: invalid memory address
+runtime.sigpanic
+stack overflow
+stack underflow
+WaitClassStatus
+
