@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-11-21 | 2.7.1 | New test case: stack-walk. |
 | 2023-11-20 | 2.7.0 | Resolved JACOBIN-405. |
 | | | Implemented file ERROR_CATEGORIES.txt. |
 | 2023-11-19 | 2.6.22 | Work-around until JACOBIN-405 is addressed. |
