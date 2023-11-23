@@ -12,8 +12,7 @@ public class MyFormatter extends Formatter {
                	+ " :: " + record.getSourceClassName()
                	+ "." + record.getSourceMethodName()
                	+ " :: " + new Date(record.getMillis())
-               	+ " :: " + record.getMessage()
-               	+ "\n";
+               	+ String.format(" :: %s\n", record.getMessage());
     }
 
 }
