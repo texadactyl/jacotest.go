@@ -18,6 +18,12 @@ func LogError(msg string) {
 	Logger(text)
 }
 
+// Log a warning
+func LogWarning(msg string) {
+	text := fmt.Sprintf("*** Warning :: %s", msg)
+	Logger(text)
+}
+
 // Log a timeout
 func LogTimeout(msg string) {
 	text := fmt.Sprintf("*** TIMEOUT :: %s", msg)
@@ -28,7 +34,7 @@ func LogTimeout(msg string) {
 func Fatal(msg string) {
 	text := fmt.Sprintf("*** FATAL :: %s", msg)
 	Logger(text)
-	os.Exit(1)
+	os.Exit(2)
 }
 
 // Log an error in a special format and croak
@@ -41,5 +47,5 @@ func FmtFatal(msg string, name string, err error) {
 		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s\n\t\t%s", msg, name, err.Error())
 	}
 	Logger(text)
-	os.Exit(1)
+	os.Exit(2)
 }
