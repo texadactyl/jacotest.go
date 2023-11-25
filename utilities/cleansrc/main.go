@@ -23,23 +23,23 @@ import (
 // Show help and then exit to the O/S
 func showHelp() {
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-c <one-character> ]  [-r]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-r <one-character> | -d]  [-v]  Input file(s)...\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
-	fmt.Printf("\t-c : Character used as a substitution for invalid source characters, specified as a 1-character string.\n")
+	fmt.Printf("\t-r <one-character>: Substitute the specified character for invalid source characters.\n")
+	fmt.Printf("\t     CAUTION: This causes a rewrite of the input source code file.\n")
 	fmt.Printf("\t     Examples:\n")
-	fmt.Printf("\t\t-c A --> The letter A is the substitute.\n")
-	fmt.Printf("\t\t-c space --> The space character (' ') is the substitute.\n")
-	fmt.Printf("\t\t-c tab --> The tab character ('\\t') is the substitute.\n")
-	fmt.Printf("\t\t-c nl --> The newline character ('\\n') is the substitute.\n")
-	fmt.Printf("\t\t-c cr --> The carriage return character ('\\r') is the substitute.\n")
-	fmt.Printf("\t\t-c 0x23 --> The pound sign character ('#') is the substitute.\n")
-	fmt.Printf("\t     If -c is not specified, then invalid source characters are discarded (squeezed out).\n")
-	fmt.Printf("\t-r : Rewrite the contents of the input source code file. BE CAREFUL !!!\n")
+	fmt.Printf("\t\t-r A --> The letter A is the substitute.\n")
+	fmt.Printf("\t\t-r space --> The space character (' ') is the substitute.\n")
+	fmt.Printf("\t\t-r tab --> The tab character ('\\t') is the substitute.\n")
+	fmt.Printf("\t\t-r nl --> The newline character ('\\n') is the substitute.\n")
+	fmt.Printf("\t\t-r cr --> The carriage return character ('\\r') is the substitute.\n")
+	fmt.Printf("\t\t-r 0x23 --> The pound sign character ('#') is the substitute.\n")
+	fmt.Printf("\t-d : Instead of replacing invalid source characters, delete them.\n")
+	fmt.Printf("\t-v : Verbose output.\n")
 	fmt.Printf("\nExit codes:\n")
 	fmt.Printf("\t0\tNormal completion.\n")
-	fmt.Printf("\t1\tNormal completion. The input source code file could be fixed but no input file rewrite was requested.\n")
-	fmt.Printf("\t2\tHelp was requested or something went wrong during execution.\n")
-	os.Exit(2)
+	fmt.Printf("\t1\tHelp was requested or something went wrong during execution.\n")
+	os.Exit(1)
 }
 
 func isSrcByte(bite byte) bool {
@@ -55,10 +55,16 @@ func isSrcByte(bite byte) bool {
 func main() {
 
 	var Args []string
-	var flagReplacement = false
-	var inPath = ""
+	var flagReplace = false
+	var flagDelete = false
+	var flagVerbose = false
 	var nilByte = byte(0x00)
-	var replByte = nilByte
+	var replByte = byte('?')
+	var msg string
+	var err error
+	var inPathSet []string
+	var inPath string
+	errCount := 0
 
 	// Initialise Args to the command-line arguments.
 	for _, singleVar := range os.Args[1:] {
@@ -72,21 +78,22 @@ func main() {
 
 	// Parse command line arguments.
 	for ii := 0; ii < len(Args); ii++ {
-		var err error
 		if !strings.HasPrefix(Args[ii], "-") {
 			inPath, err = filepath.Abs(Args[ii])
 			if err != nil {
 				helpers.LogError(fmt.Sprintf("Input file (%s) cannot be accessed: %s", Args[ii], err.Error()))
 				showHelp()
 			}
-			break
+			inPathSet = append(inPathSet, inPath)
+			continue
 		}
 		switch Args[ii] {
+		case "-d":
+			flagDelete = true
 		case "-h":
 			showHelp()
 		case "-r":
-			flagReplacement = true
-		case "-c":
+			flagReplace = true
 			ii += 1
 			if Args[ii] == "space" {
 				replByte = ' '
@@ -127,82 +134,112 @@ func main() {
 			}
 			helpers.LogError("Use -c to specify only ONE character")
 			showHelp()
-
+		case "-v":
+			flagVerbose = true
 		default:
 			helpers.LogError(fmt.Sprintf("Unrecognizable command option: %s", Args[ii]))
 			showHelp()
 		}
 	}
 
-	// Check for input file path specification.
-	if inPath == "" {
-		helpers.LogError("Input file specification required")
+	// Check for contradiction.
+	if flagDelete && flagReplace {
+		helpers.LogError("-c and -d together makes no sense")
 		showHelp()
 	}
 
-	// Read entire input file contents.
-	inBytes, err := os.ReadFile(inPath)
-	if err != nil {
-		helpers.FmtFatal("os.ReadFile failed:", inPath, err)
+	// Make sure that at least one input file path specification is present.
+	if flagVerbose {
+		msg = fmt.Sprintf("inPathSet: %v", inPathSet)
+		helpers.Logger(msg)
 	}
-	msg := fmt.Sprintf("%d input characters", len(inBytes))
-	helpers.Logger(msg)
+	if len(inPathSet) < 1 {
+		helpers.LogError("At least one input file specification is required")
+		showHelp()
+	}
 
-	// Copy inBytes to outBytes.
-	// Check outBytes for source code validity.
-	// If a byte deviates, replace or discard it.
-	var outBytes = inBytes
-	numBytes := len(inBytes)
-	numRepls := 0
-	lineNum := 1
-	offset := 0
-	for ii := 0; ii < numBytes; ii++ {
-		if outBytes[ii] == '\n' {
-			lineNum += 1
-			offset = 0
+	// For each input file path in the set, process it.
+	for _, inPath := range inPathSet {
+
+		// Read entire input file contents.
+		inBytes, err := os.ReadFile(inPath)
+		if err != nil {
+			helpers.FmtFatal("os.ReadFile failed:", inPath, err)
+		}
+		if flagVerbose {
+			msg = fmt.Sprintf("%d input characters", len(inBytes))
+			helpers.Logger(msg)
+		}
+
+		// Copy inBytes to outBytes.
+		// Check outBytes for source code validity.
+		// If a byte deviates, replace or discard it.
+		var outBytes = inBytes
+		numBytes := len(inBytes)
+		numRepls := 0
+		lineNum := 1
+		offset := 0
+		for ii := 0; ii < numBytes; ii++ {
+			if outBytes[ii] == '\n' {
+				lineNum += 1
+				offset = 0
+				continue
+			}
+			if !isSrcByte(outBytes[ii]) {
+				// Not a valid source code byte.
+				nastyOne := outBytes[ii]
+				numRepls += 1
+				if flagDelete {
+					// Discard byte.
+					tempBytes := inBytes[:ii]
+					outBytes = append(tempBytes, outBytes[ii+1:]...)
+					numBytes -= 1
+					fmt.Printf("\t%s Line %d, offset %d: discarded 0x%x\n", inPath, lineNum, offset, nastyOne)
+				} else {
+					// Replace byte.
+					outBytes[ii] = replByte
+					fmt.Printf("\t%s Line %d, offset %d: replaced 0x%x with 0x%x\n", inPath, lineNum, offset, nastyOne, replByte)
+				}
+			}
+			offset += 1
+		}
+
+		// If clean input file, exit now.
+		if numRepls < 1 {
+			helpers.Logger(fmt.Sprintf("Clean input source code file: %s", inPath))
+			continue
+		} else {
+			errCount += 1
+		}
+
+		if flagVerbose {
+			// Report how many invalid source file characters were detected.
+			msg = fmt.Sprintf("Detected %d invalid source file character(s) in %s", numRepls, inPath)
+			helpers.Logger(msg)
+		}
+
+		// If not rewriting the input file, exit now.
+		if !flagReplace && flagVerbose {
+			helpers.Logger("The input source code file could be fixed but no input file rewrite was requested")
 			continue
 		}
-		if !isSrcByte(outBytes[ii]) {
-			// Not a valid source code byte.
-			nastyOne := outBytes[ii]
-			numRepls += 1
-			if replByte == nilByte {
-				// Discard byte.
-				tempBytes := inBytes[:ii]
-				outBytes = append(tempBytes, outBytes[ii+1:]...)
-				numBytes -= 1
-				fmt.Printf("\tLine %d, offset %d: discarded 0x%x\n", lineNum, offset, nastyOne)
-			} else {
-				// Replace byte.
-				outBytes[ii] = replByte
-				fmt.Printf("\tLine %d, offset %d: replaced 0x%x with 0x%x\n", lineNum, offset, nastyOne, replByte)
-			}
+
+		// Replace input file contents with outBytes.
+		err = os.WriteFile(inPath, outBytes, 0666)
+		if err != nil {
+			helpers.FmtFatal("os.WriteFile failed", inPath, err)
 		}
-		offset += 1
+		if flagVerbose {
+			msg = fmt.Sprintf("%d output characters", len(outBytes))
+			helpers.Logger(msg)
+		}
 	}
 
-	// If clean input file, exit now.
-	if numRepls < 1 {
-		helpers.Logger("Clean input source code file")
-		os.Exit(0)
-	}
-
-	// Report how many invalid source file characters were detected.
-	msg = fmt.Sprintf("Detected %d invalid source file character(s)", numRepls)
-	helpers.Logger(msg)
-
-	// If not rewriting the input file, exit now.
-	if !flagReplacement {
-		helpers.Logger("The input source code file could be fixed but no input file rewrite was requested")
+	// Done with input source files.
+	// Return 1 to O/S if any errors were diagnosed; else return 0.
+	if errCount > 0 {
 		os.Exit(1)
 	}
-
-	// Replace input file contents with outBytes.
-	err = os.WriteFile(inPath, outBytes, 0666)
-	if err != nil {
-		helpers.FmtFatal("os.WriteFile failed", inPath, err)
-	}
-	msg = fmt.Sprintf("%d output characters", len(outBytes))
-	helpers.Logger(msg)
+	os.Exit(0)
 
 }

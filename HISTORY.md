@@ -4,6 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-11-25 | 2.7.4 | Made utility cleansrc more generic. |
+| | | Cleansed Java source files of non-printables. |
 | 2023-11-24 | 2.7.3 | New utility: cleansrc. |
 | 2023-11-23 | 2.7.2 | New test case: java-logging. |
 | 2023-11-21 | 2.7.1 | New test case: stack-walk. |

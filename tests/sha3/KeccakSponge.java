@@ -127,7 +127,7 @@ public final class KeccakSponge implements UnaryOperator<byte[]> {
 
     /**
      * Returns the lane length of this {@code KeccakSponge} instance. The
-     * permutation state is composed of a 5×5 array of "lanes". The length of
+     * permutation state is composed of a 5x5 array of "lanes". The length of
      * each lane is therefore the permutation state width divided by
      * twenty-five.
      *

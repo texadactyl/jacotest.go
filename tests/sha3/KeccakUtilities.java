@@ -59,7 +59,7 @@ class KeccakUtilities {
      * Returns a two-dimensional array of rotation offset values which apply to
      * a Keccak sponge with the given lane length.
      *
-     * @return a 5×5 byte array which contains the rotation offsets, such that
+     * @return a 5x5 byte array which contains the rotation offsets, such that
      * {@code result[x][y]} will contain the rotation offset which should be
      * applied to lane [x][y] by the rho transform during permutation.
      */

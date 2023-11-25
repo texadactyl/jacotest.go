@@ -129,7 +129,7 @@ public class MathLite {
     /* atan2(x, y)
 		For y with a positive sign and finite nonzero x, the exact mathematical value of atan2 is equal to:
 			If x > 0, atan(abs(y/x))
-			If x < 0, π - atan(abs(y/x))
+			If x < 0, Pi - atan(abs(y/x))
 	*/
     public double atan2(double arg1, double arg2) {
 		if (this.abs(arg1) < EPSILON)
