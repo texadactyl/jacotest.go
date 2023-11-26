@@ -1,10 +1,10 @@
 /*
 
-cleansrc utility
+cleansrc utility - For a given input source code file, either show any invalid characters without modifying the file or fix it,
+depending on the command line options. Multiple input files can be specified as a list and/or wild-card specifications
+on the command line.
 
-Valid source code character criteria: The character must be printable, \n, \r, or \t.
-
-Given a source code file, clean it by either replacing characters that are not valid or discard them.
+Valid source code characters: printable, \n, \r, or \t.
 
 */
 
@@ -38,20 +38,24 @@ func showHelp() {
 	fmt.Printf("\t-v : Verbose output.\n")
 	fmt.Printf("\nExit codes:\n")
 	fmt.Printf("\t0\tNormal completion.\n")
-	fmt.Printf("\t1\tHelp was requested or something went wrong during execution.\n")
+	fmt.Printf("\t1\tSomething went wrong during execution.\n\n")
 	os.Exit(1)
 }
 
-func isSrcByte(bite byte) bool {
-	if unicode.IsPrint(rune(bite)) {
+// Is the argument byte valid?
+func isValidSrcByte(argByte byte) bool {
+	if unicode.IsPrint(rune(argByte)) {
 		return true
 	}
-	if bite == '\n' || bite == '\r' || bite == '\t' {
+	if argByte == '\n' || argByte == '\r' || argByte == '\t' {
 		return true
 	}
 	return false
 }
 
+/*
+Main function
+*/
 func main() {
 
 	var Args []string
@@ -64,19 +68,16 @@ func main() {
 	var err error
 	var inPathSet []string
 	var inPath string
-	errCount := 0
+	modFileCount := 0
+	errFileCount := 0
 
-	// Initialise Args to the command-line arguments.
+	// Parse command line arguments.
 	for _, singleVar := range os.Args[1:] {
 		Args = append(Args, singleVar)
 	}
-
-	// Make sure that at least one request was made.
 	if len(Args) < 1 {
 		showHelp()
 	}
-
-	// Parse command line arguments.
 	for ii := 0; ii < len(Args); ii++ {
 		if !strings.HasPrefix(Args[ii], "-") {
 			inPath, err = filepath.Abs(Args[ii])
@@ -114,17 +115,17 @@ func main() {
 			if strings.HasPrefix(Args[ii], "0x") {
 				// Hexstring for one character: 0xn or 0xnn
 				if len(Args[ii]) > 4 {
-					helpers.LogError(fmt.Sprintf("-c %s value too large for one character", Args[ii]))
+					helpers.LogError(fmt.Sprintf("-s %s value too large for one character", Args[ii]))
 					showHelp()
 				}
 				decoded, err := hex.DecodeString(Args[ii][2:])
 				if err != nil {
-					helpers.LogError(fmt.Sprintf("-c %s is not hexidecimal (0xH or 0xHH where H is from 0123456789ABCDEFabcdef)", Args[ii]))
+					helpers.LogError(fmt.Sprintf("-s %s is not hexidecimal (0xH or 0xHH where H is from 0123456789ABCDEFabcdef)", Args[ii]))
 					showHelp()
 				}
 				replByte = decoded[0]
 				if replByte == nilByte {
-					helpers.LogWarning("-c 0x00 ---> invalid source characters will not be replaced but discarded (squeezed out)")
+					helpers.LogWarning("-s 0x00 ---> invalid source characters will not be replaced but discarded (squeezed out)")
 				}
 				break
 			}
@@ -132,7 +133,7 @@ func main() {
 				replByte = Args[ii][0]
 				break
 			}
-			helpers.LogError("Use -c to specify only ONE character")
+			helpers.LogError("Use -s to specify only ONE character")
 			showHelp()
 		case "-v":
 			flagVerbose = true
@@ -144,15 +145,11 @@ func main() {
 
 	// Check for contradiction.
 	if flagDelete && flagSubstitute {
-		helpers.LogError("-c and -d together makes no sense")
+		helpers.LogError("-s and -d together makes no sense")
 		showHelp()
 	}
 
 	// Make sure that at least one input file path specification is present.
-	if flagVerbose {
-		msg = fmt.Sprintf("inPathSet: %v", inPathSet)
-		helpers.Logger(msg)
-	}
 	if len(inPathSet) < 1 {
 		helpers.LogError("At least one input file specification is required")
 		showHelp()
@@ -164,36 +161,39 @@ func main() {
 		// Read entire input file contents.
 		inBytes, err := os.ReadFile(inPath)
 		if err != nil {
-			helpers.FmtFatal("os.ReadFile failed:", inPath, err)
+			errFileCount++
+			errMsg := fmt.Sprintf("os.ReadFile(%s) failed: %s", inPath, err.Error())
+			helpers.LogError(errMsg)
+			continue
 		}
 		if flagVerbose {
-			msg = fmt.Sprintf("%d input characters", len(inBytes))
+			msg = fmt.Sprintf("Read %d input characters from %s", len(inBytes), inPath)
 			helpers.Logger(msg)
 		}
 
 		// Copy inBytes to outBytes.
 		// Check outBytes for source code validity.
-		// If a byte deviates, replace or discard it.
+		// If a byte deviates, make a substitution or discard it.
 		var outBytes = inBytes
-		numBytes := len(inBytes)
-		numRepls := 0
+		numTotalBytes := len(inBytes)
+		numInvalidBytes := 0
 		lineNum := 1
 		offset := 0
-		for ii := 0; ii < numBytes; ii++ {
+		for ii := 0; ii < numTotalBytes; ii++ {
 			if outBytes[ii] == '\n' {
 				lineNum += 1
 				offset = 0
 				continue
 			}
-			if !isSrcByte(outBytes[ii]) {
+			if !isValidSrcByte(outBytes[ii]) {
 				// Not a valid source code byte.
 				nastyOne := outBytes[ii]
-				numRepls += 1
+				numInvalidBytes += 1
 				if flagDelete {
 					// Discard byte.
 					tempBytes := inBytes[:ii]
 					outBytes = append(tempBytes, outBytes[ii+1:]...)
-					numBytes -= 1
+					numTotalBytes -= 1
 					fmt.Printf("\t%s Line %d, offset %d: discarded 0x%x\n", inPath, lineNum, offset, nastyOne)
 				} else {
 					// Replace byte.
@@ -204,41 +204,49 @@ func main() {
 			offset += 1
 		}
 
-		// If clean input file, exit now.
-		if numRepls < 1 {
+		// If clean input file, continue to next file.
+		if numInvalidBytes < 1 {
 			helpers.Logger(fmt.Sprintf("Clean input source code file: %s", inPath))
 			continue
 		} else {
-			errCount += 1
+			modFileCount += 1
 		}
-
 		if flagVerbose {
 			// Report how many invalid source file characters were detected.
-			msg = fmt.Sprintf("Detected %d invalid source file character(s) in %s", numRepls, inPath)
+			msg = fmt.Sprintf("Detected %d invalid source file character(s) in %s", numInvalidBytes, inPath)
 			helpers.Logger(msg)
 		}
 
-		// If not rewriting the input file, exit now.
-		if !flagSubstitute && flagVerbose {
-			helpers.Logger("The input source code file could be fixed but no input file rewrite was requested")
+		// If not rewriting the input file, continue to next file.
+		if !flagSubstitute && !flagDelete {
 			continue
 		}
 
 		// Replace input file contents with outBytes.
 		err = os.WriteFile(inPath, outBytes, 0666)
 		if err != nil {
-			helpers.FmtFatal("os.WriteFile failed", inPath, err)
+			errFileCount++
+			errMsg := fmt.Sprintf("os.WriteFile (%s) failed: %s", inPath, err.Error())
+			helpers.LogError(errMsg)
+			continue
 		}
 		if flagVerbose {
-			msg = fmt.Sprintf("%d output characters", len(outBytes))
+			msg = fmt.Sprintf("Wrote %d output characters to %s", len(outBytes), inPath)
 			helpers.Logger(msg)
 		}
 	}
 
 	// Done with input source files.
-	// Return 1 to O/S if any errors were diagnosed; else return 0.
-	if errCount > 0 {
+	// Return 1 to O/S if any errors were diagnosed.
+	// Else, return 0.
+	if errFileCount > 0 {
+		msg = fmt.Sprintf("%d input file(s) had I/O errors", errFileCount)
+		helpers.LogError(msg)
 		os.Exit(1)
+	}
+	if modFileCount > 0 {
+		msg = fmt.Sprintf("%d input file(s) were modified", modFileCount)
+		helpers.Logger(msg)
 	}
 	os.Exit(0)
 
