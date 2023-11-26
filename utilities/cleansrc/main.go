@@ -23,17 +23,17 @@ import (
 // Show help and then exit to the O/S
 func showHelp() {
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-r <one-character> | -d]  [-v]  Input file(s)...\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-s <one-character> | -d]  [-v]  Input file(s)...\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
-	fmt.Printf("\t-r <one-character>: Substitute the specified character for invalid source characters.\n")
+	fmt.Printf("\t-s <one-character>: Substitute the specified character for invalid source characters.\n")
 	fmt.Printf("\t     CAUTION: This causes a rewrite of the input source code file.\n")
 	fmt.Printf("\t     Examples:\n")
-	fmt.Printf("\t\t-r A --> The letter A is the substitute.\n")
-	fmt.Printf("\t\t-r space --> The space character (' ') is the substitute.\n")
-	fmt.Printf("\t\t-r tab --> The tab character ('\\t') is the substitute.\n")
-	fmt.Printf("\t\t-r nl --> The newline character ('\\n') is the substitute.\n")
-	fmt.Printf("\t\t-r cr --> The carriage return character ('\\r') is the substitute.\n")
-	fmt.Printf("\t\t-r 0x23 --> The pound sign character ('#') is the substitute.\n")
+	fmt.Printf("\t\t-s A --> The letter A is the substitute.\n")
+	fmt.Printf("\t\t-s space --> The space character (' ') is the substitute.\n")
+	fmt.Printf("\t\t-s tab --> The tab character ('\\t') is the substitute.\n")
+	fmt.Printf("\t\t-s nl --> The newline character ('\\n') is the substitute.\n")
+	fmt.Printf("\t\t-s cr --> The carriage return character ('\\r') is the substitute.\n")
+	fmt.Printf("\t\t-s 0x23 --> The pound sign character ('#') is the substitute.\n")
 	fmt.Printf("\t-d : Instead of replacing invalid source characters, delete them.\n")
 	fmt.Printf("\t-v : Verbose output.\n")
 	fmt.Printf("\nExit codes:\n")
@@ -55,7 +55,7 @@ func isSrcByte(bite byte) bool {
 func main() {
 
 	var Args []string
-	var flagReplace = false
+	var flagSubstitute = false
 	var flagDelete = false
 	var flagVerbose = false
 	var nilByte = byte(0x00)
@@ -92,8 +92,8 @@ func main() {
 			flagDelete = true
 		case "-h":
 			showHelp()
-		case "-r":
-			flagReplace = true
+		case "-s":
+			flagSubstitute = true
 			ii += 1
 			if Args[ii] == "space" {
 				replByte = ' '
@@ -143,7 +143,7 @@ func main() {
 	}
 
 	// Check for contradiction.
-	if flagDelete && flagReplace {
+	if flagDelete && flagSubstitute {
 		helpers.LogError("-c and -d together makes no sense")
 		showHelp()
 	}
@@ -219,7 +219,7 @@ func main() {
 		}
 
 		// If not rewriting the input file, exit now.
-		if !flagReplace && flagVerbose {
+		if !flagSubstitute && flagVerbose {
 			helpers.Logger("The input source code file could be fixed but no input file rewrite was requested")
 			continue
 		}
