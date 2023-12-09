@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2023-12-09 | 2.7.5 | Renamed test case JACOBIN-0294-system-exit to parent-child-process. |
 | 2023-11-25 | 2.7.4 | Made utility cleansrc more generic. |
 | | | Cleansed Java source files of non-printables. |
 | 2023-11-24 | 2.7.3 | New utility: cleansrc. |
