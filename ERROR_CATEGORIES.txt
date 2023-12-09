@@ -5,7 +5,7 @@ array of incorrect type
 AssertionError
 BALOAD: Invalid
 but it did not contain method
-CHECKCAST:
+###CHECKCAST:
 Class method not found
 class.Data
 could not find or load class
