@@ -27,5 +27,6 @@ runtime error: invalid memory address
 runtime.sigpanic
 stack overflow
 stack underflow
+trying for a superclass field
 WaitClassStatus
 
