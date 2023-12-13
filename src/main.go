@@ -203,7 +203,7 @@ func main() {
 
 		// Initialise summary report file
 		outPath := global.SumFilePath
-		outHandle, err := os.OpenFile(outPath, FLAGS_OPEN, MODE_OUTPUT_FILE)
+		outHandle, err := os.OpenFile(outPath, FlagsOpen, ModeOutputFile)
 		if err != nil {
 			Fatal(fmt.Sprintf("os.OpenFile(%s) failed, err=%s", outPath, err))
 		}
