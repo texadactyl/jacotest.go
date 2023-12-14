@@ -11,7 +11,7 @@ Downloads + installs:
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
+	_ "modernc.org/sqlite"
 	"os"
 	"time"
 )
@@ -37,7 +37,7 @@ const ixTestCaseName = "ix_test_case"
 // File system and SQL constants
 const dirDatabase = "database"
 const fileDatabase = "jacotest.db"
-const driverDatabase = "sqlite3"
+const driverDatabase = "sqlite"
 
 // Assigned and used at run-time
 var pathDatabase string
