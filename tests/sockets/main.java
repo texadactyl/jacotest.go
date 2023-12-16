@@ -1,9 +1,21 @@
+import java.net.ServerSocket;
 import java.io.IOException;
 
 public class main {
 
-	static private int PORT = 9876;
 	static private String MY_NAME = "main";
+
+    private static int getPort() {
+        // Ref: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+        for (int port = 3101; port < 3128; port++) {
+            try {
+                ServerSocket socket = new ServerSocket(port);
+                socket.close();
+                return port;
+            } catch (IOException e) { }
+        }
+        throw new AssertionError("*** ERROR, No available TCP ports");
+    }
 
     public static void main(String[] args) {
         String msg = "Socket tests with a parent thread (main) and 2 child threads (server, client)";
@@ -11,8 +23,9 @@ public class main {
 
         PrintingSynced ps = new PrintingSynced();
 
-        MyThread mthServer = new MyThread(MyThread.TAG_SERVER, PORT);
-        MyThread mthClient = new MyThread(MyThread.TAG_CLIENT, PORT);
+        int port = getPort();
+        MyThread mthServer = new MyThread(MyThread.TAG_SERVER, port);
+        MyThread mthClient = new MyThread(MyThread.TAG_CLIENT, port);
 
         ps.printLabeledMsg(MY_NAME, "Server and client threads are runnable; will start them now");
         mthServer.start();
