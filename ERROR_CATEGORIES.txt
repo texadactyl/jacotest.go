@@ -19,6 +19,7 @@ Invalid type of object ref
 Invalid bytecode
 invalid class name
 MethAreaFetch
+No support yet for user-specified character sets
 NumberFormatException
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
