@@ -63,6 +63,7 @@ public class main {
 		for (int ii = 0; ii < NLOOPS; ii++) { 
 			beetlejuice = new String(bb);
 			assert beetlejuice.equals(beetlejuice2);
+			beetlejuice = null;
 		}
 
 		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ testNewStringGivenBytes END");
