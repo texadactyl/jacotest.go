@@ -14,9 +14,10 @@ import (
 	_ "modernc.org/sqlite"
 	"os"
 	"time"
+	"unicode"
 )
 
-var Tracing = false
+var sqltracing = false
 
 const msecsSleep = 1000
 
@@ -48,7 +49,7 @@ Internal function to run an SQL statement and handle any errors.
 */
 func sqlFunc(text string) error {
 
-	if Tracing {
+	if sqltracing {
 		msg := fmt.Sprintf("sqlFunc: %s", text)
 		Logger(msg)
 	}
@@ -60,7 +61,7 @@ func sqlFunc(text string) error {
 
 	_, err = statement.Exec() // Execute SQL Statements
 	if err != nil {
-		msg := fmt.Sprintf("sqlFunc: statement.Exec failed: %s", text)
+		msg := fmt.Sprintf("sqlFunc: statement.Exec failed: %s\n%s", text, err.Error())
 		LogError(msg)
 		return err
 	}
@@ -75,7 +76,7 @@ Internal function to run an SQL select query and handle any errors. The output i
 */
 func sqlQuery(text string) *sql.Rows {
 
-	if Tracing {
+	if sqltracing {
 		msg := fmt.Sprintf("sqlQuery: %s", text)
 		Logger(msg)
 	}
@@ -98,7 +99,7 @@ Internal function to initialise a jacotest database.
 */
 func initDB() {
 
-	if Tracing {
+	if sqltracing {
 		Logger("initDB: Begin")
 	}
 
@@ -121,7 +122,7 @@ func initDB() {
 		FmtFatal("initDB: unrecoverable SQL create-index error", sqlText, err)
 	}
 
-	if Tracing {
+	if sqltracing {
 		Logger("initDB: End")
 	}
 
@@ -137,8 +138,8 @@ DBOpen - Database Open
 */
 func DBOpen(flagVerbose bool) {
 
-	Tracing = flagVerbose
-	if Tracing {
+	tracing = flagVerbose
+	if sqltracing {
 		Logger("DBOpen: Begin")
 	}
 
@@ -155,7 +156,7 @@ func DBOpen(flagVerbose bool) {
 	pathDatabase = dirDatabase + "/" + fileDatabase
 	_, err = os.Stat(pathDatabase)
 	if err != nil {
-		if Tracing {
+		if sqltracing {
 			Logger("DBOpen: database file inaccessible: " + err.Error())
 		}
 		sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
@@ -164,14 +165,14 @@ func DBOpen(flagVerbose bool) {
 		}
 		initDB()
 
-		if Tracing {
+		if sqltracing {
 			Logger("DBOpen: End, database created")
 		}
 		return
 	}
 
 	// Connect to pre-existing database
-	if Tracing {
+	if sqltracing {
 		Logger("DBOpen database file exists")
 	}
 	sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
@@ -183,7 +184,7 @@ func DBOpen(flagVerbose bool) {
 
 	// TODO: Validate database
 
-	if Tracing {
+	if sqltracing {
 		Logger("DBOpen: End")
 	}
 
@@ -194,7 +195,7 @@ DBClose - Store a PASSED jacotest test case result.Close the database
 */
 func DBClose() {
 
-	if Tracing {
+	if sqltracing {
 		Logger("DBClose: Begin")
 	}
 
@@ -203,7 +204,7 @@ func DBClose() {
 		FmtFatal("DBClose: sql.Close failed", pathDatabase, err)
 	}
 
-	if Tracing {
+	if sqltracing {
 		Logger("DBClose: End")
 	}
 
@@ -246,11 +247,19 @@ func DBStoreFailed(testCaseName, failText string) {
 
 	global := GetGlobalRef()
 
+	// Scrub failText, giving qFailText
+	rr := []rune(failText)
+	for ii := 0; ii < len(rr); ii++ {
+		if !unicode.IsGraphic(rr[ii]) {
+			rr[ii] = '?'
+		}
+	}
+	qFailText := "'" + string(rr) + "'"
+
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
 	dateUTC := "'" + GetUtcDate() + "'"
 	timeUTC := "'" + GetUtcTime() + "'"
-	qFailText := "'" + failText + "'"
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 
