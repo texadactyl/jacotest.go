@@ -14,7 +14,6 @@ import (
 	_ "modernc.org/sqlite"
 	"os"
 	"time"
-	"unicode"
 )
 
 var sqltracing = false
@@ -247,15 +246,8 @@ func DBStoreFailed(testCaseName, failText string) {
 
 	global := GetGlobalRef()
 
-	// Scrub failText, giving qFailText
-	rr := []rune(failText)
-	for ii := 0; ii < len(rr); ii++ {
-		if !unicode.IsGraphic(rr[ii]) {
-			rr[ii] = '?'
-		}
-	}
-	qFailText := "'" + string(rr) + "'"
-
+	// Form string parameters for the SQL text.
+	qFailText := "'" + CleanerText(failText) + "'"
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
 	dateUTC := "'" + GetUtcDate() + "'"

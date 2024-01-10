@@ -5,6 +5,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-01-10 | 2.8.3 | New error category: has no exception table. |
+| | | Add cleaner function to log and report output. |
+| | | Call cleaner function inside runner. |
 | 2023-12-29 | 2.8.2 | New test case: hex-decode-numeric. |
 | 2023-12-15 | 2.8.1 | New test cases: https-client-getter, http-client-server, and walker. |
 | 2023-12-14 | 2.8.0 | Changed database toolset from mattn (cgo required) to modernc (no cgo). |

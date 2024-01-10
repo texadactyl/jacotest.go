@@ -112,3 +112,18 @@ func StoreText(targetDir string, argFile string, text string) {
 		FmtFatal("storeText: fmt.Fprintln failed", fullPath, err)
 	}
 }
+
+// CleanerText - Replace nongraphics with '?'.
+func CleanerText(argText string) string {
+	rr := []rune(argText)
+	for ii := 0; ii < len(rr); ii++ {
+		if rr[ii] == '\n' || rr[ii] == '\r' || rr[ii] == '\t' {
+			continue
+		}
+		if rr[ii] > 126 || rr[ii] < 32 {
+			// Less than ASCII Space or greater than ASCII ~
+			rr[ii] = 63 // ='?'
+		}
+	}
+	return string(rr)
+}

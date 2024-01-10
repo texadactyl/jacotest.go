@@ -244,8 +244,8 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, rawlog := ExecuteOneTest(fullPath, flagCompile, global)
-				outlog := strings.ReplaceAll(rawlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
+				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile, global)
+				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)

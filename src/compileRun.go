@@ -39,19 +39,23 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 
 	// Error occurred?
 	if err != nil { // YES
+
 		// Timeout?
 		if ctx.Err() == context.DeadlineExceeded { // YES
 			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
 			StoreText(global.DirLogs, "TIMEOUT."+infix+".log", outString)
 			return RC_EXEC_TIMEOUT, outString
 		}
-		// Not a time out error but something else bad happened
+
+		// Not a timeout error but something else bad happened
+		outString = CleanerText(outString)
 		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
 		StoreText(global.DirLogs, "FAILED."+infix+".log", outString)
 		if cmdExec == "javac" {
 			return RC_COMP_ERROR, outString
 		}
 		return RC_EXEC_ERROR, outString
+
 	}
 
 	// No errors occurred.
