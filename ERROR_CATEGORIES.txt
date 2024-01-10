@@ -2,7 +2,6 @@
 # -------------------------
 AALOAD: Invalid
 array of incorrect type
-AssertionError
 BALOAD: Invalid
 but it did not contain method
 ###CHECKCAST:
