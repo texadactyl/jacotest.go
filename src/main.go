@@ -63,6 +63,7 @@ func main() {
 	flagExecute := false
 	flagLastTwo := false
 	flagCompile := true
+	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
 	deadlineSecs := 60
@@ -104,6 +105,9 @@ func main() {
 
 		case "-N":
 			flagCompile = false // Do not compile anything
+
+		case "-M":
+			flagMdReport = true // Do not compile anything
 
 		case "-v":
 			flagVerbose = true
@@ -187,19 +191,22 @@ func main() {
 		var errExecutionNames []string
 		tblErrCases := make(map[string]int)
 		var timeoutExecutionNames []string
+		var rptHandle *os.File
 		counterErrCases := 0
 
-		// Initialise detailed report file
-		rptHandle, err := os.Create(global.ReportFilePath)
-		if err != nil {
-			FmtFatal("os.Create failed", global.ReportFilePath, err)
+		if flagMdReport {
+			// Initialise detailed report file
+			rptHandle, err = os.Create(global.ReportFilePath)
+			if err != nil {
+				FmtFatal("os.Create failed", global.ReportFilePath, err)
+			}
+			defer rptHandle.Close()
+			fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
+			fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
+				jvmName, deadlineSecs, nowStamp, timeZone)
+			fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
+			fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 		}
-		defer rptHandle.Close()
-		fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
-		fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
-			jvmName, deadlineSecs, nowStamp, timeZone)
-		fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
-		fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 
 		// Initialise summary report file
 		outPath := global.SumFilePath
@@ -249,23 +256,31 @@ func main() {
 				switch resultCode {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)
-					fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
+					if flagMdReport {
+						fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
+					}
 					DBStorePassed(testCaseName)
 				case RC_COMP_ERROR:
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
-					fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+					if flagMdReport {
+						fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+					}
 					DBStoreFailed(testCaseName, "Compile error")
 				case RC_EXEC_ERROR:
 					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
 					tblErrCases[testCaseName] = 0
-					fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
-					// DBStoreFailed calls will be made in ExecGrape
+					if flagMdReport {
+						fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
+					}
+					// DBStoreFailed calls will be made in the SQL database source file.
 				case RC_EXEC_TIMEOUT:
 					exitStatus = 1
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
-					fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+					if flagMdReport {
+						fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+					}
 					DBStoreFailed(testCaseName, "Timeout")
 				}
 			}
