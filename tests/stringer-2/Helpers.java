@@ -26,8 +26,8 @@ public class Helpers {
             System.out.println("No errors detected");
             System.exit(0);
         } else {
-            printLabeledString("Number of errors = ", String.valueOf(errorCount));
-            System.exit(1);
+            String msg = String.format("Number of errors = %d", errorCount);
+            throw new AssertionError(msg);
         }
     }
 

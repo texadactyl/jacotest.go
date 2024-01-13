@@ -42,7 +42,7 @@ public class SocketServer {
 		            }
 					catch (InterruptedException ee) {
 						ps.printStackTrace(ee);
-						System.exit(1);
+						throw new AssertionError("*** ERROR, unexpected InterruptedException while sleeping!");
 					}
 		        }
 		    }
@@ -80,7 +80,7 @@ public class SocketServer {
 		    
         } catch (IOException ee) {
         	ps.printStackTrace(ee);
-        	System.exit(1);
+        	throw new AssertionError("*** ERROR, unexpected IOException!");
         }
 		    
         ps.printLabeledMsg(MY_NAME, "Bye-bye");

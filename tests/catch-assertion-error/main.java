@@ -6,8 +6,7 @@ public class main {
 		System.out.println("x=1; y=2; assert x == y; .....");
 		try {
 			assert x == y;
-			System.out.println("*** ERROR, failed to catch the AssertionError");
-			System.exit(1);
+			throw new AssertionError("*** ERROR, failed to catch the AssertionError!");
 		} catch (AssertionError ae) {
 			System.out.println("Caught the Assertion Error");
 			System.exit(0);

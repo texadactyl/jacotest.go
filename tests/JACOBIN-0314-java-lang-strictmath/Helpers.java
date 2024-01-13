@@ -295,11 +295,10 @@ public class Helpers {
     	System.out.print(")=");
     	System.out.print(calculatedValue);
 		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
-			System.out.println(" ok");
+			System.out.println("checker (FF)F: ok");
 			return 0;
 		}
-		System.out.print(" *** ERROR, expected ");
-    	System.out.println(expectedValue);
+		System.out.printf("checker (FF)F: *** ERROR, expected %f, observed %f\n", expectedValue, calculatedValue);
 		return 1;
 	}
 
@@ -313,11 +312,10 @@ public class Helpers {
     	System.out.print(")=");
     	System.out.print(calculatedValue);
 		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
-			System.out.println(" ok");
+			System.out.println(" (FI)F: ok");
 			return 0;
 		}
-		System.out.print(" *** ERROR, expected ");
-    	System.out.println(expectedValue);
+		System.out.printf("checker (FI)F: *** ERROR, expected %f, observed %f\n", expectedValue, calculatedValue);
 		return 1;
 	}
 
@@ -333,11 +331,10 @@ public class Helpers {
     	System.out.print(")=");
     	System.out.print(calculatedValue);
 		if (relErr(expectedValue, calculatedValue) < EpsilonF) {
-			System.out.println(" ok");
+			System.out.println(" (FFF)F: ok");
 			return 0;
 		}
-		System.out.print(" *** ERROR, expected ");
-    	System.out.println(expectedValue);
+		System.out.printf("checker (FFF)F: *** ERROR, expected %f, observed %f\n", expectedValue, calculatedValue);
 		return 1;
 	}
 
@@ -348,14 +345,10 @@ public class Helpers {
     	System.out.print(")=");
     	System.out.print(calculatedValue);
 		if (calculatedValue >= rangeLow && calculatedValue < rangeHigh) {
-			System.out.println(" ok");
+			System.out.println("checkerRange: ok");
 			return 0;
 		}
-		System.out.print(" *** ERROR, expected in range [");
-    	System.out.print(rangeLow);
-    	System.out.print(", ");
-    	System.out.print(rangeHigh);
-    	System.out.println(")");
+		System.out.printf("checkerRange: *** ERROR, expected calculated value in range [%f, %f] but observed %f\n", rangeLow, rangeHigh, calculatedValue);
 		return 1;
 	}
 
@@ -364,9 +357,8 @@ public class Helpers {
             System.out.println("No errors detected");
             System.exit(0);
         } else {
-            System.out.print("Number of errors = ");
-            System.out.println(errorCount);
-			System.exit(1);
+            String msg = String.format("Number of errors = %d", errorCount);
+            throw new AssertionError(msg);
         }
 	}
 

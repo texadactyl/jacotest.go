@@ -37,7 +37,7 @@ public class main {
 				handshakeSemaphore = true;
 			} catch (SSLPeerUnverifiedException ee) {
 				ee.printStackTrace();
-				System.exit(1);
+				throw new AssertionError("*** ERROR, unexpected SSLPeerUnverifiedException!");
 			}
 		}
 
@@ -82,7 +82,7 @@ public class main {
 			}
 			catch (InterruptedException ee) {
 				ee.printStackTrace();
-				throw new AssertionError("InterruptedException");
+				throw new AssertionError("*** ERROR, unexpected InterruptedException!");
 			}
 			if (handshakeSemaphore) { break; }
 		}

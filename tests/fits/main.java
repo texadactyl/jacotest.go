@@ -26,10 +26,6 @@ public class main { // formerly called TestFits
      */
     
     public static void main(String[] argv) {
-        //if (argv.length < 1) {
-        //    System.out.println("Error: must have at least one argument");
-        //    System.exit(1);
-        //}
         String[] argList = {"test.fits"};
         int errorCount = 0;
 

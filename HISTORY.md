@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-01-10 | 2.8.4 | Cleanup test case source code. Will not be the last! |
 | 2024-01-10 | 2.8.3 | New error category: has no exception table. |
 | | | Add cleaner function to log and report output. |
 | | | Call cleaner function inside runner. |

@@ -13,12 +13,6 @@ public class main {
         System.out.println(elapsedSeconds);
     }
 
-    private static void usage(String text) {
-        System.out.println(text);
-        System.out.println("This program requires no parameters.");
-        System.exit(1);
-    }
-
     public static void main(String args[]) {
         int arraySize = NLOOPS;
         long t1, t2;

@@ -36,10 +36,9 @@ public class main {
         try {
         	key = Twofish_Algorithm.makeKey(kb);
         } catch (InvalidKeyException ike) {
-        	System.out.print("*** ERROR, unexpected InvalidKeyException: ");
-        	System.out.println(ike.getMessage());
+        	String msg = String.format("*** ERROR, unexpected InvalidKeyException: %s", ike.getMessage());
         	ike.printStackTrace();
-        	System.exit(1);
+        	throw new AssertionError(msg);
         }
 
 		byte[] cipherBytes = Twofish_Algorithm.blockEncrypt(originalBytes, 0, key);
@@ -47,7 +46,7 @@ public class main {
         showBytes("cipherBytes", cipherBytes);
         showBytes("clearBytes", clearBytes);
     	if (Twofish_Algorithm.areEqual(originalBytes, clearBytes)) {
-    		System.out.println("Ok");
+    		System.out.println("Ok, Twofish_Algorithm.areEqual");
     		return 0;
     	}
     	System.out.print("*** ERROR, originalBytes and clearBytes comparison failed for key size ");

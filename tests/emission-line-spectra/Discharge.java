@@ -36,11 +36,6 @@ public class Discharge {
 	final int GREEN = 2;
 	final int BLUE = 3;
 	
-	public void oops(String msg) {
-        System.out.println("\n*** Oops,  " + msg + " !!!\n");
-        System.exit(1);
-    }
-
     public void warning(String msg) {
         System.out.println("WARNING,  " + msg + " !!!\n");
     }
@@ -54,7 +49,7 @@ public class Discharge {
                      double continuum) {
 
         if (elementPath == null)
-            oops("elementPath is null");
+            throw new AssertionError("elementPath is null");
 
         // Read element emission line file
         // Build wavelength and strength arrays
@@ -66,7 +61,7 @@ public class Discharge {
             while (line != null) {
                 StringTokenizer tokens = new StringTokenizer(line, " ");
                 if (tokens.countTokens() != 2)
-                    oops("File " + elementPath + " line " + (countEmLines + 1) + " mis-formatted");
+                    throw new AssertionError("File " + elementPath + " line " + (countEmLines + 1) + " mis-formatted");
                 wavelength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 strength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 if (++countEmLines > 199) {
@@ -77,7 +72,8 @@ public class Discharge {
             }
             reader.close();
         } catch (IOException ex) {
-            oops("File " + elementPath + " line " + countEmLines + " had an IOException");
+		    String msg = String.format("*** ERROR, File %s line %d had an IOException", elementPath, countEmLines);
+		    throw new AssertionError(msg);
         }
 
         // Spectra width = count of EMR lines

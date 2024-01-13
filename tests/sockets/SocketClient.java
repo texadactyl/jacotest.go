@@ -59,8 +59,7 @@ public class SocketClient {
 		        	Thread.sleep(SLEEP_TIME);
 		        }
 				catch (InterruptedException ee) {
-					ps.printStackTrace(ee);
-					System.exit(1);
+					throw new AssertionError("*** ERROR, Unexpected InterruptedException while sleeping!");
 				}
 		    	
 		    	// Get echoed response.
@@ -70,9 +69,8 @@ public class SocketClient {
 		    	msg = String.format("Message response %d Received: %s", counter, responseMessage);
 		    	ps.printLabeledMsg(MY_NAME, msg);
 		    	if (! responseMessage.equals(requestMessage)) {
-		    		msg = String.format("*** ERROR :: resquest <> response !!!");
-		    		ps.printLabeledMsg(MY_NAME, msg);
-		    		System.exit(1);
+		    		msg = String.format("*** %s: ERROR, request != response !", MY_NAME);
+		    		throw new AssertionError(msg);
 		    	}
 		    }
 		    
@@ -85,12 +83,12 @@ public class SocketClient {
         
 		catch (UnknownHostException ee) {
 			ps.printStackTrace(ee);
-        	System.exit(1);
+        	throw new AssertionError("*** ERROR, Unexpected UnknownHostException!");
 		}
 
 		catch (IOException ee) {
         	ps.printStackTrace(ee);
-        	System.exit(1);
+        	throw new AssertionError("*** ERROR, Unexpected IOException!");
         }
              
         ps.printLabeledMsg(MY_NAME, "Bye-bye");
