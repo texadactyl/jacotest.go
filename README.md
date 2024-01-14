@@ -59,19 +59,21 @@ Open a terminal window / command prompt.
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-x]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+Usage:  jacotest  [-h]  [-x]  [-q]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
 
 where
 	-h : This display
 	-N : No need to recompile the test cases
+	-M : Generate a run report suitable for viewing on github (normally, not produced)
 	-x : Execute all of the tests
+	-q : Print the test case results where there was a change
 	-v : Verbose logging
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
 	-j : This is the JVM to use in executing all test cases.  Default: openjdk
-jacotest version: 2.5.2
-Built with: go1.21
-BuildData vcs.revision: 0a2d9a48575b3864d5c2905c0b8e61bb2e56f78f
-BuildData vcs.time: 2023-08-09 12:44:09 CDT
+jacotest version: 2.9.0
+Built with: go1.21.4
+BuildData vcs.revision: a6a0f983011148776509d7ffe8b8610e10c9d52e
+BuildData vcs.time: 2024-01-13 15:42:44 CST
 BuildData vcs.modified: true
 ```
 
@@ -116,6 +118,7 @@ Test cases are run in lexical directory name order as the appear under the ```te
 The following are jacotest output:
 * Logs of individual test cases
 * Test case summary covering all test cases
+* Optional run report suitable for viewing on github (only produced if -M is specified on the command line)
 * Database holding all of the run summaries
 
 ### Logs
