@@ -17,9 +17,10 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 60, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-q]  [-N]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-q]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display\n")
 	fmt.Printf("\t-N : No need to recompile the test cases\n")
+	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced)\n")
 	fmt.Printf("\t-x : Execute all of the tests\n")
 	fmt.Printf("\t-q : Print the test case results where there was a change\n")
 	fmt.Printf("\t-v : Verbose logging\n")
