@@ -26,13 +26,6 @@ Install ```jacobin``` such that its executable resides in a directory whose abso
 * cd jacobin/src
 * go install -v ./...
 
-### Gcc
-
-* Browse to https://medium.com/@yaravind/go-sqlite-on-windows-f91ef2dacfe
-* Follow the instructions for the combined 32- and 64- bit Windows installation. It references https://jmeubank.github.io/tdm-gcc/
-* **Do not use the 32-bit-only installation** ; use this one: **MinGW-w64 based**
-* Be sure to put the resultant bin subdirectory in the PATH.
-
 ### Sqlite Database Run-time and Database Browser
 
 Jacotest uses an sqlite database to store test case results in addition to logging and summary reports - discussed later on. The following are steps to install the sqlite run-time and the sqlite browser:
