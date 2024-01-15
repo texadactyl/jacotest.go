@@ -9,11 +9,10 @@ public class main {
 
     public static int isItTrue(String label, boolean bool, String observed) {
         if (bool) {
-            printLabeledString("Success :: ", label);
+            System.out.printf("Success :: %s\n", label);
             return 0;
         }
-        printLabeledString("*** ERROR, ", label);
-        printLabeledString("*** observed value :: ", observed);
+        System.out.printf("*** ERROR, test: %s, observed value: %s\n", label, observed);
         return 1;
     }
 
