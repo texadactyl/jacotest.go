@@ -4,7 +4,10 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2024-01-15 | 2.9.1 | New test cases: JACOBIN-0433-HexFormat and JACOBIN-0434-short-value. |
+| 2024-01-15 | 2.9.1 | New test cases: |
+| | | JACOBIN-0433-HexFormat |
+| | | JACOBIN-0434-short-value |
+| | | JACOBIN-435-format-neg-int-as-hex |
 | 2024-01-13 | 2.9.0 | To get a github MD file, specify option -M. |
 | 2024-01-13 | 2.8.4 | Cleanup test case source code. Will not be the last! |
 | 2024-01-10 | 2.8.3 | New error category: has no exception table. |
