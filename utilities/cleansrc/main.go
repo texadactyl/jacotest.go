@@ -23,7 +23,7 @@ import (
 // Show help and then exit to the O/S
 func showHelp() {
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-s <one-character> | -d]  [-v]  Input file(s)...\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-s <one-character> | -d]  [-u]  [-v]  Input file(s)...\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-s <one-character>: Substitute the specified character for invalid source characters.\n")
 	fmt.Printf("\t     CAUTION: This causes a rewrite of the input source code file.\n")
@@ -35,6 +35,7 @@ func showHelp() {
 	fmt.Printf("\t\t-s cr --> The carriage return character ('\\r') is the substitute.\n")
 	fmt.Printf("\t\t-s 0x23 --> The pound sign character ('#') is the substitute.\n")
 	fmt.Printf("\t-d : Instead of replacing invalid source characters, delete them.\n")
+	fmt.Printf("\t-u : Update the source file.\n")
 	fmt.Printf("\t-v : Verbose output.\n")
 	fmt.Printf("\nExit codes:\n")
 	fmt.Printf("\t0\tNormal completion.\n")
@@ -61,6 +62,7 @@ func main() {
 	var Args []string
 	var flagSubstitute = false
 	var flagDelete = false
+	var flagUpdate = false
 	var flagVerbose = false
 	var nilByte = byte(0x00)
 	var replByte = byte('?')
@@ -135,6 +137,8 @@ func main() {
 			}
 			helpers.LogError("Use -s to specify only ONE character")
 			showHelp()
+		case "-u":
+			flagUpdate = true
 		case "-v":
 			flagVerbose = true
 		default:
@@ -208,8 +212,6 @@ func main() {
 		if numInvalidBytes < 1 {
 			helpers.Logger(fmt.Sprintf("Clean input source code file: %s", inPath))
 			continue
-		} else {
-			modFileCount += 1
 		}
 		if flagVerbose {
 			// Report how many invalid source file characters were detected.
@@ -223,16 +225,19 @@ func main() {
 		}
 
 		// Replace input file contents with outBytes.
-		err = os.WriteFile(inPath, outBytes, 0666)
-		if err != nil {
-			errFileCount++
-			errMsg := fmt.Sprintf("os.WriteFile (%s) failed: %s", inPath, err.Error())
-			helpers.LogError(errMsg)
-			continue
-		}
-		if flagVerbose {
-			msg = fmt.Sprintf("Wrote %d output characters to %s", len(outBytes), inPath)
-			helpers.Logger(msg)
+		if flagUpdate {
+			err = os.WriteFile(inPath, outBytes, 0666)
+			if err != nil {
+				errFileCount++
+				errMsg := fmt.Sprintf("os.WriteFile (%s) failed: %s", inPath, err.Error())
+				helpers.LogError(errMsg)
+				continue
+			}
+			modFileCount += 1
+			if flagVerbose {
+				msg = fmt.Sprintf("Wrote %d output characters to %s", len(outBytes), inPath)
+				helpers.Logger(msg)
+			}
 		}
 	}
 
@@ -247,6 +252,8 @@ func main() {
 	if modFileCount > 0 {
 		msg = fmt.Sprintf("%d input file(s) were modified", modFileCount)
 		helpers.Logger(msg)
+	} else {
+		helpers.Logger("No input file(s) were modified")
 	}
 	os.Exit(0)
 

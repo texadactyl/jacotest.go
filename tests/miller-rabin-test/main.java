@@ -1,24 +1,24 @@
-// Miller–Rabin test
+// Miller-Rabin test
 // Algorithm description and pseudocode:
 // https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test
 
 /*
     Input #1: n > 2, an odd integer to be tested for primality
     Input #2: k, the number of rounds of testing to perform
-    Output: “composite” if n is found to be composite, “probably prime” otherwise
+    Output: "composite" if n is found to be composite, "probably prime" otherwise
 
-    let s > 0 and d odd > 0 such that n − 1 = 2^s*d  # by factoring out powers of 2 from n − 1
+    let s > 0 and d odd > 0 such that n - 1 = 2^s*d  # by factoring out powers of 2 from n - 1
     repeat k times:
-        a := random(2, n − 2)  # n is always a probable prime to base 1 and n − 1
+        a := random(2, n - 2)  # n is always a probable prime to base 1 and n - 1
         x := a^d mod n
         repeat s times:
             y := x^2 mod n
-            if y = 1 and x != 1 and x != n − 1 then # nontrivial square root of 1 modulo n
-                return “composite”
+            if y = 1 and x != 1 and x != n - 1 then # nontrivial square root of 1 modulo n
+                return "composite"
             x := y
         if y != 1 then
-            return “composite”
-    return “probably prime”
+            return "composite"
+    return "probably prime"
  */
 
 import java.math.BigInteger;
@@ -42,8 +42,8 @@ public class main {
             return false; // n is a factor of 2
         }
 
-        // Factor out powers of 2 from n − 1
-        // such that n − 1 = (2^s) * d
+        // Factor out powers of 2 from n - 1
+        // such that n - 1 = (2^s) * d
         BigInteger d = n.subtract(BigInteger.ONE);
         int s = 0;
         while (d.mod(TWO).equals(BigInteger.ZERO)) {
@@ -53,7 +53,7 @@ public class main {
 
         BigInteger nminus1 = n.subtract(BigInteger.ONE);
         for (int ii = 0; ii < k; ii++) {
-            // a := random(2, n − 2)
+            // a := random(2, n - 2)
             BigInteger a = generateRandomInRange(TWO, nminus1);
             if (!useThePower(a, d, n, s)) {
                 return false;
