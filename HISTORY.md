@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-01-18 | 2.9.3 | New test cases: sieve, basic-draw |
 | 2024-01-16 | 2.9.2 | New test case: miller-rabin-test |
 | 2024-01-15 | 2.9.1 | New test cases: |
 | | | JACOBIN-0433-HexFormat |
