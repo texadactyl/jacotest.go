@@ -79,6 +79,7 @@ func compileOneTree(pathTreeTop string) int {
 	if err != nil {
 		FmtFatal("compileOneTree: os.ReadDir failed", pathTreeTop, err)
 	}
+	
 	// Compile every .java file at the top level.
 	// If there are subdirectories (package), they will automatically be compiled as well.
 	errorCount := 0

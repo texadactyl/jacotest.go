@@ -8,10 +8,8 @@ public class main {
         Calculator obj = new Calculator();
         int result = obj.add(100, 200);
         if (result != 300) {
-            System.out.println("runner: *** ERROR, middle.pkgcalc.Calculator did not get a result of 300");
-            System.out.print("runner: ************** observed a result of ");
-            System.out.println(result);
-            return 1;
+            String msg = String.format("runner: *** ERROR, expected middle.pkgcalc.Calculator result=300 but observed %d", result);
+            throw new AssertionError(msg);
         }
         System.out.println("runner: Success with result == (100 + 200 = 300)");
         return 0;
@@ -35,13 +33,16 @@ public class main {
                 System.out.println(line);
             }
             bre.close();
-            process.waitFor();
+            int exitValue = process.waitFor();
+            if (exitValue != 0) {
+                String msg = String.format("*** ERROR, cmd: exit value = %d", exitValue);
+                throw new AssertionError(msg);
+            }
             System.out.println("cmd: End");
         }
         catch (Exception err) {
-            System.out.print("cmd: ");
-            System.out.println(err);
-            err.printStackTrace();
+            String msg = String.format("*** ERROR, cmd: %s", err.getMessage());
+            throw new AssertionError(msg);
         }
     }
 
@@ -65,7 +66,7 @@ public class main {
         }
         cmd("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
         cmd("jar tf jarring.jar");
-        String text = jvmPath + " -jar " + "jarring.jar RUNNER";
+        String text = String.format("%s -jar jarring.jar RUNNER", jvmPath);
         cmd(text);
 
     }
