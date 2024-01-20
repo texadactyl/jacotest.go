@@ -26,6 +26,7 @@ PUTSTATIC: field
 runtime error: index out of range
 runtime error: invalid memory address
 runtime.sigpanic
+should not be used to create
 stack overflow
 stack underflow
 trying for a superclass field

@@ -51,18 +51,13 @@ class main {
           tree.calHash();
           sum += tree.getHash();
         }
-        System.out.println(iterations + "\t trees of depth " + depth + "\t root hash sum: " + sum);
+        System.out.printf("iterations=%d, depth=%d, sum=%d\n", iterations, depth, sum);
       }
   
       longLivedTree.calHash();
       ck = longLivedTree.check();
-      System.out.println(
-          "long lived tree of depth "
-              + maxDepth
-              + "\t root hash: "
-              + longLivedTree.getHash()
-              + " check: "
-              + ck);
+	  long hash = longLivedTree.getHash();
+      System.out.printf("long lived tree of depth=%d, root hash=%d, check=%b\n", maxDepth, hash, ck);
       assert (ck);
     }
   

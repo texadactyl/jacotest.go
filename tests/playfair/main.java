@@ -26,7 +26,8 @@ public class main {
         System.out.printf("Raw cleartext: \"%s\"\n", clearText);
         System.out.printf("Raw key: \"%s\"\n", clearKey);
 
-        String clearKeyPrepared = pf.prepareEncryptionKey(clearKey + alphabet);
+		String wstr = String.format("%s%s", clearKey, alphabet);
+        String clearKeyPrepared = pf.prepareEncryptionKey(wstr);
         System.out.printf("Prepared key: \"%s\"\n", clearKeyPrepared);
 
         String[][] keyMatrix = pf.tableMatrix(clearKeyPrepared);
@@ -44,7 +45,7 @@ public class main {
         System.out.printf("Prepared ciphertext: \"%s\"\n",  encryptedArrayList);
         
         String encryptedText = pf.arraylistToString(encryptedArrayList);
-        System.out.printf("Raw ciphertext: \"%s\"\n",  encryptedText);
+        System.out.printf("Raw ciphertext: \"%s\"\n", encryptedText);
 
         // Decryption --------------------------------------------------
         System.out.println("..... DECRYPTION .....");
