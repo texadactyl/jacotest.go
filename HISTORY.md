@@ -4,9 +4,10 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2024-01-19 | 2.9.4 | New test case: db-sqlite |
-| 2024-01-18 | 2.9.3 | New test case: sieve |
-| 2024-01-16 | 2.9.2 | New test case: miller-rabin-test |
+| 2024-01-20 | 2.9.5 | New error category: should not be used to create. |
+| 2024-01-19 | 2.9.4 | New test case: db-sqlite. |
+| 2024-01-18 | 2.9.3 | New test case: sieve. |
+| 2024-01-16 | 2.9.2 | New test case: miller-rabin-test. |
 | 2024-01-15 | 2.9.1 | New test cases: |
 | | | JACOBIN-0433-HexFormat |
 | | | JACOBIN-0434-short-value |
