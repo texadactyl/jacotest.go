@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-01-22 | 3.0.0 | Revamp of command-line parameters (JACOBIN-441). |
 | 2024-01-20 | 2.9.5 | New error category: should not be used to create. |
 | 2024-01-19 | 2.9.4 | New test case: db-sqlite. |
 | 2024-01-18 | 2.9.3 | New test case: sieve. |

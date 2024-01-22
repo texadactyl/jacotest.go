@@ -153,7 +153,7 @@ func compileOneTree(pathTreeTop string) int {
 // 0 : success
 // 1 : compilation errors
 // 2 : run errors
-func ExecuteOneTest(fullPathDir string, flagCompile bool, global GlobalsStruct) (int, string) {
+func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, global GlobalsStruct) (int, string) {
 	var stcode int
 
 	// Save the path of the current working dir
@@ -181,6 +181,10 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, global GlobalsStruct) 
 			}
 			return RC_COMP_ERROR, ""
 		}
+	}
+
+	if !flagExecute {
+		return RC_NORMAL, ""
 	}
 
 	// At this point, we are sitting in the test case directory.

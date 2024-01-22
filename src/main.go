@@ -19,13 +19,15 @@ func showHelp() {
 	suffix := filepath.Base(os.Args[0])
 	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-2]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
-	fmt.Printf("\t-N : No need to recompile the test cases.\n")
-	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
-	fmt.Printf("\t-x : Execute all of the tests. Implies option -2.\n")
+	fmt.Printf("\t-c : Compile the test cases.\n")
+	fmt.Printf("\t-x : Execute all test cases.\n")
+	fmt.Printf("\t     Specifying -x implies parameter -2.\n")
 	fmt.Printf("\t-2 : Print the last 2 test case results if there was a change.\n")
-	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
-	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin.\n\n")
+	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
+	fmt.Printf("\t     Specifying -j implies parameters -x and -2.\n")
+	fmt.Printf("\t-v : Verbose logging.\n")
+	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n\n")
 	ShowExecInfo()
 	os.Exit(0)
 }
@@ -63,7 +65,7 @@ func main() {
 	flagVerbose := false
 	flagExecute := false
 	flagLastTwo := false
-	flagCompile := true
+	flagCompile := false
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
@@ -104,11 +106,13 @@ func main() {
 		case "-2":
 			flagLastTwo = true
 
-		case "-N":
-			flagCompile = false // Do not compile anything
+		case "-c":
+			flagCompile = true
 
 		case "-M":
-			flagMdReport = true // Do not compile anything
+			flagMdReport = true
+			flagExecute = true
+			flagLastTwo = true
 
 		case "-v":
 			flagVerbose = true
@@ -126,6 +130,7 @@ func main() {
 				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
 				showHelp()
 			}
+			flagExecute = true
 
 		case "-t": // Deadline in seconds requested
 			ii += 1
@@ -139,12 +144,6 @@ func main() {
 			LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
 			showHelp()
 		}
-	}
-
-	// Make sure that at least one of -h or -x or -2 was specified.
-	if !flagExecute && !flagLastTwo {
-		LogError("Must specify -h or -x or -2")
-		showHelp()
 	}
 
 	// Open database
@@ -186,7 +185,7 @@ func main() {
 	}
 
 	// Process execute request
-	if flagExecute {
+	if flagExecute || flagCompile {
 		var successNames []string
 		var errCompileNames []string
 		var errExecutionNames []string
@@ -219,11 +218,6 @@ func main() {
 		WriteOutputText(outHandle, msg)
 		msg = fmt.Sprintf("O/S %s, arch %s", runtime.GOOS, runtime.GOARCH)
 		WriteOutputText(outHandle, msg)
-		if flagCompile {
-			msg = "All test cases will be compiled\n"
-		} else {
-			msg = "All test cases are assumed to be previously compiled\n"
-		}
 		WriteOutputText(outHandle, msg)
 		outLines, err := exec.Command(jvmExe, "--version").Output()
 		if err != nil {
@@ -252,7 +246,7 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile, global)
+				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile, flagExecute, global)
 				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:
@@ -260,14 +254,18 @@ func main() {
 					if flagMdReport {
 						fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 					}
-					DBStorePassed(testCaseName)
+					if flagExecute {
+						DBStorePassed(testCaseName)
+					}
 				case RC_COMP_ERROR:
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
 					if flagMdReport {
 						fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 					}
-					DBStoreFailed(testCaseName, "Compile error")
+					if flagExecute {
+						DBStoreFailed(testCaseName, "Compile error")
+					}
 				case RC_EXEC_ERROR:
 					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
@@ -282,7 +280,9 @@ func main() {
 					if flagMdReport {
 						fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 					}
-					DBStoreFailed(testCaseName, "Timeout")
+					if flagExecute {
+						DBStoreFailed(testCaseName, "Timeout")
+					}
 				}
 			}
 		}
@@ -297,7 +297,16 @@ func main() {
 		}
 
 		// Show compilation errors
-		showResults("Compilation", errCompileNames, outHandle, true)
+		if flagCompile {
+			showResults("Compilation", errCompileNames, outHandle, true)
+		}
+
+		// Exit now if compilation only.
+		if !flagExecute {
+			msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
+			Logger(msg)
+			os.Exit(exitStatus)
+		}
 
 		// Show timeout errors
 		showResults("Execution timeout", timeoutExecutionNames, outHandle, true)
@@ -316,11 +325,6 @@ func main() {
 		}
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
-		// Show elapsed time and exit normally to the O/S.
-		tStop := time.Now()
-		elapsed := tStop.Sub(tStart)
-		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
-
 		// Discrepancies in error total?
 		if len(errExecutionNames) != counterErrCases {
 			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterErrCases))
@@ -333,7 +337,12 @@ func main() {
 			}
 		}
 
-	} // if flagExecute
+		// Show elapsed time.
+		tStop := time.Now()
+		elapsed := tStop.Sub(tStart)
+		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
+
+	} // if flagExecute || flagCompile
 
 	// Print result records?
 	if flagLastTwo {
