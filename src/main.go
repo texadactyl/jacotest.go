@@ -15,7 +15,7 @@ const MyName = "Jacotest"
 
 // Show help and then exit to the O/S
 func showHelp() {
-	_ = InitGlobals("dummy", "dummy", 60, false)
+	_ = InitGlobals("dummy", "dummy", 0, false)
 	suffix := filepath.Base(os.Args[0])
 	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-2]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
@@ -25,7 +25,7 @@ func showHelp() {
 	fmt.Printf("\t-2 : Print the last 2 test case results if there was a change.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
-	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin.\n")
+	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin.\n\n")
 	ShowExecInfo()
 	os.Exit(0)
 }
@@ -67,8 +67,8 @@ func main() {
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	deadlineSecs := 120
-	now := time.Now()
+	deadlineSecs := 120  // default deadline in seconds
+	now := time.Now()    // Get the current time.
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
 	exitStatus := 0 // optimistic
@@ -80,17 +80,17 @@ func main() {
 	}
 	_ = handle.Close()
 
-	// Initialise Args to the command-line arguments
+	// Initialise Args to the command-line arguments.
 	for _, singleVar := range os.Args[1:] {
 		Args = append(Args, singleVar)
 	}
 
-	// Make sure that at least one request was made
+	// If no options specified, just show help.
 	if len(Args) < 1 {
 		showHelp()
 	}
 
-	// Parse command line arguments
+	// Parse command line arguments.
 	for ii := 0; ii < len(Args); ii++ {
 		switch Args[ii] {
 
@@ -141,9 +141,9 @@ func main() {
 		}
 	}
 
-	// Make sure that at least one of -c or -x was specified
+	// Make sure that at least one of -h or -x or -2 was specified.
 	if !flagExecute && !flagLastTwo {
-		LogError("Must specify -h or -x or -q")
+		LogError("Must specify -h or -x or -2")
 		showHelp()
 	}
 
