@@ -15,6 +15,7 @@ go panic because of interface conversion
 go panic because of javaPrimitives
 has no exception table
 INVOKEVIRTUAL: Native method requested
+Invalid array type specified
 Invalid type of object ref
 Invalid bytecode
 invalid class name
@@ -26,9 +27,7 @@ PUTSTATIC: field
 runtime error: index out of range
 runtime error: invalid memory address
 runtime.sigpanic
-should not be used to create
 stack overflow
 stack underflow
 trying for a superclass field
 WaitClassStatus
-
