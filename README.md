@@ -99,21 +99,21 @@ If the default timeout value of 60 seconds for each individual case is insuffici
 
 The ```-v``` (verbose logging) parameter is intended for jacotest software debugging.
 
-# Test Case Overview
+### Test Case Overview
 
 Each test case occupies a directory immediately under the directory ```tests```.  The test case source code follows the following conventions:
 * For a given test case, there is a main.java file whose main.class file starts execution for the given test case following a successful compilation.
 * Additional source files (helper.java, etc.) can be present for test case modularity.
 * Package statements and related subdirectories containing .java source files are limited to specific tests that are testing the JVM's ability to handle Java packaging.
 
-# Test Case Run
+### Test Case Run
 
 Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a multi-step process:
 1) Compilation of all *.java files with ```javac```.
 2) Assuming that compilation was successful for a given test case, then `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
 3) If compilation is successful, then execution proceeds under the control of one of two JVMs: ```java``` or ```jacobin```.
 
-# Test Case Results and Reports
+### Test Case Results and Reports
 
 The following are jacotest output:
 * Logs of individual test cases
