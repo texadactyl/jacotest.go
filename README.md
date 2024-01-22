@@ -69,7 +69,7 @@ where
 	-q : Print the test case results where there was a change
 	-v : Verbose logging
 	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
-	-j : This is the JVM to use in executing all test cases.  Default: openjdk
+	-j : This is the JVM to use in executing all test cases.  Default: jacobin
 jacotest version: 2.9.0
 Built with: go1.21.4
 BuildData vcs.revision: a6a0f983011148776509d7ffe8b8610e10c9d52e
