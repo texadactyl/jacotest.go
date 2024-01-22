@@ -59,7 +59,7 @@ Open a terminal window / command prompt.
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-x]  [-2]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+Usage:  jacotest  [-h]  [-c]  [-x]  [-2]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
 
 where
 	-h : This display.
