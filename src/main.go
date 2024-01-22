@@ -25,7 +25,7 @@ func showHelp() {
 	fmt.Printf("\t-q : Print the test case results where there was a change\n")
 	fmt.Printf("\t-v : Verbose logging\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
-	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: openjdk\n")
+	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin\n")
 	ShowExecInfo()
 	os.Exit(0)
 }
