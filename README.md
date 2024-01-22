@@ -59,21 +59,24 @@ Open a terminal window / command prompt.
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-x]  [-q]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+Usage:  jacotest  [-h]  [-c]  [-x]  [-2]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
 
 where
-	-h : This display
-	-N : No need to recompile the test cases
-	-M : Generate a run report suitable for viewing on github (normally, not produced)
-	-x : Execute all of the tests
-	-q : Print the test case results where there was a change
-	-v : Verbose logging
-	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60
-	-j : This is the JVM to use in executing all test cases.  Default: jacobin
-jacotest version: 2.9.0
-Built with: go1.21.4
-BuildData vcs.revision: a6a0f983011148776509d7ffe8b8610e10c9d52e
-BuildData vcs.time: 2024-01-13 15:42:44 CST
+	-h : This display.
+	-c : Compile the test cases.
+	-x : Execute all test cases.
+	     Specifying -x implies parameter -2.
+	-2 : Print the last 2 test case results if there was a change.
+	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.
+	-j : This is the JVM to use in executing all test cases. Default: jacobin.
+	     Specifying -j implies parameters -x and -2.
+	-v : Verbose logging.
+	-M : Generate a run report suitable for viewing on github (normally, not produced).
+
+jacotest version: v3.0.0
+Built with: go1.21.6
+BuildData vcs.revision: 8515bd83cc9ace5e7b30620f5dd925f6bab002ed
+BuildData vcs.time: 2024-01-22 16:39:44 CST
 BuildData vcs.modified: true
 ```
 
