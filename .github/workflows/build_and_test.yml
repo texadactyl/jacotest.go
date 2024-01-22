@@ -47,5 +47,5 @@ jobs:
       run: |
         java --version
         javac --version
-        ./src/jacotest -x -j openjdk -t 60 
+        ./src/jacotest -c -x -j openjdk -t 60 
         ls -l ./reports
