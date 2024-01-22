@@ -17,15 +17,15 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 60, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-q]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
-	fmt.Printf("\t-h : This display\n")
-	fmt.Printf("\t-N : No need to recompile the test cases\n")
-	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced)\n")
-	fmt.Printf("\t-x : Execute all of the tests\n")
-	fmt.Printf("\t-q : Print the test case results where there was a change\n")
-	fmt.Printf("\t-v : Verbose logging\n")
-	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60\n")
-	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin\n")
+	fmt.Printf("\nUsage:  %s  [-h]  [-x]  [-2]  [-N]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\t-h : This display.\n")
+	fmt.Printf("\t-N : No need to recompile the test cases.\n")
+	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
+	fmt.Printf("\t-x : Execute all of the tests. Implies option -2.\n")
+	fmt.Printf("\t-2 : Print the test case results where there was a change.\n")
+	fmt.Printf("\t-v : Verbose logging.\n")
+	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
+	fmt.Printf("\t-j : This is the JVM to use in executing all test cases.  Default: jacobin.\n")
 	ShowExecInfo()
 	os.Exit(0)
 }
@@ -67,7 +67,7 @@ func main() {
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	deadlineSecs := 60
+	deadlineSecs := 120
 	now := time.Now()
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
@@ -101,7 +101,7 @@ func main() {
 			flagExecute = true
 			flagLastTwo = true
 
-		case "-q":
+		case "-2":
 			flagLastTwo = true
 
 		case "-N":
