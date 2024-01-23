@@ -4,7 +4,6 @@ AALOAD: Invalid
 array of incorrect type
 BALOAD: Invalid
 but it did not contain method
-###CHECKCAST:
 Class method not found
 class.Data
 could not find or load class
