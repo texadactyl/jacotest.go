@@ -4,6 +4,13 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-01-31 | 3.0.2 | New test case: ex-catch-idiv. |
+| | | Renamed exception-oriented test cases: |
+| | | * catch-assertion-error ----> ex-catch-assertion-error |
+| | | * catch-exception ----------> ex-catch-parseint |
+| | | * JACOBIN-0322-throw-null --> ex-catch-null-ptr |
+| | | * finally ------------------> ex-finally |
+| | | * user-defined-exception ---> ex-catch-user-ex |
 | 2024-01-28 | 3.0.1 | New test case: salesman. |
 | 2024-01-22 | 3.0.0 | Revamp of command-line parameters (JACOBIN-441). |
 | 2024-01-20 | 2.9.5 | New error category: should not be used to create. |
