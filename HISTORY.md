@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-02-10 | 3.0.3 | New test case: floor-div-mod-mix. |
+| | | Added loops to test case ex-catch-idiv. |
 | 2024-01-31 | 3.0.2 | New test case: ex-catch-idiv. |
 | | | Renamed exception-oriented test cases: |
 | | | * `catch-assertion-error ----> ex-catch-assertion-error` |

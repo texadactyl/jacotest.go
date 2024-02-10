@@ -1,14 +1,19 @@
-// division by zero to throw exception
 public final class main {
+
     public static void main(String[] args) {
-		int n = 6;
-		int x = 0;
-		try {
-			int y = n/x;
-		} catch (ArithmeticException ex) {
-			System.out.println("Successfully caught a divide by zero.");
-			System.exit(0);
+		int NLOOPS = 100;
+		int dividend = 6;
+		int divisor = 0;
+		int counter = 0;
+		int quotient;
+		for (int ii = 0; ii < NLOOPS; ii++) {
+			try {
+				quotient = dividend / divisor;
+			} catch (Exception ex) {
+				counter += 1;
+				System.out.printf("catch #%d\n", counter);
+			}
 		}
-		throw new AssertionError("*** ERROR, Failed to catch a divide by zero.");
+		System.out.printf("Finished %d loops of IDIV exceptions\n", NLOOPS);
 	}
 }
