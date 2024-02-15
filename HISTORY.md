@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-02-15 | 3.0.6 | Added utility jtsync - automates git pull, go install, jacotest -c. |
 | 2024-02-15 | 3.0.5 | Updated test case ex-finally-2 to measure success. |
 | 2024-02-14 | 3.0.4 | New test case: ex-finally-2. |
 | 2024-02-10 | 3.0.3 | New test case: floor-div-mod-mix. |
