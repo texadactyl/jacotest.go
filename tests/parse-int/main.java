@@ -10,36 +10,32 @@ public class main {
 		System.out.print(expectedResult);
 		System.out.print(", flagException: ");
 		System.out.print(flagException);
+		
 		if (flagException) {
+			// Expecting a NumberFormatException
 			try {
 				observedResult = Integer.parseInt(input, radix);
 				System.out.println(" ***ERROR, did not throw an exception");
 				return 1;
 			} catch (NumberFormatException ex) {
-				System.out.println(" threw Number Format Exception as expected");
+				System.out.println(" --- ok, threw Number Format Exception as expected");
 				return 0;
-			} catch (Exception ex) {
-				System.out.println(" ***ERROR, threw an unexpected type of exception");
-				ex.printStackTrace();
-				return 1;
 			}
 		}
 		
+		// Not expecting an exception
 		try {
 			observedResult = Integer.parseInt(input, radix);
-		} catch (Exception ex) {
-			System.out.println(" ***ERROR, threw an unexpected exception");
-			ex.printStackTrace();
+		} catch (NumberFormatException ex) {
+			System.out.printf("\n***ERROR, unexpected NumberFormatxception\n");
 			return 1;
 		}
-
 		if (observedResult == expectedResult) {
-			System.out.println(" --- ok");
+			System.out.println(" --- ok, good comparison");
 			return 0;
 		}
 		
-		System.out.print(" ***ERROR, observedResult: ");
-		System.out.println(observedResult);
+		System.out.printf(" ***ERROR, comparison failed, expectedResult: %d, observedResult: %d\n", expectedResult, observedResult);
 		return 1;
 		
 	}
@@ -55,10 +51,10 @@ public class main {
      	errorCount += testParseInt("1100110", 2, 102, false);
      	errorCount += testParseInt("2147483647", 10, 2147483647, false);
      	errorCount += testParseInt("-2147483648", 10, -2147483648, false);
-     	errorCount += testParseInt("2147483648", 10, 0,true);
+     	errorCount += testParseInt("2147483648", 10, 0, true);
      	errorCount += testParseInt("99", 8, 0, true);
      	errorCount += testParseInt("Kona", 10, 0, true);
-     	errorCount += testParseInt("Kona", 27, 411787, false);
+     	errorCount += testParseInt("100000", 27, 14348907, false);
      	
      	assert errorCount == 0;
 	}
