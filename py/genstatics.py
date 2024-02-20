@@ -93,11 +93,11 @@ if __name__ == "__main__":
             OUT_FORMAT = '_ = AddStatic("{}.{}\", Static{{Type: types.{}, Value: {}}})\n'
 
             while ix < len(lines):
-                
+
                 # Line 1 of 3
                 line = lines[ix].strip()
                 if line == "":
-                   break
+                    break
                 columns = line.split(' ')
                 in_type = columns[3]
 
