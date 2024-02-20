@@ -6,7 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-02-20 | 3.0.9 | Fixed test case JACOBIN-0435-format-neg-int-as-hex. |
 | 2024-02-19 | 3.0.8 | Fixed test case parseint. |
-| | | Add genstatics.py to new folder "py" |
+| | | Add genstatics.py to new folder "py". |
 | 2024-02-15 | 3.0.7 | Fixed & looped test cases ex-catch-parseint and hex-decode-numeric. |
 | 2024-02-15 | 3.0.6 | Added utility jtsync - automates git pull, go install, jacotest -c. |
 | 2024-02-15 | 3.0.5 | Updated test case ex-finally-2 to measure success. |
