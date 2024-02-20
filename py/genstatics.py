@@ -45,6 +45,7 @@ def translator(arg_type, arg_value):
     if arg_type == "double":
         return "Double", f"float64({arg_value})"
     if arg_type == "float":
+        # If the last character is an 'f', remove it.
         float_value = arg_value
         if float_value[-1] == "f":
             float_value = float_value[0:-1]
@@ -52,6 +53,7 @@ def translator(arg_type, arg_value):
     if arg_type == "int":
         return "Int", f"int64({arg_value})"
     if arg_type == "long":
+        # If the last character is an 'l', remove it.
         long_value = arg_value
         if long_value[-1] == "l":
             long_value = long_value[0:-1]
