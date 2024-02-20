@@ -1,6 +1,6 @@
 public class main {
 
-    public static String printIntInHex(int arg) {
+    public static String cvtIntToHex(int arg) {
         byte[] bb = new byte[] {
                 (byte)(arg >> 24),
                 (byte)(arg >> 16),
@@ -13,7 +13,7 @@ public class main {
     public static void main(String[] args) {
         int neg64 = -64;
         String expValue = new String("ffffffc0");
-        String obsValue = printIntInHex(neg64);
+        String obsValue = cvtIntToHex(neg64);
         System.out.print("Expected value: ");
         System.out.println(expValue);
         System.out.print("Observed value: ");
