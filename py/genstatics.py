@@ -93,28 +93,34 @@ if __name__ == "__main__":
             OUT_FORMAT = '_ = AddStatic("{}.{}\", Static{{Type: types.{}, Value: {}}})\n'
 
             while ix < len(lines):
-
+                
+                # Line 1 of 3
                 line = lines[ix].strip()
                 if line == "":
                    break
                 columns = line.split(' ')
                 in_type = columns[3]
 
+                # Line 2 of 3
                 ix += 1
                 line = lines[ix].strip()
                 columns = line.split(' ')
                 in_name = columns[0]
 
+                # Line 3 of 3
                 ix += 1
                 line = lines[ix].strip()
                 columns = line.split(' ')
                 in_value = columns[0]
 
+                # Translate the type and value.
                 out_type, out_value = translator(in_type, in_value)
 
+                # Write one line to output.
                 wstr = OUT_FORMAT.format(class_string, in_name, out_type, out_value)
                 fout.write(wstr)
 
+                # Continue with next triplet if there is one.
                 ix += 1
                 in_counter += 3
                 out_counter += 1
