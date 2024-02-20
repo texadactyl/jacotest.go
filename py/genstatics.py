@@ -10,7 +10,7 @@ Lines 2, 3, 4 - entry #1
 Lines 5, 6, 7 - entry #2
 etc.
 
-Each line-triplet is pasted into the text input file from the Java API on the web.
+Each line-triplet is creatted into the text input file when pasting from the Java API on the web.
 See https://docs.oracle.com/en/java/javase/17/docs/api/constant-values.html
 E.g.
 public static final byte                format: byte
