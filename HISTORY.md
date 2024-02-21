@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-02-21 | 3.0.10 | Fixed test case JACOBIN-0337-static-inits. |
 | 2024-02-20 | 3.0.9 | Fixed test case JACOBIN-0435-format-neg-int-as-hex. |
 | 2024-02-19 | 3.0.8 | Fixed test case parseint. |
 | | | Add genstatics.py to new folder "py". |

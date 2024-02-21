@@ -69,7 +69,8 @@ class Base {
    	protected int a;
    	protected int b;
 	void print() { 
-		System.out.println("class Base a: " + a); 
+        String msg = String.format("class Base a: : %d", a);
+        System.out.println(msg); 
 		assert a == 5;
 	} 
 } 
@@ -84,7 +85,8 @@ class AnonymousClassMaker {
          @Override
          void print() { 
             super.print(); 
-            System.out.println("AnonymousClassMaker createAnonymous b: " + b); 
+            String msg = String.format("AnonymousClassMaker createAnonymous b: %d", b);
+            System.out.println(msg); 
             assert b == 10;
          } 
       }; // end anonymous class 
