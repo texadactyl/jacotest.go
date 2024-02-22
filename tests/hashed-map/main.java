@@ -4,15 +4,23 @@ import java.util.HashMap;
 
 public class main {
 
-    public static int checker(String label, boolean bexp) {
+    public static int checkerString(String label, String observed, String expected) {
         System.out.print("checker ");
-        if (bexp) {
-            System.out.print(label);
-            System.out.println(" ok");
+        if (expected.equals(observed)) {
+            System.out.printf("%s: ok\n", label);
             return 0;
         }
-        System.out.print(label);
-        System.out.println(" *** ERROR");
+        System.out.printf("%s: *** ERROR, expected=%s, observed=%s\n", label, expected, observed);
+        return 1;
+    }
+
+    public static int checkerInt(String label, int observed, int expected) {
+        System.out.print("checker ");
+        if (expected == observed) {
+            System.out.printf("%s: ok\n", label);
+            return 0;
+        }
+        System.out.printf("%s: *** ERROR, expected=%d, observed=%d\n", label, expected, observed);
         return 1;
     }
 
@@ -28,16 +36,15 @@ public class main {
         capitalCities.put("USA", "Washington DC");
         System.out.println(capitalCities);
 
-        errorCount += checker("capitalCities.get(UK) == London", capitalCities.get("UK") == "London");
-        errorCount += checker("capitalCities.get(Norway) == Oslo", capitalCities.get("Norway") == "Oslo");
-        errorCount += checker("capitalCities.size() == 4", capitalCities.size() == 4);
+        errorCount += checkerString("capitalCities.get(UK) == London", capitalCities.get("UK"), "London");
+        errorCount += checkerString("capitalCities.get(Norway) == Oslo", capitalCities.get("Norway"), "Oslo");
+        errorCount += checkerInt("capitalCities.size() == 4", capitalCities.size(), 4);
         capitalCities.remove("Norway");
-        errorCount += checker("capitalCities.size() == 3", capitalCities.size() == 3);
+        errorCount += checkerInt("capitalCities.size() == 3", capitalCities.size(), 3);
         capitalCities.clear();
-        errorCount += checker("capitalCities.size() == 0", capitalCities.size() == 0);
+        errorCount += checkerInt("capitalCities.size() == 0", capitalCities.size(), 0);
 
         assert (errorCount == 0);
     }
 }
-
 

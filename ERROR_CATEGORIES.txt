@@ -1,6 +1,8 @@
 # jacotest error categories
 # -------------------------
 AALOAD: Invalid
+ARRAYLENGTH: Invalid (null) value
+ARRAYLENGTH: Invalid ref
 array of incorrect type
 BALOAD: Invalid
 but it did not contain method
