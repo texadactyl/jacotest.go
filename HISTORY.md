@@ -6,6 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-02-28 | 3.0.13 | Renamed test case: JACOBIN-0435-format-neg-int-as-hex --> JACOBIN-0435-format-int-as-hex. |
 | | | Split interface conversion errors in the report. |
+| | | Stop testing type char in numbers-chars-strings. |
 | 2024-02-23 | 3.0.12 | New test case: beetlejuice. |
 | 2024-02-22 | 3.0.11 | Updated the error categories for ARRAYLENGTH anomalies. |
 | 2024-02-21 | 3.0.10 | Fixed test case JACOBIN-0337-static-inits. |
