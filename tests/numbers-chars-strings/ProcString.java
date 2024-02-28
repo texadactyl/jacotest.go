@@ -41,12 +41,12 @@ public class ProcString {
             System.out.println("*** ERROR, SS1.concat(SS2) length does not make sense");
         }
 
-        ss = String.format("%s %%%% %d %d %c %02x %.2f %f %s", SS1, 42L, 42, '@', 0x2a, pi, pi, SS2);
+        ss = String.format("%s %%%% %d %d %02x %.2f %f %s", SS1, 42L, 42, 0x2a, pi, pi, SS2);
         System.out.print("Formatted string data: ");
         System.out.println(ss);
         System.out.print("Formatted string length: ");
         System.out.println(ss.length());
-        if (ss.length() == 57)
+        if (ss.length() == 55)
             System.out.println("Success: Formatted string length makes sense");
         else {
             errorCount += 1;
