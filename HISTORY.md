@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-02-29 | 3.0.14 | Fixed test cases: JACOBIN-0322-default-locale, JACOBIN-0325-super-1, stringer-2. |
 | 2024-02-28 | 3.0.13 | Renamed test case: JACOBIN-0435-format-neg-int-as-hex --> JACOBIN-0435-format-int-as-hex. |
 | | | Split interface conversion errors in the report. |
 | | | Stop testing type char in numbers-chars-strings. |
