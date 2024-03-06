@@ -27,7 +27,9 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	defer cancel()
 
 	// Construct a command with the given parameters
-	cmd := exec.CommandContext(ctx, cmdExec, argOpts, argFile)
+	sliceOpts := strings.Split(argOpts, " ")
+	sliceOpts = append(sliceOpts, argFile)
+	cmd := exec.CommandContext(ctx, cmdExec, sliceOpts[:]...)
 
 	// Form a log file name infix
 	infix := dirName + "." + cmdName
@@ -79,7 +81,7 @@ func compileOneTree(pathTreeTop string) int {
 	if err != nil {
 		FmtFatal("compileOneTree: os.ReadDir failed", pathTreeTop, err)
 	}
-	
+
 	// Compile every .java file at the top level.
 	// If there are subdirectories (package), they will automatically be compiled as well.
 	errorCount := 0
@@ -195,7 +197,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	if global.JvmName == "jacobin" {
 		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea", "main.class")
 	} else {
-		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea", "main")
+		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -server", "main")
 	}
 
 	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
