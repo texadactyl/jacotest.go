@@ -232,7 +232,9 @@ func DBStorePassed(testCaseName string) {
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 		err := sqlFunc(sqlText)
 		if err != nil {
-			FmtFatal("DBStorePassed: 2nd try failed", sqlText, err)
+			errMsg := fmt.Sprintf("DBStorePassed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
+			LogError(errMsg)
+			return
 		}
 		msg := fmt.Sprintf("DBStorePassed: 2nd try is a success: %s", sqlText)
 		Logger(msg)
@@ -264,7 +266,9 @@ func DBStoreFailed(testCaseName, failText string) {
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 		err := sqlFunc(sqlText)
 		if err != nil {
-			FmtFatal("DBStoreFailed: 2nd try failed", sqlText, err)
+			errMsg := fmt.Sprintf("DBStoreFailed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
+			LogError(errMsg)
+			return
 		}
 		msg := fmt.Sprintf("DBStoreFailed: 2nd try is a success: %s", sqlText)
 		Logger(msg)
