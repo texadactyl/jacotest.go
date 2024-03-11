@@ -248,6 +248,15 @@ func DBStoreFailed(testCaseName, failText string) {
 
 	global := GetGlobalRef()
 
+	// Clean failText
+	runes := []rune(failText)
+	for ii := 0; ii < len(runes); ii++ {
+		if runes[ii] == '\'' || runes[ii] == '"' {
+			runes[ii] = '*'
+		}
+	}
+	failText = string(runes)
+
 	// Form string parameters for the SQL text.
 	qFailText := "'" + CleanerText(failText) + "'"
 	jvm := "'" + global.JvmName + "'"
@@ -289,7 +298,7 @@ func DBPrtChanges() {
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText string
 
 	// Most current result record w.r.t. date and time
-	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText string = "", "", "", "", "", ""
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
 
 	// Get all of the history table rows.
 	var msg string

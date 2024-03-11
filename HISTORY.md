@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-03-11 | 3.1.1 | Replace failed case text instances of apostrophe and double-quote with asterisk. |
 | 2024-03-10 | 3.1.0 | If database repeated insert fails, report and carry on. |
 | 2024-03-06 | 3.0.15 | New test case: switcheroo (compact and lookup switches). |
 | | | New test cases: enum-inside and enum-outside. |
