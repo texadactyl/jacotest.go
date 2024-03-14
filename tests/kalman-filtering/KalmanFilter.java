@@ -53,12 +53,8 @@ public class KalmanFilter {
     }
 
     public String toString() {
-        return "{F=" + mF
-                + ", Q=" + mQ
-                + ", H=" + mH
-                + ", R=" + mR
-                + ", P=" + mP
-                + ", x=" + mx
-                + "}";
+        String wstr = String.format("{F=%s, Q=%s, H=%s, R=%s, P=%s, x=%s}", 
+                mF.toString(), mQ.toString(), mH.toString(), mR.toString(), mP.toString(), mx.toString() );
+        return wstr;
     }
 }

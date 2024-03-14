@@ -398,14 +398,15 @@ public class Matrix {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(n * m * 8);
-        sb.append("[");
+        String sb = String.format("%d", n * m * 8);
+        sb = sb.concat("[");
         for (int i = 0; i < mem.length; i++) {
-            if (i > 0) sb.append(i % m == 0 ? "; " : ", ");
-            sb.append(mem[i]);
+            if (i > 0) sb = sb.concat(i % m == 0 ? "; " : ", ");
+            String str = String.format("%f", mem[i]);
+            sb = sb.concat(str);
         }
-        sb.append("]");
-        return sb.toString();
+        sb = sb.concat("]");
+        return sb;
     }
 
 }

@@ -39,7 +39,7 @@ public class main {
     final static int mTransitionPoint = 1000; // Every transition point, do an abrupt phase shift
     final static double mTransitionFactor = 0.75; // Phase shift factor, multiplied by Pi
     final static double mNoiseAmplitude = 1000000.0; // Maximum noise value, initial measurement variance value in KalmanFilter.mR matrix
-    final static int mSteps = 2000000; // Number of loop steps
+    final static int mSteps = 20000; // Number of loop steps
     final static int mSeed = 42; // Random seed if nonzero
     final static double mModelVariance = 0.5; // Initial variance value for the KalmanFilter.mQ matrix
     final static double mInitialStateVariance = 10000.0; // // Initial variance value for the KalmanFilter.mP matrix
