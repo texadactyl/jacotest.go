@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-var sqltracing = false
+var sqlTracing = false
 
 const msecsSleep = 1000
 
@@ -48,7 +48,7 @@ Internal function to run an SQL statement and handle any errors.
 */
 func sqlFunc(text string) error {
 
-	if sqltracing {
+	if sqlTracing {
 		msg := fmt.Sprintf("sqlFunc: %s", text)
 		Logger(msg)
 	}
@@ -75,7 +75,7 @@ Internal function to run an SQL select query and handle any errors. The output i
 */
 func sqlQuery(text string) *sql.Rows {
 
-	if sqltracing {
+	if sqlTracing {
 		msg := fmt.Sprintf("sqlQuery: %s", text)
 		Logger(msg)
 	}
@@ -98,7 +98,7 @@ Internal function to initialise a jacotest database.
 */
 func initDB() {
 
-	if sqltracing {
+	if sqlTracing {
 		Logger("initDB: Begin")
 	}
 
@@ -121,7 +121,7 @@ func initDB() {
 		FmtFatal("initDB: unrecoverable SQL create-index error", sqlText, err)
 	}
 
-	if sqltracing {
+	if sqlTracing {
 		Logger("initDB: End")
 	}
 
@@ -137,8 +137,8 @@ DBOpen - Database Open
 */
 func DBOpen(flagVerbose bool) {
 
-	tracing = flagVerbose
-	if sqltracing {
+	sqlTracing = flagVerbose
+	if sqlTracing {
 		Logger("DBOpen: Begin")
 	}
 
@@ -155,7 +155,7 @@ func DBOpen(flagVerbose bool) {
 	pathDatabase = dirDatabase + "/" + fileDatabase
 	_, err = os.Stat(pathDatabase)
 	if err != nil {
-		if sqltracing {
+		if sqlTracing {
 			Logger("DBOpen: database file inaccessible: " + err.Error())
 		}
 		sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
@@ -164,14 +164,14 @@ func DBOpen(flagVerbose bool) {
 		}
 		initDB()
 
-		if sqltracing {
+		if sqlTracing {
 			Logger("DBOpen: End, database created")
 		}
 		return
 	}
 
 	// Connect to pre-existing database
-	if sqltracing {
+	if sqlTracing {
 		Logger("DBOpen database file exists")
 	}
 	sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
@@ -183,7 +183,7 @@ func DBOpen(flagVerbose bool) {
 
 	// TODO: Validate database
 
-	if sqltracing {
+	if sqlTracing {
 		Logger("DBOpen: End")
 	}
 
@@ -194,7 +194,7 @@ DBClose - Store a PASSED jacotest test case result.Close the database
 */
 func DBClose() {
 
-	if sqltracing {
+	if sqlTracing {
 		Logger("DBClose: Begin")
 	}
 
@@ -203,7 +203,7 @@ func DBClose() {
 		FmtFatal("DBClose: sql.Close failed", pathDatabase, err)
 	}
 
-	if sqltracing {
+	if sqlTracing {
 		Logger("DBClose: End")
 	}
 

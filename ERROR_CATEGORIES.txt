@@ -18,6 +18,7 @@ has no exception table
 INVOKEVIRTUAL: Native method requested
 Invalid (null) value for *object.Object
 Invalid array type specified
+Invalid reference type of an array
 Invalid type of object ref
 Invalid bytecode
 invalid class name

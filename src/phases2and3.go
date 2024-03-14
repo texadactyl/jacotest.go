@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var tracing = false
+var ph23Tracing = false
 
 // Table tblHitByTC
 // key: test case name
@@ -60,7 +60,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			// Extract test case name.
 			fnameTokens := strings.Split(fileName, ".")
 			testCaseName := fnameTokens[1] // collect test case name
-			if tracing {
+			if ph23Tracing {
 				fmt.Printf("DEBUG phase2 logFile=%s, testCaseName=%s\n", fileName, testCaseName)
 			}
 
@@ -68,7 +68,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			// Keeping just the first error message entry for a given test case.
 			_, found := tblHitByTC[testCaseName]
 			if found {
-				if tracing {
+				if ph23Tracing {
 					fmt.Printf("DEBUG phase2 skipping duplicate: testCaseName=%s\n", testCaseName)
 				}
 				continue
@@ -90,12 +90,18 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 					// Found a substring in current line that matches errCatExpected.
 					tblHitByTC[testCaseName] = textLine
 					tblHitByCat = append(tblHitByCat, TblHitByCat{errCatFragment, testCaseName, textLine})
-					if tracing {
-						fmt.Printf("DEBUG phase2 added hit: fragment=%s, testCaseName=%s\n", errCatFragment, testCaseName)
+					if ph23Tracing {
+						fmt.Printf("DEBUG phase2 added hit: fragment=%s, testCaseName=%s, textLine=%s\n",
+							errCatFragment, testCaseName, textLine)
 						fmt.Println(tblHitByTC)
 					}
 					break
-				} // else skip
+				} else { // no hit
+					if ph23Tracing {
+						fmt.Printf("DEBUG phase2 missed: fragment=%s, testCaseName=%s, textLine=%s\n",
+							errCatFragment, testCaseName, textLine)
+					}
+				}
 			}
 
 		} // for _, logFile := range logFileList
