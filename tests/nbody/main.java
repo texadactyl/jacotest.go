@@ -23,7 +23,7 @@ STDOUT:
 
 public final class main {
 
-    static final int ADVANCES = 10000000; // 10 million
+    static final int ADVANCES = 100000; 
 
 	public static void printBracketedObject(String label, Object value) {
 	    System.out.print(label);
