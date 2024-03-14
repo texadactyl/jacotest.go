@@ -16,6 +16,7 @@ go panic because of interface conversion
 go panic because of javaPrimitives
 has no exception table
 INVOKEVIRTUAL: Native method requested
+Invalid (null) value for *object.Object
 Invalid array type specified
 Invalid type of object ref
 Invalid bytecode
