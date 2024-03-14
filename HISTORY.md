@@ -5,6 +5,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-03-14 (Pi Day) | 3.1.2 | Consolidate error category: go panic because of interface conversion. |
+| | | Some minor source fixes. Recompile, please. |
+| | | nbody and kalman-filtering number of steps shortened to avoid timeout. |
 | 2024-03-11 | 3.1.1 | Replace failed case text instances of apostrophe and double-quote with asterisk. |
 | 2024-03-10 | 3.1.0 | If database repeated insert fails, report and carry on. |
 | 2024-03-06 | 3.0.15 | New test case: switcheroo (compact and lookup switches). |
