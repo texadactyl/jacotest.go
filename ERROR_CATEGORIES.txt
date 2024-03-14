@@ -12,9 +12,7 @@ could not find or load class
 Exception in thread
 Failed to load class
 FetchUTF8stringFromCPEntryNumber: cp.CpIndex
-interface conversion: interface {} is []
-interface conversion: interface {} is nil
-interface conversion: interface {} is uint32
+go panic because of interface conversion
 go panic because of javaPrimitives
 has no exception table
 INVOKEVIRTUAL: Native method requested
