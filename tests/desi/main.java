@@ -4,24 +4,32 @@ public class main {
 
 	private static int[] stringToIntArray(String arg) {
 		int outBits[] = new int[64];
+		char cc;
+		String str;
+		int ii;
 		
 		for(int i=0 ; i < 16 ; i++) {
 		
 			// For every character in the 16-nibble input, we get its binary value
-			// by first parsing it into an int and then converting to a binary
-			// string
-			String binstr = Integer.toBinaryString(Integer.parseInt(String.valueOf(arg.charAt(i)), 16));
+			// by first parsing it into an int and then converting to a binary string.
+			
+			cc = arg.charAt(i);
+			str = String.valueOf(cc);
+			ii = Integer.parseInt(str, 16);
+			String binstr = Integer.toBinaryString(ii);
 			
 			// Java does not add padding zeros, i.e. 5 is returned as 111 but
 			// we require 0111. Hence, this while loop adds padding 0's to the
 			// binary value.
 			while(binstr.length() < 4) {
-				binstr = "0" + binstr;
+				binstr = String.format("0%s", binstr);
 			}
 			
 			// Add the 4 bits we have extracted into the array of bits.
 			for(int j=0 ; j < 4 ; j++) {
-				outBits[(4*i)+j] = Integer.parseInt(String.valueOf(binstr.charAt(j)));
+				cc = binstr.charAt(j);
+				str = String.valueOf(cc);
+				outBits[(4*i)+j] = Integer.parseInt(str);
 			}
 		}
 		
