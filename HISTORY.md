@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-03-15 | 3.1.3 | New test case: Integer-all. |
 | 2024-03-14 (Pi Day) | 3.1.2 | Consolidate error category: go panic because of interface conversion. |
 | | | Some minor source fixes. Recompile, please. |
 | | | nbody and kalman-filtering number of steps shortened to avoid timeout. |
