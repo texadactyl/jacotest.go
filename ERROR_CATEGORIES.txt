@@ -6,6 +6,7 @@ ARRAYLENGTH: Invalid ref
 array of incorrect type
 BALOAD: Invalid
 but it did not contain method
+but observed type
 Class method not found
 class.Data
 could not find or load class
