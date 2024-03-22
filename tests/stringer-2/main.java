@@ -7,7 +7,8 @@ public class main {
         int errorCount = 0;
         Helpers hh = new Helpers();
 
-        String ss1 = "Mary had a little lamb,";
+        String mary = "Mary had a little lamb,";
+        String ss1 = mary;
         hh.printLabeledString("ss1, the initial String: ", ss1);
         
 		System.out.println("sss = 21-character substring of ss1");
