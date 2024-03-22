@@ -31,6 +31,15 @@ public class main {
         errorCount += hh.isItTrue("ss2.length() = 23", ss2.length() == 23);
         errorCount += hh.isItTrue("ss2 = ss1", ss2.equals(ss1));
         
+        sss = ss2.repeat(100);
+        errorCount += hh.isItTrue("sss.length() = 2300", sss.length() == 2300);
+        ss1 = "";
+        for (int ix = 0; ix < 100; ix++) {
+        	ss1 = ss1.concat(ss2);
+        }
+        errorCount += hh.isItTrue("ss1.length() = 2300", ss1.length() == 2300);
+        errorCount += hh.isItTrue("ss1 = sss", sss.equals(ss1));
+        
 		assert(errorCount == 0);
     }
 }
