@@ -1,5 +1,6 @@
 # jacotest error categories
 # -------------------------
+TRAP
 AALOAD: Invalid
 ARRAYLENGTH: Invalid (null) value
 ARRAYLENGTH: Invalid ref
