@@ -17,6 +17,7 @@ class main {
                     System.out.println("case 2");
                     break;
                 default:
+                	System.out.printf("default...why? ii=%d\n", ii);
                     throw new AssertionError("switch-default failure");
             }
 
