@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-03-31 | 3.1.8 | ERROR_CATEGORIES.txt updated: "Native method requested". |
+| | | New test case: wide. |
 | 2024-03-27 | 3.1.7 | Updated test case: switcheroo. |
 | 2024-03-26 | 3.1.6 | New test case: taylor-series-2. |
 | 2024-03-19 | 3.1.5 | New test case: jframe-1. |
