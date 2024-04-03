@@ -40,7 +40,7 @@ public class main {
         errorCount += isItTrue("File size = 60", fsize == 60, fsize);
         
         oneByte = fis.read();
-        errorCount += isItTrue("1-byte read = 48", oneByte == 48, oneByte);
+        errorCount += isItTrue("1-byte read = 255", oneByte == 255, oneByte);
         
         oneByte = fis.read();
         errorCount += isItTrue("1-byte read = 49", oneByte == 49, oneByte);
@@ -95,11 +95,14 @@ public class main {
         fis = new FileInputStream(DATA);
         System.out.println("Closed and reopened the FileInputStream(pathString)");
         
+        oneByte = fis.read();
+        errorCount += isItTrue("1-byte read = 255", oneByte == 255, oneByte);
+        
         decabytes = new byte[10];
         nbytes = fis.read(decabytes);
         str = new String(decabytes);
         errorCount += isItTrue("decabytes read at BOF, nbytes=10", nbytes == 10, nbytes);
-        errorCount += isItTrue("decabytes read at BOF, string is 0123456789", str.equals("0123456789"), str);
+        errorCount += isItTrue("decabytes read at BOF, string is 1234567890", str.equals("1234567890"), str);
         
          if (doChannel) {
 		    try {
