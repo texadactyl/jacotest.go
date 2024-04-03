@@ -8,7 +8,7 @@ import java.lang.UnsupportedOperationException;
 
 public class main {
 
-	private static String DATA = "./data.txt";
+	private static String DATA = "./data.bintext";
 	private static boolean doChannel = false; // true is not supported by jacobin
 	private static boolean doFD = false; // true is not supported by jacobin
 	
