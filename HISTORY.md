@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-04-05 | 3.1.10 | New io_* tests. |
 | 2024-04-03 | 3.1.9 | Renamed test case JACOBIN-0296-new-fileinputstream to fileinputstream. |
 | 2024-03-31 | 3.1.8 | ERROR_CATEGORIES.txt updated: "Native method requested". |
 | | | New test case: wide. |
