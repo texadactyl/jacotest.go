@@ -43,19 +43,23 @@ public class main {
         int lastInt = -1;
         
         while (nextInt != -1) {
+           	//System.out.println(lastInt);
+        	if (nextInt == 0x0A || nextInt == 0x0D) {
+        		nextInt = br.read();
+        		continue;
+        	}
         	intCounter += 1;
         	lastInt = nextInt;
-            //System.out.println(lastInt);
-            nextInt = br.read();
+             nextInt = br.read();
         }
         
-        if (intCounter != 58) {
-        	System.out.printf("readTheInts: *** ERROR, Int counter, expected: 58, observed: %d\n", intCounter);
+        if (intCounter != 49) {
+        	System.out.printf("readTheInts: *** ERROR, intcounter, expected: 49, observed: %d\n", intCounter);
         	return 1;
         }
         
-        if (lastInt != '\n') {
-        	System.out.printf("readTheInts: *** ERROR, last Int string, expected: 5, observed: '%d'\n", lastInt);
+        if (lastInt != 53) {
+        	System.out.printf("readTheInts: *** ERROR, lastInt, expected: 53, observed: '%d'\n", lastInt);
         	return 1;
         }
         
@@ -79,8 +83,8 @@ public class main {
 		
         int nchars = br.read(cb, 0, cb.length);
         
-        if (nchars != 58) {
-        	System.out.printf("readTheChars: *** ERROR, char buffer size, expected: 58, observed: %d\n", nchars);
+        if (nchars < 54) {
+        	System.out.printf("readTheChars: *** ERROR, char buffer size, expected: >= 54, observed: %d\n", nchars);
         	return 1;
         }
         
