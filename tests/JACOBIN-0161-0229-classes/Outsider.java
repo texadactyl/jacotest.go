@@ -21,27 +21,10 @@ public class Outsider {
     }
 
     public String gimmeString() {
-        String str = "iota: ";
-        str += String.valueOf(this.iota);
-        str += ", lucretia: ";
-        str += String.valueOf(this.lucretia);
-        str += ", charisma: ";
-        str += String.valueOf(this.charisma);
-        str += ", frankly: ";
-        str += String.valueOf(this.frankly);
-        str += ", dapper: ";
-        str += String.valueOf(this.dapper);
-        str += ", sammy: ";
-        str += this.sammy;
-        str += ", foursome: { ";
-        str += this.foursome[0];
-        str += ", ";
-        str += this.foursome[1];
-        str += ", ";
-        str += this.foursome[2];
-        str += ", ";
-        str += this.foursome[3];
-        str += " }";
+    	//System.out.println("DEBUG gimmeString begin");
+		String str = String.format("iota: %d, lucretia: %d, frankly: %f, dapper: %f, sammy: %s, foursome: %s %s %s %s",
+        							iota, lucretia, frankly, dapper, sammy, foursome[0], foursome[1], foursome[2], foursome[3] );
+    	//System.out.println("DEBUG gimmeString end");
         return str;
     }
 

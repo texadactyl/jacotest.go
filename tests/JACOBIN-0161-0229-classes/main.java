@@ -33,7 +33,7 @@ public class main {
     }
 
     public static int checkStrEqual(String text, String xx, String yy) {
-        if (xx == yy) return 0;
+        if (xx.equals(yy)) return 0;
         System.out.print("*** ERROR, checkStrEqual: compare failed !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -46,7 +46,7 @@ public class main {
     }
 
     public static int checkStrUnequal(String text, String xx, String yy) {
-        if (xx != yy) return 0;
+        if (!xx.equals(yy)) return 0;
         System.out.print("*** ERROR, checkStrUnequal: equal but should not be !! ");
         System.out.print(text);
         System.out.print(" !! ");
@@ -129,7 +129,7 @@ public class main {
         Pig myPig = new Pig();  // Create a Pig object implemented from Animal
         errorCount += checkStrEqual("myPig.getSound() == oink", myPig.getSound(), "oink");
         errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
-
+ 
         printer("\nError count", String.valueOf(errorCount));
         assert (errorCount == 0);
     }
