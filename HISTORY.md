@@ -5,7 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-04-12 | 3.1.12 | New test case: tiffy. |
-| | | Amend io_* test cases to delete created temp file. |
+| | | Amend io_* test cases to delete temp file created during execution. |
 | 2024-04-10 | 3.1.11 | New io_* tests. |
 | 2024-04-05 | 3.1.10 | New io_* tests. |
 | 2024-04-03 | 3.1.9 | Renamed test case JACOBIN-0296-new-fileinputstream to fileinputstream. |
