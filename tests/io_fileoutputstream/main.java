@@ -86,6 +86,10 @@ public class main {
         
         // Read back and compare.
         errorCounter += doRdAllCmp("after writing a subset", bytes_3, length, FilePath);
+        
+        // Delete file.
+        file = new File(FilePath);
+        file.delete();
        
         assert(errorCounter == 0);
     }

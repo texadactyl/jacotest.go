@@ -118,6 +118,10 @@ public class main {
 		} else {
 			System.out.printf("\n========== Whole string output and input is successful.\n");
 		}
+
+        // Delete file.
+        File file = new File(FilePath);
+        file.delete();
        
         assert(errorCounter == 0);
     }
