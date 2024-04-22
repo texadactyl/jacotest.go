@@ -15,6 +15,7 @@ could not find or load class
 Exception in thread
 Failed to load class
 FetchUTF8stringFromCPEntryNumber: cp.CpIndex
+field type must start with
 go panic because of interface conversion
 go panic because of javaPrimitives
 has no exception table
