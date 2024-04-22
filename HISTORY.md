@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-04-22 | 3.1.13 | New test cases: JACOBIN-0476-arraycopy and io_file_create_delete. |
 | 2024-04-12 | 3.1.12 | New test case: tiffy. |
 | | | Amend io_* test cases to delete temp file created during execution. |
 | 2024-04-10 | 3.1.11 | New io_* tests. |
