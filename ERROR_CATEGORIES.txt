@@ -1,5 +1,6 @@
 # jacotest error categories
 # -------------------------
+[ThrowEx] uncaught
 TRAP
 UnsupportedOperationException
 is not yet supported
