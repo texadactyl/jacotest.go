@@ -2,6 +2,7 @@
 # -------------------------
 TRAP
 UnsupportedOperationException
+is not yet supported
 but it did not contain method
 but observed type
 AALOAD: Invalid
