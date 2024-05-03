@@ -134,9 +134,9 @@ public class Twofish_Properties // implicit no-argument constructor
         out.println(arg);
         out.println("#");
         String key, value;
-        Enumeration enump = properties.propertyNames();
+        Enumeration <?> enump = properties.propertyNames();
         while ( enump.hasMoreElements()){
-            key = (String) enump.nextElement();
+            key = enump.nextElement().toString();
             value = getProperty(key);
             out.println(key + " = " + value);
         }
@@ -147,7 +147,7 @@ public class Twofish_Properties // implicit no-argument constructor
 
 //    public synchronized void load(InputStream in) throws IOException {}
 
-    public static Enumeration propertyNames() {
+    public static Enumeration <?> propertyNames() {
         return properties.propertyNames();
     }
 

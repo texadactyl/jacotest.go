@@ -52,8 +52,8 @@ public class main {
 		}
 
         // Construct path objects for Files.copy.
-		Path pathSqliteJar = (Path)Paths.get(nameSqliteJar);
-		Path pathDbclientJar = (Path)Paths.get(nameDbclientJar);
+		Path pathSqliteJar = Paths.get(nameSqliteJar);
+		Path pathDbclientJar = Paths.get(nameDbclientJar);
 
         // Clone the Sqlite jar to the dbclient jar.
 		try {

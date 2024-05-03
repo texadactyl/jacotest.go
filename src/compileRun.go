@@ -110,7 +110,7 @@ func compileOneTree(pathTreeTop string) int {
 		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(pathTreeTop), fileName))
 
 		// Run compilation
-		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), "-Xlint:all", fileName)
+		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), "-Xlint:all -Werror", fileName)
 		errorCount += statusCode
 	}
 

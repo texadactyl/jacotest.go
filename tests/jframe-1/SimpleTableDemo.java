@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 
 public class SimpleTableDemo extends JPanel {
 
+	private static final long serialVersionUID = 42l;
+	
 	public boolean finished = false;
 	public int errCount = 0;
 
