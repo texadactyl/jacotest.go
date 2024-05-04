@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-05-04 | 3.2.2 | New test cases: natives-double and natives-float. |
 | 2024-05-03 | 3.2.1 | Implement compiler option -Werror (treat warnings as errors). |
 | 2024-04-27 | 3.1.14 | Updated test case: charset-encoding. |
 | 2024-04-22 | 3.1.13 | New test cases: JACOBIN-0476-arraycopy and io_file_create_delete. |
