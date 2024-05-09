@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-05-06 | 3.2.5 | New test case: atomic-integer. |
+| | | Amended emission-spectra to avoid INVOKEDYNAMIC. |
 | 2024-05-06 | 3.2.4 | New test case: stringtokenizer. |
 | 2024-05-05 | 3.2.3 | New test case: random-1. |
 | 2024-05-04 | 3.2.2 | New test cases: natives-double and natives-float. |
