@@ -37,7 +37,7 @@ public class Discharge {
 	final int BLUE = 3;
 	
     public void warning(String msg) {
-        System.out.println("WARNING,  " + msg + " !!!\n");
+        System.out.printf("WARNING,  %s !!!\n", msg);
     }
 
     // Object instantiation function
@@ -49,7 +49,8 @@ public class Discharge {
                      double continuum) {
 
         if (elementPath == null)
-            throw new AssertionError("elementPath is null");
+            throw new AssertionError("Discharge: elementPath is null");
+        System.out.printf("Discharge: elementPath is %s\n", elementPath);
 
         // Read element emission line file
         // Build wavelength and strength arrays
@@ -60,24 +61,27 @@ public class Discharge {
 
             while (line != null) {
                 StringTokenizer tokens = new StringTokenizer(line, " ");
-                if (tokens.countTokens() != 2)
-                    throw new AssertionError("File " + elementPath + " line " + (countEmLines + 1) + " mis-formatted");
+                if (tokens.countTokens() != 2) {
+                	String errMsg = String.format("Discharge: File %s line %d mis-formatted", elementPath, countEmLines + 1);
+                    throw new AssertionError(errMsg);
+                }
                 wavelength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 strength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 if (++countEmLines > 199) {
-                    warning("spectral line limit of 200 reached; ignoring subsequent lines");
+                    warning("Discharge: spectral line limit of 200 reached; ignoring subsequent lines");
                     break;
                 }
                 line = reader.readLine();
             }
             reader.close();
         } catch (IOException ex) {
-		    String msg = String.format("*** ERROR, File %s line %d had an IOException", elementPath, countEmLines);
+		    String msg = String.format("*** ERROR, Discharge: File %s line %d had an IOException", elementPath, countEmLines);
 		    throw new AssertionError(msg);
         }
 
         // Spectra width = count of EMR lines
         spectraWidth = countEmLines;
+        System.out.printf("Discharge: spectral width = %d\n", spectraWidth);
 
         // Compute spectra intensity array elements
         double [] intensity = new double[spectraWidth];

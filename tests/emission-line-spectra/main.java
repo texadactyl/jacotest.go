@@ -55,8 +55,8 @@ public class main {
         int [] obsHashes = discharge.getHashes();
 
         // Report heading
-        System.out.println("Input file: " + elementPath);
-        System.out.println("Count of emission lines: " + countEmLines);
+        System.out.printf("Input file: %s\n", elementPath);
+        System.out.printf("Count of emission lines: %d\n", countEmLines);
         if (countEmLines != 6) {
             System.out.println("***ERROR, expected 6 emission lines for Hydrogen");
             ++errorCount;
