@@ -128,6 +128,9 @@ public class main {
         // Read buffered image.
         errorCount += readTIFF(tiffFile, BufferedImage.TYPE_INT_RGB, width, height, image);
         assert errorCount == 0;
+        
+        // Delete file.
+        tiffFile.delete();
 	}
 
 }
