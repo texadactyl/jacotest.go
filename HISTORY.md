@@ -4,6 +4,9 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+
+| 2024-05-14 | 3.2.6 | Added WrongMethodTypeException to error categories.
+| | | Added "lacks a FilePath field" to error categories.
 | 2024-05-06 | 3.2.5 | New test case: atomic-integer. |
 | | | Amended emission-spectra to avoid INVOKEDYNAMIC. |
 | 2024-05-06 | 3.2.4 | New test case: stringtokenizer. |

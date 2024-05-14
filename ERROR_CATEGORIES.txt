@@ -2,6 +2,8 @@
 # -------------------------
 [ThrowEx] uncaught
 TRAP
+WrongMethodTypeException
+lacks a FilePath field
 UnsupportedOperationException
 is not yet supported
 but it did not contain method
