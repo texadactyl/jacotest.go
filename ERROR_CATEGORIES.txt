@@ -3,6 +3,7 @@
 [ThrowEx] uncaught
 [ThrowEx] java.lang.NullPointerException
 TRAP
+InternalException
 WrongMethodTypeException
 lacks a FilePath field
 UnsupportedOperationException
