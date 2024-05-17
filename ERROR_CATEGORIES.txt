@@ -1,9 +1,9 @@
 # jacotest error categories
 # -------------------------
 [ThrowEx] uncaught
+[ThrowEx] java.lang.NullPointerException
 TRAP
 WrongMethodTypeException
-NullPointerException
 lacks a FilePath field
 UnsupportedOperationException
 is not yet supported
