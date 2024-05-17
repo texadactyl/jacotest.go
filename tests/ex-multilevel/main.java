@@ -1,16 +1,18 @@
 public class main {
      public static void main(String[] args) {
      	int ii;
+     	int one = 1;
+     	int zero = 0;
      	try {
-            ii = 1 / 0;
+            ii = one / zero;
         } catch (ArithmeticException ex1) {
         	System.out.println("Caught ArithmeticException level #1");
         	try {
-        		ii = 1 / 0;
+        		ii = one / zero;
         	} catch (ArithmeticException ex2) {
             	System.out.println("Caught ArithmeticException level #2");
 		    	try {
-		    		ii = 1 / 0;
+		    		ii = one / zero;
 		    	} catch (ArithmeticException ex3) {
 		        	System.out.println("Caught ArithmeticException level #3");
 		        }
