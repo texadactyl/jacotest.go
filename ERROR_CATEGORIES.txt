@@ -3,6 +3,7 @@
 [ThrowEx] uncaught
 TRAP
 WrongMethodTypeException
+NullPointerException
 lacks a FilePath field
 UnsupportedOperationException
 is not yet supported
