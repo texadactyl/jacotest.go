@@ -60,6 +60,7 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 // Command line interface
 func main() {
 	tStart := time.Now()
+	os.Setenv("java.awt.headless", "true")
 	var Args []string
 	var wString string
 	flagVerbose := false

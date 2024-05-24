@@ -7,12 +7,6 @@ import javax.swing.JTable;
 public class main {
 
     public static void main(String[] args) {
-    	String display = System.getenv("DISPLAY");
-    	if (display.length() > 0) {
-        	System.setProperty("java.awt.headless", "false");
-        } else {
-        	System.setProperty("java.awt.headless", "true");
-        }
         SimpleTableDemo std = new SimpleTableDemo();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
