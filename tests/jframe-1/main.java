@@ -7,8 +7,7 @@ import javax.swing.JTable;
 public class main {
 
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
+        System.setProperty("java.awt.headless", "false");
         SimpleTableDemo std = new SimpleTableDemo();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
