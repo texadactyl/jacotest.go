@@ -6,6 +6,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 
 | 2024-05-24 | 3.2.9 | main.go: os.Setenv("java.awt.headless", "true") |
+| | | removed test case: jframe-1. |
 | 2024-05-23 | 3.2.8 | New test case: emission-line-spectra-nofuncs. |
 | 2024-05-17 | 3.2.7 | ERROR_CATEGORIES.txt: added NullPointerException. |
 | | | New test case: ex-multilevel. |
