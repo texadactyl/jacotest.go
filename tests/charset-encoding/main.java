@@ -1,5 +1,3 @@
-// hacked from Unka Andoo
-
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;

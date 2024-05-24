@@ -1,56 +1,39 @@
-// hacked from http://spiff.rit.edu/classes/phys314/lectures/bohrprob/spectra/ "discharge.java"
-// See Physics course too:  http://spiff.rit.edu/classes/phys314/phys314.html
-
-/*
- * Discharge.java   Process emission line spectra from an element table
- *                  where each line contains the wavelength and the strength at that wavelength.
- *
- * INPUT :  filename of element emission line wavelengths/strengths table
- *          and various other applet parameters (see below)
- *
- * OUTPUT:  Hashes of color-encoded spectra simulating a gas discharge plasma
- *
- * Original code by John Talbot "Friday June 13,  1997"
- */
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 import java.awt.Color;
 
-public class Discharge {
+public class main {
 
     // Wave length and strength arrays
-    int countEmLines = 0; // Count of emission lines in an element file
-    double [] wavelength = new double[200]; // used length = countEmLines
-    double [] strength = new double[200]; // used length = countEmLines
+    static int countEmLines = 0; // Count of emission lines in an element file
+    static double [] wavelength = new double[200];
+    static double [] strength = new double[200];
 
     // Spectra array
-    int spectraWidth;
-    Color [] spectra = new Color[1280]; // used length = spectraWidth
-    int [] hashes = new int[1280]; // used length = spectraWidth
+    static int spectraWidth;
+    static Color [] spectra = new Color[1280]; // used length = spectraWidth
+    static int [] hashes = new int[1280]; // used length = spectraWidth
 
 	// Interpolate color array to obtain spectra
-	final int RED = 1;
-	final int GREEN = 2;
-	final int BLUE = 3;
+	static final int RED = 1;
+	static final int GREEN = 2;
+	static final int BLUE = 3;
 	
-    public void warning(String msg) {
-        System.out.printf("WARNING,  %s !!!\n", msg);
-    }
+	// Other parameters:
+	static String elementPath = "hydrogen.txt";
+	static double startWavelength = 4000.0;
+	static double endWavelength = 7000.0;
+	static double lineWidth = 1.0;
+	static double contrast = 10.0;
+	static double continuum = 0.3;
 
-    // Object instantiation function
-    public Discharge(String elementPath,
-                     double startWavelength,
-                     double endWavelength,
-                     double lineWidth,
-                     double contrast,
-                     double continuum) {
+    public static void main(String args[]) {
 
         if (elementPath == null)
-            throw new AssertionError("Discharge: elementPath is null");
-        System.out.printf("Discharge: elementPath is %s\n", elementPath);
+            throw new AssertionError("elementPath is null");
+        System.out.printf("elementPath is %s\n", elementPath);
 
         // Read element emission line file
         // Build wavelength and strength arrays
@@ -62,25 +45,26 @@ public class Discharge {
             while (line != null) {
                 StringTokenizer tokens = new StringTokenizer(line, " ");
                 if (tokens.countTokens() != 2) {
-                	String errMsg = String.format("Discharge: File %s line %d mis-formatted", elementPath, countEmLines + 1);
+                	String errMsg = String.format("File %s line %d mis-formatted", elementPath, countEmLines + 1);
                     throw new AssertionError(errMsg);
                 }
                 wavelength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 strength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 if (++countEmLines > 199) {
-                    warning("Discharge: spectral line limit of 200 reached; ignoring subsequent lines");
+                    System.out.printf("*** Discharge WARNING: spectral line limit of 200 reached; ignoring subsequent lines");
                     break;
                 }
                 line = reader.readLine();
             }
             reader.close();
         } catch (IOException ex) {
-		    String msg = String.format("*** ERROR, Discharge: File %s line %d had an IOException", elementPath, countEmLines);
+		    String msg = String.format("*** ERROR, File %s line %d had an IOException", elementPath, countEmLines);
 		    throw new AssertionError(msg);
         }
 
         // Spectra width = count of EMR lines
-        System.out.printf("Discharge: spectral width = %d\n", spectraWidth);
+        spectraWidth = countEmLines;
+        System.out.printf("spectral width = %d\n", spectraWidth);
 
         // Compute spectra intensity array elements
         double [] intensity = new double[spectraWidth];
@@ -105,7 +89,7 @@ public class Discharge {
             maxIntensity = 1.0;
         }
         double scale = (1 - continuum) * contrast / maxIntensity;
-        System.out.printf("Discharge: scale = %f\n", scale);
+        System.out.printf("scale = %f\n", scale);
 
 
         // chosen points in the color array spectra
@@ -135,28 +119,12 @@ public class Discharge {
 
             double plot = continuum + scale * intensity[ii];
             if (plot > 1) plot = 1;
-            System.out.printf("Discharge: ii = %d, kk = %d, fraction = %f, wavRed = %f, wavGreen = %f, wavBlue = %f, plot = %f\n",
+            System.out.printf("ii = %d, kk = %d, fraction = %f, wavRed = %f, wavGreen = %f, wavBlue = %f, plot = %f\n",
                     ii, kk, fraction, wavRed, wavGreen, wavBlue, plot);
             spectra[ii] = new Color( (int) (plot * wavRed), (int) (plot * wavGreen), (int) (plot * wavBlue));
             hashes[ii] = spectra[ii].hashCode();
         }
 
-    }
-
-    public int [] getHashes() {
-        return hashes;
-    }
-
-    public double [] getWavelength() {
-        return wavelength;
-    }
-
-    public double [] getStrength() {
-        return strength;
-    }
-
-    public int getEmLineCount() {
-        return countEmLines;
     }
 
 }
