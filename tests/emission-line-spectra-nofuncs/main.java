@@ -48,6 +48,7 @@ public class main {
                 	String errMsg = String.format("File %s line %d mis-formatted", elementPath, countEmLines + 1);
                     throw new AssertionError(errMsg);
                 }
+                System.out.printf("File %s line %d: %s\n", elementPath, countEmLines + 1, line);
                 wavelength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 strength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 if (++countEmLines > 199) {
