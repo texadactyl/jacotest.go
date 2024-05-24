@@ -80,6 +80,7 @@ public class Discharge {
         }
 
         // Spectra width = count of EMR lines
+        spectraWidth = countEmLines;
         System.out.printf("Discharge: spectral width = %d\n", spectraWidth);
 
         // Compute spectra intensity array elements
@@ -105,8 +106,6 @@ public class Discharge {
             maxIntensity = 1.0;
         }
         double scale = (1 - continuum) * contrast / maxIntensity;
-        System.out.printf("Discharge: scale = %f\n", scale);
-
 
         // chosen points in the color array spectra
         double [][] colors = {{0.0 / 255, 0, 0, 8},
@@ -124,19 +123,17 @@ public class Discharge {
                 dw = 0;
             else if (dw > 1)
                 dw = 1;
-            int kk = 0;
-            while (dw > colors[++kk][0]) {
+            int k = 0;
+            while (dw > colors[++k][0]) {
             }
 
-            fraction = (dw - colors[kk - 1][0]) / (colors[kk][0] - colors[kk - 1][0]);
-            double wavRed = fraction * (colors[kk][RED] - colors[kk - 1][RED]) + colors[kk - 1][RED];
-            double wavGreen = fraction * (colors[kk][GREEN] - colors[kk - 1][GREEN]) + colors[kk - 1][GREEN];
-            double wavBlue = fraction * (colors[kk][BLUE] - colors[kk - 1][BLUE]) + colors[kk - 1][BLUE];
+            fraction = (dw - colors[k - 1][0]) / (colors[k][0] - colors[k - 1][0]);
+            double wavRed = fraction * (colors[k][RED] - colors[k - 1][RED]) + colors[k - 1][RED];
+            double wavGreen = fraction * (colors[k][GREEN] - colors[k - 1][GREEN]) + colors[k - 1][GREEN];
+            double wavBlue = fraction * (colors[k][BLUE] - colors[k - 1][BLUE]) + colors[k - 1][BLUE];
 
             double plot = continuum + scale * intensity[ii];
             if (plot > 1) plot = 1;
-            System.out.printf("Discharge: ii = %d, kk = %d, fraction = %f, wavRed = %f, wavGreen = %f, wavBlue = %f, plot = %f\n",
-                    ii, kk, fraction, wavRed, wavGreen, wavBlue, plot);
             spectra[ii] = new Color( (int) (plot * wavRed), (int) (plot * wavGreen), (int) (plot * wavBlue));
             hashes[ii] = spectra[ii].hashCode();
         }
@@ -160,4 +157,3 @@ public class Discharge {
     }
 
 }
-
