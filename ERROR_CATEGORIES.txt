@@ -1,20 +1,26 @@
 # jacotest error categories
 # -------------------------
+#
+# Highest priority
+# ----------------
 [ThrowEx] uncaught
 [ThrowEx] java.lang.NullPointerException
-TRAP
+java.lang.AssertionError
 InternalException
+InvalidTypeException
+TRAP
 WrongMethodTypeException
-lacks a FilePath field
 UnsupportedOperationException
-is not yet supported
-but it did not contain method
-but observed type
+#
+# Secondary priority (alphabetical order)
+# ---------------------------------------
 AALOAD: Invalid
 ARRAYLENGTH: Invalid (null) value
 ARRAYLENGTH: Invalid ref
 array of incorrect type
 BALOAD: Invalid
+but it did not contain method
+but observed type
 Class method not found
 class.Data
 could not find or load class
@@ -22,17 +28,17 @@ Exception in thread
 Failed to load class
 FetchUTF8stringFromCPEntryNumber: cp.CpIndex
 field type must start with
-go panic because of interface conversion
-go panic because of javaPrimitives
 has no exception table
-Native method requested
 Invalid (null) value for *object.Object
 Invalid array type specified
 Invalid reference type of an array
 Invalid type of object ref
 Invalid bytecode
 invalid class name
+is not yet supported
+lacks a FilePath field
 MethAreaFetch
+Native method requested
 No support yet for user-specified character sets
 NumberFormatException
 PUTFIELD: invalid attempt
@@ -44,3 +50,8 @@ stack overflow
 stack underflow
 trying for a superclass field
 WaitClassStatus
+#
+# Last priority
+# -------------
+go panic because of: interface conversion
+

@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-05-27 | 3.2.10 | ERROR_CATEGORIES.txt edits and re-organisation |
 | 2024-05-24 | 3.2.9 | main.go: os.Setenv("java.awt.headless", "true") |
 | | | removed test case: jframe-1. |
 | 2024-05-23 | 3.2.8 | New test case: emission-line-spectra-nofuncs. |
