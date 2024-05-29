@@ -8,6 +8,7 @@
 java.lang.AssertionError
 InternalException
 InvalidTypeException
+NativeMethodException
 TRAP
 WrongMethodTypeException
 UnsupportedOperationException
@@ -40,6 +41,7 @@ lacks a FilePath field
 MethAreaFetch
 Native method requested
 No support yet for user-specified character sets
+not found in MTable
 NumberFormatException
 PUTFIELD: invalid attempt
 PUTSTATIC: field 

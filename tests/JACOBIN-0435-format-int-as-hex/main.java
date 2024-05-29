@@ -1,18 +1,20 @@
+import java.lang.Integer;
+import java.lang.Long;
+
 public class main {
 
-    public static String cvtIntToHex(int arg) {
-        byte[] bytes = new byte[] {
-                (byte)((arg & 0xff000000) >> 24),
-                (byte)((arg & 0x00ff0000) >> 16),
-                (byte)((arg & 0x0000ff00) >> 8),
-                (byte) (arg & 0x000000ff),
-        };
-        String str = String.format("%02x%02x%02x%02x", bytes[0], bytes[1], bytes[2], bytes[3]);
+    public static String cvtLongToHex(long arg) {
+        String str = Long.toHexString(arg);
+        int strlen = str.length();
+    	int padCount = 16 - strlen;
+    	for (int ii = 0; ii < padCount; ii++) {
+    		str = String.format("0%s", str);
+    	}
         return str;
     }
     
-    public static int reporter(int arg, String expValue) {
-        String obsValue = cvtIntToHex(arg);
+    public static int reporter(long arg, String expValue) {
+        String obsValue = cvtLongToHex(arg);
         System.out.printf("%d:\t\tExpected value: ", arg);
         System.out.print(expValue);
         System.out.print(", observed value: ");
@@ -28,15 +30,18 @@ public class main {
     
     public static void main(String[] args) {
         int errCount = 0;
-        errCount += reporter(+65535,    "0000ffff");
-        errCount += reporter(+32767,    "00007fff");
-        errCount += reporter(+64,       "00000040");
-        errCount += reporter(0,         "00000000");
-        errCount += reporter(-1,        "ffffffff");
-        errCount += reporter(-2,        "fffffffe");
-        errCount += reporter(-64,       "ffffffc0");
-        errCount += reporter(-32767,    "ffff8001");
-        errCount += reporter(-65535,    "ffff0001");
+        errCount += reporter(+0x1234567812345678L,	"1234567812345678");
+        errCount += reporter(+0x8234567812345678L,	"8234567812345678");
+        errCount += reporter(+65535L,    	"000000000000ffff");
+        errCount += reporter(+32767L,    	"0000000000007fff");
+        errCount += reporter(+64L,       	"0000000000000040");
+        errCount += reporter(0L,         	"0000000000000000");
+        errCount += reporter(-1L,        	"ffffffffffffffff");
+        errCount += reporter(-2L,        	"fffffffffffffffe");
+        errCount += reporter(-64L,       	"ffffffffffffffc0");
+        errCount += reporter(-32767L,    	"ffffffffffff8001");
+        errCount += reporter(-65535L,    	"ffffffffffff0001");
+        
         assert (errCount == 0);
     }
 }  
