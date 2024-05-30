@@ -36,17 +36,22 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 		FmtFatal("phase2: os.ReadDir failed:", globals.DirLogs, err)
 	}
 
-	// For each failure category entry, process all of the log files.
+	// For each failure category entry, process all the "FAILED" log files.
 	for _, errCatFragment := range tblErrCatDefs {
 
-		// For each .log file in the list that does not represent a test case
-		// to be skipped, scan it for the search argument
+		// For each .log file in the list that represents a failed test case,
+		// scan it for the search argument
 		for _, logFile := range logFileList {
 
 			fileName := logFile.Name()
 
 			// Skip subdirectories
 			if logFile.IsDir() {
+				continue
+			}
+
+			// Skip file names that are not prefixed by "FAILED".
+			if !strings.HasPrefix(fileName, "FAILED") {
 				continue
 			}
 
@@ -112,12 +117,12 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 // Phase 3 - Report from tblHitByCat
 // which is already sequentially grouped by error category.
-func phase3(tblErrCatDefs []string, tblCheckList map[string]int, outHandle *os.File) int {
+func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	lastCat := ""
 	hitCounter := 0
 	catCounter := 0
 
-	// For each failure category entry, process all of the tblHitByCat entries.
+	// For each failure category entry, process all the tblHitByCat entries.
 	for _, tblEntry := range tblHitByCat {
 
 		// tblEntry holds the current hit by error category. Does it match the last error category?
@@ -183,7 +188,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 		FmtFatal("Phases2And3: ReadFile(error categories) failed", globals.ErrCatFilePath, err)
 	}
 	giantString := string(fileBytes)
-	tempTable = strings.Split(string(giantString), "\n")
+	tempTable = strings.Split(giantString, "\n")
 
 	// Throw out the comment lines which begin with '#'.
 	for _, fragment := range tempTable {
@@ -198,7 +203,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 	phase2(tblErrCatDefs, globals.LogFileExt)
 
 	// Run Phase 3.
-	counter := phase3(tblErrCatDefs, tblCheckList, outHandle)
+	counter := phase3(tblCheckList, outHandle)
 
 	// Return with a count of all the error hits.
 	return counter

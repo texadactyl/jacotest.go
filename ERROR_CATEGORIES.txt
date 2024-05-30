@@ -5,20 +5,41 @@
 # ----------------
 [ThrowEx] uncaught
 [ThrowEx] java.lang.NullPointerException
-java.lang.AssertionError
+ArithmeticException
+ArrayIndexOutOfBoundsException
+ArrayStoreException
+AssertionError
+ClassCastException
+ClassFormatError
+ClassNotFoundException
+ClassNotLoadedException
+FileNotFoundException
+IllegalArgumentException
+IndexOutOfBoundsException
 InternalException
+InvalidStackFrameException
 InvalidTypeException
+IOException
 NativeMethodException
-TRAP
-WrongMethodTypeException
+NegativeArraySizeException
+NoSuchDynamicMethodException
+NoSuchFieldException
+NoSuchMethodException
+NullPointerException
+RuntimeException
+StringIndexOutOfBoundsException
+UnmodifiableClassException
+UnsupportedEncodingException
 UnsupportedOperationException
+UTFDataFormatException
+VirtualMachineError
+WrongMethodTypeException
 #
 # Secondary priority (alphabetical order)
 # ---------------------------------------
 AALOAD: Invalid
 ARRAYLENGTH: Invalid (null) value
 ARRAYLENGTH: Invalid ref
-array of incorrect type
 BALOAD: Invalid
 but it did not contain method
 but observed type
