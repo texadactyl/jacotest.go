@@ -3,6 +3,7 @@
 #
 # Highest priority
 # ----------------
+Invalid bytecode
 [ThrowEx] uncaught
 [ThrowEx] java.lang.NullPointerException
 ArithmeticException
@@ -55,7 +56,6 @@ Invalid (null) value for *object.Object
 Invalid array type specified
 Invalid reference type of an array
 Invalid type of object ref
-Invalid bytecode
 invalid class name
 is not yet supported
 lacks a FilePath field
