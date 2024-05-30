@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-05-30 | 3.2.12 | Fix issue #20: No need to scan passed test logs for error fragments. |
+| | | Fix issue #21: Promote "Invalid bytecode" in ERROR_CATEGORIES.txt. |
 | | | ERROR_CATEGORIES.txt edits and additions. |
 | 2024-05-29 | 3.2.11 | ERROR_CATEGORIES.txt additions. |
 | 2024-05-27 | 3.2.10 | ERROR_CATEGORIES.txt edits and re-organisation. |
