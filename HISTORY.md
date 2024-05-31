@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2024-05-31 | 3.2.13 | New test case: switcheroo-2. |
+| 2024-05-31 | 3.2.13 | New test cases: bohr-atom, switcheroo-2. |
 | 2024-05-30 | 3.2.12 | Fix issue #20: No need to scan passed test logs for error fragments. |
 | | | Fix issue #21: Promote "Invalid bytecode" in ERROR_CATEGORIES.txt. |
 | | | Other ERROR_CATEGORIES.txt edits and additions. |
