@@ -97,7 +97,7 @@ public class main {
             System.out.println("Directory of the zip is as follows:");
  
             fs = new FileInputStream(IN_ZIP_FILE);
-            Zs = new ZipInputStream(new BufferedInputStream(fs));
+            Zs = new ZipInputStream(fs);
  
             // Loop to read and print the zip file name till
             // the end
