@@ -10,7 +10,6 @@
  ***/
 
 import java.math.BigInteger;
-import java.util.HexFormat;
 
 public class main {
 
@@ -50,19 +49,18 @@ public class main {
     public static void hexDump(String label, byte[] byteArray) {
         int lineLength = 16; // Number of bytes to display in one line
         int bytesRead = 0;
-        HexFormat hex = HexFormat.of();
         String hs;
 
 		System.out.println(label);
         for (int ii = 0; ii < byteArray.length; ii++) {
         
             if (bytesRead == 0) {
-                hs = hex.toHexDigits(ii);
+                hs = String.format("%08x", ii);
 		        System.out.print(hs);
 		        System.out.print(": ");
             }
 
-            hs = hex.toHexDigits(byteArray[ii]);
+            hs = String.format("%02x", byteArray[ii]);
             System.out.print(hs);
             System.out.print(" ");
 
@@ -84,7 +82,7 @@ public class main {
         BigInteger [] pq = generateRandomPrimes(keySize / 2);
         BigInteger p = pq[0];
         BigInteger q = pq[1];
-        System.out.println("Primes (p, q): (" + p + ", " + q + ")");
+        System.out.printf("Primes (p, q): (%s, %s)\n", p.toString(), q.toString());
 
         // Calculate n = modulus and phi
         BigInteger n = p.multiply(q);
@@ -97,8 +95,8 @@ public class main {
         BigInteger d = e.modInverse(phi);
 
         // Show key components
-        System.out.println("Public Key (e, n): (" + e + ", " + n + ")");
-        System.out.println("Private Key (d, n): (" + d + ", " + n + ")");
+        System.out.printf("Public Key (e, n): (%s, %s)\n", e.toString(), n.toString());
+        System.out.printf("Private Key (d, n): (%s, %s)\n", d.toString(), n.toString());
 
         // Return key pair to caller
         return new RSAKeyPair(n, e, d);
