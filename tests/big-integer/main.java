@@ -199,6 +199,17 @@ public class main {
         errorCount += checker("23 xor 100", 115L, jj);
         jj = w1.longValue();
         errorCount += checker("w1 again", 23L, jj);
+        
+        if (w1.isProbablePrime(1))
+            jj = 1L;
+        else
+            jj = 0L;
+        errorCount += checker("w1=23.isProbablePrime(1)", 1L, jj);
+        if (w2.isProbablePrime(1))
+            jj = 1L;
+        else
+            jj = 0L;
+        errorCount += checker("w2=100.isProbablePrime(1)", 0L, jj);
 
         assert(errorCount == 0);
         System.out.println("No errors encountered");
