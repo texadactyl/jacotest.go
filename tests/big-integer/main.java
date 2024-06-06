@@ -14,10 +14,10 @@ public class main {
     
     private static int checker(String label, long expected, long observed) {
         if (expected == observed) {
-            System.out.printf("%s: Success, expected(%d) = observed(%d)\n", label, expected, observed);
+            System.out.printf("Success, %s: expected(%d) = observed(%d)\n", label, expected, observed);
             return 0;
         }
-        System.out.printf("%s: *** ERROR, expected(%d) != observed(%d)\n", label, expected, observed);
+        System.out.printf("*** ERROR, %s: expected(%d) != observed(%d)\n", label, expected, observed);
         return 1;
 
     }
@@ -51,6 +51,14 @@ public class main {
         errorCount += checker("barr2 intValue", -3L, (long) ii);       
         jj = bint2.longValue();
         errorCount += checker("barr2 longValue", -3L, jj);
+        
+        ii = bint2.intValueExact();
+        errorCount += checker("barr2 intValueExact", -3L, (long) ii);       
+        jj = bint2.longValueExact();
+        errorCount += checker("barr2 longValueExact", -3L, jj);
+
+        short ss = bint2.shortValueExact();
+        errorCount += checker("barr2 shortValueExact", -3L, (long)ss);
         
         String str1 = "65";
         String str2 = "-3";
@@ -88,8 +96,18 @@ public class main {
         jj = w1.longValue();
         errorCount += checker("w1 again", 65L, jj);
 
+        jj = (long) w1.bitCount();
+        errorCount += checker("w1.bitCount", 2L, jj);
+        jj = w1.longValue();
+        errorCount += checker("w1 again", 65L, jj);
+
         jj = (long) w1.bitLength();
         errorCount += checker("w1.bitLength", 7L, jj);
+        jj = w1.longValue();
+        errorCount += checker("w1 again", 65L, jj);
+
+        jj = (long) w1.byteValueExact();
+        errorCount += checker("w1.byteValueExact", 65L, jj);
         jj = w1.longValue();
         errorCount += checker("w1 again", 65L, jj);
 
