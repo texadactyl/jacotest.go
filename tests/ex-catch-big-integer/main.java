@@ -5,7 +5,7 @@ public class main {
         BigInteger a = new BigInteger("123");
         BigInteger b = new BigInteger("0");
         try {
-            BigInteger sum = a.divide(b);
+            BigInteger quotient = a.divide(b);
             System.out.println("*** ERROR, Did not throw ArithmeticException");
             throw new AssertionError("*** ERROR, Did not throw ArithmeticException");
         } catch (ArithmeticException ex) {
