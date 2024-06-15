@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-06-15 | 3.2.17 | New test case: ex-catch-called-func-parseint |
 | 2024-06-08 | 3.2.16 | New test case: ex-catch-big-integer. |
 | 2024-06-06 | 3.2.15 | New test case: big-integer-2. |
 | 2024-06-03 | 3.2.14 | New test case: big-integer. |
