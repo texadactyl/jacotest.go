@@ -105,9 +105,11 @@ public class main {
             throw new AssertionError("*** ERROR, Expected a numeric parameter!");
         }
         boolean isPrime = isProbablyPrime(n, k);
-        System.out.println(n + " is " + (isPrime ? "probably prime" : "definitely composite"));
+        String str = isPrime ? "probably prime" : "definitely composite";
+        System.out.printf("%s is %s\n", nstr, str);
         if (!isPrime) {
             throw new AssertionError("*** ERROR, Expected a probable prime result!");
         }
+        assert(str.equals("probably prime"));
     }
 }
