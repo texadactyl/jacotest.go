@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-06-18 | 3.2.18 | New test cases: big-integer-3 |
+| | | Got rid of INVOKEDYNAMIC in test case miller-rabin-test. |
 | 2024-06-15 | 3.2.17 | New test case: ex-catch-called-func-parseint |
 | 2024-06-08 | 3.2.16 | New test case: ex-catch-big-integer. |
 | 2024-06-06 | 3.2.15 | New test case: big-integer-2. |
