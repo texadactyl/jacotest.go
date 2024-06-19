@@ -22,7 +22,7 @@ public class Helpers {
         return 1;
     }
     
-	public static void expObs(String label, String expected, String observed) {
+	public void expObs(String label, String expected, String observed) {
 		System.out.print("*** ERROR, ");
 		System.out.print(label);
 		System.out.print(", expected ");
@@ -39,6 +39,18 @@ public class Helpers {
             String msg = String.format("Number of errors = %d", errorCount);
             throw new AssertionError(msg);
         }
+    }
+
+    public static String hexStringFromBytes(byte[] bytes) {
+        if (bytes.length == 0)
+            return "";
+        String hexString = "";
+        String wstr;
+        for (byte bb : bytes) {
+            wstr = String.format("%02x", bb);
+            hexString = hexString.concat(wstr);
+        }
+        return hexString;
     }
 
 }

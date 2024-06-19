@@ -5,12 +5,11 @@ import java.util.Random;
 
 public class main {
 
-    static final long CHAIN_LENGTH = 10000; // Number of chain elements
-    static final int MAX_ELEM_SIZE = 32767; // Maximum size of a single element
-    static final boolean VERBOSE = false;
+    static final int CHAIN_LENGTH = 10;     // Number of chain elements
+    static final int MAX_ELEM_SIZE = 32;    // Maximum size of a single element
+    static final boolean VERBOSE = true;    // Verbose output?
 
-    static ArrayList<Block> blockchain
-            = new ArrayList<Block>();
+    static Block[] blockchain = new Block[CHAIN_LENGTH];
 
 	public static void rptErrorBlock(String label, int index, String obsHash, String expHash) {
 		System.out.print("*** ERROR, in ");
@@ -30,22 +29,15 @@ public class main {
 
         // Iterating through
         // all the blocks
-        for (int ii = 1;
-             ii < blockchain.size();
-             ii++) {
+        for (int ii = 1; ii < blockchain.length; ii++) {
 
             // Storing the current block
             // and the previous block
-            currentBlock = blockchain.get(ii);
-            previousBlock = blockchain.get(ii - 1);
+            currentBlock = blockchain[ii];
+            previousBlock = blockchain[ii - 1];
 
-            // Checking if the current hash
-            // is equal to the
-            // calculated hash or not
-            if (!currentBlock.getCurHash()
-                    .equals(
-                            currentBlock
-                                    .calculateHash())) {
+            // Checking if the current hash is equal to the calculated hash or not
+            if (!currentBlock.getCurHash().equals(currentBlock.calculateHash())) {
                 rptErrorBlock("CURRENT block", ii, currentBlock.getCurHash(), currentBlock.calculateHash());
                 return false;
             }
@@ -53,11 +45,7 @@ public class main {
             // Checking of the previous hash
             // is equal to the calculated
             // previous hash or not
-            if (!previousBlock
-                    .getCurHash()
-                    .equals(
-                            currentBlock
-                                    .getPrevHash())) {
+            if (!previousBlock.getCurHash().equals(currentBlock.getPrevHash())) {
                 rptErrorBlock("PREVIOUS block", ii - 1, currentBlock.getCurHash(), currentBlock.calculateHash());
                 return false;
             }
@@ -83,35 +71,32 @@ public class main {
         Random RR = new Random();
 
         // Generate the block chain
-        System.out.println("Generate .....");
+        System.out.println("Generate the block chain .....");
         long elemSize;
         byte[] elemBytes;
         long totalPayloadSize = 0L;
         long totalChainSize = 0L;
         Block block;
         for (int ii = 0; ii < CHAIN_LENGTH; ++ii) {
-            elemSize = RR.nextLong(MAX_ELEM_SIZE);
+            elemSize = RR.nextInt(MAX_ELEM_SIZE);
             totalPayloadSize += elemSize;
             elemBytes = new byte[MAX_ELEM_SIZE];
             RR.nextBytes(elemBytes);
             if (VERBOSE) {
-                System.out.print(ii);
-                System.out.print(" ");
+                System.out.print(ii+1);
+                System.out.print(") ");
             }
             if (ii == 0)
                 block = new Block(elemBytes, "0", VERBOSE);
             else
-                block = new Block(elemBytes,
-                        blockchain
-                                .get(blockchain.size() - 1)
-                                .getCurHash(),
-                        VERBOSE);
-            blockchain.add(block);
+                block = new Block(elemBytes, blockchain[ii - 1].getCurHash(), VERBOSE);
+            //blockchain.add(block);
+            blockchain[ii] = block;
             totalChainSize += block.getSize();
         }
 
         // How did we do?
-        System.out.println("Validate .....");
+        System.out.println("Validate the block chain .....");
         assert (isChainValid());
         System.out.println("Valid blockchain at the end");
         printLabeledString("Total chain size in bytes: ", String.valueOf(totalChainSize));
