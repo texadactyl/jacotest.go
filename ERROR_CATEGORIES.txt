@@ -16,6 +16,7 @@ ClassNotFoundException
 ClassNotLoadedException
 FileNotFoundException
 IllegalArgumentException
+IncompatibleClassChangeError
 IndexOutOfBoundsException
 InternalException
 InvalidStackFrameException
