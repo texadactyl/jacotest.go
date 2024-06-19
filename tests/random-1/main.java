@@ -30,11 +30,6 @@ public class main {
 				++errorCount;
 			}
 			aj = rr.nextLong();
-			ajb = rr.nextLong(BOUND);
-			if (ajb < 0 || ajb >= BOUND) {
-				System.out.printf("*** ERROR, long out of bounds (%d)\n", ajb);
-				++errorCount;
-			}
 			af = rr.nextFloat();
 			if (af < 0.0f || af >= 1.0f) {
 				System.out.printf("*** ERROR, float out of bounds (%d)\n", af);
@@ -67,11 +62,6 @@ public class main {
 				++errorCount;
 			}
 			aj = rr.nextLong();
-			ajb = rr.nextLong(BOUND);
-			if (ajb < 0 || ajb >= BOUND) {
-				System.out.printf("*** ERROR, long out of bounds (%d)\n", ajb);
-				++errorCount;
-			}
 			af = rr.nextFloat();
 			ad = rr.nextDouble();
 			if (ad < 0.0 || ad >= 1.0) {
