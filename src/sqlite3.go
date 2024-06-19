@@ -291,16 +291,16 @@ Note that history rows are ordered by test case name, date descending, and time 
 */
 func DBPrtChanges() {
 
-	// Query going from most recent first to least recent last for each combination of test case and JVM.
+	// Query descending test case, date, and time.
 	sqlText := "SELECT test_case, jvm, date_utc desc, time_utc, result, COALESCE(fail_text, 'n/a') FROM history ORDER BY test_case, date_utc DESC, time_utc DESC"
 
-	// Previous result record w.r.t. date and time
-	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText string
+	// Previous result record w.r.t. case, date, and time
+	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
 
 	// Most current result record w.r.t. date and time
 	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
 
-	// Get all of the history table rows.
+	// Get all the history table rows.
 	var msg string
 	counter := 0
 	rows := sqlQuery(sqlText)
@@ -308,13 +308,14 @@ func DBPrtChanges() {
 
 	// High level scan.
 	for rows.Next() {
-		// Get next history row back in time.
+		// Get next history row by test case and going back in time.
 		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
 		if err != nil {
 			FmtFatal("DBPrtChanges: rows.Scan failed", pathDatabase, err)
 		}
 
-		// Same test case as last test case?
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
 		if curTestCase != prvTestCase {
 			// No, this is a new one.
 			// Make it current and continue.
@@ -327,7 +328,7 @@ func DBPrtChanges() {
 			continue
 		}
 
-		// Same test case as last one.
+		// Same test case as the last one.
 		// Same result?
 		if prvResult != curResult || prvFailText != curFailText {
 			// Not the same result. Show the changes.
@@ -346,7 +347,99 @@ func DBPrtChanges() {
 
 			// Same as last test case?
 			if curTestCase == prvTestCase {
-				continue // Same: Skip this history record.
+				continue // Same: Skip this history record for same test case.
+			} else {
+				// Reached a new test case.
+				// Make it current and continue.
+				curTestCase = prvTestCase
+				curJvm = prvJvm
+				curDateUTC = prvDateUTC
+				curTimeUTC = prvTimeUTC
+				curResult = prvResult
+				curFailText = prvFailText
+				break // Escape from skipping. Resume high-level scan.
+			}
+		}
+	}
+
+	// Done. How many changed results?
+	if counter == 0 {
+		msg = "No test cases with changed results"
+	} else {
+		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
+	}
+	Logger(msg)
+}
+
+/*
+DBPrtLastPass - Print result records where the test case currently fails but passed sometime in the past.
+Note that history rows are ordered by test case name, date descending, and time descending.
+*/
+func DBPrtLastPass() {
+
+	// Query descending test case, date, and time.
+	sqlText := "SELECT test_case, jvm, date_utc desc, time_utc, result, COALESCE(fail_text, 'n/a') FROM history ORDER BY test_case, date_utc DESC, time_utc DESC"
+
+	// Previous result record w.r.t. case, date, and time
+	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
+
+	// Get all the history table rows.
+	var msg string
+	counter := 0
+	rows := sqlQuery(sqlText)
+	Logger("Looking for test cases that currently fail but passed sometime previously .....")
+
+	// High level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+		if err != nil {
+			FmtFatal("DBPrtChanges: rows.Scan failed", pathDatabase, err)
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// No, this is a new one.
+			// Make it current and continue.
+			curTestCase = prvTestCase
+			curJvm = prvJvm
+			curDateUTC = prvDateUTC
+			curTimeUTC = prvTimeUTC
+			curResult = prvResult
+			curFailText = prvFailText
+			continue
+		}
+
+		// Same test case as the last one.
+		// First record for the test case indicate failure?
+		if curResult == "failed" {
+			if prvResult == "passed" {
+				// Show the changes.
+				counter += 1
+				fmt.Printf("\tfailed  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
+				fmt.Printf("\tpassed  >>  %-s  %-8s  %-10s  %-8s  %-6s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult)
+				// Will skip to the next test case.
+			} else { // prevResult is a fail
+				continue // So, keep scanning within the current test case.
+			}
+		}
+
+		// Skip to a new test case.
+		for rows.Next() {
+			// Get next history row back in time.
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+			if err != nil {
+				FmtFatal("DBPrtChanges: rows.Scan/skipping failed", pathDatabase, err)
+			}
+
+			// Same as last test case?
+			if curTestCase == prvTestCase {
+				continue // Same: Skip this history record for same test case.
 			} else {
 				// Reached a new test case.
 				// Make it current and continue.

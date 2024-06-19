@@ -17,12 +17,13 @@ const MyName = "Jacotest"
 func showHelp() {
 	_ = InitGlobals("dummy", "dummy", 0, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-2]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-r {1,2}]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-c : Compile the test cases.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -2.\n")
-	fmt.Printf("\t-2 : Print the last 2 test case results if there was a change.\n")
+	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
+	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Specifying -j implies parameters -x and -2.\n")
@@ -66,6 +67,7 @@ func main() {
 	flagVerbose := false
 	flagExecute := false
 	flagLastTwo := false
+	flagFailedPassed := false
 	flagCompile := false
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
@@ -104,8 +106,22 @@ func main() {
 			flagExecute = true
 			flagLastTwo = true
 
-		case "-2":
-			flagLastTwo = true
+		case "-r":
+			ii++
+			if ii >= len(Args) {
+				LogError("Missing -r argument")
+				showHelp()
+			}
+			arg := Args[ii]
+			switch arg {
+			case "1":
+				flagLastTwo = true
+			case "2":
+				flagFailedPassed = true
+			default:
+				LogError(fmt.Sprintf("Unrecognizable -r argument: %s", Args[ii]))
+				showHelp()
+			}
 
 		case "-c":
 			flagCompile = true
@@ -345,9 +361,14 @@ func main() {
 
 	} // if flagExecute || flagCompile
 
-	// Print result records?
+	// Print the last 2 report?
 	if flagLastTwo {
 		DBPrtChanges()
+	}
+
+	// Print the failed-passed report?
+	if flagFailedPassed {
+		DBPrtLastPass()
 	}
 
 	// Close database
