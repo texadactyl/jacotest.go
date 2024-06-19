@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-06-19 | 3.2.19 | Get blockchain past distractions. |
 | 2024-06-18 | 3.2.18 | New test cases: big-integer-3, paillier-cryptosystem. |
 | | | Got rid of INVOKEDYNAMIC in test case miller-rabin-test. |
 | 2024-06-15 | 3.2.17 | New test case: ex-catch-called-func-parseint |
