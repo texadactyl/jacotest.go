@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-06-22 | 3.3.1 | Added test case ex-catch-multiframe. |
 | 2024-06-20 | 3.3.0 | Added a report to show failure test cases that previously passed. |
 | | | Updated random-1 by removing calls to an undocumented function. |
 | 2024-06-19 | 3.2.19 | Get blockchain past distractions. |

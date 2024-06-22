@@ -52,6 +52,7 @@ Exception in thread
 Failed to load class
 FetchUTF8stringFromCPEntryNumber: cp.CpIndex
 field type must start with
+GETFIELD: Invalid type
 has no exception table
 Invalid (null) value for *object.Object
 Invalid array type specified
