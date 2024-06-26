@@ -6,7 +6,8 @@ public final class main {
 		int divisor = 0;
 		int counter = 0;
 		int quotient;
-		for (int ii = 0; ii < NLOOPS; ii++) {
+		int ii;
+		for (ii = 0; ii < NLOOPS; ii++) {
 			try {
 				quotient = dividend / divisor;
 			} catch (Exception ex) {

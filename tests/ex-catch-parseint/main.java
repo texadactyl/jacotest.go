@@ -8,7 +8,7 @@ public final class main {
 
 	public static void main(String[] args) {
 		double t1 = seconds();
-		int NLOOPS = 100000;
+		int NLOOPS = 100;
 		int dividend = 6;
 		int divisor = 0;
 		int counterCatch = 0;
