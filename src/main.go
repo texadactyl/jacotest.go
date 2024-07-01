@@ -192,12 +192,14 @@ func main() {
 	}
 
 	// For each logs entry, remove it
-	for index := range names {
-		name := names[index]
-		fullPath := filepath.Join(global.DirLogs, name)
-		err := os.Remove(fullPath)
-		if err != nil {
-			Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
+	if flagCompile || flagExecute {
+		for index := range names {
+			name := names[index]
+			fullPath := filepath.Join(global.DirLogs, name)
+			err := os.Remove(fullPath)
+			if err != nil {
+				Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
+			}
 		}
 	}
 

@@ -29,6 +29,7 @@ NoSuchFieldException
 NoSuchMethodException
 NullPointerException
 RuntimeException
+StackOverflowError
 StringIndexOutOfBoundsException
 UnmodifiableClassException
 UnsupportedEncodingException
