@@ -13,7 +13,6 @@ AssertionError
 ClassCastException
 ClassFormatError
 ClassNotFoundException
-ClassNotLoadedException
 FileNotFoundException
 IllegalArgumentException
 IncompatibleClassChangeError

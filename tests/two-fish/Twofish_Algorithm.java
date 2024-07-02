@@ -12,7 +12,6 @@
  */
 //package Twofish;
 
-import java.io.PrintWriter;
 import java.security.InvalidKeyException;
 
 //...........................................................................
@@ -53,20 +52,19 @@ public final class Twofish_Algorithm // implicit no-argument constructor
 
     static final boolean DEBUG = Twofish_Properties.GLOBAL_DEBUG;
     static final int debuglevel = DEBUG ? Twofish_Properties.getLevel(NAME) : 0;
-    static final PrintWriter err = DEBUG ? Twofish_Properties.getOutput() : null;
 
     static final boolean TRACE = Twofish_Properties.isTraceable(NAME);
 
     static void debug(String s) {
-        err.println(">>> " + NAME + ": " + s);
+        System.out.println(">>> " + NAME + ": " + s);
     }
 
     static void trace(boolean in, String s) {
-        if (TRACE) err.println((in ? "==> " : "<== ") + NAME + "." + s);
+        if (TRACE) System.out.println((in ? "==> " : "<== ") + NAME + "." + s);
     }
 
     static void trace(String s) {
-        if (TRACE) err.println("<=> " + NAME + "." + s);
+        if (TRACE) System.out.println("<=> " + NAME + "." + s);
     }
 
 
@@ -280,7 +278,7 @@ public final class Twofish_Algorithm // implicit no-argument constructor
 // Static code - to intialise the MDS matrix
 //...........................................................................
 
-    static {
+    Twofish_Algorithm() {
         long time = System.currentTimeMillis();
 
         //if (DEBUG && debuglevel > 6) {
@@ -904,12 +902,13 @@ public final class Twofish_Algorithm // implicit no-argument constructor
             buf[i] = HEX_DIGITS[n & 0x0F];
             n >>>= 4;
         }
-        return new String(buf);
+        String ss = new String(buf);
+        return ss;
     }
 
     /**
      * Returns a string of hexadecimal digits from a byte array. Each
-     * byte is converted to 2 hex symbols.
+     * byte is converted to 2 hex digitss.
      */
     public static String toString(byte[] ba) {
         return toString(ba, 0, ba.length);
@@ -922,7 +921,8 @@ public final class Twofish_Algorithm // implicit no-argument constructor
             buf[j++] = HEX_DIGITS[(k >>> 4) & 0x0F];
             buf[j++] = HEX_DIGITS[k & 0x0F];
         }
-        return new String(buf);
+        String ss = new String(buf);
+        return ss;
     }
 
 }

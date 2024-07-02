@@ -12,15 +12,6 @@
  */
 //package Twofish;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.PrintStream;
-import java.util.Enumeration;
-import java.util.Properties;
-
 /**
  * This class acts as a central repository for an algorithm specific
  * properties. It reads an (algorithm).properties file containing algorithm-
@@ -51,108 +42,57 @@ public class Twofish_Properties // implicit no-argument constructor
     static final String FULL_NAME = ALGORITHM + " ver. " + VERSION;
     static final String NAME = "Twofish_Properties";
 
-    static final Properties properties = new Properties();
-
     /**
      * Default properties in case .properties file was not found.
      */
-    private static final String[][] DEFAULT_PROPERTIES = {
+    private static final String[][] params = {
             {"Trace.Twofish_Algorithm", "true"},
             {"Debug.Level.*", "1"},
             {"Debug.Level.Twofish_Algorithm", "9"},
     };
 
-    static {
-        String arg = ">>> " + NAME + ": Looking for " + ALGORITHM + " properties";
-      	System.out.println(arg);
-        String it = ALGORITHM + ".properties";
-        InputStream is = Twofish_Properties.class.getResourceAsStream(it);
-        boolean ok = is != null;
-        if (ok) {
-            try {
-				arg = ">>> " + NAME + ": trying properties.load for " + ALGORITHM + " properties";
-			  	System.out.println(arg);
-                properties.load(is);
-                is.close();
-                if (GLOBAL_DEBUG) {
-                	arg = ">>> " + NAME + ": Properties file loaded OK...";
-                	System.err.println(arg);
-                }
-            } catch (Exception dummy) {
-            	arg = ">>> " + NAME + ": No luck with the properties.load function";
-            	System.out.println(arg);
-                ok = false;
-            }
-        } 
-        if (! ok) {
-            if (GLOBAL_DEBUG) {
-                arg = ">>> " + NAME + ": WARNING: Unable to load \"" + it + "\" from CLASSPATH.";
-                System.err.println(arg);
-            }
-            if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ": Will use default values instead...");
-            int n = DEFAULT_PROPERTIES.length;
-            for (int i = 0; i < n; i++)
-                properties.put(
-                        DEFAULT_PROPERTIES[i][0], DEFAULT_PROPERTIES[i][1]);
-            if (GLOBAL_DEBUG) System.err.println(">>> " + NAME + ": Default properties now set...");
-        }
-    }
-
-
-// Properties methods (excluding load and save, which are deliberately not
-// supported).
-//...........................................................................
-
     /**
      * Get the value of a property for this algorithm.
      */
     public static String getProperty(String key) {
-        return properties.getProperty(key);
+        for (int ii = 0; ii < params.length; ii++) {
+            if ( key.equals(params[ii][0]) )
+                return params[ii][1];
+        }
+        return null;
     }
 
     /**
      * Get the value of a property for this algorithm, or return
-     * <i>value</i> if the property was not set.
+     * <i>value</i> if the property does not exist.
      */
     public static String getProperty(String key, String value) {
-        return properties.getProperty(key, value);
-    }
-
-    /**
-     * List algorithm properties to the PrintStream <i>out</i>.
-     */
-    public static void list(PrintStream out) {
-        list(new PrintWriter(out, true));
-    }
-
-    /**
-     * List algorithm properties to the PrintWriter <i>out</i>.
-     */
-    public static void list(PrintWriter out) {
-        out.println("#");
-        String arg = "# ----- Begin " + ALGORITHM + " properties -----";
-        out.println(arg);
-        out.println("#");
-        String key, value;
-        Enumeration <?> enump = properties.propertyNames();
-        while ( enump.hasMoreElements()){
-            key = enump.nextElement().toString();
-            value = getProperty(key);
-            out.println(key + " = " + value);
+        for (int ii = 0; ii < params.length; ii++) {
+            if ( key.equals(params[ii][0]) )
+                return params[ii][1];
         }
-        out.println("#");
+        String errValue = String.format("<i>%s</i>)", value);
+        return errValue;
+    }
+
+    /**
+     * List algorithm properties to standard output.
+     */
+    public static void list() {
+        System.out.println("#");
+        String arg = "# ----- Begin " + ALGORITHM + " properties -----";
+        System.out.println(arg);
+        System.out.println("#");
+        String key, value;
+        for (int ii = 0; ii < params.length; ii++) {
+            key = params[ii][0];
+            value = params[ii][1];
+            System.out.println(key + " = " + value);
+        }
+        System.out.println("#");
         arg = "# ----- End " + ALGORITHM + " properties -----";
-        out.println(arg);
+        System.out.println(arg);
     }
-
-//    public synchronized void load(InputStream in) throws IOException {}
-
-    public static Enumeration <?> propertyNames() {
-        return properties.propertyNames();
-    }
-
-//    public void save (OutputStream os, String comment) {}
-
 
 // Developer support: Tracing and debugging enquiry methods (package-private)
 //...........................................................................
@@ -205,23 +145,4 @@ public class Twofish_Properties // implicit no-argument constructor
         }
     }
 
-    /**
-     * Return the PrintWriter to which tracing and debugging output is to
-     * be sent.<p>
-     * <p>
-     * User indicates this by setting the property with key <code>Output</code>
-     * to the literal <code>out</code> or <code>err</code>.<p>
-     * <p>
-     * By default or if the set value is not allowed, <code>System.err</code>
-     * will be used.
-     */
-    static PrintWriter getOutput() {
-        PrintWriter pw;
-        String name = getProperty("Output");
-        if (name != null && name.equals("out"))
-            pw = new PrintWriter(System.out, true);
-        else
-            pw = new PrintWriter(System.err, true);
-        return pw;
-    }
 }

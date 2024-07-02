@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-07-02 | 3.3.4 | Update test case two-fish to avoid not yet supported classes. |
 | 2024-07-01 | 3.3.3 | Fix issue #22 (protect log files from unnecessary deletion). |
 | 2024-06-23 | 3.3.2 | Updated test cases ex-catch-idiv, ex-catch-parseint, and ex-multilevel. |
 | 2024-06-22 | 3.3.1 | Added test case ex-catch-multiframe. |
