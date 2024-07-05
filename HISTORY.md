@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2024-07-05 | 3.3.5 | Removed utilities directory as they are no longer in use. |
+| | | Ditto for directories py and misc.java. |
 | 2024-07-02 | 3.3.4 | Update test case two-fish to avoid not yet supported classes. |
 | 2024-07-01 | 3.3.3 | Fix issue #22 (protect log files from unnecessary deletion). |
 | 2024-06-23 | 3.3.2 | Updated test cases ex-catch-idiv, ex-catch-parseint, and ex-multilevel. |
