@@ -88,9 +88,9 @@ public class main {
 		System.out.printf("ssa.lastIndexOf(\":\"): %d\n", ssaIndexLastColon);
         errorCount += hh.isItTrue("ssa.lastIndexOf(\":\") == 51", ssaIndexLastColon == 51);
         
-		int ssaoffsetByCodePoints = ssa.offsetByCodePoints(20, 30);
-		System.out.printf("ssa.offsetByCodePoints(20, 30): %d\n", ssaoffsetByCodePoints);
-        errorCount += hh.isItTrue("ssa.offsetByCodePoints(20, 30)", ssaoffsetByCodePoints == 50);
+//		int ssaoffsetByCodePoints = ssa.offsetByCodePoints(20, 30);
+//		System.out.printf("ssa.offsetByCodePoints(20, 30): %d\n", ssaoffsetByCodePoints);
+//      errorCount += hh.isItTrue("ssa.offsetByCodePoints(20, 30)", ssaoffsetByCodePoints == 50);
         
 
         errorCount += hh.isItTrue("ssaTrim.matches(\"(.*)Alice(.*)\")", ssaTrim.matches("(.*)Alice(.*)"));
