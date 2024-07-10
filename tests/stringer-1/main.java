@@ -4,14 +4,14 @@ public class main {
 
     public static void main(String[] args) throws Exception {
     
-    	System.out.println("String manipulation and member functions - Part 1");
+        System.out.println("String manipulation and member functions - Part 1");
     
         int errorCount = 0;
         Helpers hh = new Helpers();
 
         System.out.println("Helpers initialised");
 
-        String ssa = "\7  123:Alice456Bob7890Charley's Angels:Greece:Italy:France--!  ";
+        String ssa = "   123:Alice456Bob7890Charley's Angels:Greece:Italy:France--!  ";
         String workString;
         System.out.println("before ssa.toLowerCase()");
         String ssaLC = ssa.toLowerCase();
@@ -23,18 +23,18 @@ public class main {
         System.out.printf("ssaUC = ssa in upper case: \"%s\"\n", ssaUC);
         System.out.printf("ssaTrim = ssa trimmed: \"%s\"\n", ssaTrim);
 
-		String abc = "abc";
-		String def = "def";
+        String abc = "abc";
+        String def = "def";
 
         System.out.printf("ssa: \"%s\"\n", ssa);
         errorCount += hh.isItTrue("ssa.length() = 63", ssa.length() == 63);
-		errorCount += hh.isItTrue("ssa.charAt(5) == '3'", ssa.charAt(5) == '3');
-		errorCount += hh.isItTrue("\"abc\".compareTo(\"ABC\") > 0", "abc".compareTo("ABC") > 0);
-		errorCount += hh.isItTrue("\"ABC\".compareTo(\"abc\") < 0", "ABC".compareTo("abc") < 0);
-		errorCount += hh.isItTrue("ssa.compareToIgnoreCase(ssaLC) == 0", ssa.compareToIgnoreCase(ssaLC) == 0);
-		errorCount += hh.isItTrue("ssa.compareToIgnoreCase(ssaUC) == 0", ssa.compareToIgnoreCase(ssaUC) == 0);
+        errorCount += hh.isItTrue("ssa.charAt(5) == '3'", ssa.charAt(5) == '3');
+        errorCount += hh.isItTrue("\"abc\".compareTo(\"ABC\") > 0", "abc".compareTo("ABC") > 0);
+        errorCount += hh.isItTrue("\"ABC\".compareTo(\"abc\") < 0", "ABC".compareTo("abc") < 0);
+        errorCount += hh.isItTrue("ssa.compareToIgnoreCase(ssaLC) == 0", ssa.compareToIgnoreCase(ssaLC) == 0);
+        errorCount += hh.isItTrue("ssa.compareToIgnoreCase(ssaUC) == 0", ssa.compareToIgnoreCase(ssaUC) == 0);
 
-		workString = abc.concat(def);
+        workString = abc.concat(def);
         errorCount += hh.isItTrue("abc.concat(def) == \"abcdef\"", workString.equals("abcdef"));
         errorCount += hh.isItTrue("ssaUC.contains(\"ALICE\")", ssaUC.contains("ALICE"));
 
@@ -51,15 +51,15 @@ public class main {
         workString = ssa.toLowerCase();
         errorCount += hh.isItTrue("ssa.equalsIgnoreCase(workString)", ssa.equalsIgnoreCase(workString));
         
-		String derriere = "de la Folle Chanson";  
-		String sf1 = String.format("Avenue %s", derriere);
-		System.out.printf("sf1: \"%s\"\n", sf1);
-		String streetName = "Avenue de la Folle Chanson";
-		String sf2 = String.format("%f", 123.4567);  
-		String sf3 = String.format("%020.12f", 123.4567);
-		System.out.printf("streetName: \"%s\"\n", streetName);
-		System.out.printf("sf2: \"%s\"\n", sf2);
-		System.out.printf("sf3: \"%s\"\n", sf3);
+        String derriere = "de la Folle Chanson";  
+        String sf1 = String.format("Avenue %s", derriere);
+        System.out.printf("sf1: \"%s\"\n", sf1);
+        String streetName = "Avenue de la Folle Chanson";
+        String sf2 = String.format("%f", 123.4567);  
+        String sf3 = String.format("%020.12f", 123.4567);
+        System.out.printf("streetName: \"%s\"\n", streetName);
+        System.out.printf("sf2: \"%s\"\n", sf2);
+        System.out.printf("sf3: \"%s\"\n", sf3);
         errorCount += hh.isItTrue("format sf1.equals(streetName)", sf1.equals(streetName));
         errorCount += hh.isItTrue("format sf2.equals(\"123.456700\")", sf2.equals("123.456700"));
         errorCount += hh.isItTrue("format sf3.equals(\"0000123.456700000000\")", sf3.equals("0000123.456700000000"));
@@ -68,35 +68,34 @@ public class main {
         workString = new String(ssaba);
         errorCount += hh.isItTrue("ssa.equals(workString) after ssa.getBytes", ssa.equals(workString));
 
-		ssaCArray = new char[ssa.length()];        
+        ssaCArray = new char[ssa.length()];        
         ssa.getChars(0, ssa.length(), ssaCArray, 0);
         workString = new String(ssaCArray);
         errorCount += hh.isItTrue("ssa.equals(workString) after ssa.getChars", ssa.equals(workString));
         
         int ssahc = ssa.hashCode();
         System.out.printf("ssa hashCode(): %d\n", ssahc);
-        errorCount += hh.isItTrue("ssahc == -1441552041", ssahc == -1441552041);
+        errorCount += hh.isItTrue("ssahc == 1930924976", ssahc == 1930924976);
 
-		int ssaIndexAlice = ssa.indexOf("Alice");
-		System.out.printf("ssa.indexOf(\"Alice\"): %d\n", ssaIndexAlice);
+        int ssaIndexAlice = ssa.indexOf("Alice");
+        System.out.printf("ssa.indexOf(\"Alice\"): %d\n", ssaIndexAlice);
         errorCount += hh.isItTrue("ssa.indexOf(\"Alice\") == 7", ssa.indexOf("Alice") == 7);
 
         errorCount += hh.isItTrue("! ssa.isEmpty()", ! ssa.isEmpty());
         errorCount += hh.isItTrue("\"\".isEmpty()", "".isEmpty());
-		        
-		int ssaIndexLastColon = ssa.lastIndexOf(":");
-		System.out.printf("ssa.lastIndexOf(\":\"): %d\n", ssaIndexLastColon);
+                
+        int ssaIndexLastColon = ssa.lastIndexOf(":");
+        System.out.printf("ssa.lastIndexOf(\":\"): %d\n", ssaIndexLastColon);
         errorCount += hh.isItTrue("ssa.lastIndexOf(\":\") == 51", ssaIndexLastColon == 51);
         
-//		int ssaoffsetByCodePoints = ssa.offsetByCodePoints(20, 30);
-//		System.out.printf("ssa.offsetByCodePoints(20, 30): %d\n", ssaoffsetByCodePoints);
+//      int ssaoffsetByCodePoints = ssa.offsetByCodePoints(20, 30);
+//      System.out.printf("ssa.offsetByCodePoints(20, 30): %d\n", ssaoffsetByCodePoints);
 //      errorCount += hh.isItTrue("ssa.offsetByCodePoints(20, 30)", ssaoffsetByCodePoints == 50);
-        
 
         errorCount += hh.isItTrue("ssaTrim.matches(\"(.*)Alice(.*)\")", ssaTrim.matches("(.*)Alice(.*)"));
         errorCount += hh.isItTrue("! ssaTrim.matches(\"(.*)Alicia(.*)\")", ! ssaTrim.matches("(.*)Alicia(.*)"));
 
-		System.out.printf("ssaTrim.substring(4, 9): %s\n", ssaTrim.substring(4, 9));
+        System.out.printf("ssaTrim.substring(4, 9): %s\n", ssaTrim.substring(4, 9));
         errorCount += hh.isItTrue("ssaTrim.regionMatches(4, \"Alice\", 0, 5)", ssaTrim.regionMatches(4, "Alice", 0, 5));
 
         errorCount += hh.isItTrue("ssaTrim.length() = 58", ssaTrim.length() == 58);
@@ -121,7 +120,7 @@ public class main {
         }
         errorCount += hh.isItTrue("disjoint.length = 6", disjoint.length == 6);
 
-		hh.byebye(errorCount);
+        hh.byebye(errorCount);
     }
 }
 
