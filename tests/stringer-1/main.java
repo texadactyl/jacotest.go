@@ -102,11 +102,11 @@ public class main {
         errorCount += hh.isItTrue("ssaTrim.substring(4, 9) = Alice", ssaTrim.substring(4, 9).equals("Alice"));
 
         errorCount += hh.isItTrue("ssaTrim.startsWith(\"123\")", ssaTrim.startsWith("123"));
-        
-        ssaTrim = ssaTrim.replace(':', ' ');
-        errorCount += hh.isItTrue("ssaTrim.length() after replace(':', ' ') = 58", ssaTrim.length() == 58);
         errorCount += hh.isItTrue("ssaTrim.endsWith(--!)", ssaTrim.endsWith("--!"));
         errorCount += hh.isItTrue("! ssaTrim.endsWith(--?)", !ssaTrim.endsWith("--?"));
+       
+        ssaTrim = ssaTrim.replace(':', ' ');
+        errorCount += hh.isItTrue("ssaTrim.length() after replace(':', ' ') = 58", ssaTrim.length() == 58);
         String ss3 = ssaTrim.repeat(2);
         System.out.printf("ss3 length: %s\n", String.valueOf(ss3.length()));
         errorCount += hh.isItTrue("ss3.length() = 116", ss3.length() == 116);
