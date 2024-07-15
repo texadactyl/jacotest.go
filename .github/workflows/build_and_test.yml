@@ -51,10 +51,13 @@ jobs:
       run: |
         java --version
         javac --version
-        ./src/jacotest -c -x -j openjdk -t 60 
+        ./src/jacotest -c -x -t 60 -j openjdk 
         ls -l ./reports
-        ./src/jacotest -r 1
-        ./src/jacotest -r 2
-        ./src/jacotest -z
-        ./src/jacotest -M
+
+    - name: Run options
+      run: |
+        ./src/jacotest -r 1 -j openjdk
+        ./src/jacotest -r 2 -j openjdk
+        ./src/jacotest -z -v -j openjdk
+        ./src/jacotest -M -j openjdk
         
