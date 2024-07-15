@@ -149,7 +149,6 @@ func main() {
 				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
 				showHelp()
 			}
-			flagExecute = true
 
 		case "-t": // Deadline in seconds requested
 			ii += 1
