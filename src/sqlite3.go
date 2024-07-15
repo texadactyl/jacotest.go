@@ -41,7 +41,7 @@ const driverDatabase = "sqlite"
 
 // Assigned and used at run-time
 var pathDatabase string
-var sqliteDatabase *sql.DB
+var dbHandle *sql.DB
 
 /*
 Internal function to run an SQL statement and handle any errors.
@@ -53,9 +53,9 @@ func sqlFunc(text string) error {
 		Logger(msg)
 	}
 
-	statement, err := sqliteDatabase.Prepare(text) // Prepare SQL Statement
+	statement, err := dbHandle.Prepare(text) // Prepare SQL Statement
 	if err != nil {
-		FmtFatal("sqlFunc: sqliteDatabase.Prepare failed", text, err)
+		FmtFatal("sqlFunc: dbHandle.Prepare failed", text, err)
 	}
 
 	_, err = statement.Exec() // Execute SQL Statements
@@ -80,9 +80,9 @@ func sqlQuery(text string) *sql.Rows {
 		Logger(msg)
 	}
 
-	rows, err := sqliteDatabase.Query(text)
+	rows, err := dbHandle.Query(text)
 	if err != nil {
-		FmtFatal("sqlQuery: sqliteDatabase.Query failed", text, err)
+		FmtFatal("sqlQuery: dbHandle.Query failed", text, err)
 	}
 
 	return rows
@@ -158,7 +158,7 @@ func DBOpen(flagVerbose bool) {
 		if sqlTracing {
 			Logger("DBOpen: database file inaccessible: " + err.Error())
 		}
-		sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
+		dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 		if err != nil {
 			FmtFatal("DBOpen: sql.Open(create) failed", pathDatabase, err)
 		}
@@ -174,12 +174,12 @@ func DBOpen(flagVerbose bool) {
 	if sqlTracing {
 		Logger("DBOpen database file exists")
 	}
-	sqliteDatabase, err = sql.Open(driverDatabase, pathDatabase)
+	dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 	if err != nil {
 		FmtFatal("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
 	}
 
-	// sqliteDatabase stays open until process exit
+	// dbHandle stays open until process exit
 
 	// TODO: Validate database
 
@@ -190,7 +190,7 @@ func DBOpen(flagVerbose bool) {
 }
 
 /*
-DBClose - Store a PASSED jacotest test case result.Close the database
+DBClose - Close the database.
 */
 func DBClose() {
 
@@ -198,7 +198,7 @@ func DBClose() {
 		Logger("DBClose: Begin")
 	}
 
-	err := sqliteDatabase.Close()
+	err := dbHandle.Close()
 	if err != nil {
 		FmtFatal("DBClose: sql.Close failed", pathDatabase, err)
 	}
@@ -461,4 +461,64 @@ func DBPrtLastPass() {
 		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
 	}
 	Logger(msg)
+}
+
+/*
+DBDeleteMostRecent - Delete the most recent logged pass/fail record for each test case.
+*/
+func DBDeleteMostRecent() {
+
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc FROM " + tableHistory + " NOLOCK ORDER BY test_case, date_utc DESC, time_utc DESC"
+
+	// Set up for DELETE operaations.
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE test_case = '%s' AND jvm='%s' AND date_utc = '%s' AND time_utc = '%s'"
+	var deleteList []string
+
+	// Most current result record w.r.t. date and time
+	var prvTestCase = ""
+	var curTestCase, curJvm, curDateUTC, curTimeUTC string
+
+	// Get all the history table rows.
+	rows := sqlQuery(sqlSelect)
+
+	// High level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
+		if err != nil {
+			FmtFatal("DBDeleteMostRecent: rows.Scan failed", pathDatabase, err)
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// No, this is a new one.
+			// TODO: Delete DB record.
+			sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
+			deleteList = append(deleteList, sqlDelete)
+			// Make it the previous and continue.
+			prvTestCase = curTestCase
+		}
+
+	}
+
+	// Close and re-open database.
+	DBClose()
+	DBOpen(sqlTracing)
+
+	// For each delete statement, execute it.
+	counter := 0
+	for _, sqlStmt := range deleteList {
+		err := sqlFunc(sqlStmt)
+		if err != nil {
+			FmtFatal("DBDeleteMostRecent: DELETE failed", pathDatabase, err)
+		}
+		counter += 1
+	}
+
+	msg := fmt.Sprintf("Removed %d test case result records", counter)
+	Logger(msg)
+
 }

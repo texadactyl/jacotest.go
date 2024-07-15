@@ -20,14 +20,15 @@ func showHelp() {
 	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-r {1,2}]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-c : Compile the test cases.\n")
-	fmt.Printf("\t-x : Execute all test cases.\n")
-	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
 	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
 	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
+	fmt.Printf("\t-x : Execute all test cases.\n")
+	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
+	fmt.Printf("\t-z : Remove the most recent test case result.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n\n")
 	ShowExecInfo()
 	os.Exit(0)
@@ -66,7 +67,8 @@ func main() {
 	var wString string
 	flagVerbose := false
 	flagExecute := false
-	flagLastTwo := false
+	flagTwoMostRecent := false
+	flagDeleteMostRecent := false
 	flagFailedPassed := false
 	flagCompile := false
 	flagMdReport := false
@@ -104,7 +106,7 @@ func main() {
 
 		case "-x":
 			flagExecute = true
-			flagLastTwo = true
+			flagTwoMostRecent = true
 
 		case "-r":
 			ii++
@@ -115,7 +117,7 @@ func main() {
 			arg := Args[ii]
 			switch arg {
 			case "1":
-				flagLastTwo = true
+				flagTwoMostRecent = true
 			case "2":
 				flagFailedPassed = true
 			default:
@@ -129,7 +131,7 @@ func main() {
 		case "-M":
 			flagMdReport = true
 			flagExecute = true
-			flagLastTwo = true
+			flagTwoMostRecent = true
 
 		case "-v":
 			flagVerbose = true
@@ -156,6 +158,9 @@ func main() {
 				LogError(fmt.Sprintf("Parameter -t requires an integer value, saw: %s", Args[ii]))
 				showHelp()
 			}
+
+		case "-z": // Delete the most recent test result for each test case.
+			flagDeleteMostRecent = true
 
 		default:
 			LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
@@ -364,8 +369,13 @@ func main() {
 	} // if flagExecute || flagCompile
 
 	// Print the last 2 report?
-	if flagLastTwo {
+	if flagTwoMostRecent {
 		DBPrtChanges()
+	}
+
+	// Delete the most recent test result for each test case?
+	if flagDeleteMostRecent {
+		DBDeleteMostRecent()
 	}
 
 	// Print the failed-passed report?
