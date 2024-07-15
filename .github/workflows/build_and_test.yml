@@ -53,3 +53,8 @@ jobs:
         javac --version
         ./src/jacotest -c -x -j openjdk -t 60 
         ls -l ./reports
+        ./src/jacotest -r 1
+        ./src/jacotest -r 2
+        ./src/jacotest -z
+        ./src/jacotest -M
+        
