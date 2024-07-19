@@ -17,7 +17,6 @@ FileNotFoundException
 IllegalArgumentException
 IncompatibleClassChangeError
 IndexOutOfBoundsException
-InternalException
 InvalidStackFrameException
 not found in MTable
 InvalidTypeException
@@ -79,5 +78,6 @@ WaitClassStatus
 #
 # Last priority
 # -------------
-go panic because of: interface conversion
+InternalException
+go panic
 

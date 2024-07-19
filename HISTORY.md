@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-07-19 | 3.4.1 | Updated ERROR_CATEGORIES.txt. |
 | 2024-07-15 | 3.4.0 | New feature: delete the most recent pass/fail record for each case using option -z. |
 | | | Fix issue #23. |
 | 2024-07-10 | 3.3.6 | Fixed stringer-1 whitespace issue. |
