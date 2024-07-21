@@ -1,24 +1,35 @@
 # jacotest error categories
 # -------------------------
 #
-# Highest priority
-# ----------------
-Invalid bytecode
-[ThrowEx] uncaught
-[ThrowEx] java.lang.NullPointerException
+# Highest priority for fragment searching
+# ---------------------------------------
+not found in MTable
+AccessDeniedException
+AnnotationTypeMismatchException
 ArithmeticException
 ArrayIndexOutOfBoundsException
 ArrayStoreException
 AssertionError
+AtomicMoveNotSupportedException
+BootstrapMethodError
+BufferOverflowException
 ClassCastException
+ClassCircularityError
 ClassFormatError
 ClassNotFoundException
+ClassNotLoadedException
+ExceptionInInitializerError
 FileNotFoundException
+FileSystemAlreadyExistsException
+FileSystemNotFoundException
+FindException
 IllegalArgumentException
+IllegalClassFormatException
 IncompatibleClassChangeError
 IndexOutOfBoundsException
+InternalError
+InternalException
 InvalidStackFrameException
-not found in MTable
 InvalidTypeException
 IOException
 NativeMethodException
@@ -27,6 +38,9 @@ NoSuchDynamicMethodException
 NoSuchFieldException
 NoSuchMethodException
 NullPointerException
+NumberFormatException
+PatternSyntaxException
+PrintException
 RuntimeException
 StackOverflowError
 StringIndexOutOfBoundsException
@@ -36,6 +50,7 @@ UnsupportedOperationException
 UTFDataFormatException
 VirtualMachineError
 WrongMethodTypeException
+XMLParseException
 #
 # Secondary priority (alphabetical order)
 # ---------------------------------------
@@ -56,6 +71,7 @@ GETFIELD: Invalid type
 has no exception table
 Invalid (null) value for *object.Object
 Invalid array type specified
+Invalid bytecode
 Invalid reference type of an array
 Invalid type of object ref
 invalid class name
@@ -64,8 +80,6 @@ lacks a FilePath field
 MethAreaFetch
 Native method requested
 No support yet for user-specified character sets
-not found in MTable
-NumberFormatException
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
 runtime error: index out of range
@@ -78,6 +92,6 @@ WaitClassStatus
 #
 # Last priority
 # -------------
-InternalException
 go panic
+[ThrowEx]
 
