@@ -81,7 +81,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 	}
 
 	versionString := string(versionBytes[:])
-	versionString = strings.TrimSpace(versionString)
+	versionString = strings.Trim(versionString, " ")
 	absTests, err := filepath.Abs(PATH_DIR_TESTS)
 	if err != nil {
 		FmtFatal("InitGlobals: filepath.Abs failed", PATH_DIR_TESTS, err)

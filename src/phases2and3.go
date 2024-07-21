@@ -192,11 +192,14 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Throw out the comment lines which begin with '#'.
 	for _, fragment := range tempTable {
-		fragment = strings.TrimSpace(fragment)
+		fragment = strings.Trim(fragment, " ")
 		if len(fragment) < 1 || strings.HasPrefix(fragment, "#") {
 			continue
 		}
 		tblErrCatDefs = append(tblErrCatDefs, fragment)
+		if ph23Tracing {
+			fmt.Printf("DEBUG phases2And3: tblErrCatDefs fragment=%s\n", fragment)
+		}
 	}
 
 	// Run Phase 2.
