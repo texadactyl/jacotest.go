@@ -13,7 +13,8 @@ public class main {
     public static void main(String[] args) throws Exception {
         int errorCount = 0;
 		HexFormat hex = HexFormat.ofDelimiter(":");
-		System.out.println("HexFormat.ofDelimiter() instantiated ok");
+		System.out.println("HexFormat.ofDelimiter(:) instantiated ok");
+		System.out.println(hex);
 
         int ii = 65537;
         short ss = (short) ii;
