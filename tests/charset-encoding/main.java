@@ -1,4 +1,4 @@
-import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
  
 public class main {
+
+    private static String DATA = "./data.bintext";
  
     public static void rptStr(String label, String value) {
         System.out.print(label);
@@ -14,10 +16,9 @@ public class main {
         System.out.println(value);
     }
 
-    public static String getCharacterEncoding() {
-        byte[] byte_array = { 'w' };
-        ByteArrayInputStream bais = new ByteArrayInputStream(byte_array);
-        InputStreamReader streamreader = new InputStreamReader(bais);
+    public static String getCharacterEncoding()  throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(DATA);
+        InputStreamReader streamreader = new InputStreamReader(fis);
         String defaultCharset = streamreader.getEncoding();
         return defaultCharset;
     }
