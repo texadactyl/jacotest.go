@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-08-05 | 3.4.3 | New test cases: stringbuilder-dynamic, stringbuilder-append. |
 | 2024-07-21 | 3.4.2 | Updated ERROR_CATEGORIES.txt. |
 | | | Changed trimming tactic (it probably does not matter). |
 | 2024-07-19 | 3.4.1 | Updated ERROR_CATEGORIES.txt. |
