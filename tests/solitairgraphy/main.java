@@ -38,8 +38,10 @@ public class main {
 		}
 		System.out.print("Outputtext: ");
 		System.out.println(outputtext);
-		if (outputtext.length() > plaintext.length())
-			plaintext += "X";
+		int outlen = outputtext.length();
+		int plainlen = plaintext.length();
+		if (outlen > plainlen )
+			plaintext = plaintext.concat("X");
 		if (! outputtext.equals(plaintext)) {
 			expObs("output plaintext", plaintext, outputtext);
 			errorCount++;
