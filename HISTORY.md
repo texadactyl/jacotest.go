@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2024-08-07 | 3.4.6 | New test cases: stringbuffer-append, stringbuffer-delete, stringbuffer-dynamic, stringbuffer-insert, stringbuffer-misc. |
+| 2024-08-07 | 3.4.6 | New test cases: stringbuffer-append, stringbuffer-delete, stringbuffer-dynamic, stringbuffer-insert, stringbuffer-misc, stringbuffer-perf. |
 | 2024-08-07 | 3.4.5 | New test case: stringbuilder-misc. |
 | | | Updated test case solitairgraphy. |
 | 2024-08-06 | 3.4.4 | New test cases: stringbuilder-insert, stringbuilder-delete. |
