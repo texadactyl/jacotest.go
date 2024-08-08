@@ -18,7 +18,9 @@ public class main {
         sb2 = sb1;
         sb1.setCharAt(2, 'c');
         sb1.setLength(5);
-        sb1.setLength(7);
+        sb1.setLength(77);
+        sb1.deleteCharAt(73);
+        sb1.delete(51, 66);
         String str = sb1.toString();
         
     }
@@ -38,7 +40,9 @@ public class main {
         sb2 = sb1;
         sb1.setCharAt(2, 'c');
         sb1.setLength(5);
-        sb1.setLength(7);
+        sb1.setLength(77);
+        sb1.deleteCharAt(73);
+        sb1.delete(51, 66);
         String str = sb1.toString();
         
     }
