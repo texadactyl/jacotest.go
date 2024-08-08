@@ -23,6 +23,22 @@ public class main {
         sb1.delete(51, 66);
         String str = sb1.toString();
         
+        char cc = sb1.charAt(2);
+        int ii = sb1.compareTo(sb2);
+        double dd = 1.0; float ff = 2.0f; long jj = 3;
+        sb1.append(dd);
+        sb1.append(ff);
+        sb1.append(ii);
+        sb1.append(jj);
+        sb1.append("1234567890");
+        sb1.insert(8, dd);
+        sb1.insert(8, ff);
+        sb1.insert(8, ii);
+        sb1.insert(8, jj);
+        sb1.insert(8, "1234567890");
+        str = sb1.substring(42);
+        str = sb1.substring(10, 30);
+        
     }
 
     public static void runBuffer() {
@@ -45,6 +61,22 @@ public class main {
         sb1.delete(51, 66);
         String str = sb1.toString();
         
+        char cc = sb1.charAt(2);
+        int ii = sb1.compareTo(sb2);
+        double dd = 1.0; float ff = 2.0f; long jj = 3;
+        sb1.append(dd);
+        sb1.append(ff);
+        sb1.append(ii);
+        sb1.append(jj);
+        sb1.append("1234567890");
+        sb1.insert(8, dd);
+        sb1.insert(8, ff);
+        sb1.insert(8, ii);
+        sb1.insert(8, jj);
+        sb1.insert(8, "1234567890");
+        str = sb1.substring(42);
+        str = sb1.substring(10, 30);
+        
     }
 
     public static void main(String[] args) {
@@ -53,6 +85,7 @@ public class main {
     	System.out.println(MAX_LOOPS);
  
         // StringBuilder
+        runBuilder(); // prime the pump
         System.out.println("runBuilder start .....");
     	long t1 = System.currentTimeMillis();
         for (int ndx = 0; ndx < MAX_LOOPS; ++ndx) {
@@ -63,6 +96,7 @@ public class main {
     	System.out.printf("runBuilder overall elapsed time = %.3f seconds\n", secs_builder); 
 
         // StringBuffer
+        runBuffer(); // prime the pump
         System.out.println("runBuffer start .....");
     	t1 = System.currentTimeMillis();
         for (int ndx = 0; ndx < MAX_LOOPS; ++ndx) {
