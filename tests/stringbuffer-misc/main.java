@@ -48,6 +48,9 @@ public class main {
         errorCount += checker("sb1.length(35)", 35, sb1.length());
         
         sb1 = new StringBuffer("ABCDEFGHIJKLMNOPQRSTUVWXYZxyz");        
+        sb1.reverse();
+        errorCount += checker("sb1.reverse()", "zyxZYXWVUTSRQPONMLKJIHGFEDCBA", sb1.toString());
+        sb1.reverse();    
         StringBuffer sb2 = new StringBuffer("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         System.out.printf("sb1: %s\n", sb1);
         System.out.printf("sb2: %s\n", sb2);

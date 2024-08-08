@@ -47,7 +47,10 @@ public class main {
         errorCount += checker("sb1.capacity(42)", 42, sb1.capacity());
         errorCount += checker("sb1.length(35)", 35, sb1.length());
         
-        sb1 = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZxyz");        
+        sb1 = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZxyz");
+        sb1.reverse();
+        errorCount += checker("sb1.reverse()", "zyxZYXWVUTSRQPONMLKJIHGFEDCBA", sb1.toString());
+        sb1.reverse();    
         StringBuilder sb2 = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         System.out.printf("sb1: %s\n", sb1);
         System.out.printf("sb2: %s\n", sb2);
