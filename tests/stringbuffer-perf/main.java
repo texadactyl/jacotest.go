@@ -55,8 +55,8 @@ public class main {
             runBuilder();
         }
         long t2 = System.currentTimeMillis();
-    	double secs_overall = (double) (t2 - t1) / 1000.0;
-    	System.out.printf("runBuilder overall elapsed time = %.3f seconds\n", secs_overall); 
+    	double secs_builder = (double) (t2 - t1) / 1000.0;
+    	System.out.printf("runBuilder overall elapsed time = %.3f seconds\n", secs_builder); 
 
         // StringBuffer
         System.out.println("runBuffer start .....");
@@ -65,7 +65,17 @@ public class main {
             runBuffer();
         }
         t2 = System.currentTimeMillis();
-    	secs_overall = (double) (t2 - t1) / 1000.0;
-    	System.out.printf("runBuffer overall elapsed time = %.3f seconds\n", secs_overall); 
+    	double secs_buffer = (double) (t2 - t1) / 1000.0;
+    	
+    	System.out.printf("runBuffer overall elapsed time = %.3f seconds\n", secs_buffer); 
+    	if (secs_builder > 0.0001) {
+    	    if (secs_builder < secs_buffer) {
+            	double pct = 100.0 * (secs_buffer - secs_builder) / secs_builder;
+            	System.out.printf("runBuffer runs %.1f pct slower than runBuilder\n", pct); 
+        	} else {
+            	double pct = 100.0 * (secs_builder - secs_buffer) / secs_builder;
+            	System.out.printf("runBuffer runs %.1f pct faster than runBuilder\n", pct); 
+        	}
+    	}
     }
 }
