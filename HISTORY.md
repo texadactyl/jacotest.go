@@ -15,7 +15,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | Changed trimming tactic (it probably does not matter). |
 | 2024-07-19 | 3.4.1 | Updated ERROR_CATEGORIES.txt. |
 | 2024-07-15 | 3.4.0 | New feature: delete the most recent pass/fail record for each case using option -z. |
-| | | Fix issue #23. |
+| | | Fix issue #23: -x command line option. |
 | 2024-07-10 | 3.3.6 | Fixed stringer-1 whitespace issue. |
 | 2024-07-05 | 3.3.5 | Removed utilities directory as they are no longer in use. |
 | | | Ditto for directories py and misc.java. |
