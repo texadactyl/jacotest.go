@@ -1,9 +1,7 @@
-import java.math.BigDecimal;
-
 public class main {
 
-	final static int NBYTES = 10; // was 10000
-	final static int NLOOPS = 3;
+	final static int NBYTES = 10000; // was 10000
+	final static int NLOOPS = 1000;
 	final static double MAX_ASSIGN_PCT = 20.0; // max pct for byte array assignment
 
 	public static double roundedPct(long inputMsecs, double secsOverall) {	
@@ -13,8 +11,7 @@ public class main {
     		return -42.0;
 		}
 		pct = ((double) inputMsecs) * 0.1 / secsOverall;
-		BigDecimal bd = new BigDecimal(pct);
-		return bd.doubleValue();
+		return pct;
 	}
 
     public static void main(String[] args) {
@@ -59,25 +56,23 @@ public class main {
     	long t2_overall = System.currentTimeMillis();
     	
     	secsOverall = (double) (t2_overall - t1_overall) / 1000.0;
-    	System.out.print("Overall elapsed time = "); 
-    	System.out.print(secsOverall); 
-    	System.out.println(" seconds"); 
+    	System.out.printf("Overall elapsed time = %.0f seconds\n", secsOverall); 
     	
     	double pct_allocate = roundedPct(et_allocate, secsOverall);
-    	System.out.print("% spent in new byte [...] = "); 
-    	System.out.println(pct_allocate); 
+    	System.out.printf("Pct spent in new byte [...] = %.2f\n", pct_allocate); 
     	
     	double pct_assign = roundedPct(et_assign, secsOverall);
-    	System.out.print("% spent in loop-byte-assignment = "); 
-    	System.out.println(pct_assign); 
+    	System.out.printf("Pct spent in loop-byte-assignment = %.2f\n", pct_assign); 
     	
     	double pct_null = roundedPct(et_null, secsOverall);
-    	System.out.print("% spent in setting byte array null = "); 
-    	System.out.println(pct_null); 
+    	System.out.printf("Pct spent in setting byte array null = %.2f\n", pct_null); 
     	
     	double pct_gc = roundedPct(et_gc, secsOverall);
-    	System.out.print("% spent in gc = "); 
-    	System.out.println(pct_gc); 
+    	System.out.printf("Pct spent in gc = %.2f\n", pct_gc); 
+
+    	double pct_other = 100.0 - pct_allocate - pct_assign - pct_null - pct_gc;
+    	System.out.printf("Pct spent in other = %.2f\n", pct_other); 
+
     	System.out.println("End");
     	
     }
