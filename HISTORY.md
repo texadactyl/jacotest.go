@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-08-13 | 3.4.8 | Avoid INVOKEDYNAMIC in test case bohr-atom. |
 | 2024-08-09 | 3.4.7 | Fix issue #24: test case JACOBIN-0263-gc. |
 | 2024-08-07 | 3.4.6 | New test cases: stringbuffer-append, stringbuffer-delete, stringbuffer-dynamic, stringbuffer-insert, stringbuffer-misc, stringbuffer-perf. |
 | | | New test cases: stringbuilder-replace, stringbuffer-replace. |
