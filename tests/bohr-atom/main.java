@@ -134,24 +134,29 @@ public class main {
         System.out.printf("11 to 7. %s\n", Arrays.toString(ninf2info(11, 7)));
         System.out.printf("11 to 10. %s\n", Arrays.toString(ninf2info(11, 10)));
     }
+    
+    private static void prtNinf2Info(String fmt1, String fmt2, String[] strArray) {
+        String fmt = fmt1.concat(fmt2);
+        System.out.printf(fmt, strArray[0], strArray[1], strArray[2], strArray[3]); 
+    }
 
     public static void p5() {
         String fmt = "%s, wl=%snm, E=%sJ, Series=%s\n";
-        System.out.printf("3 >> 2: " + fmt, (Object[]) ninf2info(3, 2));
-        System.out.printf("4 >> 2: " + fmt, (Object[]) ninf2info(4, 2));
-        System.out.printf("5 >> 2: " + fmt, (Object[]) ninf2info(5, 2));
-        System.out.printf("6 >> 2: " + fmt, (Object[]) ninf2info(6, 2));
-        System.out.printf("2 >> 3: " + fmt, (Object[]) ninf2info(2, 3));
-        System.out.printf("2 >> 4: " + fmt, (Object[]) ninf2info(2, 4));
-        System.out.printf("2 >> 5: " + fmt, (Object[]) ninf2info(2, 5));
-        System.out.printf("2 >> 6: " + fmt, (Object[]) ninf2info(2, 6));
+        prtNinf2Info("3 >> 2: ", fmt, ninf2info(3, 2));
+        prtNinf2Info("4 >> 2: ", fmt, ninf2info(4, 2));
+        prtNinf2Info("5 >> 2: ", fmt, ninf2info(5, 2));
+        prtNinf2Info("6 >> 2: ", fmt, ninf2info(6, 2));
+        prtNinf2Info("2 >> 3: ", fmt, ninf2info(2, 3));
+        prtNinf2Info("2 >> 4: ", fmt, ninf2info(2, 4));
+        prtNinf2Info("2 >> 5: ", fmt, ninf2info(2, 5));
+        prtNinf2Info("2 >> 6: ", fmt, ninf2info(2, 6));
     }
 
     public static void p6() {
         String fmt = "%s, wl=%snm, E=%sJ, Series=%s\n";
-        System.out.printf("4 >> 3: " + fmt, (Object[]) ninf2info(4, 3));
-        System.out.printf("5 >> 3: " + fmt, (Object[]) ninf2info(5, 3));
-        System.out.printf("6 >> 3: " + fmt, (Object[]) ninf2info(6, 3));
+        prtNinf2Info("4 >> 3: ", fmt, ninf2info(4, 3));
+        prtNinf2Info("5 >> 3: ", fmt, ninf2info(5, 3));
+        prtNinf2Info("6 >> 3: ", fmt, ninf2info(6, 3));
     }
 
     public static void main(String[] args) {
