@@ -80,6 +80,7 @@ lacks a FilePath field
 MethAreaFetch
 Native method requested
 No support yet for user-specified character sets
+null class name is invalid
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
 runtime error: index out of range
