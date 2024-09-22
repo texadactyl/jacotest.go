@@ -21,7 +21,7 @@ public class main {
     public static void main(String[] args) throws Exception {
     
     	System.out.println("String manipulation and member functions - Part 3");
-        final String start = "abcdefghijklmnopqrstuvwxyz";
+        String start = "abcdefghijklmnopqrstuvwxyz";
         System.out.printf("start:    %s\n", start);
         int errorCount = 0;
 
