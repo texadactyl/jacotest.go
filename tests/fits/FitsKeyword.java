@@ -232,10 +232,10 @@ public class FitsKeyword {
      *  @param name  String with name of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, String comment) {
-	setName(name);
-	this.comment = comment;
-	type = COMMENT;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.comment = comment;
+	    type = COMMENT;
+	    validCard = false;
     }
 
     /** Constructor for FitsKeyword class specifying name, value and
@@ -245,11 +245,11 @@ public class FitsKeyword {
      *  @param value  String value of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, String value, String comment) {
-	setName(name);
-	this.value = value;
-	this.comment = comment;
-	type = STRING;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.value = value;
+	    this.comment = comment;
+	    type = STRING;
+	    validCard = false;
     }
 
     /** Constructor for FitsKeyword class specifying name, value and
@@ -259,11 +259,11 @@ public class FitsKeyword {
      *  @param value  boolean value of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, boolean value, String comment) {
-	setName(name);
-	this.value = Boolean.valueOf(value);
-	this.comment = comment;
-	type = BOOLEAN;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.value = Boolean.valueOf(value);
+	    this.comment = comment;
+	    type = BOOLEAN;
+	    validCard = false;
     }
 
     /** Constructor for FitsKeyword class specifying name, value and
@@ -273,11 +273,11 @@ public class FitsKeyword {
      *  @param value  int value of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, int value, String comment) {
-	setName(name);
-	this.value = Integer.valueOf(value);
-	this.comment = comment;
-	type = INTEGER;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.value = Integer.valueOf(value);
+	    this.comment = comment;
+	    type = INTEGER;
+	    validCard = false;
     }
 
     /** Constructor for FitsKeyword class specifying name, value and
@@ -287,11 +287,11 @@ public class FitsKeyword {
      *  @param value  double value of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, double value, String comment) {
-	setName(name);
-	this.value = Double.valueOf(value);
-	this.comment = comment;
-	type = REAL;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.value = Double.valueOf(value);
+	    this.comment = comment;
+	    type = REAL;
+	    validCard = false;
     }
 
     /** Constructor for FitsKeyword class specifying name, value and
@@ -301,11 +301,11 @@ public class FitsKeyword {
      *  @param value    Date value of keyword
      *  @param comment  String with keyword comment */
     public FitsKeyword(String name, Date value, String comment) {
-	setName(name);
-	this.value = value;
-	this.comment = comment;
-	type = DATE;
-	validCard = false;
+	    this.name = (name == null) ? "" : name.toUpperCase();
+	    this.value = value;
+	    this.comment = comment;
+	    type = DATE;
+	    validCard = false;
     }
 
     /** Method provides the value of a FITS keyword as boolean. For
@@ -313,38 +313,38 @@ public class FitsKeyword {
      *  The method returns FALSE for all keyword types other than
      *  BOOLEAN, REAL and INTEGER. */
     public final boolean getBool() {
-	if (type==BOOLEAN) {
-	    return ((Boolean)value).booleanValue();
-	} else if (type==INTEGER) {
-	    return (((Integer)value).intValue()!=0) ? true : false;
-	} else if (type==REAL) {
-	    return (((Double)value).intValue()!=0) ? true : false;
-	}
-	return false;
+	    if (type==BOOLEAN) {
+	        return ((Boolean)value).booleanValue();
+	    } else if (type==INTEGER) {
+	        return (((Integer)value).intValue()!=0) ? true : false;
+	    } else if (type==REAL) {
+	        return (((Double)value).intValue()!=0) ? true : false;
+	    }
+	    return false;
     }
 
     /** Method provides the value of a FITS keyword as integer for
      *  keyword types INTEGER and REAL.  Zero is returned for all
      *  other types. */
     public final int getInt() {
-	if (type==INTEGER) {
-	    return ((Integer)value).intValue();
-	} else if (type==REAL) {
-	    return ((Double)value).intValue();
-	}
-	return 0;
+	    if (type==INTEGER) {
+	        return ((Integer)value).intValue();
+	    } else if (type==REAL) {
+	        return ((Double)value).intValue();
+	    }
+	    return 0;
     }
 
     /** Method provides the value of a FITS keyword as double for
      *  keyword types INTEGER and REAL.  Zero is returned for all
      *  other types. */
     public final double getReal() {
-	if (type==REAL) {
-	    return ((Double)value).doubleValue();
-	} else if (type==INTEGER) {
-	    return ((Integer)value).doubleValue();
-	}
-	return 0.0;
+	    if (type==REAL) {
+	        return ((Double)value).doubleValue();
+	    } else if (type==INTEGER) {
+	        return ((Integer)value).doubleValue();
+	    }
+	    return 0.0;
     }
 
     /** Method provides the value of a FITS keyword as a Date object for
@@ -352,36 +352,36 @@ public class FitsKeyword {
      *  converted to a Date if possible otherwise a NULL pointer
      *  is returned. */
     public final Date getDate() {
-	if (value == null) {
-	    return null;
-	}
-	if (type == DATE) {
-	    return (Date) value;
-	} else if (type == STRING) {
-	    String str = (String) value;
-	    SimpleDateFormat dateFormat = FITSDATE;
-	    if (0<str.indexOf('-')) {
-		dateFormat = (0<str.indexOf('T')) ? ISOLONG : ISOSHORT;
+	    if (value == null) {
+	        return null;
 	    }
-	    dateFormat.setTimeZone(TIMEZONE);
-	    return dateFormat.parse(str, new ParsePosition(0));
-	}
-	return null;
+	    if (type == DATE) {
+	        return (Date) value;
+	    } else if (type == STRING) {
+	        String str = (String) value;
+	        SimpleDateFormat dateFormat = FITSDATE;
+	        if (0<str.indexOf('-')) {
+		    dateFormat = (0<str.indexOf('T')) ? ISOLONG : ISOSHORT;
+	        }
+	        dateFormat.setTimeZone(TIMEZONE);
+	        return dateFormat.parse(str, new ParsePosition(0));
+	    }
+	    return null;
     }
 
     /** Method provides the value of a FITS keyword as a String. If
      *  not value field is defined NULL is returned. */
     public final String getString() {
-	if (value == null) {
-	    return null;
-	}
-	if (type == DATE) {
-	    SimpleDateFormat 	dateFormat = ISOLONG;
-	    dateFormat.setTimeZone(TIMEZONE);
-	    return (dateFormat.format((Date) value, new StringBuffer(),
-				      new FieldPosition(0))).toString();
-	}
-	return value.toString();
+	    if (value == null) {
+	        return null;
+	    }
+	    if (type == DATE) {
+	        SimpleDateFormat 	dateFormat = ISOLONG;
+	        dateFormat.setTimeZone(TIMEZONE);
+	        return (dateFormat.format((Date) value, new StringBuffer(),
+				          new FieldPosition(0))).toString();
+	    }
+	    return value.toString();
     }
 
     /** Set value field for keyword of STRING type. Note: the keyword
@@ -390,9 +390,9 @@ public class FitsKeyword {
      *  @param value String with value of keyword value field
      */
     public final void setValue(String value) { 
-	this.value = value;
-	type = STRING;
-	validCard = false;
+	    this.value = value;
+	    type = STRING;
+	    validCard = false;
     }
 
     /** Set value field for keyword of BOOLEAN type. Note: the keyword
@@ -401,9 +401,9 @@ public class FitsKeyword {
      *  @param value booelan with value of keyword value field
      */
     public final void setValue(boolean value) { 
-	this.value = Boolean.valueOf(value);
-	type = BOOLEAN;
-	validCard = false;
+	    this.value = Boolean.valueOf(value);
+	    type = BOOLEAN;
+	    validCard = false;
     }
 
     /** Set value field for keyword of INTEGER type. Note: the keyword
@@ -412,9 +412,9 @@ public class FitsKeyword {
      *  @param value integer with value of keyword value field
      */
     public final void setValue(int value) { 
-	this.value = Integer.valueOf(value);
-	type = INTEGER;
-	validCard = false;
+	    this.value = Integer.valueOf(value);
+	    type = INTEGER;
+	    validCard = false;
     }
 
     /** Set value field for keyword of REAL type. Note: the keyword
@@ -423,9 +423,9 @@ public class FitsKeyword {
      *  @param value double with value of keyword value field
      */
     public final void setValue(double value) {
-	this.value = Double.valueOf(value);
-	type = REAL;
-	validCard = false;
+	    this.value = Double.valueOf(value);
+	    type = REAL;
+	    validCard = false;
     }
 
     /** Set value field for keyword of DATE type.  Note: the keyword
@@ -434,9 +434,9 @@ public class FitsKeyword {
      *  @param value double with value of keyword value field
      */
     public final void setValue(Date value) {
-	this.value = value;
-	type = DATE;
-	validCard = false;
+	    this.value = value;
+	    type = DATE;
+	    validCard = false;
     }
 
     /** Method generates an 80 character Sting of the keyword in FITS

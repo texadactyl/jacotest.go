@@ -24,7 +24,7 @@ class main {
 
         for (var depth = minDepth; depth <= maxDepth; depth += 2) {
             final var iterations = 1 << (maxDepth - depth + minDepth);
-            var sum = 0;
+            long sum = 0;
             for (var i = 1; i <= iterations; i++) {
                 final var tree = TreeNode.make(depth);
                 tree.calHash();

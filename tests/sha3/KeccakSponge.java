@@ -450,7 +450,7 @@ public final class KeccakSponge implements UnaryOperator<byte[]> {
                 int targetInputBit = suffixStartBitIndex + suffixBitIndex;
                 int targetInputByte = targetInputBit / Byte.SIZE;
                 int targetInputByteBitIndex = targetInputBit % Byte.SIZE;
-                input[targetInputByte] += 1 << targetInputByteBitIndex;
+                input[targetInputByte] += (byte) (1 << targetInputByteBitIndex);
             }
         }
     }
@@ -778,7 +778,7 @@ public final class KeccakSponge implements UnaryOperator<byte[]> {
             int bitValue = (1 << bitIndex);
             boolean sourceBitHigh = (source[wholeByteCount] & bitValue) != 0;
             if (sourceBitHigh) {
-                destination[wholeByteCount] += bitValue;
+                destination[wholeByteCount] += (byte) (bitValue & 0xff);
             }
         }
     }

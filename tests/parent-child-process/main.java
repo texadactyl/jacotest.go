@@ -8,9 +8,10 @@ public class main {
     public static int commander(String cmd) {
         System.out.print("commander: Begin, cmd=");
         System.out.println(cmd);
+        String [] cmdArray = cmd.split(" +");
         try {
             String line;
-            Process process = Runtime.getRuntime().exec(cmd);
+            Process process = Runtime.getRuntime().exec(cmdArray);
             BufferedReader bri = new BufferedReader
                     (new InputStreamReader(process.getInputStream()));
             BufferedReader bre = new BufferedReader

@@ -27,6 +27,11 @@ public class Stopwatch {
     private double last_time;
     private double total;
 
+    public Stopwatch() {
+        this.running = false;
+        this.last_time = 0.0;
+        this.total = 0.0;
+    }
 
     /**
      * Return system time (in seconds)
@@ -43,11 +48,6 @@ public class Stopwatch {
         last_time = 0.0;
         total = 0.0;
     }
-
-    public Stopwatch() {
-        reset();
-    }
-
 
     /**
      * Start (and reset) timer

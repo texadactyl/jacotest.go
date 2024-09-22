@@ -21,7 +21,9 @@ public class RationalPolynomial {
         for (int i = 0; i < b; i++)
             coef[i] = BigRational.ZERO;
         coef[b] = a;
-        deg = degree();
+        deg = 0;
+        for (int i = 0; i < coef.length; i++)
+            if (coef[i].compareTo(BigRational.ZERO) != 0) deg = i;
     }
 
     // return the degree of this polynomial (0 for the zero polynomial)

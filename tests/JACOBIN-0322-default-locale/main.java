@@ -3,16 +3,16 @@ public class main {
 
 	public static void main(String[] args)	{
 	    int NLOOPS = 10000;
-	    Locale locale1 = new Locale("Elvish");
-	    Locale locale2 = new Locale("Elvish");
-	    Locale locale3 = new Locale("Elvish");
-	    Locale locale4 = new Locale("Elvish");
+	    Locale locale1 = Locale.of("en");
+	    Locale locale2 = locale1;
+	    Locale locale3 = locale1;
+	    Locale locale4 = locale1;
 	    
 	    for (int ii = 0; ii < NLOOPS; ii++) {
 		    locale1 = Locale.getDefault();
-		    locale2 = new Locale("English");
-		    locale3 = new Locale("English", "USA");
-		    locale4 = new Locale("English", "USA", "Texas");
+		    locale2 = Locale.of("English");
+		    locale3 = Locale.of("English", "USA");
+		    locale4 = Locale.of("English", "USA", "Texas");
 		}
 		
 		System.out.println(locale1);

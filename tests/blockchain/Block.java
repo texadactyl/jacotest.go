@@ -4,13 +4,11 @@
 
 public class Block {
 
-	private boolean verbose = false;
-
     // Every block contains a hash, previous hash and the transaction data.
-    private String hash;
-    private String previousHash;
-    private byte[] txdata;
-    private long timeStamp;
+    private String hash = "";
+    private String previousHash = "";
+    private byte[] txdata = {0};
+    private long timeStamp = 0;
 
     // Concatenate two byte arrays.
     private byte[] concatBytes(byte[] first, byte[] second) {
@@ -32,11 +30,8 @@ public class Block {
         String tsString = Long.toString(this.timeStamp); 
         String txString = Helpers.hexStringFromBytes(this.txdata);      
         String hashInput = txString.concat(tsString);
-        hashInput = hashInput.concat(this.previousHash);
-        
+        hashInput = hashInput.concat(this.previousHash);        
         String calculatedhash = SHA256lite.computeSHA256(hashInput);
-        if (verbose)
-            System.out.printf("VERBOSE calculateHash hashInput=%s, calculatedhash=%s\n", hashInput, calculatedhash);
             
         return calculatedhash;
     }
@@ -44,12 +39,17 @@ public class Block {
     // Constructor for the block
     public Block(byte[] txdata,
                  String previousHash,
-                 boolean mainVerbose) {
+                 boolean flagVerbose) {
         this.txdata = txdata;
-        this.timeStamp = System.currentTimeMillis();
         this.previousHash = previousHash;
-        this.hash = calculateHash();
-        if (mainVerbose) {
+        this.timeStamp = System.currentTimeMillis();
+        String tsString = Long.toString(this.timeStamp); 
+        String txString = Helpers.hexStringFromBytes(this.txdata);      
+        String hashInput = txString.concat(tsString);
+        hashInput = hashInput.concat(this.previousHash);        
+        this.hash = SHA256lite.computeSHA256(hashInput);
+        
+        if (flagVerbose) {
             System.out.print("Block: txdata=");
             System.out.print(Helpers.hexStringFromBytes(this.txdata));
             System.out.print(", hash=");

@@ -68,7 +68,7 @@ public class Discharge {
                 wavelength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 strength[countEmLines] = Double.parseDouble(tokens.nextToken());
                 if (++countEmLines > 199) {
-                    warning("Discharge: spectral line limit of 200 reached; ignoring subsequent lines");
+                    System.out.println("WARNING: Discharge: spectral line limit of 200 reached; ignoring subsequent lines");
                     break;
                 }
                 line = reader.readLine();

@@ -40,7 +40,7 @@ public class main {
         }
         errorCount += hh.isItTrue("ss1.length() = 2300", ss1.length() == 2300);
         errorCount += hh.isItTrue("ss1 = sss", sss.equals(ss1));
-        
+         
 		assert(errorCount == 0);
     }
 }

@@ -18,9 +18,10 @@ public class main {
     public static void cmd(String text) {
         System.out.print("cmd: Begin, text=");
         System.out.println(text);
+        String [] cmdArray = text.split(" +");
         try {
             String line;
-            Process process = Runtime.getRuntime().exec(text);
+            Process process = Runtime.getRuntime().exec(cmdArray);
             BufferedReader bri = new BufferedReader
                     (new InputStreamReader(process.getInputStream()));
             BufferedReader bre = new BufferedReader
