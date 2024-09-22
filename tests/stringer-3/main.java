@@ -64,38 +64,39 @@ public class main {
         
         // ===== indexOf(int ch .....) testing
         
-        int ixOut = start.indexOf('d');
-        errorCount += cmpExpToObs("indexOf('d')", 3, ixOut);
+        int lowerCaseD = 100; // 'd'
+        int ixOut = start.indexOf(lowerCaseD);
+        errorCount += cmpExpToObs("indexOf(lowerCaseD)", 3, ixOut);
         ixOut = start.indexOf('?');
         errorCount += cmpExpToObs("indexOf('?')", -1, ixOut);
-        ixOut = start.indexOf('d', 2);
-        errorCount += cmpExpToObs("indexOf('d', 2)", 3, ixOut);
-        ixOut = start.indexOf('d', -42);
-        errorCount += cmpExpToObs("indexOf('d', -42)", 3, ixOut);
-        ixOut = start.indexOf('d', 8192);
-        errorCount += cmpExpToObs("indexOf('d', 8192)", -1, ixOut);
-        ixOut = start.indexOf('d', 2, 10);
-        errorCount += cmpExpToObs("indexOf('d', 2, 10)", 3, ixOut);
+        ixOut = start.indexOf(lowerCaseD, 2);
+        errorCount += cmpExpToObs("indexOf(lowerCaseD, 2)", 3, ixOut);
+        ixOut = start.indexOf(lowerCaseD, -42);
+        errorCount += cmpExpToObs("indexOf(lowerCaseD, -42)", 3, ixOut);
+        ixOut = start.indexOf(lowerCaseD, 8192);
+        errorCount += cmpExpToObs("indexOf(lowerCaseD, 8192)", -1, ixOut);
+        ixOut = start.indexOf(lowerCaseD, 2, 10);
+        errorCount += cmpExpToObs("indexOf(lowerCaseD, 2, 10)", 3, ixOut);
         try {
-            ixOut = start.indexOf('d', 3, 2);
-            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf('d', 3, 2), ixOut=%d\n", ixOut);
+            ixOut = start.indexOf(lowerCaseD, 3, 2);
+            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, 3, 2), ixOut=%d\n", ixOut);
             errorCount += 1;
         } catch(StringIndexOutOfBoundsException ex) {
-            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf('d', 3, 2)");
+            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, 3, 2)");
         }
         try {
-            ixOut = start.indexOf('d', -1, 10);
-            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf('d', -1, 10), ixOut=%d\n", ixOut);
+            ixOut = start.indexOf(lowerCaseD, -1, 10);
+            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, -1, 10), ixOut=%d\n", ixOut);
             errorCount += 1;
         } catch(StringIndexOutOfBoundsException ex) {
-            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf('d', -1, 10)");
+            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, -1, 10)");
         }
         try {
-            ixOut = start.indexOf('d', 1, -10);
-            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf('d', 1, -10), ixOut=%d\n", ixOut);
+            ixOut = start.indexOf(lowerCaseD, 1, -10);
+            System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, 1, -10), ixOut=%d\n", ixOut);
             errorCount += 1;
         } catch(StringIndexOutOfBoundsException ex) {
-            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf('d', 1, -10)");
+            System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, 1, -10)");
         }
         
         // ===== indexOf(String str .....) testing
