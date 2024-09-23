@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-09-23 | 3.4.12 | New test cases: stringer-4 and stringer-5. |
 | 2024-09-22 | 3.4.11 | New test case: stringer-3. |
 | 2024-08-19 | 3.4.10 | New test case: catch-8-survivor. |
 | 2024-08-17 | 3.4.9 | New error category: null class name is invalid. |
