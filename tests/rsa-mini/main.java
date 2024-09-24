@@ -44,37 +44,6 @@ public class main {
         
     }
 
-    public static void hexDump(String label, byte[] byteArray) {
-        int lineLength = 16; // Number of bytes to display in one line
-        int bytesRead = 0;
-        HexFormat hex = HexFormat.of();
-        String hs;
-
-		System.out.println(label);
-        for (int ii = 0; ii < byteArray.length; ii++) {
-        
-            if (bytesRead == 0) {
-                hs = hex.toHexDigits(ii);
-		        System.out.print(hs);
-		        System.out.print(": ");
-            }
-
-            hs = hex.toHexDigits(byteArray[ii]);
-            System.out.print(hs);
-            System.out.print(" ");
-
-            bytesRead++;
-
-            if (bytesRead == lineLength || ii == byteArray.length - 1) {
-            
-                // Print a newline character at the end of each line or when we reach the end of the array
-                System.out.println();
-                bytesRead = 0;
-                
-            }
-        }
-    }
-
     public static RSAKeyPair generateRSAKeyPair(int keySize) {
     
         SecureRandom rand = new SecureRandom();
@@ -119,6 +88,36 @@ public class main {
             prime = BigInteger.probablePrime(bitLength, rand);
         } while (!prime.isProbablePrime(100)); // Test for primality using 100 iterations
         return prime;
+    }
+
+    public static void hexDump(String label, byte[] byteArray) {
+        int lineLength = 16; // Number of bytes to display in one line
+        int bytesRead = 0;
+        String hs;
+
+		System.out.println(label);
+        for (int ii = 0; ii < byteArray.length; ii++) {
+        
+            if (bytesRead == 0) {
+                hs = String.format("%08x", ii);
+		        System.out.print(hs);
+		        System.out.print(": ");
+            }
+
+            hs = String.format("%02x", byteArray[ii]);
+            System.out.print(hs);
+            System.out.print(" ");
+
+            bytesRead++;
+
+            if (bytesRead == lineLength || ii == byteArray.length - 1) {
+            
+                // Print a newline character at the end of each line or when we reach the end of the array
+                System.out.println();
+                bytesRead = 0;
+                
+            }
+        }
     }
 
     static class RSAKeyPair {

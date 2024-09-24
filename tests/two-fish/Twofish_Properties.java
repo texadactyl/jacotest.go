@@ -80,17 +80,17 @@ public class Twofish_Properties // implicit no-argument constructor
      */
     public static void list() {
         System.out.println("#");
-        String arg = "# ----- Begin " + ALGORITHM + " properties -----";
+        String arg = String.format("# ----- Begin %s properties -----", ALGORITHM);
         System.out.println(arg);
         System.out.println("#");
         String key, value;
         for (int ii = 0; ii < params.length; ii++) {
             key = params[ii][0];
             value = params[ii][1];
-            System.out.println(key + " = " + value);
+            System.out.printf("# ----- %s = %s\n", key, value);
         }
         System.out.println("#");
-        arg = "# ----- End " + ALGORITHM + " properties -----";
+        arg = String.format("# ----- End %s properties -----", ALGORITHM);
         System.out.println(arg);
     }
 

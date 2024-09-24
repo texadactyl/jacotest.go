@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+Invalid (null)
 not found in MTable
 AccessDeniedException
 AnnotationTypeMismatchException
@@ -69,7 +70,6 @@ FetchUTF8stringFromCPEntryNumber: cp.CpIndex
 field type must start with
 GETFIELD: Invalid type
 has no exception table
-Invalid (null) value for *object.Object
 Invalid array type specified
 Invalid bytecode
 Invalid reference type of an array

@@ -58,6 +58,7 @@ public class main {
     public static void main(String[] args) {
     
     	System.out.println("Symmetric cipher Two Fish exercise");
+    	Twofish_Properties.list();
     
     	int errorCount = 0;
     	
