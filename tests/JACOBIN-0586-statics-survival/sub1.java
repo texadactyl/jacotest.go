@@ -2,8 +2,9 @@
 public class sub1 {
 
     /*
-        As-is, the main program succeeds.
-        Uncomment the line that defines i3 (<=====) to see the following failure:
+        As-is, the main program fails as follows:
+        
+        
         
         1234567890123456
         com.sun.jdi.InternalException: locateExceptionFrame: Method sub1.<clinit> not found in MTable
@@ -33,12 +34,16 @@ public class sub1 {
         sub1.i3     {I 0}
         ===== DumpStatics END
         Version: 0.6.012 Build 3059, OS: linux
+
+
+
+        Comment out the line that defines i3 (<=====) to see success.
         
     */    
     
     static final int i1 = 42;
 
-    //static final int i3 = (i1 == 42) ? sub2.get43() : 0;   // <====================================
+    static final int i3 = (i1 == 42) ? sub2.get43() : 0;   // <====================================
     
     private static final char[] HEX_DIGITS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
