@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-10-07 | 3.4.14 | New test case: crc for CRC32, CRC32C, and Adler32. |
 | 2024-09-26 | 3.4.13 | New test case: JACOBIN-0586-statics-survival. |
 | 2024-09-23 | 3.4.12 | New test cases: stringer-4 and stringer-5. |
 | 2024-09-22 | 3.4.11 | New test case: stringer-3. |
