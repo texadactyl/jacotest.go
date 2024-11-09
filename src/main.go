@@ -88,9 +88,7 @@ func main() {
 	_ = handle.Close()
 
 	// Initialise Args to the command-line arguments.
-	for _, singleVar := range os.Args[1:] {
-		Args = append(Args, singleVar)
-	}
+	Args = append(Args, os.Args[1:]...)
 
 	// If no options specified, just show help.
 	if len(Args) < 1 {
@@ -351,7 +349,7 @@ func main() {
 		// Discrepancies in error total?
 		if len(errExecutionNames) != counterErrCases {
 			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterErrCases))
-			Logger(fmt.Sprintf("Test cases not falling into a summary report error category:"))
+			Logger("Test cases not falling into a summary report error category:")
 			for testCase, counter := range tblErrCases {
 				if counter > 0 { // ignore if this test case was grepped at least once
 					continue

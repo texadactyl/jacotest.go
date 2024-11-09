@@ -121,16 +121,16 @@ func compileOneTree(pathTreeTop string) int {
 
 	// Compiled every .java file in the tree without errors.
 	// For each .class file produced, generate javap output.
-	err = filepath.WalkDir(pathTreeTop, func(absFilePath string, dirent fs.DirEntry, err error) error {
+	err2 := filepath.WalkDir(pathTreeTop, func(absFilePath string, dirent fs.DirEntry, err error) error {
 		if dirent.IsDir() {
 			return nil
 		}
 		if !strings.HasSuffix(dirent.Name(), ".class") {
 			return nil
 		}
-		output, err := exec.Command("javap", "-v", absFilePath).Output()
-		if err != nil {
-			FmtFatal("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", "", err)
+		output, errInner := exec.Command("javap", "-v", absFilePath).Output()
+		if errInner != nil {
+			FmtFatal("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", "", errInner)
 		}
 		dirPath := filepath.Dir(absFilePath)
 		outFile := "javap_" + dirent.Name() + ".log"
@@ -138,8 +138,8 @@ func compileOneTree(pathTreeTop string) int {
 		return nil
 	})
 
-	if err != nil {
-		FmtFatal("filepath.WalkDir failed", "", err)
+	if err2 != nil {
+		FmtFatal("filepath.WalkDir failed", "", err2)
 	}
 
 	// Return compilation error count to caller
