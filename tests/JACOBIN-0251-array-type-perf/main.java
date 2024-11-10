@@ -1,16 +1,16 @@
 public class main {
 
-	final static int NELEMS = 10000000;
-	final static int NLOOPS = 10000;
+	final static int NELEMS = 1000000;
+	final static int NLOOPS = 1000000;
 
 	public static void reporter(String label, long t1, long t2) {	
-		System.gc();			
     	double et = (double) (t2 - t1) / 1000.0;
-    	System.out.print("Overall "); 
     	System.out.print(label); 
    		System.out.print(" element assignment time = "); 
     	System.out.print(et); 
     	System.out.println(" seconds"); 
+    	assert (et >= 0.0);
+	    System.gc();
 	}
     	
     public static void main(String[] args) {
