@@ -41,12 +41,15 @@ public class main {
         String nameSqliteJar = "sqlite-jdbc.jar";
         String nameDbclientJar = "dbclient.jar";
         String nameDbclientClass = "dbclient";
-		System.out.println("Create and use a jar, exercising Runtime.getRuntime().exec()");
+		System.out.println("Create and use a database client (sqlite) jar, exercising Runtime.getRuntime().exec()");
 
         // Get the process command full path.
     	ProcessHandle ph = ProcessHandle.current();
+		System.out.println("ProcessHandle ph = ProcessHandle.current() OK");
 		ProcessHandle.Info info = ph.info();
+		System.out.println("ProcessHandle.Info info = ph.info() OK");
 		String jvmPath = info.command().orElse("?");
+		System.out.println("String jvmPath = info.command().orElse(\"?\") OK");
 		System.out.printf("jvmPath: %s\n", jvmPath);
 		if (jvmPath.equals("?")) {
 			throw new AssertionError("*** ERROR, ProcessHandle.Info.command() failed");
