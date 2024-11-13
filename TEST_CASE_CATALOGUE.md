@@ -2,7 +2,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 <br>
 <br>
 | `Name` | `Description`
-| :------------: | :--- |
+| :------------ | :--- |
 |<img width=90/>|<img width=600/>|
 |  array-list-iterator  | xxxxx |
 |  arrays-1  | xxxxx |
