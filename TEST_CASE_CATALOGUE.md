@@ -5,7 +5,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 | :------------ | :--- |
 |<img width=90/>|<img width=600/>|
 |  array-list-iterator  | java.util.ArrayList and java.util.Iterator |
-|  arrays-1  | Time access to array elements of type byte, char, int, float, double, and String |
+|  arrays-1  | Measure access time to array elements of type byte, char, int, float, double, and String |
 |  atomic-integer  | java.util.concurrent.atomic.AtomicInteger |
 |  beetlejuice  | Loop stability of byte to String conversions |
 |  big-integer  | xxxxx |
