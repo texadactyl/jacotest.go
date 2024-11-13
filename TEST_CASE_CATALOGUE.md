@@ -5,16 +5,16 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 | :------------ | :--- |
 |<img width=90/>|<img width=600/>|
 |  array-list-iterator  | java.util.ArrayList and java.util.Iterator |
-|  arrays-1  | Measure access time to array elements of type byte, char, int, float, double, and String |
+|  arrays-1  | Access time of array elements of type byte, char, int, float, double, and String |
 |  atomic-integer  | java.util.concurrent.atomic.AtomicInteger |
 |  beetlejuice  | Loop stability of byte to String conversions |
-|  big-integer  | xxxxx |
-|  big-integer-2  | xxxxx |
-|  big-integer-3  | xxxxx |
-|  blockchain  | xxxxx |
-|  bohr-atom  | xxxxx |
-|  casting  | xxxxx |
-|  catch-8-survivor  | xxxxx |
+|  big-integer  | java.math.BigInteger tests #1 |
+|  big-integer-2  | java.math.BigInteger tests #2 |
+|  big-integer-3  | java.math.BigInteger tests #3 |
+|  blockchain  | Create a blockchain, amend it, and validate it |
+|  bohr-atom  | Compute properties of the Bohr model of the atom  |
+|  casting  | Casting between primitive variable types |
+|  catch-8-survivor  | try-catch 8 levels deep |
 |  charset-encoding  | xxxxx |
 |  cmath-in-java-source  | xxxxx |
 |  crc  | xxxxx |
