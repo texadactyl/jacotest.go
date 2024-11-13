@@ -1,5 +1,4 @@
 This file is a catalogue of jacotest test cases.  Entries appear in alphabetic order.
-<p align="left">
 <br>
 <br>
 | `Name` | `Description`
