@@ -15,31 +15,31 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  bohr-atom  | Compute properties of the Bohr model of the atom  |
 |  casting  | Casting between primitive variable types |
 |  catch-8-survivor  | try-catch 8 levels deep |
-|  charset-encoding  | xxxxx |
-|  cmath-in-java-source  | xxxxx |
-|  crc  | xxxxx |
-|  db-sqlite  | xxxxx |
-|  dedupe-hacked  | xxxxx |
-|  desi  | xxxxx |
-|  elliptic  | xxxxx |
-|  emission-line-spectra  | xxxxx |
-|  emission-line-spectra-nofuncs  | xxxxx |
-|  enigma-machine  | xxxxx |
-|  enum-inside  | xxxxx |
-|  enum-outside  | xxxxx |
-|  ex-catch-assertion-error  | xxxxx |
-|  ex-catch-big-integer  | xxxxx |
-|  ex-catch-called-func-parseint  | xxxxx |
-|  ex-catch-idiv  | xxxxx |
-|  ex-catch-multi-frame  | xxxxx |
-|  ex-catch-null-ptr  | xxxxx |
-|  ex-catch-parseint  | xxxxx |
-|  ex-catch-user-ex  | xxxxx |
-|  ex-finally  | xxxxx |
-|  ex-finally-2  | xxxxx |
-|  ex-multilevel  | xxxxx |
-|  fits  | xxxxx |
-|  floor-div-mod-mix  | xxxxx |
+|  charset-encoding  | java.nio.charset.Charset, InputStreamReader.getEncoding() |
+|  cmath-in-java-source  | class Complex |
+|  crc  | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
+|  db-sqlite  | SQLITE with a JDBC |
+|  dedupe-hacked  | "Looks for duplicate files based on CRC-32 file sizes and checksums" from @platypusguy |
+|  desi  | DES algorithm in Java |
+|  elliptic  | Elliptic cryptography |
+|  emission-line-spectra  | Emission line spectra from an element table |
+|  emission-line-spectra-nofuncs  | Less complex emission-line-spectra |
+|  enigma-machine  | Alan Turing's Enigma Machine |
+|  enum-inside  | Enumerated type inside main class |
+|  enum-outside  | Enumerated type outside main class |
+|  ex-catch-assertion-error  | Cause and catch an assertion error |
+|  ex-catch-big-integer  | Same as ex-catch-assertion-error but using java.math.BigInteger |
+|  ex-catch-called-func-parseint  | Cause a NumberFormatException inside a called function and catch it in the caller function |
+|  ex-catch-idiv  | Loop stability of catching division by zero |
+|  ex-catch-multi-frame  | Throw and catch several types of exceptions at various function-call levels |
+|  ex-catch-null-ptr  | Cause and catch a null pointer exception |
+|  ex-catch-parseint  | Loop stability of causing and catching a NumberFormatException |
+|  ex-catch-user-ex  | Cause and catch a user-defined exception |
+|  ex-finally  | Cause and catch a NumberFormatException + finally processing |
+|  ex-finally-2  | Loop stability of causing and catching a NumberFormatException + finally processing |
+|  ex-multilevel  | Causing and catching a NumberFormatException + finally processing at multiple try-catch levels |
+|  fits  | Read and process a FITS file |
+|  floor-div-mod-mix  | For int and long: floor, div, mod using try-catch |
 |  hashed-map  | xxxxx |
 |  hashed-set  | xxxxx |
 |  hex-decode-numeric  | xxxxx |
