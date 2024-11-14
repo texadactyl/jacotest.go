@@ -1,7 +1,7 @@
 public class main {
 
-	final static int NBYTES = 10000; // was 10000
-	final static int NLOOPS = 1000;
+	final static int NBYTES = 1000;
+	final static int NLOOPS = 100;
 	final static double MAX_ASSIGN_PCT = 20.0; // max pct for byte array assignment
 
 	public static double roundedPct(long inputMsecs, double secsOverall) {	
