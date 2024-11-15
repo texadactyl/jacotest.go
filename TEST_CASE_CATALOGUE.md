@@ -48,26 +48,25 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  imageio-output  | Simple writing to a PNG file  |
 |  Integer-all  | java.lang.Integer |
 |  io_file_create_delete  | Create and delete a file |
-|  io_fileinputstream  | xxxxx |
-|  io_fileoutputstream  | xxxxx |
-|  io_filewriter  | xxxxx |
-|  io_outputstreamwriter  | xxxxx |
-|  JACOBIN-0161-0229-classes  | xxxxx |
-|  JACOBIN-0161-instantiate-class  | xxxxx |
-|  JACOBIN-0211-pbcrypto  | xxxxx |
-|  JACOBIN-0212-bit-shifting  | xxxxx |
-|  JACOBIN-0217-multidim-2d  | xxxxx |
-|  JACOBIN-0217-multidim-3d  | xxxxx |
-|  JACOBIN-0227-string-array  | xxxxx |
-|  JACOBIN-0231-stats  | xxxxx |
-|  JACOBIN-0234-0240-0241-array-length  | xxxxx |
-|  JACOBIN-0236-bitwise  | xxxxx |
-|  JACOBIN-0236-minus-signs  | xxxxx |
-|  JACOBIN-0237-nil-printlns  | xxxxx |
-|  JACOBIN-0251-array-type-perf  | xxxxx |
-|  JACOBIN-0263-gc  | xxxxx |
-|  JACOBIN-0279-simple-switch  | xxxxx |
-|  JACOBIN-0280-string-writer  | xxxxx |
+|  io_fileinputstream  | java.io.FileInputStream |
+|  io_fileoutputstream  | java.io.FileOutputStream |
+|  io_filewriter  | java.io.FileWriter |
+|  io_outputstreamwriter  | java.io.OutputStreamWriter |
+|  JACOBIN-0161-0229-classes  | Class methods inside and outside the main class |
+|  JACOBIN-0161-instantiate-class  | Class methods in a file separate from the main class |
+|  JACOBIN-0211-pbcrypto  | Password-based cryptography using AES/CBC/PKCS5Padding |
+|  JACOBIN-0212-bit-shifting  | Shifting bits of integers part 1 |
+|  JACOBIN-0217-multidim-2d  | 2D matrices |
+|  JACOBIN-0217-multidim-3d  | 3D matrices |
+|  JACOBIN-0227-string-array  | Simple array of Strings |
+|  JACOBIN-0231-stats  | Statistical mean, standard deviation, and correlation plus a square root algorithm (Babylonian) |
+|  JACOBIN-0234-0240-0241-array-length  | Simple array length calculations |
+|  JACOBIN-0236-bitwise  | Shifting bits of integers part 2 |
+|  JACOBIN-0236-minus-signs  | Algebraic signs of integers |
+|  JACOBIN-0237-nil-printlns  | System.out.println with no arguments |
+|  JACOBIN-0251-array-type-perf  | Loop stability of various types of arrays part 1 |
+|  JACOBIN-0263-gc  | Loop stability of various types of arrays part 2 |
+|  JACOBIN-0279-simple-switch  | Simple integer-based switch |
 |  JACOBIN-0281-get-property  | xxxxx |
 |  JACOBIN-0288-aastore-field-type  | xxxxx |
 |  JACOBIN-0289-checkcast  | xxxxx |

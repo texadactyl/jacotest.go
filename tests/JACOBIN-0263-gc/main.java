@@ -7,7 +7,7 @@ public class main {
 	public static double roundedPct(long inputMsecs, double secsOverall) {	
 		double pct;
 		if (secsOverall < 0.001) { // Divisor too small?
-    		System.out.println("WARNING from roundedPct: Overall elapsed time in seconds is too small - not useful for computing percentages!"); 
+    		System.out.println("*** ERROR, from roundedPct: Overall elapsed time in seconds is too small - not useful for computing percentages!"); 
     		return -42.0;
 		}
 		pct = ((double) inputMsecs) * 0.1 / secsOverall;
