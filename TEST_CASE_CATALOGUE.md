@@ -40,14 +40,14 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  ex-multilevel  | Causing and catching a NumberFormatException + finally processing at multiple try-catch levels |
 |  fits  | Read and process a FITS file |
 |  floor-div-mod-mix  | For int and long: floor, div, mod using try-catch |
-|  hashed-map  | xxxxx |
-|  hashed-set  | xxxxx |
-|  hex-decode-numeric  | xxxxx |
-|  http-client-server  | xxxxx |
-|  https-client-getter  | xxxxx |
-|  imageio-output  | xxxxx |
-|  Integer-all  | xxxxx |
-|  io_file_create_delete  | xxxxx |
+|  hashed-map  | java.util.HashMap |
+|  hashed-set  | java.util.HashSet |
+|  hex-decode-numeric  | Loop stability of decoding numeric values |
+|  http-client-server  | Simple non-secure web client and server |
+|  https-client-getter  | Simple secure web GET |
+|  imageio-output  | Simple writing to a PNG file  |
+|  Integer-all  | java.lang.Integer |
+|  io_file_create_delete  | Create and delete a file |
 |  io_fileinputstream  | xxxxx |
 |  io_fileoutputstream  | xxxxx |
 |  io_filewriter  | xxxxx |

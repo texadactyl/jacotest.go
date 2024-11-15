@@ -211,4 +211,15 @@ public final class SolitaireCipher implements Serializable, Cloneable {
     return buffer.toString();
   } // encrypt(String, boolean)
 
+  // Test SolitaireCipher
+  public static void main(String args[]) {
+    SolitaireCipher sc = new SolitaireCipher("BigSecret");
+    String cleartext_1 = "Mary had a little lamb";
+    System.out.printf("Cleartext 1: %s\n", cleartext_1);
+    String ciphertext = sc.encrypt(cleartext_1);
+    System.out.printf("Ciphertext: %s\n", ciphertext);
+    String cleartext_2 = sc.decrypt(ciphertext);
+    System.out.printf("Cleartext 2: %s\n", cleartext_2);
+  } // main(String[])
+
 } // class SolitaireCipher
