@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-11-15 | 3.4.17 | Deleted trivial test JACOBIN-0280. |
 | 2024-11-10 | 3.4.16 | Stop JACOBIN-0251-array-type-perf from timing out. |
 | 2024-11-09 | 3.4.15 | fixes c/o golangci-lint. |
 | 2024-10-07 | 3.4.14 | New test case: crc for CRC32, CRC32C, and Adler32. |
