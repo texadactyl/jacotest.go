@@ -14,7 +14,7 @@ public class main {
         int errorCount = 0;
 		HexFormat hex = HexFormat.ofDelimiter(":");
 		System.out.println("HexFormat.ofDelimiter(:) instantiated ok");
-		System.out.println(hex);
+		System.out.println(hex.toString());
 
         int ii = 65537;
         short ss = (short) ii;
