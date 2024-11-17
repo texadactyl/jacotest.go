@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-11-17 | 3.4.18 | Enhanced test case JACOBIN-0433-HexFormat. |
 | 2024-11-15 | 3.4.17 | Deleted trivial test JACOBIN-0280. |
 | | | Modified JACOBIN-0263 to loop less to avoid time-outs. |
 | | | Print hex.toString() instead of the generic object print in test case JACOBIN-0433-HexFormat |
