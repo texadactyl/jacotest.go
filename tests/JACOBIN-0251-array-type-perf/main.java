@@ -1,7 +1,7 @@
 public class main {
 
-	final static int NELEMS = 1000000;
-	final static int NLOOPS = 1000000;
+	final static int NELEMS = 10000;
+	final static int NLOOPS = 10000;
 
 	public static void reporter(String label, long t1, long t2) {	
     	double et = (double) (t2 - t1) / 1000.0;

@@ -43,6 +43,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  hashed-map  | java.util.HashMap |
 |  hashed-set  | java.util.HashSet |
 |  hex-decode-numeric  | Loop stability of decoding numeric values |
+|  hexxed | java.util.HexMap |
 |  http-client-server  | Simple non-secure web client and server |
 |  https-client-getter  | Simple secure web GET |
 |  imageio-output  | Simple writing to a PNG file  |

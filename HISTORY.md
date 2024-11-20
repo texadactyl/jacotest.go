@@ -4,6 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-11-20 | 3.4.21 | Avoid timeout on Windows in test case JACOBIN-0251-array-type-perf. |
+| 2024-11-19 | 3.4.20 | Enhanced test case ex-finally. |
 | 2024-11-18 | 3.4.19 | New test case: hexxed. |
 | 2024-11-17 | 3.4.18 | Enhanced test case JACOBIN-0433-HexFormat. |
 | 2024-11-15 | 3.4.17 | Deleted trivial test JACOBIN-0280. |

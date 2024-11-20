@@ -86,7 +86,9 @@ public class main {
 
         // Make the key.
         byte[] salt = getSalt();
+        System.out.println("getSalt() ok");
         SecretKeySpec secretKeySpec = makeSecretKeySpec(password, salt, keySize, iterations);
+        System.out.println("SecretKeySpec instantiation ok");
 
         // Perform encryption.
         EncryptionOutput eo = encrypt(secretKeySpec, msgBytes);
