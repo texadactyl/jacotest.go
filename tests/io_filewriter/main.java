@@ -26,17 +26,22 @@ public class main {
         for (int ii = 0; ii < N_ELEMENTS; ii++) {
         	observed[ii] = 0;
         }
+        System.out.println("Success :: Created a 2nd byte array");
          
     	// Read observed from file all at once.
         FileInputStream fis = new FileInputStream(path);
+        System.out.println("Success :: FileInputStream instantiated");
         InputStreamReader isr = new InputStreamReader(fis);
+        System.out.println("Success :: InputStreamReader instantiated");
         isr.read(observed, 0, N_ELEMENTS);
         isr.close();
+        System.out.println("Success :: InputStreamReader read and closed");
         
         // Compare.
         for (int ii = 0; ii < N_ELEMENTS; ii++) {
-        	//System.out.printf("DEBUG expected[%d]=%x, observed[%d]=%x\n", ii, (int) expected[ii], ii, (int) observed[ii]);
-        	if (observed[ii] != expected[ii]) {
+        	if (observed[ii] == expected[ii]) {
+        	    System.out.printf("Success :: expected[%d]=%x, observed[%d]=%x\n", ii, (int) expected[ii], ii, (int) observed[ii]);
+            } else {
         		System.out.printf("*** ERROR, expected[%d]=%x, observed[%d]=%x\n", ii, (int) expected[ii], ii, (int) observed[ii]);
         		return 1;
         	}

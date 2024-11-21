@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+TRAP:
 Invalid (null)
 not found in MTable
 AccessDeniedException
