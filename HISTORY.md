@@ -4,6 +4,8 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-11-22 | 3.4.23 | New test cases: elliptic-1 and elliptic-2. |
+| | | Deleted test case elliptic - which is now elliptic-1 enhanced. |
 | 2024-11-21 | 3.4.22 | Highlight "TRAP:". Fiddled with test case io_filewriter. |
 | 2024-11-20 | 3.4.21 | Avoid timeout on Windows in test case JACOBIN-0251-array-type-perf. |
 | 2024-11-19 | 3.4.20 | Enhanced test case ex-finally. |
