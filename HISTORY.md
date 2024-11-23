@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-11-23 | 3.4.24 | New test case: ex-catch-plus-jj. |
 | 2024-11-22 | 3.4.23 | New test cases: elliptic-1 and elliptic-2. |
 | | | Deleted test case elliptic - which is now elliptic-1 enhanced. |
 | 2024-11-21 | 3.4.22 | Highlight "TRAP:". Fiddled with test case io_filewriter. |
