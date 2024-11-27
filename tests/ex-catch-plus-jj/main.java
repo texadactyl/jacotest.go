@@ -8,7 +8,7 @@ public class main {
     
         int errorCount = 0;
         System.out.println("Catch an exception thrown in a called function plus use of jj._dumpStatics()");
-        jj._dumpStatics("Here is a statics dump just before trying to call fn().\t");
+        jj._dumpStatics("Here is a statics dump just BEFORE trying to call fn().", 3, "");
         
         try {            
             fn();
@@ -18,15 +18,15 @@ public class main {
             System.out.println("Success :: Caught NumberFormatException");
         }
         
-        jj._dumpStatics("Here is a statics dump just before the assertion-check.\t");
+        jj._dumpStatics("Here is a statics dump just AFTER the assertion-check.", 3, "");
         assert (errorCount == 0);
 
    }
 }
 
 class jj {
-   public static void _dumpStatics(String arg) {
-        System.out.printf("J-function _dumpStatics: %s\nEMPTY! (not jacobin)\n", arg);
+   public static void _dumpStatics(String from, int selection, String className) {
+        System.out.printf("J-class function _dumpStatics: from=\"%s\", selection=%d, className=\"%s\": EMPTY (not Jacobin)\n", from, selection, className);
    }
 }
 
