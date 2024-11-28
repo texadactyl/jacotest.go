@@ -1,11 +1,34 @@
 public class main {
+
+    private static int mainClassInt = 1;
+    private static final double mainClassDouble = 2.0;
+    private static String mainClassString = "three";
+
     public static void main(String[] args) {
     
-        MyClass myObject = new MyClass();
-        jj._dumpObject(myObject, "My Title", 0);     
+        int mainFunInt = 1;
+        final double mainFunDouble = 2.0;
+        String mainFunString = "three";
+
+        KlassKambing objKambing = new KlassKambing();
+        System.out.println("=========================== jj._dumpObject(objKambing...) begin");
+        jj._dumpObject(objKambing, "objKambing from KlassKambing", 0);
+        System.out.println("=========================== jj._dumpObject(objKambing...) end");
+        
+        main objMain = new main();
+        System.out.println("=========================== jj._dumpObject(objMain...) begin");
+        jj._dumpObject(objMain, "Second main object", 0);
+        System.out.println("=========================== jj._dumpObject(objMain...) end");
+
         jj._dumpStatics("Statics Dump", 3, "");
- 
-   }
+        
+    }
+    
+    private void fun() {
+        int funInt = 1;
+        double funDouble = 2.0;
+        String funString = "three";
+    }
 }
 
 class jj {
@@ -17,9 +40,9 @@ class jj {
    }
 }
 
-class MyClass {
+class KlassKambing {
     int alaska = 1;
-    int Abraham = 2;
-    int aBEL = 3;
+    double Abraham = 2.0;
+    String aBEL = "three";
 }
 
