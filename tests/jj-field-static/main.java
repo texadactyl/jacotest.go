@@ -2,9 +2,13 @@
 
 public class main {
 
-    private static int mainClassInt = 1;
-    private static final double mainClassDouble = 2.0;
-    private static String mainClassString = "three";
+    private static int mainStaticInt = 1;
+    private static final double mainStaticDouble = 2.0;
+    private static String mainStaticString = "three";
+    
+    private int mainFieldInt = 1;
+    private final double mainFieldDouble = 2.0;
+    private String mainFieldString = "three";
     
     private static int checker(String label, String expected, String observed) {
         if (observed.equals("ignore")) {
@@ -41,9 +45,9 @@ public class main {
         jj._dumpStatics("Statics Dump", 3, "");
         
         System.out.println("\n=========================== jj._getStaticString begin");
-        errorCount += checker("static main.mainClassInt", "1", jj._getStaticString("main", "mainClassInt"));
-        errorCount += checker("static main.mainClassDouble", "2", jj._getStaticString("main", "mainClassDouble"));
-        errorCount += checker("static main.mainClassString", "three", jj._getStaticString("main", "mainClassString"));
+        errorCount += checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
+        errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
+        errorCount += checker("static main.mainStaticString", "three", jj._getStaticString("main", "mainStaticString"));
         System.out.println("=========================== jj._getStaticString end");
         
         System.out.println("\n=========================== objKambing jj._getFieldString begin");
@@ -54,9 +58,9 @@ public class main {
         
         System.out.println("\n=========================== objMain jj._getFieldString begin");
         try {
-            errorCount += checker("field objMain.mainFunInt", "1", jj._getFieldString(objMain, "mainFunInt"));
-            errorCount += checker("field objMain.mainFunDouble", "2", jj._getFieldString(objMain, "mainFunDouble"));
-            errorCount += checker("field objMain.mainFunString", "three", jj._getFieldString(objMain, "mainFunString"));
+            errorCount += checker("field objMain.mainFieldInt", "1", jj._getFieldString(objMain, "mainFieldInt"));
+            errorCount += checker("field objMain.mainFieldDouble", "2", jj._getFieldString(objMain, "mainFieldDouble"));
+            errorCount += checker("field objMain.mainFieldString", "three", jj._getFieldString(objMain, "mainFieldString"));
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
