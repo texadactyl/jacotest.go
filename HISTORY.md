@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-12-01 | 3.4.27 | Updated and renamed test case JACOBIN-0626-DumpObject-DumpStatics to jj-field-static. |
 | 2024-11-28 | 3.4.26 | Updated test case: JACOBIN-0626-DumpObject-DumpStatics. |
 | 2024-11-27 | 3.4.25 | New test case: JACOBIN-0626-DumpObject-DumpStatics. |
 | 2024-11-23 | 3.4.24 | New test case: ex-catch-plus-jj. |
