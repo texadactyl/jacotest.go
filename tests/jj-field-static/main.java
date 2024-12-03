@@ -48,6 +48,8 @@ public class main {
         errorCount += checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
         errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
         errorCount += checker("static main.mainStaticString", "three", jj._getStaticString("main", "mainStaticString"));
+        errorCount += checker("static KlassKambing.fortyTwo", "42", jj._getStaticString("KlassKambing", "fortyTwo"));
+        errorCount += checker("static KlassAngsa.fortyThree", "43", jj._getStaticString("KlassAngsa", "fortyThree"));
         System.out.println("=========================== jj._getStaticString end");
         
         System.out.println("\n=========================== objKambing jj._getFieldString begin");
@@ -104,9 +106,15 @@ class jj {
    
 }
 
+class KlassAngsa {
+    static final int fortyThree = 43;
+}
+
 class KlassKambing {
     int alaska = 1;
     double Abraham = 2.0;
     String aBEL = "three";
+    static final int fortyTwo = 42;
+    KlassAngsa angsa = new KlassAngsa();
 }
 
