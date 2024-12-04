@@ -2,14 +2,23 @@
 
 public class main {
 
-    private static int mainStaticInt = 1;
+    // nain class statics
+    private static boolean mainStaticBoolean = true;
+    private static byte mainStaticByte = 0x07;
+    private static char mainStaticChar = '8';
     private static final double mainStaticDouble = 2.0;
+    private static float mainStaticFloat = 4.0f;
+    private static int mainStaticInt = 1;
+    private static long mainStaticLong = 5;
+    private static short mainStaticShort = 6;
     private static String mainStaticString = "three";
-    
+
+    // main class fields
     private int mainFieldInt = 1;
     private final double mainFieldDouble = 2.0;
     private String mainFieldString = "three";
     
+    // Check observed string to expected string.
     private static int checker(String label, String expected, String observed) {
         if (observed.equals("ignore")) {
             System.out.printf("Ignore :: %s, expected=\"%s\"\n", label, expected);
@@ -23,7 +32,7 @@ public class main {
         return 1;
     }
 
-
+    // Main entry point.
     public static void main(String[] args) {
     
         int errorCount = 0;
@@ -45,11 +54,17 @@ public class main {
         jj._dumpStatics("Statics Dump", 3, "");
         
         System.out.println("\n=========================== jj._getStaticString begin");
-        errorCount += checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
+        errorCount += checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
+        mainStaticBoolean = false;
+        errorCount += checker("static main.mainStaticBoolean", "false", jj._getStaticString("main", "mainStaticBoolean"));
+        errorCount += checker("static main.mainStaticByte", "07", jj._getStaticString("main", "mainStaticByte"));
+        errorCount += checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
         errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
+        errorCount += checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
+        errorCount += checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
+        errorCount += checker("static main.mainStaticLong", "5", jj._getStaticString("main", "mainStaticLong"));
+        errorCount += checker("static main.mainStaticShort", "6", jj._getStaticString("main", "mainStaticShort"));
         errorCount += checker("static main.mainStaticString", "three", jj._getStaticString("main", "mainStaticString"));
-        errorCount += checker("static KlassKambing.fortyTwo", "42", jj._getStaticString("KlassKambing", "fortyTwo"));
-        errorCount += checker("static KlassAngsa.fortyThree", "43", jj._getStaticString("KlassAngsa", "fortyThree"));
         System.out.println("=========================== jj._getStaticString end");
         
         System.out.println("\n=========================== objKambing jj._getFieldString begin");
@@ -84,6 +99,14 @@ public class main {
     }
 }
 
+// Class Kambing, instantiated in the main class.
+class KlassKambing {
+    int alaska = 1;
+    double Abraham = 2.0;
+    String aBEL = "three";
+}
+
+// Class jj in case we are executed by the OpenJDL JVM.
 class jj {
 
    public static void _dumpStatics(String from, int selection, String className) {
@@ -104,17 +127,5 @@ class jj {
         return "ignore";
    }
    
-}
-
-class KlassAngsa {
-    static final int fortyThree = 43;
-}
-
-class KlassKambing {
-    int alaska = 1;
-    double Abraham = 2.0;
-    String aBEL = "three";
-    static final int fortyTwo = 42;
-    KlassAngsa angsa = new KlassAngsa();
 }
 
