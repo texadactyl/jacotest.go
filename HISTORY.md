@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-12-06 | 3.4.30 | Fixed calculations in test case bohr-atom. |
 | 2024-12-04 | 3.4.29 | Updated test case jj-field-static to include more static variable types. |
 | 2024-12-03 | 3.4.28 | Updated test case jj-field-static. |
 | 2024-12-01 | 3.4.27 | Updated and renamed test case JACOBIN-0626-DumpObject-DumpStatics to jj-field-static. |
