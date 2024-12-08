@@ -9,8 +9,8 @@ public class main {
 
     // Check observed string to expected string.
     private static int checker(String label, String expected, String observed) {
-        if (observed.equals("ignore")) {
-            System.out.printf("Ignore :: %s, expected=\"%s\"\n", label, expected);
+        if (observed.equals("openjdk")) {
+            System.out.printf("openjdk :: %s, expected=\"%s\"\n", label, expected);
             return 0;
         }
         if (observed.equals(expected)) {
@@ -31,7 +31,7 @@ public class main {
         
         String str = jj._getStaticString("main", "bite");
         errorCount += checker("static main bite", "13", str);
-        if (str.equals("ignore")) { System.exit(0); }
+        if (str.equals("openjdk")) { System.exit(0); }
         
         str = jj._getStaticString("main", "ba");
         errorCount += checker("static main ba", "1,2,3", str);
@@ -109,12 +109,12 @@ class jj {
    
    public static String _getStaticString(String className, String fieldName) {
         String str = String.format("J-class function _getStaticString: className=\"%s\", fieldName=%s: dummy (not Jacobin)", className, fieldName);
-        return "ignore";
+        return "openjdk";
    }
    
    public static String _getFieldString(Object obj, String fieldName) {
         String str = String.format("J-class function _getFieldString: fieldName=%s: dummy (not Jacobin)", fieldName);
-        return "ignore";
+        return "openjdk";
    }
    
 }
