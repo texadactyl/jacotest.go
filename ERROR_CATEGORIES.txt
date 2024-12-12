@@ -4,6 +4,8 @@
 # Highest priority for fragment searching
 # ---------------------------------------
 TRAP:
+INVOKEDYNAMIC
+INVOKEINTERFACE
 Invalid (null)
 not found in MTable
 AccessDeniedException
