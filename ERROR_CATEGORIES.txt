@@ -6,6 +6,7 @@
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
+Bytecode exceeds CheckTable
 Invalid (null)
 not found in MTable
 AccessDeniedException

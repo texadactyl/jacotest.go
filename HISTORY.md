@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-12-12 | 3.4.33 | Make "Bytecode exceeds CheckTable" stand out in error reporting. |
 | 2024-12-12 | 3.4.32 | Make INVOKEINTERFACE and INVOKEDYNAMIC stand out in error reporting. |
 | 2024-12-07 | 3.4.31 | New test case: jj-field-static-2. |
 | 2024-12-06 | 3.4.30 | Fixed calculations in test case bohr-atom. |
