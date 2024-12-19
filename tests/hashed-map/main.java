@@ -28,12 +28,17 @@ public class main {
         System.out.println("Testing a hashed map");
         int errorCount = 0;
         HashMap<String, String> capitalCities = new HashMap<String, String>();
+        System.out.println("HashMap init ok");
 
         // Add keys and values (Country, City)
         capitalCities.put("UK", "London");
+        System.out.printf("put ok:%s %s\n", "UK", "London");
         capitalCities.put("Germany", "Berlin");
+        System.out.printf("put ok:%s %s\n", "Germany", "Berlin");
         capitalCities.put("Norway", "Oslo");
+        System.out.printf("put ok:%s %s\n", "Norway", "Oslo");
         capitalCities.put("USA", "Washington DC");
+        System.out.printf("put ok:%s %s\n", "USA", "Washington DC");
         System.out.println(capitalCities);
 
         errorCount += checkerString("capitalCities.get(UK) == London", capitalCities.get("UK"), "London");

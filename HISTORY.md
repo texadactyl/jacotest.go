@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2024-12-19 | 3.4.36 | New ERROR_CATEGORIES.txt entry: GetMethInfoFromCPmethref. |
 | 2024-12-17 | 3.4.35 | New test case: blum-blum-shub. |
 | 2024-12-15 | 3.4.34 | New test case: desi-reduced. |
 | 2024-12-12 | 3.4.33 | Make "Bytecode exceeds CheckTable" stand out in error reporting. |
