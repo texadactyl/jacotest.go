@@ -45,6 +45,7 @@ public class main {
                       (key[i * 4 + 2] & 0xFF) << 8 |
                       (key[i * 4 + 3] & 0xFF);
         }
+        //System.out.printf("generateKeystream: initialised lfsr (%d): %s\n", lfsr.length, Arrays.toString(lfsr));
         for (int i = 0; i < 4; i++) {
             lfsr[8 + i] = (iv[i * 4] & 0xFF) << 24 |
                           (iv[i * 4 + 1] & 0xFF) << 16 |
@@ -54,11 +55,16 @@ public class main {
 
         // Fill the rest of LFSR with a predefined constant or zero
         Arrays.fill(lfsr, 12, 16, 0x9E3779B9); // Example constant
+        //System.out.printf("generateKeystream: filled lfsr (%d): %s\n", lfsr.length, Arrays.toString(lfsr));
 
         // Warm-up phase: advance the state 32 times to initialize
+        System.out.printf("generateKeystream: BEFORE advanceState lfsr (%d): %s\n", lfsr.length, Arrays.toString(lfsr));
+        System.out.printf("generateKeystream: BEFORE advanceState  fsm (%d): %s\n", fsm.length, Arrays.toString(fsm));
         for (int i = 0; i < 32; i++) {
             advanceState(lfsr, fsm);
         }
+        System.out.printf("generateKeystream: AFTER  advanceState lfsr (%d): %s\n", lfsr.length, Arrays.toString(lfsr));
+        System.out.printf("generateKeystream: AFTER  advanceState  fsm (%d): %s\n", fsm.length, Arrays.toString(fsm));
 
         // Generate keystream
         for (int i = 0; i < length; i++) {
@@ -87,11 +93,14 @@ public class main {
     }
 
     public static byte[] encrypt(byte[] plaintext, byte[] key, byte[] iv) {
+        //System.out.printf("encrypt: key (%d): %s\n", key.length, bytesToHex(key));
+        //System.out.printf("encrypt: iv (%d): %s\n", iv.length, bytesToHex(iv));
         if (key.length != KEY_SIZE || iv.length != IV_SIZE) {
             throw new IllegalArgumentException("Invalid key or IV size.");
         }
 
         byte[] keystream = generateKeystream(key, iv, plaintext.length);
+        //System.out.printf("encrypt: keystream (%d): %s\n", keystream.length, bytesToHex(keystream));
         byte[] ciphertext = new byte[plaintext.length];
 
         for (int i = 0; i < plaintext.length; i++) {
@@ -121,7 +130,7 @@ public class main {
 
     public static void main(String[] args) {
     
-        System.out.println("Snow V cryptography as used in mobile networks.");
+        System.out.println("main: Snow V cryptography as used in mobile networks.");
         
         byte[] key = new byte[KEY_SIZE];
         byte[] iv = new byte[IV_SIZE];
@@ -133,25 +142,25 @@ public class main {
         // Define input.
         String plaintextString1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/";
         byte[] plaintext = plaintextString1.getBytes();
-        System.out.printf("Plaintext (%d): %s\n", plaintext.length, plaintextString1);
+        System.out.printf("main: Plaintext (%d): %s\n", plaintext.length, plaintextString1);
 
         // Encrypt.
         byte[] ciphertext = encrypt(plaintext, key, iv);
-        System.out.printf("Ciphertext (%d): %s\n", ciphertext.length, bytesToHex(ciphertext));
+        System.out.printf("main: Ciphertext (%d): %s\n", ciphertext.length, bytesToHex(ciphertext));
 
         // Decrypt.
         byte[] decrypted = decrypt(ciphertext, key, iv);
         String plaintextString2 = new String(decrypted);
-        System.out.printf("Decrypted (%d): %s\n", decrypted.length, plaintextString2);
+        System.out.printf("main: Decrypted (%d): %s\n", decrypted.length, plaintextString2);
         
         // Test result.
         if (Arrays.equals(plaintext, decrypted)) {
-            System.out.println("Success!");
+            System.out.println("main: Success!");
             System.exit(0);
         }
         
         // Bad news.
-        throw new AssertionError("*** ERROR, Decryption result does not match the original plaintext");
+        throw new AssertionError("main: *** ERROR, Decryption result does not match the original plaintext");
         
     }
 }
