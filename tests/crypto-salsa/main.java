@@ -134,8 +134,7 @@ public class main {
             
             // Check final result.
             if(plaintext2.compareTo(plaintext) != 0) {
-                System.out.println("*** ERROR, the decrypted plaintext is not the same as the original plaintext!");
-                System.exit(1);
+                throw new AssertionError("*** ERROR, the decrypted plaintext is not the same as the original plaintext!");
             }
             System.out.println("Success! The decrypted plaintext is the same as the original plaintext.");
 
