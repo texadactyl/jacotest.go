@@ -22,7 +22,7 @@ func showHelp() {
 	fmt.Printf("\t-c : Compile the test cases.\n")
 	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
 	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
-	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.\n")
+	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60.\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
@@ -45,17 +45,18 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 		}
 		msg = fmt.Sprintf("%s errors in %d %s", category, arrayCount, suffix)
 		Logger(msg)
-		WriteOutputText(outHandle, msg)
+		WriteOutputText(outHandle, "\n"+msg)
 		if showList {
 			for _, name := range arrayNames {
 				msg = fmt.Sprintf("	 %s", name)
 				Logger(msg)
+				WriteOutputText(outHandle, msg)
 			}
 		}
 	} else {
 		msg = fmt.Sprintf("No %s errors", category)
 		Logger(msg)
-		WriteOutputText(outHandle, msg)
+		WriteOutputText(outHandle, "\n"+msg)
 	}
 }
 
@@ -74,7 +75,7 @@ func main() {
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	deadlineSecs := 120  // default deadline in seconds
+	deadlineSecs := 60   // default deadline in seconds
 	now := time.Now()    // Get the current time.
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
