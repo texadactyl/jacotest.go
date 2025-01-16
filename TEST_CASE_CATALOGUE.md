@@ -1,7 +1,7 @@
 This file is a catalogue of jacotest test cases.  Entries appear in alphabetic order.
 <br>
 <br>
-| `Name` | `Description`
+| `Name` | `Subject`
 | :------------ | :--- |
 |<img width=90/>|<img width=600/>|
 |  array-list-iterator  | java.util.ArrayList and java.util.Iterator |
@@ -12,16 +12,20 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  big-integer-2  | java.math.BigInteger tests #2 |
 |  big-integer-3  | java.math.BigInteger tests #3 |
 |  blockchain  | Create a blockchain, amend it, and validate it |
+|  blum-blum-shub | Blum-Blum-Shub (BBS) Algorithm for PseudoRandom Number Generation |
 |  bohr-atom  | Compute properties of the Bohr model of the atom  |
 |  casting  | Casting between primitive variable types |
 |  catch-8-survivor  | try-catch 8 levels deep |
 |  charset-encoding  | java.nio.charset.Charset, InputStreamReader.getEncoding() |
 |  cmath-in-java-source  | class Complex |
 |  crc  | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
+|  crypto-salsa | salsa 2.0 cryptography |
 |  db-sqlite  | SQLITE with a JDBC |
 |  dedupe-hacked  | "Looks for duplicate files based on CRC-32 file sizes and checksums" from @platypusguy |
 |  desi  | DES algorithm in Java |
-|  elliptic  | Elliptic cryptography |
+|  desi-reduced | Call functions of an object from outside and inside the object |
+|  elliptic-1  | Elliptic cryptography #1 |
+|  elliptic-2  | Elliptic cryptography #2 |
 |  emission-line-spectra  | Emission line spectra from an element table |
 |  emission-line-spectra-nofuncs  | Less complex emission-line-spectra |
 |  enigma-machine  | Alan Turing's Enigma Machine |
@@ -34,6 +38,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  ex-catch-multi-frame  | Throw and catch several types of exceptions at various function-call levels |
 |  ex-catch-null-ptr  | Cause and catch a null pointer exception |
 |  ex-catch-parseint  | Loop stability of causing and catching a NumberFormatException |
+|  ex-catch-plus-jj | catch NumberFormatException in a called function + use the JJ technique for dumping statics |
 |  ex-catch-user-ex  | Cause and catch a user-defined exception |
 |  ex-finally  | Cause and catch a NumberFormatException + finally processing |
 |  ex-finally-2  | Loop stability of causing and catching a NumberFormatException + finally processing |
@@ -46,6 +51,8 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  hexxed | java.util.HexMap |
 |  http-client-server  | Simple non-secure web client and server |
 |  https-client-getter  | Simple secure web GET |
+|  iface-with-default-func | Simple interface |
+|  iinc-iadd-isub | Exercise IINC, IADD, and ISUB |
 |  imageio-output  | Simple writing to a PNG file  |
 |  Integer-all  | java.lang.Integer |
 |  io_file_create_delete  | Create and delete a file |
@@ -68,42 +75,44 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  JACOBIN-0251-array-type-perf  | Loop stability of various types of arrays part 1 |
 |  JACOBIN-0263-gc  | Loop stability of various types of arrays part 2 |
 |  JACOBIN-0279-simple-switch  | Simple integer-based switch |
-|  JACOBIN-0281-get-property  | xxxxx |
-|  JACOBIN-0288-aastore-field-type  | xxxxx |
-|  JACOBIN-0289-checkcast  | xxxxx |
-|  JACOBIN-0290-string-length  | xxxxx |
-|  JACOBIN-0293-drem  | xxxxx |
-|  JACOBIN-0301-putstatic  | xxxxx |
-|  JACOBIN-0310-vector-survivor  | xxxxx |
-|  JACOBIN-0311-for-loop-G-pop  | xxxxx |
-|  JACOBIN-0312-FCMPG  | xxxxx |
-|  JACOBIN-0314-java-lang-math  | xxxxx |
-|  JACOBIN-0314-java-lang-strictmath  | xxxxx |
-|  JACOBIN-0314-loop-survival  | xxxxx |
-|  JACOBIN-0319-println-object  | xxxxx |
-|  JACOBIN-0322-default-locale  | xxxxx |
-|  JACOBIN-0325-super-1  | xxxxx |
-|  JACOBIN-0325-super-2  | xxxxx |
-|  JACOBIN-0329-nonfinals  | xxxxx |
-|  JACOBIN-0337-static-inits  | xxxxx |
-|  JACOBIN-0369-simplified-0290  | xxxxx |
-|  JACOBIN-0386-0387-strings-again  | xxxxx |
-|  JACOBIN-0393-pot-pourri  | xxxxx |
-|  JACOBIN-0393-two-strings  | xxxxx |
-|  JACOBIN-0433-HexFormat  | xxxxx |
-|  JACOBIN-0434-short-value  | xxxxx |
-|  JACOBIN-0435-format-int-as-hex  | xxxxx |
-|  JACOBIN-0476-arraycopy  | xxxxx |
-|  JACOBIN-0587-statics-survival  | xxxxx |
-|  jarring  | xxxxx |
-|  java17-enhancements  | xxxxx |
-|  java-logging  | xxxxx |
+|  JACOBIN-0281-get-property  | System.getProperty for several arguments |
+|  JACOBIN-0288-aastore-field-type  | Simple AASTORE test |
+|  JACOBIN-0290-string-length  | String lengths and related functions |
+|  JACOBIN-0293-drem  | DREM test |
+|  JACOBIN-0310-vector-survivor  | Simple vector of Integer objects |
+|  JACOBIN-0311-for-loop-G-pop  | PUSH/POP stability |
+|  JACOBIN-0312-FCMPG  | FCMP test |
+|  JACOBIN-0314-java-lang-math  | java/lang/Math |
+|  JACOBIN-0314-java-lang-strictmath  | java/lang/StrictMath |
+|  JACOBIN-0314-loop-survival  | Stress test with multiple object and primitive types |
+|  JACOBIN-0319-println-object  | System.out.println(object) with several types of objects |
+|  JACOBIN-0322-default-locale  | java.util.Locale |
+|  JACOBIN-0325-super-1  | Objects of superclasses #1 |
+|  JACOBIN-0325-super-2  | Objects of superclasses #2 |
+|  JACOBIN-0329-nonfinals  | Finals vs nonfinals |
+|  JACOBIN-0337-static-inits  | Static initializer blocks |
+|  JACOBIN-0369-simplified-0290  | String lengths and related functions, simplified for analysis |
+|  JACOBIN-0386-0387-strings-again  | Strings and byte arrays |
+|  JACOBIN-0393-pot-pourri  | Formatting simple types  |
+|  JACOBIN-0393-two-strings  | Formatting simple types in another way |
+|  JACOBIN-0433-HexFormat  | java.util.HexFormat |
+|  JACOBIN-0434-short-value  | Short values |
+|  JACOBIN-0435-format-int-as-hex  | Format integers in hex |
+|  JACOBIN-0476-arraycopy  | System.arraycopy |
+|  JACOBIN-0587-statics-survival  | Statics |
+|  jarring  | Create and use functions from a jar |
+|  java17-enhancements  | Java 17 enhancements to the previous release |
+|  java-logging  | java.util.logging |
+|  jj-field-static | xxxxx |
+|  jj-field-static-2 | xxxxx |
 |  kalman-filtering  | xxxxx |
 |  lambdas-maps  | xxxxx |
 |  linked-list  | xxxxx |
 |  math-in-java-source  | xxxxx |
 |  merkletrees  | xxxxx |
 |  miller-rabin-test  | xxxxx |
+|  mobile-5g-aka | xxxxx |
+|  mobile-snow-v | xxxxx |
 |  natives-double  | xxxxx |
 |  natives-float  | xxxxx |
 |  nbody  | xxxxx |

@@ -106,7 +106,7 @@ class KlassKambing {
     String aBEL = "three";
 }
 
-// Class jj in case we are executed by the OpenJDL JVM.
+// Class jj in case we are executed by the OpenJDK JVM.
 class jj {
 
    public static void _dumpStatics(String from, int selection, String className) {
