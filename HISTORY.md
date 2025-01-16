@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-01-16 | 3.5.3 | New test case: blocking-queues-2-3-5. |
 | 2025-01-09 | 3.5.2 | New test case: iface-with-default-func. |
 | 2024-12-30 | 3.5.1 | JACOBIN-634: report fix. |
 | 2024-12-29 | 3.4.38 | New test case: crypto-salsa must throw new AssertionError. |

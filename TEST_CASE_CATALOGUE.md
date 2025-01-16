@@ -12,6 +12,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  big-integer-2  | java.math.BigInteger tests #2 |
 |  big-integer-3  | java.math.BigInteger tests #3 |
 |  blockchain  | Create a blockchain, amend it, and validate it |
+|  blocking-queues-2-3-5 | Solve the 2,3,5 problem; blocking queues |
 |  blum-blum-shub | Blum-Blum-Shub (BBS) Algorithm for PseudoRandom Number Generation |
 |  bohr-atom  | Compute properties of the Bohr model of the atom  |
 |  casting  | Casting between primitive variable types |
