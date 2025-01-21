@@ -14,20 +14,34 @@ public class main {
         return 1;
     }
 
+    public static int checker(String label, String expected, String observed) {
+        System.out.print("checker ");
+        if (expected.equals(observed)) {
+            System.out.print(label);
+            System.out.printf(" ok, expected=%s, observed=%s\n", expected, observed);
+            return 0;
+        }
+        System.out.print(label);
+        System.out.printf(" *** ERROR, expected=%s, observed=%s\n", expected, observed);
+        return 1;
+    }
+
 	private static int funk(int initialValue) {
+	    AtomicInteger ai;
 		System.out.printf("\n===================== funk, initialValue=%d\n", initialValue);
-		AtomicInteger ai = new AtomicInteger();
 		int expected, observed, newValue;
 		boolean boolie;
 		int errorCount = 0;
 		if (initialValue != 0) {
 			ai = new AtomicInteger(initialValue);
 			expected = initialValue;
-		} else
+		} else {
+			ai = new AtomicInteger();
 			expected = 0;
+		}
 		
 		observed = ai.get();
-		errorCount += checker("1 AtomicInteger <init>", expected, observed);
+		errorCount += checker("1 AtomicInteger get after <init>", expected, observed);
 		
 		expected = 100;
 		ai.set(expected);
@@ -64,6 +78,19 @@ public class main {
 		observed = ai.decrementAndGet();
 		errorCount += checker("9 AtomicInteger decrementAndGet", expected, observed);
 		
+		ai.set(300);
+		expected = 306;
+		observed = ai.addAndGet(6);
+		errorCount += checker("10 AtomicInteger addAndGet", expected, observed);
+
+        float ff = ai.floatValue();
+		errorCount += checker("11 AtomicInteger floatValue", "306.0", String.format("%04.1f", ff));
+        		
+        double dd = ai.doubleValue();
+		errorCount += checker("12 AtomicInteger doubleValue", "306.0", String.format("%04.1f", dd));
+		
+        String ss = ai.toString();		
+		errorCount += checker("13 AtomicInteger toString", "306", ss);
 		
 		return errorCount;
 	}
