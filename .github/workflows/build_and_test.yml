@@ -61,7 +61,7 @@ jobs:
         ./src/jacotest -z -v -j openjdk
 
     - name: Show subclassing in test cases
+    - if: runner.os == 'Linux'
       run: |
-         if [ "$RUNNER_OS" == "Linux" ]; then
-              ./show_subclassing.sh
-         fi
+         ./show_subclassing.sh
+
