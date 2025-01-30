@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-01-30 | 3.5.5 | Updated ERROR_CATEGORIES.txt to prioritize reporting stack {under,over}flows. |
 | 2025-01-21 | 3.5.4 | Added more functions to test case atomic-integer. |
 | 2025-01-16 | 3.5.3 | New test case: blocking-queues-2-3-5. |
 | 2025-01-09 | 3.5.2 | New test case: iface-with-default-func. |

@@ -6,6 +6,8 @@
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
+stack underflow
+stack overflow
 GetMethInfoFromCPmethref
 Bytecode exceeds CheckTable
 Invalid (null)
@@ -91,8 +93,6 @@ PUTSTATIC: field
 runtime error: index out of range
 runtime error: invalid memory address
 runtime.sigpanic
-stack overflow
-stack underflow
 trying for a superclass field
 WaitClassStatus
 #
