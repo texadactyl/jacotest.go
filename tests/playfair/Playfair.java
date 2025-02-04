@@ -51,8 +51,8 @@ public class Playfair {
 
         int lastItem = textArray.size()-1;
 
-        if((textArray.get(lastItem).length()) == 1){
-            textArray.set(lastItem, textArray.get(lastItem).charAt(0) + "Q");
+        if((textArray.get(lastItem).length()) == 1) {
+            textArray.set(lastItem, String.format("%sQ", textArray.get(lastItem)));
         }
 
         return textArray;
@@ -128,7 +128,8 @@ public class Playfair {
             mod = 4;
         }
 
-        for (String s : textPrepared) {
+        for (int ix = 0; ix < textPrepared.size(); ix++) {
+            String s = textPrepared.get(ix);
             firstChar = findRowColumn(String.valueOf(s.charAt(0)));
             secondChar = findRowColumn(String.valueOf(s.charAt(1)));
 

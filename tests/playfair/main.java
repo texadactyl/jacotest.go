@@ -14,6 +14,15 @@ import java.util.*;
 
 public class main {
 
+    private static void printArrayList(String label, ArrayList<String> input) {
+        System.out.printf("%s = [", label);
+        int size = input.size();
+        for (int ix = 0; ix < size; ++ix) {
+            System.out.printf(" %s", input.get(ix));
+        }
+        System.out.println(" ]");
+    }
+
 	public static void main(String[] args) {
      
      	Playfair pf = new Playfair();
@@ -39,10 +48,12 @@ public class main {
         System.out.printf("Formatted cleartext: \"%s\"\n",  cleartextFormatted);
 
         ArrayList<String> cleartextPrepared = pf.prepareText(cleartextFormatted);
-        System.out.printf("Prepared cleartext: \"%s\"\n",  cleartextPrepared);
+        //System.out.printf("Prepared cleartext: \"%s\"\n",  cleartextPrepared);
+        printArrayList("Prepared cleartext", cleartextPrepared);
 
         ArrayList<String> encryptedArrayList = pf.encryptDecrypt("e", cleartextPrepared);
-        System.out.printf("Prepared ciphertext: \"%s\"\n",  encryptedArrayList);
+        //System.out.printf("Prepared ciphertext: \"%s\"\n",  encryptedArrayList);
+        printArrayList("Prepared ciphertext", encryptedArrayList);
         
         String encryptedText = pf.arraylistToString(encryptedArrayList);
         System.out.printf("Raw ciphertext: \"%s\"\n", encryptedText);
@@ -51,10 +62,12 @@ public class main {
         System.out.println("..... DECRYPTION .....");
 
         ArrayList<String> decryptedArrayList = pf.encryptDecrypt("d", encryptedArrayList);
-        System.out.printf("Cleartext2 as an array list: \"%s\"\n",  decryptedArrayList);
+        //System.out.printf("Cleartext2 as an array list: \"%s\"\n",  decryptedArrayList);
+        printArrayList("Cleartext2 as an array list", decryptedArrayList);
         
         ArrayList<String> clearText2Prepared = pf.prepareDecryptedText(decryptedArrayList);
-        System.out.printf("Prepared clearText2: \"%s\"\n",  clearText2Prepared);
+        //System.out.printf("Prepared clearText2: \"%s\"\n",  clearText2Prepared);
+        printArrayList("Prepared clearText2", clearText2Prepared);
 
         String clearText2 = pf.arraylistToString(pf.prepareDecryptedText(decryptedArrayList));
         System.out.printf("Raw cleartext 2: \"%s\"\n",  clearText2);
@@ -62,7 +75,7 @@ public class main {
         
         assert(clearText2.equals(expectedClearText));
         
-        System.out.println("..... END .....");
+        System.out.println("..... SUCCESS .....");
 
     }
     

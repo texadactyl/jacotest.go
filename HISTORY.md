@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-04 | 3.5.6 | Updated test case: playfair, to move on to INVOKEDYNAMIC. |
 | 2025-01-30 | 3.5.5 | Updated ERROR_CATEGORIES.txt to prioritize reporting stack {under,over}flows. |
 | | | Added show_subclassing.sh to gather subclassing information. |
 | | | Updated Github Actions workflow to run show_subclassing.sh on ubuntu only. |
