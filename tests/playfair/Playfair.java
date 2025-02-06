@@ -128,25 +128,48 @@ public class Playfair {
             mod = 4;
         }
 
-        for (int ix = 0; ix < textPrepared.size(); ix++) {
-            String s = textPrepared.get(ix);
-            firstChar = findRowColumn(String.valueOf(s.charAt(0)));
-            secondChar = findRowColumn(String.valueOf(s.charAt(1)));
+        for (int index = 0; index < textPrepared.size(); index++) {
+            String str = textPrepared.get(index);
+            firstChar = findRowColumn(String.valueOf(str.charAt(0)));
+            secondChar = findRowColumn(String.valueOf(str.charAt(1)));
 
+            String kA, kB, kconcat;
             if (firstChar[0] == secondChar[0]) // same row
             {
-                converted.add(key[firstChar[0]][(firstChar[1] + mod) % 5] + key[secondChar[0]][(secondChar[1] + mod) % 5]);
-
+            
+                // converted.add(key[firstChar[0]][(firstChar[1] + mod) % 5]     +     key[secondChar[0]][(secondChar[1] + mod) % 5]);
+                kA = key[ firstChar[0]  ] [ (firstChar[1]  + mod) % 5 ];
+                kB = key[ secondChar[0] ] [ (secondChar[1] + mod) % 5 ];
+                kconcat = kA.concat(kB);
+                converted.add(kconcat);
+                
             } else if (firstChar[1] == secondChar[1]) // same column
             {
-                converted.add(key[(firstChar[0] + mod) % 5][firstChar[1]] + key[(secondChar[0] + mod) % 5][secondChar[1]]);
-
+            
+                // converted.add(key[(firstChar[0] + mod) % 5][firstChar[1]]     +      key[(secondChar[0] + mod) % 5][secondChar[1]]);
+                kA = key[ (firstChar[0]  + mod) % 5 ] [ firstChar[1]  ];
+                kB = key[ (secondChar[0] + mod) % 5 ] [ secondChar[1] ];
+                kconcat = kA.concat(kB);
+                converted.add(kconcat);
+                
             } else // box
             {
-                converted.add(key[firstChar[0]][secondChar[1]] + key[secondChar[0]][firstChar[1]]);
+            
+                // converted.add(key[firstChar[0]][secondChar[1]] + key[secondChar[0]][firstChar[1]]);
+                kA = key[ firstChar[0]  ] [ secondChar[1] ];
+                kB = key[ secondChar[0] ] [ firstChar[1]  ];
+                kconcat = kA.concat(kB);
+                converted.add(kconcat);
+                
             }
         }
     return converted;
+    }
+    
+    // Helper for prepareDecryptedText
+    private void setTwoChars(ArrayList<String> decryptedTextPrepared, int ix, char arg1, char arg2) {
+        String str = String.format("%c%c", arg1, arg2);
+        decryptedTextPrepared.set(ix, str);
     }
 
     //After decryption, replace the Y and Q characters back
@@ -154,16 +177,21 @@ public class Playfair {
         
         // ArrayList<String> decryptedTextPrepared = (ArrayList<String>) decryptedText.clone();
         ArrayList<String> decryptedTextPrepared = decryptedText;
+        
+        char cA, cB;
 
-        for (int i = 0; i < decryptedText.size(); i++) {
-            if (String.valueOf(decryptedText.get(i).charAt(1)).equals("Y")) {
-                decryptedTextPrepared.set(i, (String.valueOf(decryptedText.get(i).charAt(0)) + String.valueOf(decryptedText.get(i).charAt(0))));
+        for (int ix = 0; ix < decryptedText.size(); ix++) {
+            if (String.valueOf(decryptedText.get(ix).charAt(1)).equals("Y")) {
+                //decryptedTextPrepared.set(ix, (String.valueOf(decryptedText.get(ix).charAt(0)) + String.valueOf(decryptedText.get(ix).charAt(0))));
+                setTwoChars(decryptedTextPrepared, ix, decryptedText.get(ix).charAt(0), decryptedText.get(ix).charAt(0));
             }
-            if (String.valueOf(decryptedText.get(i).charAt(0)).equals("Q")) {
-                decryptedTextPrepared.set(i, (" " + String.valueOf(decryptedText.get(i).charAt(1))));
+            if (String.valueOf(decryptedText.get(ix).charAt(0)).equals("Q")) {
+                //decryptedTextPrepared.set(ix, (" " + String.valueOf(decryptedText.get(ix).charAt(1))));
+                setTwoChars(decryptedTextPrepared, ix, ' ', decryptedText.get(ix).charAt(1));
             }
-            if (String.valueOf(decryptedText.get(i).charAt(1)).equals("Q")) {
-                decryptedTextPrepared.set(i, (String.valueOf(decryptedText.get(i).charAt(0))) + " ");
+            if (String.valueOf(decryptedText.get(ix).charAt(1)).equals("Q")) {
+                //decryptedTextPrepared.set(ix, (String.valueOf(decryptedText.get(ix).charAt(0))) + " ");
+                setTwoChars(decryptedTextPrepared, ix, decryptedText.get(ix).charAt(0), ' ');
             }
         }
 
@@ -179,8 +207,10 @@ public class Playfair {
     //Covert an array list to String
     public String arraylistToString (ArrayList < String > textToConvert) {
         StringBuilder textConverted = new StringBuilder();
-        for (String s : textToConvert) {
-            textConverted.append(s);
+        String str;
+        for (int ix = 0; ix < textToConvert.size(); ix++) {
+            str = textToConvert.get(ix);
+            textConverted.append(str);
         }
         return textConverted.toString();
     }
