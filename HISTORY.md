@@ -5,6 +5,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-02-11 | 3.5.8 | New test cases: big-rational, rational-polynomial (extracts from taylor-series). |
+| | | Amended rsa-mini to avoid INVOKEDYNAMIC and now it passes. |
 | 2025-02-06 | 3.5.7 | New test case: enum-simple. |
 | 2025-02-04 | 3.5.6 | Updated test case: playfair, to move on to INVOKEDYNAMIC. |
 | 2025-01-30 | 3.5.5 | Updated ERROR_CATEGORIES.txt to prioritize reporting stack {under,over}flows. |
