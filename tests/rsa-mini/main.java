@@ -44,6 +44,13 @@ public class main {
         
     }
 
+    private static void printPair(String label, BigInteger arg1, BigInteger arg2) {
+        System.out.printf("%s: (", label);
+        System.out.print(arg1);System.out.print(", ");
+        System.out.print(arg2);
+        System.out.println(")");
+    }
+
     public static RSAKeyPair generateRSAKeyPair(int keySize) {
     
         SecureRandom rand = new SecureRandom();
@@ -51,7 +58,8 @@ public class main {
         // Generate two random prime numbers of half the key size
         BigInteger p = generateRandomPrime(keySize / 2, rand);
         BigInteger q = generateRandomPrime(keySize / 2, rand);
-        System.out.println("Primes (p, q): (" + p + ", " + q + ")");
+        //System.out.println("Primes (p, q): (" + p + ", " + q + ")");
+        printPair("Primes (p, q)", p, q);
 
         // Calculate n = modulus and phi
         BigInteger n = p.multiply(q);
@@ -64,8 +72,10 @@ public class main {
         BigInteger d = e.modInverse(phi);
 
         // Show key components
-        System.out.println("Public Key (e, n): (" + e + ", " + n + ")");
-        System.out.println("Private Key (d, n): (" + d + ", " + n + ")");
+        //System.out.println("Public Key (e, n): (" + e + ", " + n + ")");
+        printPair("Public Key (e, n)", e, n);
+        //System.out.println("Private Key (d, n): (" + d + ", " + n + ")");
+        printPair("Private Key (d, n)", d, n);
 
         // Return key pair to caller
         return new RSAKeyPair(n, e, d);
