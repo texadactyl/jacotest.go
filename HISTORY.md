@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-15 | 3.5.9 | New test case: secure-random. |
 | 2025-02-11 | 3.5.8 | New test cases: big-rational, rational-polynomial (extracts from taylor-series). |
 | | | Amended rsa-mini to avoid INVOKEDYNAMIC and now it passes. |
 | 2025-02-06 | 3.5.7 | New test case: enum-simple. |

@@ -1,7 +1,7 @@
 /***
 
 	RSA key generation, public key encryption, and private key decryption.
-	This is fine for an academic exercisee but not for production.
+	This is fine for an academic exercise but not for production.
 
  ***/
 
@@ -11,7 +11,7 @@ import java.util.HexFormat;
 
 public class main {
 
-	final static int keySize = 2048;
+	final static int keySize = 1024;
 
     public static void printLabeledString(String label, String value) {
         System.out.print(label);
@@ -56,6 +56,8 @@ public class main {
         SecureRandom rand = new SecureRandom();
 
         // Generate two random prime numbers of half the key size
+        System.out.print("rand: ");
+        System.out.println(rand);
         BigInteger p = generateRandomPrime(keySize / 2, rand);
         BigInteger q = generateRandomPrime(keySize / 2, rand);
         //System.out.println("Primes (p, q): (" + p + ", " + q + ")");
@@ -96,7 +98,9 @@ public class main {
         BigInteger prime;
         do {
             prime = BigInteger.probablePrime(bitLength, rand);
-        } while (!prime.isProbablePrime(100)); // Test for primality using 100 iterations
+        } while (!prime.isProbablePrime(13));
+        System.out.print("generateRandomPrime: Selected prime: ");
+        System.out.println(prime);
         return prime;
     }
 
