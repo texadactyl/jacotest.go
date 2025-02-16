@@ -42,11 +42,29 @@ const driverDatabase = "sqlite"
 // Assigned and used at run-time
 var pathDatabase string
 var dbHandle *sql.DB
+var dbIsOpen = false
 
 /*
 Internal function to run an SQL statement and handle any errors.
 */
-func sqlFunc(text string) error {
+func sqlFunc(text string, commit bool) error {
+
+	if commit {
+		textBegin := "BEGIN TRANSACTION;"
+		statement, err := dbHandle.Prepare(textBegin) // Prepare COMMIT SQL Statement
+		if err != nil {
+			msg := fmt.Sprintf("sqlFunc: Prepare (%s) (%s) failed, err: \n%s", text, textBegin, err.Error())
+			LogError(msg)
+			return err
+		}
+
+		_, err = statement.Exec()
+		if err != nil {
+			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n%s", text, textBegin, err.Error())
+			LogError(msg)
+			return err
+		}
+	}
 
 	if sqlTracing {
 		msg := fmt.Sprintf("sqlFunc: %s", text)
@@ -55,14 +73,33 @@ func sqlFunc(text string) error {
 
 	statement, err := dbHandle.Prepare(text) // Prepare SQL Statement
 	if err != nil {
-		FmtFatal("sqlFunc: dbHandle.Prepare failed", text, err)
+		msg := fmt.Sprintf("sqlFunc: Prepare (%s) failed, err: \n%s", text, err.Error())
+		LogError(msg)
+		return err
 	}
 
 	_, err = statement.Exec() // Execute SQL Statements
 	if err != nil {
-		msg := fmt.Sprintf("sqlFunc: statement.Exec failed: %s\n%s", text, err.Error())
+		msg := fmt.Sprintf("sqlFunc: Exec (%s) failed, err: %s\n%s", text, err.Error())
 		LogError(msg)
 		return err
+	}
+
+	if commit {
+		textCommit := "COMMIT;"
+		statement, err := dbHandle.Prepare(textCommit) // Prepare COMMIT SQL Statement
+		if err != nil {
+			msg := fmt.Sprintf("sqlFunc: Prepare (%s) (%s) failed, err: \n%s", text, textCommit, err.Error())
+			LogError(msg)
+			return err
+		}
+
+		_, err = statement.Exec() // Execute SQL Statements
+		if err != nil {
+			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n%s", text, textCommit, err.Error())
+			LogError(msg)
+			return err
+		}
 	}
 
 	// No errors
@@ -110,13 +147,13 @@ func initDB() {
 	sqlText += colResult + " VARCHAR NOT NULL, "
 	sqlText += colFailText + " VARCHAR, "
 	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
-	err := sqlFunc(sqlText)
+	err := sqlFunc(sqlText, true)
 	if err != nil {
 		FmtFatal("initDB: unrecoverable SQL create-table error", sqlText, err)
 	}
 
 	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
-	err = sqlFunc(sqlText)
+	err = sqlFunc(sqlText, true)
 	if err != nil {
 		FmtFatal("initDB: unrecoverable SQL create-index error", sqlText, err)
 	}
@@ -179,9 +216,7 @@ func DBOpen(flagVerbose bool) {
 		FmtFatal("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
 	}
 
-	// dbHandle stays open until process exit
-
-	// TODO: Validate database
+	dbIsOpen = true
 
 	if sqlTracing {
 		Logger("DBOpen: End")
@@ -193,6 +228,14 @@ func DBOpen(flagVerbose bool) {
 DBClose - Close the database.
 */
 func DBClose() {
+
+	// Quick return if database is closed.
+	if !dbIsOpen {
+		return
+	}
+
+	// Make sure that we do not come through here again.
+	dbIsOpen = false
 
 	if sqlTracing {
 		Logger("DBClose: Begin")
@@ -223,14 +266,14 @@ func DBStorePassed(testCaseName string) {
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 
-	err := sqlFunc(sqlText)
+	err := sqlFunc(sqlText, true)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
 		dateUTC = "'" + GetUtcDate() + "'"
 		timeUTC = "'" + GetUtcTime() + "'"
 		sqlText = "INSERT INTO " + tableHistory + " VALUES("
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
-		err := sqlFunc(sqlText)
+		err := sqlFunc(sqlText, true)
 		if err != nil {
 			errMsg := fmt.Sprintf("DBStorePassed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
 			LogError(errMsg)
@@ -266,14 +309,14 @@ func DBStoreFailed(testCaseName, failText string) {
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
 	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 
-	err := sqlFunc(sqlText)
+	err := sqlFunc(sqlText, true)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
 		dateUTC = "'" + GetUtcDate() + "'"
 		timeUTC = "'" + GetUtcTime() + "'"
 		sqlText = "INSERT INTO " + tableHistory + " VALUES("
 		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
-		err := sqlFunc(sqlText)
+		err := sqlFunc(sqlText, true)
 		if err != nil {
 			errMsg := fmt.Sprintf("DBStoreFailed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
 			LogError(errMsg)
@@ -511,7 +554,7 @@ func DBDeleteMostRecent() {
 	// For each delete statement, execute it.
 	counter := 0
 	for _, sqlStmt := range deleteList {
-		err := sqlFunc(sqlStmt)
+		err := sqlFunc(sqlStmt, true)
 		if err != nil {
 			FmtFatal("DBDeleteMostRecent: DELETE failed", pathDatabase, err)
 		}

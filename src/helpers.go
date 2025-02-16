@@ -38,6 +38,8 @@ func LogTimeout(msg string) {
 func Fatal(msg string) {
 	text := fmt.Sprintf("*** FATAL :: %s", msg)
 	Logger(text)
+	sqlTracing = true
+	DBClose()
 	os.Exit(1)
 }
 
@@ -50,6 +52,8 @@ func FmtFatal(msg string, name string, err error) {
 		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s", msg, err.Error())
 	}
 	Logger(text)
+	sqlTracing = true
+	DBClose()
 	os.Exit(1)
 }
 

@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/signal"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
+	"sync"
 	"time"
 )
 
@@ -80,6 +83,11 @@ func main() {
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
 	exitStatus := 0 // optimistic
+
+	// Handle signal interruptions.
+	var wg sync.WaitGroup
+	shutdownChan := make(chan os.Signal, 1)
+	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	// Positioned in the tree top directory?
 	handle, err := os.Open("VERSION.txt")
@@ -166,7 +174,17 @@ func main() {
 		}
 	}
 
+	// Start up signal listener.
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		sig := <-shutdownChan
+		msg := fmt.Sprintf("Shutdown signal received: %v. Cleaning up", sig)
+		Fatal(msg)
+	}()
+
 	// Open database
+	defer DBClose()
 	DBOpen(flagVerbose)
 
 	// Make sure that the jvmExe file can be found in the O/S PATH
@@ -258,6 +276,7 @@ func main() {
 		// For each test case subdirectory of tests, run it.
 		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
 		for _, entry := range entries {
+
 			if entry.IsDir() {
 				testCaseName := entry.Name()
 				fullPath := filepath.Join(global.DirTests, testCaseName)
@@ -388,5 +407,8 @@ func main() {
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 	Logger(msg)
 	os.Exit(exitStatus)
+
+	// Ensure goroutine completes before exiting
+	wg.Wait()
 
 }
