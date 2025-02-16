@@ -1,21 +1,25 @@
 public class main {
 
     public static int checkObsExp(String label, double observed, double expected) {
-        if (observed == expected)
+        if (observed == expected) {
+            System.out.printf("checkObsExp: %s ok, observed: %f, expected: %f\n", label, observed, expected);
             return 0;
-        System.out.print("*** ERROR, expected ");
+        }
+        System.out.printf("checkObsExp: %s *** ERROR, expected: ", label);
         System.out.print(expected);
-        System.out.print(", observed ");
+        System.out.print(", observed: ");
         System.out.println(observed);
         return 1;
     }
 
     public static int checkObsExp(String label, int observed, int expected) {
-        if (observed == expected)
+        if (observed == expected) {
+            System.out.printf("checkObsExp: %s ok, observed: %d, expected: %d\n", label, observed, expected);
             return 0;
-        System.out.print("*** ERROR, expected ");
+        }
+        System.out.printf("checkObsExp: %s *** ERROR, expected: ", label);
         System.out.print(expected);
-        System.out.print(", observed ");
+        System.out.print(", observed: ");
         System.out.println(observed);
         return 1;
     }
@@ -66,16 +70,14 @@ public class main {
         int rptLineCounter = 0;
         System.out.println("Wavelength, Strength, and Colour hash values per line:");
         for (int ii = 0; ii < countEmLines; ++ii) {
-            System.out.println("\t" + ++rptLineCounter + ") "
-                    + obsWavelength[ii]
-                    + " " + obsStrength[ii]
-                    + " " + obsHashes[ii]);
+            System.out.printf("\t%d) %f %f %d\n", ++rptLineCounter, obsWavelength[ii], obsStrength[ii], obsHashes[ii]);
             errorCount += checkObsExp("wavelength", obsWavelength[ii], expWavelength[ii]);
             errorCount += checkObsExp("strength", obsStrength[ii], expStrength[ii]);
-            errorCount += checkObsExp("hashes", obsHashes[ii], expHashes[ii]);
+            errorCount += checkObsExp("hash", obsHashes[ii], expHashes[ii]);
         }
 
         // Exit with good/bad news
         assert (errorCount == 0);
+        System.out.println("Success!");
     }
 }
