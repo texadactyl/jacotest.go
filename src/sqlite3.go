@@ -579,3 +579,51 @@ func DBDeleteMostRecent() {
 	Logger(msg)
 
 }
+
+/*
+DBPrintMostRecent - Print the most recent logged pass/fail record for each test case.
+*/
+func DBPrintMostRecent() {
+
+	Logger("Printing the most recent result for each test case .....")
+	counter := 0
+
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc, result, fail_text FROM " + tableHistory + " NOLOCK ORDER BY test_case, date_utc DESC, time_utc DESC"
+
+	// Most current result record w.r.t. date and time
+	var prvTestCase = ""
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult string
+	var curFailText any
+
+	// Get all the history table rows.
+	rows, ok := sqlQuery(sqlSelect)
+	if !ok {
+		return
+	}
+
+	// High level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC, &curResult, &curFailText)
+		if err != nil {
+			FatalErr("DBPrintMostRecent: rows.Scan failed", err)
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// No, this is a new test case. Show the database information.
+			fmt.Printf("%-s  %-8s  %-10s  %-8s  %-6s  %-s\n",
+				curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
+			counter += 1
+			// Make it the previous and continue.
+			prvTestCase = curTestCase
+		}
+
+	}
+
+	Logger(fmt.Sprintf("Printed %d records", counter))
+
+}

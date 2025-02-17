@@ -25,6 +25,7 @@ func showHelp() {
 	fmt.Printf("\t-c : Compile the test cases.\n")
 	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
 	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
+	fmt.Printf("\t-r 3 : Print the last result for all test cases.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60.\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Specifying -j implies parameters -x and -r 1.\n")
@@ -72,6 +73,7 @@ func main() {
 	flagVerbose := false
 	flagExecute := false
 	flagTwoMostRecent := false
+	flagPrintMostRecent := false
 	flagDeleteMostRecent := false
 	flagFailedPassed := false
 	flagCompile := false
@@ -127,6 +129,8 @@ func main() {
 				flagTwoMostRecent = true
 			case "2":
 				flagFailedPassed = true
+			case "3":
+				flagPrintMostRecent = true
 			default:
 				LogError(fmt.Sprintf("Unrecognizable -r argument: %s", Args[ii]))
 				showHelp()
@@ -396,9 +400,14 @@ func main() {
 
 	} // if flagExecute || flagCompile
 
-	// Print the last 2 report?
+	// Print the last-2-results report?
 	if flagTwoMostRecent {
 		DBPrtChanges()
+	}
+
+	// Print the last result of every test case?
+	if flagPrintMostRecent {
+		DBPrintMostRecent()
 	}
 
 	// Delete the most recent test result for each test case?
