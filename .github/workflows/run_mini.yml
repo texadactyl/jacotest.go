@@ -29,6 +29,8 @@ jobs:
           
     - name: Build Jacotest
       run: |
+        mkdir $HOME/go
+        mkdir $HOME/go/bin
         export PATH=$HOME/go/bin 
         cd src
         go get github.com/mattn/go-sqlite3
