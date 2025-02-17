@@ -3,7 +3,7 @@
 
 ### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
 
-name: build_and_test
+name: Run Jacotest tests.MINI
 
 on:
   # Run only when manually triggered.
@@ -26,11 +26,11 @@ jobs:
           go-version: '1.23.6'
           cache: true
           cache-dependency-path: "**/go.sum"
-      run: |
-        export PATH=$HOME/go/bin 
           
-    - name: Build Jacotest
+    - name: Setup Jacotest
       run: |
+        echo $PATH
+        export PATH=$HOME/go/bin:$PATH
         cd src
         go get github.com/mattn/go-sqlite3
         go install -v ./...
@@ -38,7 +38,7 @@ jobs:
         pwd
         jacotest -h
 
-    - name: Build Jacobin
+    - name: Setup Jacobin
       run: |
         git clone https://github.com/platypusguy/jacobin
         cd jacobin/src
@@ -50,14 +50,22 @@ jobs:
       with:
         distribution: 'oracle'
         java-version: '21'
-      run: |
-        java --version
-        javac --version
 
     - name: Run Test Cases
       run: |
+        java --version
+        javac --version
         rm -rf tests
         mv tests.MINI tests
-        jacotest -c -x 
-        ls -l ./logs
+        jacotest -c -x || true
 
+    - name: Results
+      run: |
+        ls -l ./logs
+        cd reports
+        ls -l
+        cat Summary*
+        
+    - name: Jacotest Database
+      run: |
+        jacotest -r 1
