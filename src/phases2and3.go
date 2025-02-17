@@ -27,7 +27,7 @@ type TblHitByCat struct {
 var tblHitByCat []TblHitByCat
 var allTestCases = make(map[string]string)
 
-// Phase 2 - Build tblHitByTC and tblHitByCat.
+// Phase 2 - Build tblHitByTC, tblHitByCat, and allTestCases.
 func phase2(tblErrCatDefs []string, logFileExt string) {
 	globals := GetGlobalRef()
 
@@ -63,11 +63,11 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 				}
 			}
 
-			// Extract test case name.
+			// Extract test case name from log file name.
 			fnameTokens := strings.Split(fileName, ".")
 			testCaseName := fnameTokens[1] // Collect test case name.
 
-			// If the test case was not already recorded, add it to allTestCases having no error text line.
+			// If the test case was not already recorded, add it to allTestCases as having no error text line.
 			_, ok := allTestCases[testCaseName]
 			if !ok {
 				allTestCases[testCaseName] = "" // Assume that we won't find a category for this test case.
@@ -97,26 +97,31 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			// Convert bytes into an array of text lines.
 			logTextLines := strings.Split(string(logDataBytes), "\n")
 
-			// For each text line in the file, see if the search argument is present
+			// For each text line in the log file, see if the search argument is present
 			for _, textLine := range logTextLines {
 				if strings.Contains(textLine, errCatFragment) {
-					// Found a substring in current line that matches errCatExpected.
+					// Found the search argument in current line that matches errCatExpected.
+					// Update tblHitByTC, tblHitByCat, and allTestCases.
 					tblHitByTC[testCaseName] = textLine
 					tblHitByCat = append(tblHitByCat, TblHitByCat{errCatFragment, testCaseName, textLine})
 					allTestCases[testCaseName] = textLine
+					
 					if ph23Tracing {
 						fmt.Printf("DEBUG phase2 added hit: fragment=%s, testCaseName=%s, textLine=%s\n",
 							errCatFragment, testCaseName, textLine)
 						fmt.Println(tblHitByTC)
 					}
+ 
+					// I only need the first hit occurence in the current log file so break out of the for loop.
 					break
-				} else { // no hit
+				} else { // No hit on the current text line of the log file - try some more.
 					if ph23Tracing {
 						fmt.Printf("DEBUG phase2 missed: fragment=%s, testCaseName=%s, textLine=%s\n",
 							errCatFragment, testCaseName, textLine)
 					}
-				}
-			}
+				} // if strings.Contains(textLine, errCatFragment)
+				
+			} // for _, textLine := range logTextLines
 
 		} // for _, logFile := range logFileList
 
@@ -124,14 +129,14 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 }
 
-// Phase 3 - Report from tblHitByCat
-// which is already sequentially grouped by error category.
+// Phase 3 - Report from tblHitByCat which is already sequentially grouped by error category.
+//         - All uncategorized errors must be inserted into the database as such.
 func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	lastCat := ""
 	hitCounter := 0
 	catCounter := 0
 
-	// For each failure category entry, process all the tblHitByCat entries.
+	// For each failure category entry, process all the tblHitByCat entries (all the test cases that failed this way).
 	for _, tblEntry := range tblHitByCat {
 
 		// tblEntry holds the current hit by error category. Does it match the last error category?
@@ -171,15 +176,17 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 
 		// Bump error category hits.
 		catCounter += 1
-	}
+		
+	} // for _, tblEntry := range tblHitByCat
 
 	// Need to emit total for last group.
 	wstr := fmt.Sprintf("--- Total: %d", catCounter)
 	WriteOutputText(outHandle, wstr)
 
-	// Take care of uncategorized errors.
+	// Take care of the uncategorized errors.
 	for name, errorText := range allTestCases {
 		if errorText == "" {
+			// This test case error was not categorized for some reason.
 			// Insert an uncategorized fail test case record into the database.
 			DBStoreFailed(name, "UNCATEGORIZED")
 		}
@@ -207,7 +214,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 	giantString := string(fileBytes)
 	tempTable = strings.Split(giantString, "\n")
 
-	// Throw out the comment lines which begin with '#'.
+	// Throw out the comment lines; they begin with '#' or the whole line is nil.
 	for _, fragment := range tempTable {
 		fragment = strings.Trim(fragment, " ")
 		if len(fragment) < 1 || strings.HasPrefix(fragment, "#") {
