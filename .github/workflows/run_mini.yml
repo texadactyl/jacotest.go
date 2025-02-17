@@ -3,7 +3,7 @@
 
 ### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
 
-name: build_and_test
+name: Run Jacotest tests.MINI
 
 on:
   # Run only when manually triggered.
