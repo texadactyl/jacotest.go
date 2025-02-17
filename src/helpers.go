@@ -116,7 +116,7 @@ func StoreText(targetDir string, argFile string, text string) {
 func CleanerText(arg string) string {
 	runes := []rune(arg)
 	for ix, roon := range runes {
-		if !unicode.IsPrint(roon) {
+		if !unicode.IsPrint(roon) && roon != '\n' {
 			runes[ix] = '?'
 		}
 	}
