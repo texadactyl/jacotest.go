@@ -49,12 +49,11 @@ jobs:
       with:
         distribution: 'oracle'
         java-version: '21'
-      run: |
-        java --version
-        javac --version
 
     - name: Run Test Cases
       run: |
+        java --version
+        javac --version
         rm -rf tests
         mv tests.MINI tests
         jacotest -c -x 
