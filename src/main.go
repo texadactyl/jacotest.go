@@ -360,25 +360,34 @@ func main() {
 		// Phases 2 and 3
 		counterErrCases += Phases2And3(tblErrCases, outHandle)
 
-		// Phases 1/2/3 are done.
+		// Discrepancies in error total?
+		if len(errExecutionNames) != counterErrCases {
+			LogSkip()
+			WriteOutputText(outHandle, " ")
+			infoMsg := fmt.Sprintf("*** WARNING: Number of error cases = %d but total from fail-categories = %d",
+				len(errExecutionNames), counterErrCases)
+			Logger(infoMsg)
+			WriteOutputText(outHandle, infoMsg)
+			infoMsg = "Test cases not falling into a summary report error category:"
+			Logger(infoMsg)
+			WriteOutputText(outHandle, infoMsg)
+			for testCase, counter := range tblErrCases {
+				if counter > 0 { // ignore if this test case was grepped at least once
+					continue
+				}
+				fmt.Printf("\t%s\n", testCase)
+				WriteOutputText(outHandle, "\t"+testCase)
+			}
+			LogSkip()
+			WriteOutputText(outHandle, " ")
+		}
+
 		// Close summary report handle.
 		err = outHandle.Close()
 		if err != nil {
 			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
 		}
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
-
-		// Discrepancies in error total?
-		if len(errExecutionNames) != counterErrCases {
-			LogWarning(fmt.Sprintf("Number of error cases = %d but total from fail-categories = %d", len(errExecutionNames), counterErrCases))
-			Logger("Test cases not falling into a summary report error category:")
-			for testCase, counter := range tblErrCases {
-				if counter > 0 { // ignore if this test case was grepped at least once
-					continue
-				}
-				fmt.Printf("\t%s\n", testCase)
-			}
-		}
 
 		// Show elapsed time.
 		tStop := time.Now()
