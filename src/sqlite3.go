@@ -615,8 +615,8 @@ func DBPrintMostRecent() {
 		// So, the next test always fails on the very first row.
 		if curTestCase != prvTestCase {
 			// No, this is a new test case. Show the database information.
-			fmt.Printf("%-s  %-8s  %-10s  %-8s  %-6s  %-s\n",
-				curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
+			fmt.Printf("[%d]  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n",
+				counter+1, curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
 			counter += 1
 			// Make it the previous and continue.
 			prvTestCase = curTestCase
