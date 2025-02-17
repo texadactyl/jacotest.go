@@ -11,31 +11,36 @@ import (
 const ModeOutputFile = 0644
 const FlagsOpen = os.O_CREATE | os.O_WRONLY
 
-// Logger - Time-stamp log function
+// Logger - Time-stamp log function.
 func Logger(msg string) {
 	now := time.Now()
 	fmt.Printf("%s %s\n", now.Format("15:04:05"), msg)
 }
 
-// LogWarning - Log a warning
+// LogWarning - Log a warning.
 func LogWarning(msg string) {
 	text := fmt.Sprintf("*** Warning :: %s", msg)
 	Logger(text)
 }
 
-// LogError - Log an error
+// LogError - Log an error.
 func LogError(msg string) {
 	text := fmt.Sprintf("*** ERROR :: %s", msg)
 	Logger(text)
 }
 
-// LogTimeout - Log a timeout
+// LogTimeout - Log a timeout.
 func LogTimeout(msg string) {
 	text := fmt.Sprintf("*** TIMEOUT :: %s", msg)
 	Logger(text)
 }
 
-// FatalText - Log a fatal error message and croak
+// LogSkip - skip a line for report readability.
+func LogSkip() {
+	fmt.Printf("\n")
+}
+
+// FatalText - Log a fatal error message and croak.
 func FatalText(text string) {
 	errMsg := fmt.Sprintf("*** FATAL :: %s", text)
 	Logger(errMsg)
@@ -52,7 +57,7 @@ func FatalErr(msg string, err error) {
 	os.Exit(1)
 }
 
-// GetUtcDate - Get UTC date string, YYYY-MM-DD
+// GetUtcDate - Get UTC date string, YYYY-MM-DD.
 func GetUtcDate() string {
 	now := time.Now().UTC()
 	return now.Format("2006-01-02")
@@ -112,7 +117,7 @@ func StoreText(targetDir string, argFile string, text string) {
 	}
 }
 
-// CleanerText replaces all non-printable characters in a string with '?'
+// CleanerText replaces all non-printable characters in a string with '?'.
 func CleanerText(arg string) string {
 	runes := []rune(arg)
 	for ix, roon := range runes {
