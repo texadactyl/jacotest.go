@@ -1,26 +1,21 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
+### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
+
 name: build_and_test
 
 on:
-  push:
-    paths-ignore:
-      - '*.md'
-      - '*.py'
-      - '*.txt'
-    branches: [ "main" ]
-  pull_request:
-    paths-ignore:
-      - '*.md'
-    branches: [ "main" ]
+  # Run only when manually triggered.
+  workflow_dispatch:  
 
 jobs:
 
   build_and_test:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@main
@@ -28,35 +23,41 @@ jobs:
     - name: Setup Go
       uses: actions/setup-go@main
       with:
-          go-version: '1.21.x'
+          go-version: '1.23.6'
           cache: true
           cache-dependency-path: "**/go.sum"
+      run: |
+        export PATH=$HOME/go/bin 
           
     - name: Build Jacotest
       run: |
         cd src
         go get github.com/mattn/go-sqlite3
-        go build -o . -v ./...
+        go install -v ./...
         cd ..
         pwd
-        ./src/jacotest -h
+        jacotest -h
 
+    - name: Build Jacobin
+      run: |
+        git clone https://github.com/platypusguy/jacobin
+        cd jacobin/src
+        go install -v ./...
+        jacobin --version
+        
     - name: Setup JDK
       uses: actions/setup-java@main
       with:
         distribution: 'oracle'
         java-version: '21'
-
-    - name: Run Test Cases
       run: |
         java --version
         javac --version
-        ./src/jacotest -c -x -M -t 60 -j openjdk 
-        ls -l ./reports
 
-    - name: Run options
+    - name: Run Test Cases
       run: |
-        ./src/jacotest -r 1 -j openjdk
-        ./src/jacotest -r 2 -j openjdk
-        ./src/jacotest -z -v -j openjdk
+        rm -rf tests
+        mv tests.MINI tests
+        jacotest -c -x 
+        ls -l ./logs
 
