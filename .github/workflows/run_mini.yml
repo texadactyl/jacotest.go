@@ -65,3 +65,7 @@ jobs:
         cd reports
         ls -l
         cat Summary*
+        
+    - name: Jacotest Database
+      run: |
+        jacotest -r 1
