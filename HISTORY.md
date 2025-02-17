@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-17 | 4.0.2.alpha | JACOBIN-663 Phase 2 alpha: code cleanup and error reporting consolidation. |
 | 2025-02-16 | 4.0.1 | JACOBIN-663 Phase 1: Database & interrupt handling improvements. |
 | | | * Transaction bracketing on each insert/update/delete. |
 | | | * Insure that DBClose() is always called. |

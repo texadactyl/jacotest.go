@@ -33,7 +33,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 	// Get the list of files in the directory
 	logFileList, err := os.ReadDir(globals.DirLogs)
 	if err != nil {
-		FmtFatal("phase2: os.ReadDir failed:", globals.DirLogs, err)
+		FatalErr(fmt.Sprintf("phase2: os.ReadDir(%s) failed:", globals.DirLogs), err)
 	}
 
 	// For each failure category entry, process all the "FAILED" log files.
@@ -83,7 +83,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			fullLogFilePath := filepath.Join(globals.DirLogs, fileName)
 			logDataBytes, err := os.ReadFile(fullLogFilePath)
 			if err != nil {
-				FmtFatal("ExecGrape: os.ReadFile failed:", fileName, err)
+				FatalErr(fmt.Sprintf("ExecGrape: os.ReadFile(%s) failed", fileName), err)
 			}
 
 			// Convert bytes into an array of text lines.
@@ -185,7 +185,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 	// Get the error categories as a slice of strings.
 	fileBytes, err := os.ReadFile(globals.ErrCatFilePath)
 	if err != nil {
-		FmtFatal("Phases2And3: ReadFile(error categories) failed", globals.ErrCatFilePath, err)
+		FatalErr(fmt.Sprintf("Phases2And3: os.ReadFile(%s) failed", globals.ErrCatFilePath), err)
 	}
 	giantString := string(fileBytes)
 	tempTable = strings.Split(giantString, "\n")

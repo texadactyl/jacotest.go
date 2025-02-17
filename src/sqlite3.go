@@ -156,13 +156,13 @@ func initDB() {
 	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
 	err := sqlFunc(sqlText, true)
 	if err != nil {
-		FatalErr("initDB: unrecoverable SQL create-table error", sqlText, err)
+		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL create-table error", sqlText), err)
 	}
 
 	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
 	err = sqlFunc(sqlText, true)
 	if err != nil {
-		FatalErr("initDB: unrecoverable SQL create-index error", sqlText, err)
+		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL create-index error", sqlText), err)
 	}
 
 	if sqlTracing {
@@ -206,7 +206,7 @@ func DBOpen(flagVerbose bool) {
 		}
 		dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 		if err != nil {
-			errMsg := fmt.Sprintf("DBOpen: sql.Open(%s) failed", pathDatabase)
+			errMsg := fmt.Sprintf("DBOpen: sql.Open(new database %s) failed", pathDatabase)
 			FatalErr(errMsg, err)
 		}
 		initDB()
@@ -223,7 +223,7 @@ func DBOpen(flagVerbose bool) {
 	}
 	dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 	if err != nil {
-		FatalErr("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
+		FatalErr(fmt.Sprintf("DBOpen: sql.Open(existing database %s) failed", pathDatabase), err)
 	}
 
 	dbIsOpen = true
@@ -247,10 +247,9 @@ func DBClose() {
 	// Make sure that we do not come through here again.
 	dbIsOpen = false
 
-
 	// Close the database.
 	Logger("DBClose: Begin")
-	err = dbHandle.Close()
+	err := dbHandle.Close()
 	if err != nil {
 		FatalErr("DBClose: sql.Close failed", err)
 	}

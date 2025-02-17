@@ -77,25 +77,25 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
 	if err != nil {
-		FmtFatal("InitGlobals: ReadFile(PATH_VERSION) failed", PATH_VERSION, err)
+		FatalErr(fmt.Sprintf("InitGlobals: ReadFile(%s) failed", PATH_VERSION), err)
 	}
 
 	versionString := string(versionBytes[:])
 	versionString = strings.Trim(versionString, " ")
 	absTests, err := filepath.Abs(PATH_DIR_TESTS)
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_DIR_TESTS, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_TESTS), err)
 	}
 
 	absLogs, err := filepath.Abs(PATH_DIR_LOGS)
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_DIR_LOGS, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_LOGS), err)
 	}
 	MakeDir(absLogs)
 
 	absReports, err := filepath.Abs(PATH_DIR_REPORTS)
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_DIR_REPORTS, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_REPORTS), err)
 	}
 	MakeDir(absReports)
 
@@ -103,22 +103,22 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 
 	absReportFile, err := filepath.Abs(fmt.Sprintf(TEMPLATE_RUN_REPORT, nowString, jvmName))
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", TEMPLATE_RUN_REPORT, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
 	}
 
 	absSummaryFile, err := filepath.Abs(fmt.Sprintf(TEMPLATE_SUMMARY_REPORT, nowString, jvmName))
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", TEMPLATE_RUN_REPORT, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
 	}
 
 	absErrCatFile, err := filepath.Abs(PATH_ERROR_CATEGORIES)
 	if err != nil {
-		FmtFatal("InitGlobals: filepath.Abs failed", PATH_ERROR_CATEGORIES, err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_ERROR_CATEGORIES), err)
 	}
 
 	duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
 	if err != nil {
-		FmtFatal("InitGlobals: time.ParseDuration failed", fmt.Sprintf("%d", deadline_secs), err)
+		FatalErr(fmt.Sprintf("InitGlobals: time.ParseDuration(%d seconds) failed", deadline_secs), err)
 	}
 	global = GlobalsStruct{
 		Version:        versionString,

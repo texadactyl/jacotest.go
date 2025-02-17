@@ -79,7 +79,7 @@ func compileOneTree(pathTreeTop string) int {
 	// Get all of the directory entries from fullPathDir
 	entries, err := os.ReadDir(pathTreeTop)
 	if err != nil {
-		FmtFatal("compileOneTree: os.ReadDir failed", pathTreeTop, err)
+		FatalErr(fmt.Sprintf("compileOneTree: os.ReadDir failed", pathTreeTop), err)
 	}
 
 	// Compile every .java file at the top level.
@@ -94,7 +94,7 @@ func compileOneTree(pathTreeTop string) int {
 		// If a directory, we will skip it
 		fileInfo, err := os.Stat(fullPathFile)
 		if err != nil {
-			FmtFatal("compileOneTree: os.Stat failed", fullPathFile, err)
+			FatalErr(fmt.Sprintf("compileOneTree: os.Stat failed", fullPathFile), err)
 		}
 		if fileInfo.IsDir() {
 			continue
@@ -130,7 +130,7 @@ func compileOneTree(pathTreeTop string) int {
 		}
 		output, errInner := exec.Command("javap", "-v", absFilePath).Output()
 		if errInner != nil {
-			FmtFatal("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", "", errInner)
+			FatalErr("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", errInner)
 		}
 		dirPath := filepath.Dir(absFilePath)
 		outFile := "javap_" + dirent.Name() + ".log"
@@ -139,7 +139,7 @@ func compileOneTree(pathTreeTop string) int {
 	})
 
 	if err2 != nil {
-		FmtFatal("filepath.WalkDir failed", "", err2)
+		FatalErr("filepath.WalkDir failed", err2)
 	}
 
 	// Return compilation error count to caller
@@ -161,13 +161,13 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	// Save the path of the current working dir
 	here, err := os.Getwd()
 	if err != nil {
-		FmtFatal("ExecuteOneTest os.Getwd failed", "", err)
+		FatalErr("ExecuteOneTest os.Getwd failed", err)
 	}
 
 	// Position to fullPathDir as the new working dir
 	err = os.Chdir(fullPathDir)
 	if err != nil {
-		FmtFatal("ExecuteOneTest os.Chdir failed.  Was targeting:", fullPathDir, err)
+		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", fullPathDir), err)
 	}
 
 	if flagCompile {
@@ -179,7 +179,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
 			err2 := os.Chdir(here)
 			if err2 != nil {
-				FmtFatal("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here, err2)
+				FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", here), err2)
 			}
 			return RC_COMP_ERROR, ""
 		}
@@ -203,7 +203,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
 	err2 := os.Chdir(here)
 	if err2 != nil {
-		FmtFatal("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here, err2)
+		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here), err2)
 	}
 
 	// Return runner execution result

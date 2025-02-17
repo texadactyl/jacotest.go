@@ -34,18 +34,18 @@ func LogTimeout(msg string) {
 	Logger(text)
 }
 
-// Fatal - Log a fatal error message and croak
-func Fatal(msg string) {
-	text := fmt.Sprintf("*** FATAL :: %s", msg)
-	Logger(text)
+// FatalText - Log a fatal error message and croak
+func FatalText(text string) {
+	errMsg := fmt.Sprintf("*** FATAL :: %s", text)
+	Logger(errMsg)
 	DBClose()
 	os.Exit(1)
 }
 
 // FatalErr - Log a fatal error message with error.Error() text and croak.
-func FatalErr(msg string, name string, err error) {
+func FatalErr(msg string, err error) {
 	var text string
-	text = fmt.Sprintf("*** FATAL, text: %s\n\terr: %s", msg, err.Error())
+	text = fmt.Sprintf("*** FATAL :: %s\n\terr: %s", msg, err.Error())
 	Logger(text)
 	DBClose()
 	os.Exit(1)
@@ -69,7 +69,7 @@ func WriteOutputText(outHandle *os.File, textLine string) {
 	_, err := fmt.Fprintln(outHandle, textLine)
 	if err != nil {
 		outPath, _ := filepath.Abs(filepath.Dir(outHandle.Name()))
-		FmtFatal("WriteOutputText: fmt.Fprintln failed", outPath, err)
+		FatalErr(fmt.Sprintf("fmt.Fprintln(%s) failed", outPath), err)
 	}
 
 }
@@ -79,17 +79,17 @@ func MakeDir(pathDir string) {
 	info, err := os.Stat(pathDir)
 	if err == nil { // found it
 		if !info.IsDir() { // expected a directory, not a simple file !!
-			Fatal(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", pathDir))
+			FatalText(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", pathDir))
 		}
 	} else { // not found or an error occurred
 		if os.IsNotExist(err) {
 			// Create directory
 			err = os.Mkdir(pathDir, 0755)
 			if err != nil {
-				FmtFatal("MakeDir: os.MkDir failed", pathDir, err)
+				FatalErr(fmt.Sprintf("MakeDir: os.MkDir(%s) failed", pathDir), err)
 			}
 		} else { // some type of error
-			FmtFatal("MakeDir: os.Stat failed", pathDir, err)
+			FatalErr(fmt.Sprintf("MakeDir: os.Stat(%s) failed", pathDir), err)
 		}
 	}
 }
@@ -100,14 +100,14 @@ func StoreText(targetDir string, argFile string, text string) {
 	fullPath := filepath.Join(targetDir, argFile)
 	outHandle, err := os.Create(fullPath)
 	if err != nil {
-		Fatal(fmt.Sprintf("storeText: os.Create(%s) failed, err=%s", fullPath, err))
+		FatalErr(fmt.Sprintf("StoreText: os.Create(%s) failed, err=%s", fullPath), err)
 	}
 	defer outHandle.Close()
 
 	// Store the given text
 	_, err = fmt.Fprintln(outHandle, text)
 	if err != nil {
-		FmtFatal("storeText: fmt.Fprintln failed", fullPath, err)
+		FatalErr(fmt.Sprintf("StoreText: fmt.Fprintln(%s) failed", fullPath), err)
 	}
 }
 

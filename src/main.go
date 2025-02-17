@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"syscall"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -66,7 +66,7 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 // Command line interface
 func main() {
 	tStart := time.Now()
-	os.Setenv("java.awt.headless", "true")
+	_ = os.Setenv("java.awt.headless", "true")
 	var Args []string
 	var wString string
 	flagVerbose := false
@@ -92,7 +92,7 @@ func main() {
 	// Positioned in the tree top directory?
 	handle, err := os.Open("VERSION.txt")
 	if err != nil {
-		Fatal("You are not positioned in the jacotest tree top directory")
+		FatalText("You are not positioned in the jacotest tree top directory")
 	}
 	_ = handle.Close()
 
@@ -180,7 +180,7 @@ func main() {
 		defer wg.Done()
 		sig := <-shutdownChan
 		msg := fmt.Sprintf("Shutdown signal received: %v. Cleaning up", sig)
-		Fatal(msg)
+		FatalText(msg)
 	}()
 
 	// Open database
@@ -190,7 +190,7 @@ func main() {
 	// Make sure that the jvmExe file can be found in the O/S PATH
 	wString, err = exec.LookPath(jvmExe)
 	if err != nil {
-		FmtFatal("exec.LookPath failed to find:", jvmExe, err)
+		FatalErr(fmt.Sprintf("exec.LookPath(%s) failed", jvmExe), err)
 	}
 	if flagVerbose {
 		Logger(fmt.Sprintf("Found JVM %s", wString))
@@ -203,13 +203,13 @@ func main() {
 	// Open logs directory
 	fileOpened, err := os.Open(global.DirLogs)
 	if err != nil {
-		FmtFatal("os.Open failed", global.DirLogs, err)
+		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.DirLogs), err)
 	}
 
 	// Get all the file entries in the logs directory
 	names, err := fileOpened.Readdirnames(0) // get all entries
 	if err != nil {
-		FmtFatal("Readdirnames failed", global.DirLogs, err)
+		FatalErr(fmt.Sprintf("Readdirnames(%s) failed", global.DirLogs), err)
 	}
 
 	// For each logs entry, remove it
@@ -219,7 +219,7 @@ func main() {
 			fullPath := filepath.Join(global.DirLogs, name)
 			err := os.Remove(fullPath)
 			if err != nil {
-				Fatal(fmt.Sprintf("os.Remove(%s) returned an error\nerror=%s", fullPath, err.Error()))
+				FatalErr(fmt.Sprintf("os.Remove(%s) failed", fullPath), err)
 			}
 		}
 	}
@@ -238,21 +238,23 @@ func main() {
 			// Initialise detailed report file
 			rptHandle, err = os.Create(global.ReportFilePath)
 			if err != nil {
-				FmtFatal("os.Create failed", global.ReportFilePath, err)
+				FatalErr(fmt.Sprintf("os.Create(%s) failed", global.ReportFilePath), err)
 			}
-			defer rptHandle.Close()
-			fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
-			fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
+			defer func() {
+				_ = rptHandle.Close()
+			}()
+			_, _ = fmt.Fprintf(rptHandle, "%s version %s\n", MyName, global.Version)
+			_, _ = fmt.Fprintf(rptHandle, "Run report using JVM %s<br>Case deadline = %d seconds<br>Date/Time %s %s<br><br>\n",
 				jvmName, deadlineSecs, nowStamp, timeZone)
-			fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
-			fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
+			_, _ = fmt.Fprintf(rptHandle, "| Test Case | Result | Console Output |\n")
+			_, _ = fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 		}
 
 		// Initialise summary report file
 		outPath := global.SumFilePath
 		outHandle, err := os.OpenFile(outPath, FlagsOpen, ModeOutputFile)
 		if err != nil {
-			Fatal(fmt.Sprintf("os.OpenFile(%s) failed, err=%s", outPath, err))
+			FatalText(fmt.Sprintf("os.OpenFile(%s) failed, err=%s", outPath, err))
 		}
 		msg := fmt.Sprintf("%s version %s", MyName, global.Version)
 		WriteOutputText(outHandle, msg)
@@ -261,7 +263,7 @@ func main() {
 		WriteOutputText(outHandle, msg)
 		outLines, err := exec.Command(jvmExe, "--version").Output()
 		if err != nil {
-			FmtFatal("Error in getting the JVM version", global.DirTests, err)
+			FatalErr("Error in getting the JVM version", err)
 		}
 		WriteOutputText(outHandle, "Using this JVM:")
 		WriteOutputText(outHandle, string(outLines))
@@ -269,7 +271,7 @@ func main() {
 		// Get all the subdirectories (test cases) under tests
 		entries, err := os.ReadDir(global.DirTests)
 		if err != nil {
-			FmtFatal("Error in accessing directory", global.DirTests, err)
+			FatalErr(fmt.Sprintf("os.ReadDir(%s) failed", global.DirTests), err)
 		}
 
 		// Phase 1
@@ -293,7 +295,7 @@ func main() {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)
 					if flagMdReport {
-						fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
+						_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 					}
 					if flagExecute {
 						DBStorePassed(testCaseName)
@@ -302,7 +304,7 @@ func main() {
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
 					if flagMdReport {
-						fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+						_, _ = fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 					}
 					if flagExecute {
 						DBStoreFailed(testCaseName, "Compile error")
@@ -312,14 +314,14 @@ func main() {
 					errExecutionNames = append(errExecutionNames, testCaseName)
 					tblErrCases[testCaseName] = 0
 					if flagMdReport {
-						fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
+						_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
 					}
 					// DBStoreFailed calls will be made in the SQL database source file.
 				case RC_EXEC_TIMEOUT:
 					exitStatus = 1
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 					if flagMdReport {
-						fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+						_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 					}
 					if flagExecute {
 						DBStoreFailed(testCaseName, "Timeout")
@@ -359,10 +361,10 @@ func main() {
 		counterErrCases += Phases2And3(tblErrCases, outHandle)
 
 		// Phases 1/2/3 are done.
-		// Close summary reprt handle.
+		// Close summary report handle.
 		err = outHandle.Close()
 		if err != nil {
-			FmtFatal("outHandle.Close failed:", outPath, err)
+			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
 		}
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
@@ -403,12 +405,12 @@ func main() {
 	// Close database
 	DBClose()
 
+	// Hangs: Ensure goroutine completes before exiting
+	//        wg.Wait()
+
 	// Bye bye
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 	Logger(msg)
 	os.Exit(exitStatus)
-
-	// Ensure goroutine completes before exiting
-	wg.Wait()
 
 }
