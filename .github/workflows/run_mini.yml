@@ -1,4 +1,4 @@
-# This workflow will build a golang project
+# This workflow will run jacotest against jacobin using the tests from tests.MINI.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
 ### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
@@ -68,4 +68,4 @@ jobs:
         
     - name: Jacotest Database
       run: |
-        jacotest -r 1
+        jacotest -r 3
