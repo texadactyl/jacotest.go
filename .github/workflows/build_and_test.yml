@@ -9,12 +9,12 @@ on:
       - '*.md'
       - '*.py'
       - '*.txt'
-      - '*.yml'
+      - '**.yml'
     branches: [ "main" ]
   pull_request:
     paths-ignore:
       - '*.md'
-      - '*.yml'
+      - '**.yml'
     branches: [ "main" ]
 
 jobs:
