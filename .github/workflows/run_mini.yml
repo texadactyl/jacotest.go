@@ -3,7 +3,7 @@
 
 ### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
 
-name: Run Jacotest tests.MINI
+name: Run Jacotest with Jacobin and tests.MINI
 
 on:
   # Run only when manually triggered.
