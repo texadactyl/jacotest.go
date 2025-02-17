@@ -27,7 +27,7 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Build Jacotest
+    - name: Setup Jacotest
       run: |
         echo $PATH
         export PATH=$HOME/go/bin:$PATH
@@ -38,7 +38,7 @@ jobs:
         pwd
         jacotest -h
 
-    - name: Build Jacobin
+    - name: Setup Jacobin
       run: |
         git clone https://github.com/platypusguy/jacobin
         cd jacobin/src
@@ -58,5 +58,10 @@ jobs:
         rm -rf tests
         mv tests.MINI tests
         jacotest -c -x || true
-        ls -l ./logs
 
+    - name: Results
+      run: |
+        ls -l ./logs
+        cd reports
+        ls -l
+        cat Summary*
