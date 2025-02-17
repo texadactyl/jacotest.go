@@ -34,25 +34,19 @@ func LogTimeout(msg string) {
 	Logger(text)
 }
 
-// Fatal - Log an error and croak
+// Fatal - Log a fatal error message and croak
 func Fatal(msg string) {
 	text := fmt.Sprintf("*** FATAL :: %s", msg)
 	Logger(text)
-	sqlTracing = true
 	DBClose()
 	os.Exit(1)
 }
 
-// FmtFatal - Log an error in a special format and croak.
-func FmtFatal(msg string, name string, err error) {
+// FatalErr - Log a fatal error message with error.Error() text and croak.
+func FatalErr(msg string, name string, err error) {
 	var text string
-	if name != "" {
-		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s\n\t\t%s", msg, name, err.Error())
-	} else {
-		text = fmt.Sprintf("*** FATAL, %s\n\t\t%s", msg, err.Error())
-	}
+	text = fmt.Sprintf("*** FATAL, text: %s\n\terr: %s", msg, err.Error())
 	Logger(text)
-	sqlTracing = true
 	DBClose()
 	os.Exit(1)
 }
