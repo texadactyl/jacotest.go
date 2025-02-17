@@ -13,6 +13,7 @@ on:
   pull_request:
     paths-ignore:
       - '*.md'
+      - '*.yml'
     branches: [ "main" ]
 
 jobs:
