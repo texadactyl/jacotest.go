@@ -25,6 +25,7 @@ type TblHitByCat struct {
 }
 
 var tblHitByCat []TblHitByCat
+var allTestCases = make(map[string]string)
 
 // Phase 2 - Build tblHitByTC and tblHitByCat.
 func phase2(tblErrCatDefs []string, logFileExt string) {
@@ -64,7 +65,14 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 			// Extract test case name.
 			fnameTokens := strings.Split(fileName, ".")
-			testCaseName := fnameTokens[1] // collect test case name
+			testCaseName := fnameTokens[1] // Collect test case name.
+
+			// If the test case was not already recorded, add it to allTestCases having no error text line.
+			_, ok := allTestCases[testCaseName]
+			if !ok {
+				allTestCases[testCaseName] = "" // Assume that we won't find a category for this test case.
+			}
+
 			if ph23Tracing {
 				fmt.Printf("DEBUG phase2 logFile=%s, testCaseName=%s\n", fileName, testCaseName)
 			}
@@ -95,6 +103,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 					// Found a substring in current line that matches errCatExpected.
 					tblHitByTC[testCaseName] = textLine
 					tblHitByCat = append(tblHitByCat, TblHitByCat{errCatFragment, testCaseName, textLine})
+					allTestCases[testCaseName] = textLine
 					if ph23Tracing {
 						fmt.Printf("DEBUG phase2 added hit: fragment=%s, testCaseName=%s, textLine=%s\n",
 							errCatFragment, testCaseName, textLine)
@@ -167,6 +176,14 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	// Need to emit total for last group.
 	wstr := fmt.Sprintf("--- Total: %d", catCounter)
 	WriteOutputText(outHandle, wstr)
+
+	// Take care of uncategorized errors.
+	for name, errorText := range allTestCases {
+		if errorText == "" {
+			// Insert an uncategorized fail test case record into the database.
+			DBStoreFailed(name, "UNCATEGORIZED")
+		}
+	}
 
 	// Return the total number of hits.
 	return hitCounter
