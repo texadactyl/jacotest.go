@@ -9,6 +9,7 @@ on:
       - '*.md'
       - '*.py'
       - '*.txt'
+      - '*.yml'
     branches: [ "main" ]
   pull_request:
     paths-ignore:
