@@ -4,7 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2025-02-17 | 4.0.2 | JACOBIN-663 Phase 2 alpha: code cleanup and error reporting consolidation. |
+| 2025-02-17 | 4.0.2 | JACOBIN-663 Phase 2: code cleanup and error reporting consolidation. |
 | | | * Transaction bracketing on each insert/update/delete. |
 | | | * Insure that DBClose() is always called. |
 | | | * Handle O/S interrupts by calling DBClose and os.Exit(1). |
