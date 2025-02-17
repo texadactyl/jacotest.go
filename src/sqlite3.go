@@ -49,7 +49,14 @@ Internal function to run an SQL statement and handle any errors.
 */
 func sqlFunc(text string, commit bool) error {
 
+	if sqlTracing {
+		msg := fmt.Sprintf("sqlFunc: SQL: %s", text)
+		Logger(msg)
+	}
+
+	// Begin transaction if commit true.
 	if commit {
+		dbHandle.Begin()
 		textBegin := "BEGIN TRANSACTION;"
 		statement, err := dbHandle.Prepare(textBegin) // Prepare COMMIT SQL Statement
 		if err != nil {
@@ -66,25 +73,23 @@ func sqlFunc(text string, commit bool) error {
 		}
 	}
 
-	if sqlTracing {
-		msg := fmt.Sprintf("sqlFunc: %s", text)
-		Logger(msg)
-	}
-
-	statement, err := dbHandle.Prepare(text) // Prepare SQL Statement
+	// Prepare SQL statement.
+	statement, err := dbHandle.Prepare(text)
 	if err != nil {
 		msg := fmt.Sprintf("sqlFunc: Prepare (%s) failed, err: \n%s", text, err.Error())
 		LogError(msg)
 		return err
 	}
 
-	_, err = statement.Exec() // Execute SQL Statements
+	// Execute SQL statement.
+	_, err = statement.Exec()
 	if err != nil {
 		msg := fmt.Sprintf("sqlFunc: Exec (%s) failed, err: %s\n%s", text, err.Error())
 		LogError(msg)
 		return err
 	}
 
+	// End transaction if commit true.
 	if commit {
 		textCommit := "COMMIT;"
 		statement, err := dbHandle.Prepare(textCommit) // Prepare COMMIT SQL Statement
@@ -110,19 +115,21 @@ func sqlFunc(text string, commit bool) error {
 /*
 Internal function to run an SQL select query and handle any errors. The output is returned to caller.
 */
-func sqlQuery(text string) *sql.Rows {
+func sqlQuery(text string) (*sql.Rows, bool) {
 
 	if sqlTracing {
-		msg := fmt.Sprintf("sqlQuery: %s", text)
+		msg := fmt.Sprintf("sqlQuery: SQL: %s", text)
 		Logger(msg)
 	}
 
 	rows, err := dbHandle.Query(text)
 	if err != nil {
-		FmtFatal("sqlQuery: dbHandle.Query failed", text, err)
+		errMsg := fmt.Sprintf("sqlQuery: dbHandle.Query(%s) failed, err: %s", text, err.Error())
+		LogError(errMsg)
+		return nil, false
 	}
 
-	return rows
+	return rows, true
 
 }
 
@@ -149,13 +156,13 @@ func initDB() {
 	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
 	err := sqlFunc(sqlText, true)
 	if err != nil {
-		FmtFatal("initDB: unrecoverable SQL create-table error", sqlText, err)
+		FatalErr("initDB: unrecoverable SQL create-table error", sqlText, err)
 	}
 
 	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
 	err = sqlFunc(sqlText, true)
 	if err != nil {
-		FmtFatal("initDB: unrecoverable SQL create-index error", sqlText, err)
+		FatalErr("initDB: unrecoverable SQL create-index error", sqlText, err)
 	}
 
 	if sqlTracing {
@@ -184,7 +191,8 @@ func DBOpen(flagVerbose bool) {
 	if err != nil {
 		err := os.Mkdir(dirDatabase, 0755)
 		if err != nil {
-			FmtFatal("DBOpen: Cannot create database directory", dirDatabase, err)
+			errMsg := fmt.Sprintf("DBOpen: Mkdir(%s) failed", dirDatabase)
+			FatalErr(errMsg, err)
 		}
 	}
 
@@ -193,11 +201,13 @@ func DBOpen(flagVerbose bool) {
 	_, err = os.Stat(pathDatabase)
 	if err != nil {
 		if sqlTracing {
-			Logger("DBOpen: database file inaccessible: " + err.Error())
+			infoMsg := fmt.Sprintf("DBOpen: database file(%s) inaccessible", pathDatabase)
+			Logger(infoMsg)
 		}
 		dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 		if err != nil {
-			FmtFatal("DBOpen: sql.Open(create) failed", pathDatabase, err)
+			errMsg := fmt.Sprintf("DBOpen: sql.Open(%s) failed", pathDatabase)
+			FatalErr(errMsg, err)
 		}
 		initDB()
 
@@ -213,7 +223,7 @@ func DBOpen(flagVerbose bool) {
 	}
 	dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 	if err != nil {
-		FmtFatal("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
+		FatalErr("DBOpen: sql.Open(pre-existing) failed", pathDatabase, err)
 	}
 
 	dbIsOpen = true
@@ -237,18 +247,14 @@ func DBClose() {
 	// Make sure that we do not come through here again.
 	dbIsOpen = false
 
-	if sqlTracing {
-		Logger("DBClose: Begin")
-	}
 
-	err := dbHandle.Close()
+	// Close the database.
+	Logger("DBClose: Begin")
+	err = dbHandle.Close()
 	if err != nil {
-		FmtFatal("DBClose: sql.Close failed", pathDatabase, err)
+		FatalErr("DBClose: sql.Close failed", err)
 	}
-
-	if sqlTracing {
-		Logger("DBClose: End")
-	}
+	Logger("DBClose: End")
 
 }
 
@@ -346,7 +352,10 @@ func DBPrtChanges() {
 	// Get all the history table rows.
 	var msg string
 	counter := 0
-	rows := sqlQuery(sqlText)
+	rows, ok := sqlQuery(sqlText)
+	if !ok {
+		return
+	}
 	Logger("Looking for test cases with changed results .....")
 
 	// High level scan.
@@ -354,7 +363,7 @@ func DBPrtChanges() {
 		// Get next history row by test case and going back in time.
 		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
 		if err != nil {
-			FmtFatal("DBPrtChanges: rows.Scan failed", pathDatabase, err)
+			FatalErr("DBPrtChanges: rows.Scan failed", err)
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
@@ -385,7 +394,7 @@ func DBPrtChanges() {
 			// Get next history row back in time.
 			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
 			if err != nil {
-				FmtFatal("DBPrtChanges: rows.Scan/skipping failed", pathDatabase, err)
+				FatalErr("DBPrtChanges: rows.Scan/skipping failed", err)
 			}
 
 			// Same as last test case?
@@ -432,7 +441,10 @@ func DBPrtLastPass() {
 	// Get all the history table rows.
 	var msg string
 	counter := 0
-	rows := sqlQuery(sqlText)
+	rows, ok := sqlQuery(sqlText)
+	if !ok {
+		return
+	}
 	Logger("Looking for test cases that currently fail but passed sometime previously .....")
 
 	// High level scan.
@@ -441,7 +453,7 @@ func DBPrtLastPass() {
 		// Get next history row by test case and going back in time.
 		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
 		if err != nil {
-			FmtFatal("DBPrtChanges: rows.Scan failed", pathDatabase, err)
+			FatalErr("DBPrtChanges: rows.Scan failed", err)
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
@@ -477,7 +489,7 @@ func DBPrtLastPass() {
 			// Get next history row back in time.
 			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
 			if err != nil {
-				FmtFatal("DBPrtChanges: rows.Scan/skipping failed", pathDatabase, err)
+				FatalErr("DBPrtChanges: rows.Scan/skipping failed", err)
 			}
 
 			// Same as last test case?
@@ -523,7 +535,10 @@ func DBDeleteMostRecent() {
 	var curTestCase, curJvm, curDateUTC, curTimeUTC string
 
 	// Get all the history table rows.
-	rows := sqlQuery(sqlSelect)
+	rows, ok := sqlQuery(sqlSelect)
+	if !ok {
+		return
+	}
 
 	// High level scan.
 	for rows.Next() {
@@ -531,7 +546,7 @@ func DBDeleteMostRecent() {
 		// Get next history row by test case and going back in time.
 		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
 		if err != nil {
-			FmtFatal("DBDeleteMostRecent: rows.Scan failed", pathDatabase, err)
+			FatalErr("DBDeleteMostRecent: rows.Scan failed", err)
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
@@ -556,7 +571,7 @@ func DBDeleteMostRecent() {
 	for _, sqlStmt := range deleteList {
 		err := sqlFunc(sqlStmt, true)
 		if err != nil {
-			FmtFatal("DBDeleteMostRecent: DELETE failed", pathDatabase, err)
+			FatalErr("DBDeleteMostRecent: DELETE failed", err)
 		}
 		counter += 1
 	}
