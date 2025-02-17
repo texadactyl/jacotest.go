@@ -34,7 +34,7 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Build Jacotest
+    - name: Setup Jacotest
       run: |
         cd src
         go get github.com/mattn/go-sqlite3
@@ -56,7 +56,7 @@ jobs:
         ./src/jacotest -c -x -M -t 60 -j openjdk 
         ls -l ./reports
 
-    - name: Run options
+    - name: Run Options
       run: |
         ./src/jacotest -r 1 -j openjdk
         ./src/jacotest -r 2 -j openjdk
