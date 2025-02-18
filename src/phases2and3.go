@@ -202,7 +202,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Table of error categories (string fragments).
 	var tblErrCatDefs []string
-	var tempTable []string
+	var catLines []string
 
 	// Get a handle on the jacotest globals.
 	globals := GetGlobalRef()
@@ -213,17 +213,17 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 		FatalErr(fmt.Sprintf("Phases2And3: os.ReadFile(%s) failed", globals.ErrCatFilePath), err)
 	}
 	giantString := string(fileBytes)
-	tempTable = strings.Split(giantString, "\n")
+	catLines = strings.Split(giantString, "\n")
 
 	// Throw out the comment lines; they begin with '#' or the whole line is nil.
-	for _, fragment := range tempTable {
-		fragment = strings.Trim(fragment, " ")
-		if len(fragment) < 1 || strings.HasPrefix(fragment, "#") {
+	for _, catagory := range catLines {
+		catagory = CleanerText(strings.Trim(catagory, " "), false)
+		if len(catagory) < 1 || strings.HasPrefix(catagory, "#") {
 			continue
 		}
-		tblErrCatDefs = append(tblErrCatDefs, fragment)
+		tblErrCatDefs = append(tblErrCatDefs, catagory)
 		if ph23Tracing {
-			fmt.Printf("DEBUG phases2And3: tblErrCatDefs fragment=%s\n", fragment)
+			fmt.Printf("DEBUG phases2And3: tblErrCatDefs fragment=%s\n", catagory)
 		}
 	}
 

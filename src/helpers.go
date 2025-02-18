@@ -119,10 +119,13 @@ func StoreText(targetDir string, argFile string, text string) {
 
 // CleanerText
 // If newlines
-//	  Replace all non-printable characters in a string with a space.
-//	  Preserve \r and \n.
+//
+//	Replace all non-printable characters in a string with a space.
+//	Preserve \r and \n.
+//
 // else
-//	  Strip out all nonprintable characters.
+//
+//	Strip out all nonprintable characters.
 func CleanerText(inString string, newlines bool) string {
 	inRunes := []rune(inString)
 	var outRunes []rune
