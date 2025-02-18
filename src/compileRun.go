@@ -50,7 +50,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 		}
 
 		// Not a timeout error but something else bad happened
-		outString = CleanerText(outString)
+		outString = CleanerText(outString, true)
 		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
 		StoreText(global.DirLogs, "FAILED."+infix+".log", outString)
 		if cmdExec == "javac" {

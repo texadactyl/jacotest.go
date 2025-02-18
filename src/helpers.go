@@ -117,13 +117,27 @@ func StoreText(targetDir string, argFile string, text string) {
 	}
 }
 
-// CleanerText replaces all non-printable characters in a string with a space.
-func CleanerText(arg string) string {
-	runes := []rune(arg)
-	for ix, roon := range runes {
-		if !unicode.IsPrint(roon) && roon != '\n' && roon != '\r' {
-			runes[ix] = ' '
+// CleanerText
+// If newlines
+//	  Replace all non-printable characters in a string with a space.
+//	  Preserve \r and \n.
+// else
+//	  Strip out all nonprintable characters.
+func CleanerText(inString string, newlines bool) string {
+	inRunes := []rune(inString)
+	var outRunes []rune
+	for _, rr := range inRunes {
+		if newlines {
+			if !unicode.IsPrint(rr) && rr != '\n' && rr != '\r' {
+				outRunes = append(outRunes, ' ')
+			} else {
+				outRunes = append(outRunes, rr)
+			}
+		} else {
+			if unicode.IsPrint(rr) {
+				outRunes = append(outRunes, rr)
+			}
 		}
 	}
-	return string(runes)
+	return string(outRunes)
 }

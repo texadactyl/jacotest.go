@@ -306,7 +306,7 @@ func DBStoreFailed(testCaseName, failText string) {
 	failText = string(runes)
 
 	// Form string parameters for the SQL text.
-	qFailText := "'" + CleanerText(failText) + "'"
+	qFailText := "'" + CleanerText(failText, true) + "'"
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
 	dateUTC := "'" + GetUtcDate() + "'"

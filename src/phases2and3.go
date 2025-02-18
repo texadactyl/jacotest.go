@@ -99,7 +99,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 			// For each text line in the log file, see if the search argument is present
 			for _, textLine := range logTextLines {
-				textLine = CleanerText(textLine)
+				textLine = CleanerText(textLine, false)
 				if strings.Contains(textLine, errCatFragment) {
 					// Found the search argument in current line that matches errCatExpected.
 					// Update tblHitByTC, tblHitByCat, and allTestCases.
