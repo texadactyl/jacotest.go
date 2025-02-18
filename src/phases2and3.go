@@ -99,19 +99,20 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 			// For each text line in the log file, see if the search argument is present
 			for _, textLine := range logTextLines {
+				textLine = CleanerText(textLine)
 				if strings.Contains(textLine, errCatFragment) {
 					// Found the search argument in current line that matches errCatExpected.
 					// Update tblHitByTC, tblHitByCat, and allTestCases.
 					tblHitByTC[testCaseName] = textLine
 					tblHitByCat = append(tblHitByCat, TblHitByCat{errCatFragment, testCaseName, textLine})
 					allTestCases[testCaseName] = textLine
-					
+
 					if ph23Tracing {
 						fmt.Printf("DEBUG phase2 added hit: fragment=%s, testCaseName=%s, textLine=%s\n",
 							errCatFragment, testCaseName, textLine)
 						fmt.Println(tblHitByTC)
 					}
- 
+
 					// I only need the first hit occurence in the current log file so break out of the for loop.
 					break
 				} else { // No hit on the current text line of the log file - try some more.
@@ -120,7 +121,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 							errCatFragment, testCaseName, textLine)
 					}
 				} // if strings.Contains(textLine, errCatFragment)
-				
+
 			} // for _, textLine := range logTextLines
 
 		} // for _, logFile := range logFileList
@@ -130,7 +131,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 }
 
 // Phase 3 - Report from tblHitByCat which is already sequentially grouped by error category.
-//         - All uncategorized errors must be inserted into the database as such.
+//   - All uncategorized errors must be inserted into the database as such.
 func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	lastCat := ""
 	hitCounter := 0
@@ -176,7 +177,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 
 		// Bump error category hits.
 		catCounter += 1
-		
+
 	} // for _, tblEntry := range tblHitByCat
 
 	// Need to emit total for last group.
