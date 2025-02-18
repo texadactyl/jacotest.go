@@ -117,7 +117,7 @@ func StoreText(targetDir string, argFile string, text string) {
 	}
 }
 
-// CleanerText replaces all non-printable characters in a string with '?'.
+// CleanerText replaces all non-printable characters in a string with a space.
 func CleanerText(arg string) string {
 	runes := []rune(arg)
 	for ix, roon := range runes {
