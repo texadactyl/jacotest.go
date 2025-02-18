@@ -610,6 +610,9 @@ func DBPrintMostRecent() {
 		if err != nil {
 			FatalErr("DBPrintMostRecent: rows.Scan failed", err)
 		}
+		if curFailText == nil {
+			curFailText = "<nil>"
+		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
 		// So, the next test always fails on the very first row.
