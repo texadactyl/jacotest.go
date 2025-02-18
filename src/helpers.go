@@ -122,7 +122,7 @@ func CleanerText(arg string) string {
 	runes := []rune(arg)
 	for ix, roon := range runes {
 		if !unicode.IsPrint(roon) && roon != '\n' {
-			runes[ix] = '?'
+			runes[ix] = ' '
 		}
 	}
 	return string(runes)
