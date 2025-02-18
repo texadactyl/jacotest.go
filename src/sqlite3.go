@@ -611,7 +611,7 @@ func DBPrintMostRecent() {
 			FatalErr("DBPrintMostRecent: rows.Scan failed", err)
 		}
 		if curFailText == nil {
-			curFailText = "<nil>"
+			curFailText = " "
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
