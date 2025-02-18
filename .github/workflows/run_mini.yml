@@ -1,8 +1,6 @@
 # This workflow will run jacotest against jacobin using the tests from tests.MINI.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-### Not yet:          os: [ubuntu-latest, windows-latest, macos-latest]
-
 name: Jacotest with Jacobin and tests.MINI
 
 on:
@@ -15,7 +13,7 @@ jobs:
     strategy:
       matrix:
         
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@main
@@ -27,15 +25,28 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
+    - name: Setup for Linux or MacOS
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+        rm -rf tests
+        mv tests.MINI tests
+      shell: bash
+      if: runner.os != 'Windows'
+
+    - name: Setup for Windows
+      run: |
+        echo "%HOMEPATH%\go\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+        Remove-Item -Path "tests" -Recurse -Force
+        Rename-Item -Path "tests.MINI" -NewName "tests"
+      shell: powershell
+      if: runner.os == 'Windows'
+        
     - name: Setup Jacotest
       run: |
-        echo $PATH
-        export PATH=$HOME/go/bin:$PATH
         cd src
         go get github.com/mattn/go-sqlite3
-        go install -v ./...
+        go install -v .
         cd ..
-        pwd
         jacotest -h
 
     - name: Setup Jacobin
@@ -43,6 +54,7 @@ jobs:
         git clone https://github.com/platypusguy/jacobin
         cd jacobin/src
         go install -v ./...
+        cd ../..
         jacobin --version
         
     - name: Setup JDK
@@ -55,17 +67,8 @@ jobs:
       run: |
         java --version
         javac --version
-        rm -rf tests
-        mv tests.MINI tests
         jacotest -c -x || true
 
-    - name: Results
-      run: |
-        ls -l ./logs
-        cd reports
-        ls -l
-        cat Summary*
-        
     - name: Jacotest Database
       run: |
         jacotest -r 3
