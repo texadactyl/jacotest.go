@@ -536,7 +536,8 @@ public final class Twofish_Algorithm // implicit no-argument constructor
         int[] sKey = (int[]) sk[1];
 
         if (DEBUG && debuglevel > 6) System.out.println("PT=" + toString(in, inOffset, BLOCK_SIZE));
-        System.out.println("In=" + toString(in, inOffset, BLOCK_SIZE));
+        String wstr = toString(in, inOffset, BLOCK_SIZE);
+        System.out.printf("In=%s\n", wstr);
 
         int x0 = (in[inOffset++] & 0xFF) |
                 (in[inOffset++] & 0xFF) << 8 |

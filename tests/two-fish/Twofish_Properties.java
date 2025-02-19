@@ -113,8 +113,9 @@ public class Twofish_Properties // implicit no-argument constructor
         String s = getProperty(arg);
         if (s == null)
             return false;
-        //return new Boolean(s).booleanValue();
-        return Boolean.getBoolean(s);
+        if (s.equals("true"))
+            return true;
+        else return false;
     }
 
     /**
