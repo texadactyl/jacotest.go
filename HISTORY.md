@@ -4,6 +4,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-19 | 4.0.4 | JACOBIN-659 fixed: test case rsa-mini. |
 | 2025-02-18 | 4.0.3 | JACOBIN-664 fixed: phase2and3.go, helpers.go. |
 | 2025-02-17 | 4.0.2 | JACOBIN-663 Phase 2: code cleanup and error reporting consolidation. |
 | | | * Transaction bracketing on each insert/update/delete. |

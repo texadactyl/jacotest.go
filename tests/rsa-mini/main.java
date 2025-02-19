@@ -1,157 +1,205 @@
+// Java Program to Implement the RSA Algorithm
+// Hacked from https://www.geeksforgeeks.org/java-program-to-implement-the-rsa-algorithm/
+
 /***
 
-	RSA key generation, public key encryption, and private key decryption.
-	This is fine for an academic exercise but not for production.
+    Public and Private Key simple cryptography
+    ==========================================
 
- ***/
+    Description
+
+        1. Consider two prime numbers p and q.
+        2. Compute n = p * q.
+        3. Compute PHI(n) = (p – 1) * (q – 1).
+        4. Choose e such gcd(e , PHI(n) ) = 1.
+        5. Calculate d such e*d mod PHI(n) = 1. d = (k*PHI(n) + 1) / e for some integer k.
+        6. Public Key {e,n} Private Key {d,n}.
+        7. Cipher text C = Pe mod n where P = plaintext.
+        8. For Decryption D = Dd mod n where D will return the plaintext.
+
+    Assume the following vectors of integers
+
+        P = plaintext.
+        C = ciphertext.
+        D = decrypted ciphertext (should equal P).
+
+    Example
+
+        1. Suppose p = 53 and q = 59.
+        2. Then, n = 53 * 59 = 3127.
+        3. PHI(n) = 52 * 58 = 3016.
+        4. e = 3.
+        5. Choose k=2. Then, d = (2 * 3016 + 1) / 3 = 2011.
+        6. Public key = {3, 3127}, Private key = {3, 2011}.
+        7. C = (P ** e) modulo n = 1728.
+        8. D = (C ** d) modulo n = 12.
+        9. Assert that D = P i.e. 12 = 12.
+
+The source code is working with long scalars. In a more realistic case it would be working with long arrays. But, the principle is the same.
+    
+***/
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.HexFormat;
 
 public class main {
 
-	final static int keySize = 1024;
+    static final boolean debugging = true;
 
-    public static void printLabeledString(String label, String value) {
-        System.out.print(label);
-        System.out.print(": ");
-        System.out.println(value);
+	public static void main(String args[]) {
+	
+		long p, q, n, z, d = 0, e;
+		int errorCount = 0;
+
+		// Chose prime numbers p and q.
+		long [] primes = findLargestTwoPrimes(1000); // *** checker() calls are dependent on argument value.
+		p = primes[0];
+		q = primes[1];
+		System.out.printf("Primes  = %d, %d\n", p, q);
+		errorCount += checker("p", 997, p); // ***** based on findLargestTwoPrimes(1000)
+		errorCount += checker("q", 991, q); // ***** based on findLargestTwoPrimes(1000)
+		
+		// The number to be encrypted and decrypted
+		long plainText = 12;
+		System.out.printf("Plaintext long scalar message = %d\n", plainText);
+		
+		double cDouble;
+		long cLong;
+		BigInteger biDecryptedCiphertext;
+
+		// Compute n and PHI(n).
+		n = p * q;
+		z = (p - 1) * (q - 1); // PHI(n)
+
+		System.out.printf("n = %d\n", n);
+		System.out.printf("PHI(n) = %d\n", z);
+
+        // Compute e.
+		for (e = 2; e < z; e++) {
+			// e is for public key exponent
+			if (gcd(e, z) == 1) {
+				break;
+			}
+		}
+		System.out.printf("e = %d\n", e);
+		
+		// Compute d.
+		for (int ix = 0; ix <= 9; ix++) {
+			long x = 1 + (ix * z);
+
+			// d is for private key exponent
+			if (x % e == 0) {
+				d = x / e;
+				break;
+			}
+		}
+		System.out.printf("d = %d\n", d);
+		
+		// Announce keys.
+		System.out.printf("Public key  = {%d, %d}\n", e, n);
+		System.out.printf("Private key = {%d, %d}\n", d, n);
+		
+		// Compute ciphertext, BigInteger C.
+		//cDouble = (Math.pow((double) plainText, (double) e)) % n + 0.5;
+        //cLong = (long) cDouble;   
+		//if (debugging) System.out.printf("*DEBUG* cDouble: %f, cLong: %d\n", cDouble, cLong);
+		cLong = safePower(plainText, e);
+		System.out.printf("Ciphertext message = %d\n", cLong);
+		BigInteger C = BigInteger.valueOf(cLong);
+
+		// Compute decrypted ciphertext, BigInteger biDecryptedCiphertext.
+		BigInteger N = BigInteger.valueOf(n);
+		biDecryptedCiphertext = (C.pow((int)d)).mod(N);
+		long decryptedCiphertext = biDecryptedCiphertext.longValue();
+		System.out.printf("Decrypted ciphertext = %d\n", decryptedCiphertext);
+		
+		// Is the decrypted ciphertext = the plaintext ?
+		errorCount += checker("decryptedCiphertext == plainText?", decryptedCiphertext, plainText);
+		assert(errorCount == 0);
+		System.out.println("Success!");
+	}
+
+    // Check observed vs expected.
+    private static int checker(String label, long expected, long observed) {
+        if (expected == observed) {
+            System.out.printf("ok %s: expected(%d) = observed(%d)\n", label, expected, observed);
+            return 0;
+        }
+        System.out.printf("*** ERROR, %s: expected(%d) != observed(%d)\n", label, expected, observed);
+        return 1;
     }
 
-    public static void main(String[] args) {
-    
-        // Generate an RSA key pair
-        RSAKeyPair keyPair = generateRSAKeyPair(keySize);
-
-        // Cleartext message to be encrypted
-        String clearText = "Mary had a little lamb whose fleece was white as snow!";
-
-        // Encrypt the clearText using the public key
-        byte[] cipherText = encrypt(clearText, keyPair);
-
-        // Decrypt the cipherText using the private key
-        String decryptedText = decrypt(cipherText, keyPair);
-
-		// Show everything
-        printLabeledString("Original Message", clearText);
-        hexDump("Encrypted Message", cipherText);
-        printLabeledString("Decrypted Message", decryptedText);
+    // Find the largets two primes <= the given long argument.
+    public static long[] findLargestTwoPrimes(long arg) {
+        long first = -1, second = -1;
         
-        // Success?
-        assert decryptedText.equals(clearText);
-        System.out.println("Success!");
-        
-    }
-
-    private static void printPair(String label, BigInteger arg1, BigInteger arg2) {
-        System.out.printf("%s: (", label);
-        System.out.print(arg1);System.out.print(", ");
-        System.out.print(arg2);
-        System.out.println(")");
-    }
-
-    public static RSAKeyPair generateRSAKeyPair(int keySize) {
-    
-        SecureRandom rand = new SecureRandom();
-
-        // Generate two random prime numbers of half the key size
-        System.out.print("rand: ");
-        System.out.println(rand);
-        BigInteger p = generateRandomPrime(keySize / 2, rand);
-        BigInteger q = generateRandomPrime(keySize / 2, rand);
-        //System.out.println("Primes (p, q): (" + p + ", " + q + ")");
-        printPair("Primes (p, q)", p, q);
-
-        // Calculate n = modulus and phi
-        BigInteger n = p.multiply(q);
-        BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
-
-        // Select a public exponent e (a small prime, commonly 65537)
-        BigInteger e = BigInteger.valueOf(65537);
-
-        // Calculate the private exponent d (modular multiplicative inverse of e modulo phi)
-        BigInteger d = e.modInverse(phi);
-
-        // Show key components
-        //System.out.println("Public Key (e, n): (" + e + ", " + n + ")");
-        printPair("Public Key (e, n)", e, n);
-        //System.out.println("Private Key (d, n): (" + d + ", " + n + ")");
-        printPair("Private Key (d, n)", d, n);
-
-        // Return key pair to caller
-        return new RSAKeyPair(n, e, d);
-    }
-
-    public static byte[] encrypt(String plaintext, RSAKeyPair keyPair) {
-        BigInteger message = new BigInteger(plaintext.getBytes());
-        return message.modPow(keyPair.getPublicKey(), keyPair.n).toByteArray();
-    }
-
-    public static String decrypt(byte[] cipherText, RSAKeyPair keyPair) {
-        BigInteger encryptedMessage = new BigInteger(cipherText);
-        BigInteger decryptedMessage = encryptedMessage.modPow(keyPair.getPrivateKey(), keyPair.n);
-        return new String(decryptedMessage.toByteArray());
-    }
-
-    private static BigInteger generateRandomPrime(int bitLength, SecureRandom rand) {
-        BigInteger prime;
-        do {
-            prime = BigInteger.probablePrime(bitLength, rand);
-        } while (!prime.isProbablePrime(13));
-        System.out.print("generateRandomPrime: Selected prime: ");
-        System.out.println(prime);
-        return prime;
-    }
-
-    public static void hexDump(String label, byte[] byteArray) {
-        int lineLength = 16; // Number of bytes to display in one line
-        int bytesRead = 0;
-        String hs;
-
-		System.out.println(label);
-        for (int ii = 0; ii < byteArray.length; ii++) {
-        
-            if (bytesRead == 0) {
-                hs = String.format("%08x", ii);
-		        System.out.print(hs);
-		        System.out.print(": ");
-            }
-
-            hs = String.format("%02x", byteArray[ii]);
-            System.out.print(hs);
-            System.out.print(" ");
-
-            bytesRead++;
-
-            if (bytesRead == lineLength || ii == byteArray.length - 1) {
-            
-                // Print a newline character at the end of each line or when we reach the end of the array
-                System.out.println();
-                bytesRead = 0;
-                
+        for (long ix = arg; ix >= 2; ix--) {
+            if (isPrime(ix)) {
+                if (first == -1) {
+                    first = ix;
+                } else {
+                    second = ix;
+                    break;
+                }
             }
         }
+        return new long[]{first, second};
+    }
+    
+    // Is the long argument prime?
+    private static boolean isPrime(long arg) {
+        if (arg < 2) return false;
+        if (arg % 2 == 0) return arg == 2;
+        for (long ix = 3; ix * ix <= arg; ix += 2) {
+            if (arg % ix == 0) return false;
+        }
+        return true;
     }
 
-    static class RSAKeyPair {
-        private final BigInteger n; // Modulus
-        private final BigInteger e; // Public exponent
-        private final BigInteger d; // Private exponent
+    // Compute GCD of left and right.
+	static long gcd(long left, long right) {
+		if (left == 0)
+			return right;
+		else
+			return gcd(right % left, left);
+	}
 
-        public RSAKeyPair(BigInteger n, BigInteger e, BigInteger d) {
-            this.n = n;
-            this.e = e;
-            this.d = d;
+    // Safely raise the given long base to the given long exponent power.
+    public static long safePower(long base, long exponent) {
+        if (exponent < 0) {
+            throw new IllegalArgumentException("Negative exponent not supported for long results.");
+        }
+        if (base == 0) return (exponent == 0) ? 1 : 0; // Define 0^0 as 1
+        if (base == 1 || exponent == 0) return 1;
+        if (base == -1) return (exponent % 2 == 0) ? 1 : -1;
+
+        long result = 1;
+        long current = base;
+
+        while (exponent > 0) {
+            if ((exponent & 1) == 1) { // If the exponent is odd
+                if (willMultiplyOverflow(result, current)) {
+                    throw new ArithmeticException("Overflow detected in exponentiation.");
+                }
+                result *= current;
+            }
+            exponent >>= 1;
+            if (exponent > 0) {
+                if (willMultiplyOverflow(current, current)) {
+                    throw new ArithmeticException("Overflow detected in exponentiation.");
+                }
+                current *= current;
+            }
         }
 
-        public BigInteger getPublicKey() {
-            return this.e;
-        }
+        return result;
+    }
 
-        public BigInteger getPrivateKey() {
-            return this.d;
-        }
+    private static boolean willMultiplyOverflow(long left, long right) {
+        if (left > 0 && right > 0 && left > Long.MAX_VALUE / right) return true;
+        if (left > 0 && right < 0 && right < Long.MIN_VALUE / left) return true;
+        if (left < 0 && right > 0 && left < Long.MIN_VALUE / right) return true;
+        if (left < 0 && right < 0 && left < Long.MAX_VALUE / right) return true;
+        return false;
     }
 }
 
