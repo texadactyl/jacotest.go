@@ -1,9 +1,10 @@
-This file is a version history of jacotest amendments.  Entries appear in version descending order (newest first, oldest last).
+This file is a version history of Jacotest amendments.  Entries appear in version descending order (newest first, oldest last).
 <br>
 <br>
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-19 | 4.0.5 | JACOBIN-668 added Jacotest case boolean. |
 | 2025-02-19 | 4.0.4 | JACOBIN-659 fixed: test case rsa-mini. |
 | 2025-02-18 | 4.0.3 | JACOBIN-664 fixed: phase2and3.go, helpers.go. |
 | 2025-02-17 | 4.0.2 | JACOBIN-663 Phase 2: code cleanup and error reporting consolidation. |
@@ -11,7 +12,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | * Insure that DBClose() is always called. |
 | | | * Handle O/S interrupts by calling DBClose and os.Exit(1). |
 | | | * Github Actions new workflow: run_mini.yml, on demand only. |
-| | | * jacotest -r 3 :: Print the last record for each test case. |
+| | | * Jacotest -r 3 :: Print the last record for each test case. |
 | | | * Database insert for uncategorized errors. The failed_text column = UNCATEGORIZED. |
 | 2025-02-16 | 4.0.1 | JACOBIN-663 Phase 1: Database & interrupt handling improvements. |
 | 2025-02-15 | 3.5.9 | New test case: secure-random. |
@@ -143,7 +144,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2024-02-19 | 3.0.8 | Fixed test case parseint. |
 | | | Add genstatics.py to new folder "py". |
 | 2024-02-15 | 3.0.7 | Fixed & looped test cases ex-catch-parseint and hex-decode-numeric. |
-| 2024-02-15 | 3.0.6 | Added utility jtsync - automates git pull, go install, jacotest -c. |
+| 2024-02-15 | 3.0.6 | Added utility jtsync - automates git pull, go install, Jacotest -c. |
 | 2024-02-15 | 3.0.5 | Updated test case ex-finally-2 to measure success. |
 | 2024-02-14 | 3.0.4 | New test case: ex-finally-2. |
 | 2024-02-10 | 3.0.3 | New test case: floor-div-mod-mix. |
@@ -186,7 +187,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2023-11-11 | 2.6.21 | Test case stringer-1 fixed and expanded. |
 | | | Fixed test case playfair. |
 | | | Fixed JACOBIN-0319-println-object. |
-| | | jacobin PUTSTATIC field name adjustment. |
+| | | Jacobin PUTSTATIC field name adjustment. |
 | 2023-11-10 | 2.6.20 | Test case JACOBIN-0322-default-locale expanded. |
 | 2023-11-08 | 2.6.19 | New test case: JACOBIN-0393-pot-pourri |
 | 2023-11-06 | 2.6.18 | Expanded test case JACOBIN-0393-two-strings |
@@ -209,7 +210,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | 2023-09-19 | 2.6.4 | New summary report category: "PUTSTATIC type unrecognized". |
 | | | Catch discrepancies between total error executions and the total from log-greps. |
 | 2023-09-17 | 2.6.3 | New test case: rsa-mini. |
-| 2023-09-17 | 2.6.2 | Complement jacobin PR #71 - JACOBIN-354. |
+| 2023-09-17 | 2.6.2 | Complement Jacobin PR #71 - JACOBIN-354. |
 | | | New test case: catch-assertion-error |
 | | | New test case: nth-root |
 | 2023-09-12 | 2.6.1 | Implement issue #18: Retry on SQL INSERT duplicate key errors. |
@@ -224,7 +225,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | Adopted go version 1.21. |
 | 2023-08-09 | 2.5.1 | Implement sqlite3 database. |
 | 2023-08-08 | 2.4.2 | Moved the grape functions from helpers.go into a new source file (grape.go). |
-| | | Added the JVM -ea option to jacobin and openjdk-java invocations. |
+| | | Added the JVM -ea option to Jacobin and openjdk-java invocations. |
 | | | Added the -Xlint:all option to javac invocations. |
 | | | Identified the O/S type and machine architecture in the summary report. |
 | | | Note whether or not compilations will occur in the summary report. |
@@ -248,7 +249,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 | | | New test case: JACOBIN-0314-java-lang-strictmath. |
 | 2023-07-11 | 2.3.4 | New test case: JACOBIN-0312-FCMPG. |
 | | | New test case: java-lang-math, using Math/StrictMath function calls, |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus, leveraging jacobin classloader/javaLangMath.go.
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus, leveraging Jacobin classloader/javaLangMath.go.
 | | | Deleted test case: trig-simple because it is a subset of math-in-java-source. |
 | 2023-07-10 | 2.3.3 | Amended test case: JACOBIN-0311-for-loop-G-pop. |
 | | | Renamed test case: java-math --> math-in-java-source. |
@@ -322,7 +323,7 @@ This file is a version history of jacotest amendments.  Entries appear in versio
 |            |       | Make log file names consistent: RESULT.test-case-name.COMMAND.log |
 |            |       | RESULT = PASSED, FAILED, or TIMEOUT |
 |            |       | test-case-name = hyphenated name of directory holding the specified test case |
-|            |       | COMMAND = jacobin, openjdk, or javac |
+|            |       | COMMAND = Jacobin, openjdk, or javac |
 | 2023-05-18 | 1.12  | Added test case: solitaire cryptography. |
 | 2023-05-17 | 1.11  | Added test case: Two-fish cryptography. |
 | 2023-05-15 | 1.10  | Added test case: read & verify FITS file header fields. |

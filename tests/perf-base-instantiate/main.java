@@ -1,9 +1,22 @@
-import java.io.*;
-import java.math.*;
-import java.text.*;
-import java.util.*;
-import java.time.*;
-import javax.crypto.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.CharArrayReader;
+import java.io.StreamTokenizer;
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.CollationKey;
+import java.text.Collator;
+import java.util.BitSet;
+import java.text.CharacterIterator;
+import java.text.DateFormat;
+import java.util.Locale;
+import java.text.NumberFormat;
+import java.util.Random;
+import java.time.Month;
+import java.time.ZonedDateTime;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 
 public class main {
 
@@ -16,8 +29,9 @@ public class main {
         StringWriter a4 = new StringWriter();
         CharArrayReader a5 = new CharArrayReader(cbuf);
         StreamTokenizer a6 = new StreamTokenizer(a5);
-        BigDecimal a7 = new BigDecimal(42.0);
+        //BigDecimal a7 = new BigDecimal(42.0);
         BigInteger a8 = new BigInteger("42");
+        BigDecimal a7 = new BigDecimal(a8);
         DateFormat a9 = DateFormat.getDateInstance();
         char a10 = CharacterIterator.DONE;
         Collator a11 = Collator.getInstance();

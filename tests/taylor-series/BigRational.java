@@ -160,7 +160,7 @@ public class BigRational implements Comparable<BigRational> {
         return a.times(b.reciprocal());
     }
 
-    // return double reprentation (within given precision)
+    // return double representation (within given precision)
     public double doubleValue() {
         int SCALE = 32;        // number of digits after the decimal place
         BigDecimal numerator   = new BigDecimal(num);
