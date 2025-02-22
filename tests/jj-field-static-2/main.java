@@ -30,7 +30,7 @@ public class main {
         // --------------------- statics
         
         String str = jj._getStaticString("main", "bite");
-        errorCount += checker("static main bite", "13", str);
+        errorCount += checker("static main bite", "0x13", str);
         if (str.equals("openjdk")) { System.exit(0); }
         
         str = jj._getStaticString("main", "ba");
