@@ -57,7 +57,7 @@ public class main {
         errorCount += checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
         mainStaticBoolean = false;
         errorCount += checker("static main.mainStaticBoolean", "false", jj._getStaticString("main", "mainStaticBoolean"));
-        errorCount += checker("static main.mainStaticByte", "07", jj._getStaticString("main", "mainStaticByte"));
+        errorCount += checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
         errorCount += checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
         errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
         errorCount += checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
