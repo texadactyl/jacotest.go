@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-22 | 4.0.7 | JACOBIN-671 updated hex formatting in Jacotest cases final-static, jj-field-static, jj-field-static-2. |
 | 2025-02-22 | 4.0.6 | JACOBIN-670 added Jacotest case final-static. |
 | 2025-02-19 | 4.0.5 | JACOBIN-668 added Jacotest case boolean. |
 | 2025-02-19 | 4.0.4 | JACOBIN-659 fixed: test case rsa-mini. |
