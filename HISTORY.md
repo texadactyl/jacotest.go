@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-02-22 | 4.0.6 | JACOBIN-670 added Jacotest case final-static-double. |
 | 2025-02-19 | 4.0.5 | JACOBIN-668 added Jacotest case boolean. |
 | 2025-02-19 | 4.0.4 | JACOBIN-659 fixed: test case rsa-mini. |
 | 2025-02-18 | 4.0.3 | JACOBIN-664 fixed: phase2and3.go, helpers.go. |

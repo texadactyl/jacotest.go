@@ -6,7 +6,7 @@ public class main {
     private static boolean mainStaticBoolean = true;
     private static byte mainStaticByte = 0x07;
     private static char mainStaticChar = '8';
-    private static final double mainStaticDouble = 2.0;
+    private static double mainStaticDouble = 2.0;
     private static float mainStaticFloat = 4.0f;
     private static int mainStaticInt = 1;
     private static long mainStaticLong = 5;
