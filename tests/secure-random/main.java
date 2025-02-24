@@ -1,4 +1,6 @@
 import java.security.SecureRandom;
+import java.security.Provider;
+import java.security.SecureRandomSpi;
 import java.util.HexFormat;
 
 class main {
@@ -7,11 +9,6 @@ class main {
         byte [] bb = new byte[8];
         sr.nextBytes(bb);
         System.out.printf("<%s>  int=%d, long=%d, float=%f, double=%f, bytes=%s\n", label, sr.nextInt(), sr.nextLong(), sr.nextFloat(), sr.nextDouble(), HexFormat.of().formatHex(bb));
-        
-        /*for(int ix = 0; ix < 5; ix++) {
-            sr.nextBytes(bb);
-            System.out.printf("<%s  %d>  int=%d, long=%d, float=%f, double=%f, bytes=%s\n", label, ix, sr.nextInt(), sr.nextLong(), sr.nextFloat(), sr.nextDouble(), HexFormat.of().formatHex(bb));
-        }*/
     }
 
     public static void main(String[] args) {
@@ -23,16 +20,17 @@ class main {
         
         sr1.setSeed(12345L); // Seed with a long value.
         GimmeFive("sr1.setSeed(12345L)", sr1);
-        
+
         byte[] seedBytes = {10, 20, 30, 40};
         sr1.setSeed(seedBytes); // Seed with a byte array.
-        GimmeFive("sr1.setSeed(seedBytes)", sr1);
+        GimmeFive("sr1.setSeed({10, 20, 30, 40})", sr1);
         
         System.out.printf("Algorithm: %s\n", sr1.getAlgorithm());
+        System.out.printf("Provider: %s\n", sr1.getProvider());
         System.out.printf("toString: %s\n", sr1.toString());
         
         SecureRandom sr2 = new SecureRandom(seedBytes);
-        GimmeFive("sr2 = new SecureRandom(seedBytes)", sr1);
+        GimmeFive("sr2 = new SecureRandom({10, 20, 30, 40})", sr2);
         
         bseed8 = sr2.generateSeed(8);
         GimmeFive("sr2.generateSeed(8)", sr2);
