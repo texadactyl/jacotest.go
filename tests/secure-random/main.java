@@ -7,8 +7,10 @@ class main {
 
     private static void GimmeFive(String label, SecureRandom sr) {
         byte [] bb = new byte[8];
-        sr.nextBytes(bb);
-        System.out.printf("<%s>  int=%d, long=%d, float=%f, double=%f, bytes=%s\n", label, sr.nextInt(), sr.nextLong(), sr.nextFloat(), sr.nextDouble(), HexFormat.of().formatHex(bb));
+        for(int ix = 0; ix < 100; ix++) {
+            sr.nextBytes(bb);
+            System.out.printf("<%s %d>  int=%d, long=%d, float=%f, double=%f, bytes=%s\n", label, ix, sr.nextInt(), sr.nextLong(), sr.nextFloat(), sr.nextDouble(), HexFormat.of().formatHex(bb));
+        }
     }
 
     public static void main(String[] args) {
