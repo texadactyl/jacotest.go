@@ -6,6 +6,7 @@
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
+UnsupportedOperationException
 stack underflow
 stack overflow
 GetMethInfoFromCPmethref
@@ -54,7 +55,6 @@ StackOverflowError
 StringIndexOutOfBoundsException
 UnmodifiableClassException
 UnsupportedEncodingException
-UnsupportedOperationException
 UTFDataFormatException
 VirtualMachineError
 WrongMethodTypeException
