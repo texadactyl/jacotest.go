@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-03-13 | 4.0.10 | New test case: iface-lorentz. |
 | 2025-03-02 | 4.0.9 | Fall forward to Go 1.24. |
 | 2025-02-28 | 4.0.8 | Move up UnsupportedOperationException in ERROR_CATEGORIES.txt. |
 | 2025-02-22 | 4.0.7 | JACOBIN-671 updated hex formatting in Jacotest cases final-static, jj-field-static, jj-field-static-2. |
