@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-03-16 | 4.0.12 | Updated test case: bohr-atom. |
 | 2025-03-14 | 4.0.11 | New test case: pi-digits. |
 | 2025-03-13 | 4.0.10 | New test cases: iface-lorentz, iface-process-handle. |
 | 2025-03-02 | 4.0.9 | Fall forward to Go 1.24. |
