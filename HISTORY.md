@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-03-19 | 4.0.14 | New test cases: base64-mime, base64-std, base64-url (all with and w/o padding). |
 | 2025-03-17 | 4.0.13 | New test case: hashed-simply. |
 | 2025-03-16 | 4.0.12 | Updated test case: bohr-atom. |
 | 2025-03-14 | 4.0.11 | New test case: pi-digits. |
