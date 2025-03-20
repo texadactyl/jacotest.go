@@ -152,7 +152,13 @@ class main {
                 {20, 25, 30, 0}};
         maxCities = graph0[0].length; // number of columns
         System.out.printf("Number of cities = %d, start city = %d\nGraph:\n", maxCities, startCity);
-        System.out.println(Arrays.deepToString(graph0));
+        for (int i = 0; i < graph0.length; i++) {
+            for (int j = 0; j < graph0[i].length; j++) {
+                System.out.print(graph0[i][j]);
+                System.out.print("\t");
+            }
+            System.out.println(); // New line after each row
+        }
         System.out.printf("Cheapest route: %d\n", theTravellingSalesmanProblem(graph0, startCity));
     }
 }
