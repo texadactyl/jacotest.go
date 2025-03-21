@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-03-21 | 4.0.16 | Remove date and time from -r 3 report so we can diff. |
+| | | Reduce maximum loops in several test cases. |
 | 2025-03-20 | 4.0.15 | New test case: properties. |
 | | | Amended salesman to avoid arrays.deepToString() and now it passes. |
 | 2025-03-19 | 4.0.14 | New test cases: base64-mime, base64-std, base64-url (all with and w/o padding). |
