@@ -248,12 +248,12 @@ func DBClose() {
 	dbIsOpen = false
 
 	// Close the database.
-	Logger("DBClose: Begin")
+	fmt.Println("DBClose: Begin")
 	err := dbHandle.Close()
 	if err != nil {
 		FatalErr("DBClose: sql.Close failed", err)
 	}
-	Logger("DBClose: End")
+	fmt.Println("DBClose: End")
 
 }
 
