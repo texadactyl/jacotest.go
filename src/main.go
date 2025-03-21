@@ -202,7 +202,11 @@ func main() {
 
 	// Initialise globals and get a handle to it
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
-	Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
+	if flagPrintMostRecent {
+		fmt.Printf("%s version %s", MyName, global.Version)
+	} else {
+		Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
+	}
 
 	// Open logs directory
 	fileOpened, err := os.Open(global.DirLogs)

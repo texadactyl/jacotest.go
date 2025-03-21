@@ -15,31 +15,48 @@ public class main {
         cars.add("BMW");
         cars.add("Ford");
         cars.add("Mazda");
+        cars.add("Kia");
+        cars.add("Jaguar");
+        cars.add("Chevrolet");
+        cars.add("Toyota");
+        
+        for (int ix = 0; ix < cars.size(); ix++) {
+            if (cars.get(ix).equals("Kia"))
+                cars.remove(ix);
+        }
+        int sz = cars.size();
+        if (sz != 7) {
+            System.out.printf("*** ERROR, cars.size() expected 7, observed %d\n", sz);
+            errorCount += 1;
+        }
 
         Iterator<String> itr = cars.iterator();
+        String ss;
+        int ix = 0;
         while (itr.hasNext()) {
-            String ss = itr.next();
-            if (ss == "Ford") {
+            ix += 1;
+            ss = itr.next();
+            if (ss.equals("Ford")) {
                 itr.remove();
+                System.out.printf("%d itr.remove ok: %s\n", ix, ss);
             } else {
-                System.out.print(ss);
-                System.out.print("  ");
+                System.out.printf("%d itr.next skipping: %s\n", ix, ss);
             }
         }
-        System.out.println();
 
-        if (cars.size() != 3) {
-            System.out.println("cars.size() != 3 *** ERROR");
+        sz = cars.size();
+        if (sz != 6) {
+            System.out.printf("*** ERROR, cars.size() expected 6, observed %d\n", sz);
             errorCount += 1;
         }
         String first = cars.get(0);
         String last = cars.get(cars.size() - 1);
-        if (first != "Volvo") {
-            System.out.println("first != Volvo *** ERROR");
+        if (!first.equals("Volvo")) {
+            System.out.printf(" *** ERROR, first should be Volvo, observed: %s\n", first);
             errorCount += 1;
         }
-        if (last != "Mazda") {
-            System.out.println("last != Mazda *** ERROR");
+        if (!last.equals("Toyota")) {
+            System.out.printf(" *** ERROR, last should be Toyota, observed: %s\n", last);
             errorCount += 1;
         }
 
