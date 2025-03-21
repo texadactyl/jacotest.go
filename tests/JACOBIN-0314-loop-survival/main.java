@@ -1,6 +1,6 @@
 public class main {
 
-	private static final int NLOOPS = 100000;
+	private static final int NLOOPS = 1000;
 	private static final double Pi = 3.14159265358979323846;
 	private static final double Pi_2 = Pi * 0.5;
 	private static final double Pi_4 = Pi * 0.25;

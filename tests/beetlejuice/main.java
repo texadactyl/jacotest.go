@@ -1,5 +1,5 @@
 public class main {
-	private static int NLOOPS = 10000;
+	private static int NLOOPS = 1000;
 	
     public static void main(String[] args) {
 		String beetlejuice = "---";

@@ -2,7 +2,7 @@ import java.util.Locale;
 public class main {
 
 	public static void main(String[] args)	{
-	    int NLOOPS = 10000;
+	    int NLOOPS = 1000;
 	    Locale locale1 = Locale.of("en");
 	    Locale locale2 = locale1;
 	    Locale locale3 = locale1;

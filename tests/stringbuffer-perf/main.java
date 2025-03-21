@@ -1,7 +1,7 @@
 
 public class main {
 
-    final static int MAX_LOOPS = 100000;
+    final static int MAX_LOOPS = 1000;
     
     public static void runBuilder() {
 
