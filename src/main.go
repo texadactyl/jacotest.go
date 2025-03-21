@@ -432,7 +432,7 @@ func main() {
 
 	// Bye bye
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
-	Logger(msg)
+	fmt.Println(msg)
 	os.Exit(exitStatus)
 
 }

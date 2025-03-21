@@ -626,6 +626,6 @@ func DBPrintMostRecent() {
 
 	}
 
-	fmt.Printf("Printed %d records", counter)
+	fmt.Printf("Printed %d records\n", counter)
 
 }
