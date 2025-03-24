@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  build_and_test:
+  build_and_run_texadactyl_jacobin:
     strategy:
       matrix:
         
