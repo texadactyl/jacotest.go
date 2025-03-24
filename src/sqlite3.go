@@ -586,6 +586,8 @@ DBPrintMostRecent - Print the most recent logged pass/fail record for each test 
 func DBPrintMostRecent() {
 
 	counter := 0
+	passes := 0
+	fails := 0
 
 	// Query descending test case, date, and time.
 	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc, result, fail_text FROM " +
@@ -620,6 +622,11 @@ func DBPrintMostRecent() {
 			// No, this is a new test case. Show the database information.
 			fmt.Printf("[%d]  %-s  %-8s  %-6s  %-s\n", counter+1, curTestCase, curJvm, curResult, curFailText)
 			counter += 1
+			if curFailText == " " {
+				passes += 1
+			} else {
+				fails += 1
+			}
 			// Make it the previous and continue.
 			prvTestCase = curTestCase
 		}
@@ -627,5 +634,7 @@ func DBPrintMostRecent() {
 	}
 
 	fmt.Printf("Printed %d records\n", counter)
+	fmt.Printf("Passed test cases: %d\n", passes)
+	fmt.Printf("Failed test cases: %d\n", fails)
 
 }
