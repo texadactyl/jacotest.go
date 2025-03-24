@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  build_and_run_texadactyl_jacobin:
+  run_jacobin:
     strategy:
       matrix:
         
@@ -66,3 +66,6 @@ jobs:
         javac --version
         jacotest -c -x || true
 
+    - name: Summary of Results
+      run: |
+        jacotest -r 3
