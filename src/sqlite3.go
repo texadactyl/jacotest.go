@@ -561,10 +561,6 @@ func DBDeleteMostRecent() {
 
 	}
 
-	// Close and re-open database.
-	DBClose()
-	DBOpen(sqlTracing)
-
 	// For each delete statement, execute it.
 	counter := 0
 	for _, sqlStmt := range deleteList {
@@ -574,6 +570,10 @@ func DBDeleteMostRecent() {
 		}
 		counter += 1
 	}
+
+	// Close and re-open database.
+	DBClose()
+	DBOpen(sqlTracing)
 
 	msg := fmt.Sprintf("Removed %d test case result records", counter)
 	Logger(msg)
@@ -662,5 +662,76 @@ func DBPrintMostRecent() {
 	fmt.Printf("Printed %d records\n", counter)
 	fmt.Printf("Passed test cases: %d\n", passes)
 	fmt.Printf("Failed test cases: %d\n", fails)
+
+}
+
+/*
+DBDeleteObsolete - Delete database records of obsolete test cases.
+*/
+func DBDeleteObsolete() {
+
+	var err error
+	var ok bool
+	var rows *sql.Rows
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE test_case = '%s' AND jvm='%s' AND date_utc = '%s' AND time_utc = '%s'"
+	var deleteList []string
+
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc FROM " + tableHistory
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC string
+
+	// Get all the history table rows.
+	rows, ok = sqlQuery(sqlSelect)
+	if !ok {
+		return
+	}
+
+	curDir, err := os.Getwd()
+	if err != nil {
+		FatalErr("DBDeleteObsolete: os.Getwd failed", err)
+	}
+	testsDir := curDir + "/tests/"
+
+	// High level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
+		if err != nil {
+			FatalErr("DBDeleteObsolete: rows.Scan failed", err)
+		}
+
+		// New test case.
+		// Does the curTestCase still exist?
+		testCase := testsDir + curTestCase
+		ok, err = isDirectory(testCase)
+		//fmt.Printf("DEBUG path %s --> %v, %v\n", testCase, ok, err)
+		if err != nil {
+			errMsg := fmt.Sprintf("DBDeleteObsolete: isDirectory(%s) failed, err: %v", testCase, err)
+			FatalErr(errMsg, err)
+		}
+		if !ok {
+			errMsg := fmt.Sprintf("Removing database record for obsolete test case: %s %s %s %s",
+				curTestCase, curJvm, curDateUTC, curTimeUTC)
+			Logger(errMsg)
+			sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
+			deleteList = append(deleteList, sqlDelete)
+		}
+
+	}
+
+	// For each delete statement, execute it.
+	counter := 0
+	for _, sqlStmt := range deleteList {
+		err := sqlFunc(sqlStmt, true)
+		if err != nil {
+			FatalErr("DBDeleteMostRecent: DELETE failed", err)
+		}
+		counter += 1
+	}
+
+	fmt.Printf("Removed %d database records\n", counter)
 
 }

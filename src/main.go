@@ -26,6 +26,7 @@ func showHelp() {
 	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
 	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
 	fmt.Printf("\t-r 3 : Print the last result for all test cases.\n")
+	fmt.Printf("\t-s : Delete database records of obsolete test cases.\n")
 	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60.\n")
 	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Specifying -j implies parameters -x and -r 1.\n")
@@ -75,6 +76,7 @@ func main() {
 	flagTwoMostRecent := false
 	flagPrintMostRecent := false
 	flagDeleteMostRecent := false
+	flagDeleteObsolete := false
 	flagFailedPassed := false
 	flagCompile := false
 	flagMdReport := false
@@ -110,10 +112,28 @@ func main() {
 	for ii := 0; ii < len(Args); ii++ {
 		switch Args[ii] {
 
+		case "-c":
+			flagCompile = true
+
 		case "-h":
 			showHelp()
 
-		case "-x":
+		case "-j": // JVM requested
+			ii += 1
+			jvmName = Args[ii]
+			// Validate JVM
+			switch jvmName {
+			case "openjdk":
+				jvmExe = "java" // openjdk JVM executable name
+			case "jacobin":
+				jvmExe = "jacobin" // jacobin JVM executable name
+			default:
+				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
+				showHelp()
+			}
+
+		case "-M":
+			flagMdReport = true
 			flagExecute = true
 			flagTwoMostRecent = true
 
@@ -136,30 +156,8 @@ func main() {
 				showHelp()
 			}
 
-		case "-c":
-			flagCompile = true
-
-		case "-M":
-			flagMdReport = true
-			flagExecute = true
-			flagTwoMostRecent = true
-
-		case "-v":
-			flagVerbose = true
-
-		case "-j": // JVM requested
-			ii += 1
-			jvmName = Args[ii]
-			// Validate JVM
-			switch jvmName {
-			case "openjdk":
-				jvmExe = "java" // openjdk JVM executable name
-			case "jacobin":
-				jvmExe = "jacobin" // jacobin JVM executable name
-			default:
-				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
-				showHelp()
-			}
+		case "-s":
+			flagDeleteObsolete = true
 
 		case "-t": // Deadline in seconds requested
 			ii += 1
@@ -168,6 +166,13 @@ func main() {
 				LogError(fmt.Sprintf("Parameter -t requires an integer value, saw: %s", Args[ii]))
 				showHelp()
 			}
+
+		case "-v":
+			flagVerbose = true
+
+		case "-x":
+			flagExecute = true
+			flagTwoMostRecent = true
 
 		case "-z": // Delete the most recent test result for each test case.
 			flagDeleteMostRecent = true
@@ -422,6 +427,11 @@ func main() {
 	// Print the failed-passed report?
 	if flagFailedPassed {
 		DBPrtLastPass()
+	}
+
+	// Delete database records of obsolete test cases?
+	if flagDeleteObsolete {
+		DBDeleteObsolete()
 	}
 
 	// Close database
