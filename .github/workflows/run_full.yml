@@ -65,4 +65,7 @@ jobs:
         java --version
         javac --version
         jacotest -c -x || true
+
+    - name: Summary of Results
+      run: |
         jacotest -r 3
