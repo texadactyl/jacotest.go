@@ -144,3 +144,17 @@ func CleanerText(inString string, newlines bool) string {
 	}
 	return string(outRunes)
 }
+
+func isDirectory(path string) (bool, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			//fmt.Printf("DEBUG path %s does not exist\n", path)
+			return false, nil // Path does not exist
+		}
+		//fmt.Printf("DEBUG path %s has other O/S error %v\n", path, err)
+		return false, err // Other errors (e.g., permission issues)
+	}
+	//fmt.Printf("DEBUG isDirectory? %s ... %v\n", path, info.IsDir())
+	return info.IsDir(), nil
+}

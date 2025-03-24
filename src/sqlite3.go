@@ -588,6 +588,9 @@ func DBPrintMostRecent() {
 	counter := 0
 	passes := 0
 	fails := 0
+	var err error
+	var ok bool
+	var rows *sql.Rows
 
 	// Query descending test case, date, and time.
 	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc, result, fail_text FROM " +
@@ -599,10 +602,16 @@ func DBPrintMostRecent() {
 	var curFailText any
 
 	// Get all the history table rows.
-	rows, ok := sqlQuery(sqlSelect)
+	rows, ok = sqlQuery(sqlSelect)
 	if !ok {
 		return
 	}
+
+	curDir, err := os.Getwd()
+	if err != nil {
+		FatalErr("DBPrintMostRecent: os.Getwd failed", err)
+	}
+	testsDir := curDir + "/tests/"
 
 	// High level scan.
 	for rows.Next() {
@@ -619,13 +628,30 @@ func DBPrintMostRecent() {
 		// Same test case as last test case? The first time, the current fields are spaces.
 		// So, the next test always fails on the very first row.
 		if curTestCase != prvTestCase {
-			// No, this is a new test case. Show the database information.
+			// New test case.
+			// Does the curTestCase still exist?
+			testCase := testsDir + curTestCase
+			ok, err = isDirectory(testCase)
+			//fmt.Printf("DEBUG path %s --> %v, %v\n", testCase, ok, err)
+			if err != nil {
+				errMsg := fmt.Sprintf("DBPrintMostRecent: isDirectory(%s) failed, err: %v", testCase, err)
+				FatalErr(errMsg, err)
+			}
+			if !ok {
+				//errMsg := fmt.Sprintf("DBPrintMostRecent: %s is not a directory", testCase)
+				//LogWarning(errMsg)
+				continue
+			}
+
+			// Show the database information.
 			fmt.Printf("[%d]  %-s  %-8s  %-6s  %-s\n", counter+1, curTestCase, curJvm, curResult, curFailText)
 			counter += 1
-			if curFailText == " " {
+			if curResult == "passed" {
 				passes += 1
 			} else {
-				fails += 1
+				if curResult == "failed" {
+					fails += 1
+				}
 			}
 			// Make it the previous and continue.
 			prvTestCase = curTestCase
