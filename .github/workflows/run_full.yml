@@ -65,4 +65,4 @@ jobs:
         java --version
         javac --version
         jacotest -c -x || true
-
+        jacotest -r 3
