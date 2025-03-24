@@ -11,6 +11,8 @@ class SSbodies {
 	private final double SOLAR_MASS = 4 * PI * PI;
 	private final double DAYS_PER_YEAR = 365.24;
 	
+	private final String[] labels = { "Sun", "Jupiter", "Saturn", "Uranus", "Neptune" };
+	
 	private final double[] outerSSBodies = {
 		//sun begin
 		0, 0, 0, 0, 0, 0, SOLAR_MASS, 0,
@@ -62,8 +64,11 @@ class SSbodies {
 	};
 
 	SSbodies() {
-        for (int ii = 0; ii < outerSSBodies.length; ii++) {
-        	System.out.println(outerSSBodies[ii]);
+	    for (int ii = 0; ii < 5; ii++) {
+	        System.out.println(labels[ii]);
+            for (int jj = 0; jj < 8; jj++) {
+            	System.out.println(outerSSBodies[jj + ii]);
+            }
         }
 	}
 	
