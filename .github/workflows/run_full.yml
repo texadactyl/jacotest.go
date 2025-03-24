@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  build_and_test:
+  build_and_run_texadactyl_jacobin:
     strategy:
       matrix:
         
@@ -47,7 +47,7 @@ jobs:
 
     - name: Setup Jacobin
       run: |
-        git clone https://github.com/platypusguy/jacobin
+        git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
         go install -v ./...
