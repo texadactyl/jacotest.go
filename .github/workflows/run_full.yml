@@ -47,7 +47,7 @@ jobs:
 
     - name: Setup Jacobin
       run: |
-        git clone https://github.com/platypusguy/jacobin
+        git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
         go install -v ./...
