@@ -1,6 +1,6 @@
 # On push or pull, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
 
-name: Jacotest with Jacobin
+name: Jacotest with texadactyl Jacobin
 
 on:
   push:
