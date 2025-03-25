@@ -1,5 +1,5 @@
-# This workflow will run jacotest against jacobin using the tests from tests.MINI.
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+# On demand only, this workflow will run jacotest against https://github.com/texadactyl/jacobin
+# using the tests from tests.MINI (not from tests).
 
 name: Jacotest with Jacobin and tests.MINI
 
@@ -51,7 +51,7 @@ jobs:
 
     - name: Setup Jacobin
       run: |
-        git clone https://github.com/platypusguy/jacobin
+        git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go install -v ./...
         cd ../..
