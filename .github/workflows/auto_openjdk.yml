@@ -1,4 +1,4 @@
-# On push or pull, this workflow will run jacotest against the OpenJDK JVM.
+# On push or open pull request events, this workflow will run jacotest against the OpenJDK JVM.
 
 name: Jacotest with OpenJDK JVM
 
