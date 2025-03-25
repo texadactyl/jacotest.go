@@ -1,7 +1,7 @@
 # On demand only, this workflow will run jacotest against https://github.com/texadactyl/jacobin
 # using the tests from tests.MINI (not from tests).
 
-name: Jacotest with Jacobin and tests.MINI
+name: Jacotest with texadactyl Jacobin and tests.MINI
 
 on:
   # Run only when manually triggered.
