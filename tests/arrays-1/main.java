@@ -2,7 +2,7 @@ import java.lang.Thread;
 
 public class main {
 
-    final static int NLOOPS = 1000;
+    final static int NLOOPS = 10000;
 
     private static void showResult(String elemType, int length, long t1, long t2) {
         double elapsedSeconds = (double) (t2 - t1) / 1000.0;
@@ -17,8 +17,21 @@ public class main {
         int arraySize = NLOOPS;
         long t1, t2;
 
-        String msg = "Testing accessibility of array elements of type byte, char, int, float, double, and String";
+        String msg = "Testing accessibility of array elements of type boolean, byte, char, int, float, double, long, short, and String";
         System.out.println(msg);
+
+        // byte array
+        boolean[] bool_elems = new boolean[arraySize];
+        t1 = System.currentTimeMillis();
+        for (int ndx = 0; ndx < arraySize; ndx++) {
+            if (ndx % 2 == 0)
+                bool_elems[ndx] = true;
+            else
+                bool_elems[ndx] = false;
+        }
+        t2 = System.currentTimeMillis();
+        bool_elems = null;
+        showResult("boolean", arraySize, t1, t2);
 
         // byte array
         byte[] b_elems = new byte[arraySize];
@@ -69,6 +82,26 @@ public class main {
         t2 = System.currentTimeMillis();
         d_elems = null;
         showResult("double", arraySize, t1, t2);
+
+        // long array
+        long[] j_elems = new long[arraySize];
+        t1 = System.currentTimeMillis();
+        for (int ndx = 0; ndx < arraySize; ndx++) {
+            j_elems[ndx] = (ndx % 256);
+        }
+        t2 = System.currentTimeMillis();
+        j_elems = null;
+        showResult("long", arraySize, t1, t2);
+
+        // short array
+        short[] sh_elems = new short[arraySize];
+        t1 = System.currentTimeMillis();
+        for (int ndx = 0; ndx < arraySize; ndx++) {
+            sh_elems[ndx] = (short) (ndx & 0x7fff);
+        }
+        t2 = System.currentTimeMillis();
+        sh_elems = null;
+        showResult("short", arraySize, t1, t2);
 
         // string array
         System.gc();
