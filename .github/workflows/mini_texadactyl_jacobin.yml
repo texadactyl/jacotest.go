@@ -44,7 +44,7 @@ jobs:
     - name: Setup Jacotest
       run: |
         cd src
-        go get github.com/mattn/go-sqlite3
+        go get
         go install -v .
         cd ..
         jacotest -h
@@ -53,6 +53,7 @@ jobs:
       run: |
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
+        go get
         go install -v ./...
         cd ../..
         jacobin --version
