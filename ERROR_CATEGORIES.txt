@@ -6,6 +6,7 @@
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
+Native method requested
 UnsupportedOperationException
 stack underflow
 stack overflow

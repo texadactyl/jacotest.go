@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-03-25 | 4.0.18 | Placed "Native method" ahead of "UnsupportedOperationException" in ERROR_CATEGORIES.txt. |
 | 2025-03-24 | 4.0.17 | Split nbody-lite into nbody-lite-labels and nbody-lite-nolabels. |
 | | | New option -s: Remove the database records of obsolete test cases. |
 | 2025-03-21 | 4.0.16 | Remove date and time from -r 3 report so we can diff. |
