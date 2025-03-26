@@ -1,4 +1,4 @@
-# On push or pull, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
 
 name: Jacotest with texadactyl Jacobin
 
