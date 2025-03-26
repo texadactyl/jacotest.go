@@ -1,6 +1,6 @@
-# jacotest.go Windows scripts
+# jacotest.go Set-up for Windows
 
-## Setting User Environment Variables in the Windows Control Panel (How-to)
+## How-to for User Environment Variables in the Windows Control Panel
 
 Skip this section if you are already proficient with the Windows Control Panel.
 
@@ -26,22 +26,24 @@ Edit
 * Click OK again to close the System Properties window.
 * Logout + login.
 
-## One-time (only) Pre-requisites:
+## One-time (only) Pre-requisites
 
 The following steps must be taken prior to use of jacotest:
-
 * Ensure that there is a go\bin subdirectory under the user's home directory (%USERPROFILE%).
 * Ensure that the %GOPATH% user environment variable = %USERPROFILE%\go.
 * Ensure that %USERPROFILE%\go\bin is an element of the user %PATH% environment variable.
 * After this is done, logout and then re-login.
 
-## One-time (only) Scripts
+## One-time (only) Cleanup
 
-* windows\show_exes.bat - Starting in the user's home directory, show all JACOTEST.EXE files.
-* windows\del_exes.bat - Starting in the user's home directory, delete all JACOTEST.EXE files. Alternatively, if you ran show_exes.bat, you can manually delete the JACOTEST.EXE files based on the screen output.
-* Execute this command line from the jacobin or jacotest.go src directory: go clean -cache
+* cd into the jacotest.go directory, wherever you keep it.
+* cd src
+* Run the following command: ```go clean -cache```.
+* cd ..
+* Run windows\show_exes.bat to see all the JACOTEST.EXE files.
+* Run windows\del_exes.bat will ensure that there will be only one Jacotest on this system after running windows\update.bat (see next section).
 
 ## Updating Jacotest
 
-* cd into the jacotest.go directory, whever you keep it.
-* windows\update.bat
+* cd into the jacotest.go directory, wherever you keep it.
+* Run windows\update.bat to ```git pull```, ```go get```, ```go install```, and ```jacotest -c```.
