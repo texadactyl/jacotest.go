@@ -37,12 +37,12 @@ The following steps must be taken prior to use of jacotest:
 
 ## One-time (only) Scripts
 
-* show_exes.bat - Starting in the user's home directory, show all JACOTEST.EXE files.
-* del_exes.bat - Starting in the user's home directory, delete all JACOTEST.EXE files. Alternatively, if you ran show_exes.bat, you can manually delete the JACOTEST.EXE files based on the screen output.
+* windows\show_exes.bat - Starting in the user's home directory, show all JACOTEST.EXE files.
+* windows\del_exes.bat - Starting in the user's home directory, delete all JACOTEST.EXE files. Alternatively, if you ran show_exes.bat, you can manually delete the JACOTEST.EXE files based on the screen output.
 * Execute this command line from the jacobin or jacotest.go src directory: go clean -cache
 
 ## When Updating Jacotest
 
 * cd into the jacotest.go directory, whever you keep it.
-* builder.bat
+* windows\builder.bat
 
