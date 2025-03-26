@@ -1,2 +1,2 @@
-dir "%USERPROFILE%\*.exe" /s
+dir "%USERPROFILE%\jacotest.exe" /s
 

@@ -1,2 +1,2 @@
-del /s "%USERPROFILE%\*.exe"
+del /s "%USERPROFILE%\jacotest.exe"
 
