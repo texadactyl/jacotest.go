@@ -65,7 +65,7 @@ public class main {
 class BlumBlumShub {
     private BigInteger n; // Modulus (product of two primes)
     private BigInteger state; // Current state
-    private final SecureRandom random = new SecureRandom();
+    private SecureRandom random = new SecureRandom();
 
     /**
      * Setup: Generate two large primes p and q (p ≡ 3 mod 4, q ≡ 3 mod 4), 

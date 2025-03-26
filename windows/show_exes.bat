@@ -1,0 +1,2 @@
+dir "%USERPROFILE%\*.exe" /s
+
