@@ -4,4 +4,4 @@ cd src
 go get
 go install -v .
 cd ..
-
+jacotest -c
