@@ -14,11 +14,12 @@ Skip this section if you are already proficient with the Windows Control Panel.
 
 Add
 * Under User variables for [YourUsername], click New to add a new variable.
-* Variable name: Enter the name of the variable (e.g., MY_VAR).
-* Variable value: Enter the value (e.g., C:\MyPath).
+* Variable name: Enter the name of the variable.
+* Variable value: Enter the value.
 
 Edit
 * Select it and click Edit.
+* Change the value as need be.
 
 #### Apply and Save
 * Click OK to close the Environment Variables window.
@@ -29,10 +30,10 @@ Edit
 
 The following steps must be taken prior to use of jacotest:
 
-* Ensure that there is a go\bin subdirectory under the user's home directory (USERPROFILE).
-* The GOPATH environment variable must be set to %USERPROFILE%\go\bin.
+* Ensure that there is a go\bin subdirectory under the user's home directory (%USERPROFILE%).
+* Ensure that the %GOPATH% user environment variable = %USERPROFILE%\go.
+* Ensure that %USERPROFILE%\go\bin is an element of the user %PATH% environment variable.
 * After this is done, logout and then re-login.
-* Ensure that the full path of the bin subdirectory of go is an element of the PATH environment variable.
 
 ## One-time (only) Scripts
 
@@ -42,6 +43,6 @@ The following steps must be taken prior to use of jacotest:
 
 ## When Updating Jacotest
 
-* cd jacotest.go whever you keep it.
+* cd into the jacotest.go directory, whever you keep it.
 * builder.bat
 
