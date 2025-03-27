@@ -233,10 +233,10 @@ class DES {
 		for(i=0 ; i < 16 ; i++) {
 			String bin = new String();
 			for(int j=0 ; j < 4 ; j++) {
-				bin += finalOutput[(4*i)+j];
+				bin = bin.concat(String.valueOf(finalOutput[(4*i)+j]));
 			}
 			int decimal = Integer.parseInt(bin, 2);
-			hex += Integer.toHexString(decimal);
+			hex = hex.concat(Integer.toHexString(decimal));
 		}
 		if(isDecrypt) {
 			System.out.print("permute: Decrypted text: ");
@@ -274,7 +274,8 @@ class DES {
 		
 		// Now we store C1 and D1 in C and D respectively, thus becoming the
 		// old C and D for the next round. Subkey is stored and returned.
-		subkey[round] = Kn;
+		// ***** Replaced: subkey[round] = Kn;
+		System.arraycopy(Kn, 0, subkey[round], 0, Kn.length); 
 		C = C1;
 		D = D1;
 		return Kn;
@@ -317,7 +318,7 @@ class DES {
 			int row[] = new int [2];
 			row[0] = bits[6*i];
 			row[1] = bits[(6*i)+5];
-			String sRow = row[0] + "" + row[1];
+			String sRow = String.format("%d%d", row[0], row[1]);
 			// Similarly column bits are found, which are the 4 bits between
 			// the two row bits (i.e. bits 1,2,3,4)
 			int column[] = new int[4];
@@ -325,7 +326,7 @@ class DES {
 			column[1] = bits[(6*i)+2];
 			column[2] = bits[(6*i)+3];
 			column[3] = bits[(6*i)+4];
-			String sColumn = column[0] +""+ column[1] +""+ column[2] +""+ column[3];
+			String sColumn = String.format("%d%d%d%d", column[0], column[1], column[2], column[3]);
 			// Converting binary into decimal value, to be given into the
 			// array as input
 			int iRow = Integer.parseInt(sRow, 2);
@@ -337,11 +338,11 @@ class DES {
 			// Padding is required since Java returns a decimal '5' as '111' in
 			// binary, when we require '0111'.
 			while(s.length() < 4) {
-				s = "0" + s;
+				s = "0".concat(s);
 			}
 			// The binary bits are appended to the output
 			for(int j=0 ; j < 4 ; j++) {
-				output[(i*4) + j] = Integer.parseInt(s.charAt(j) + "");
+				output[(i*4) + j] = Integer.parseInt(String.valueOf(s.charAt(j)));
 			}
 		}
 		// P table is applied to the output and this is the final output of one

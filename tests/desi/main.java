@@ -74,7 +74,7 @@ public class main {
 	public static void main(String args[]) {
 		
 		String input = "0123456789ABCDEF";
-		String key = "0123456789ABCDEF";
+		String key   = "71946328C3ED5BA0";
 
 		int inputBits[] = new int[64];
 		int keyBits[] = new int[64];
@@ -94,12 +94,16 @@ public class main {
 		// method is used here. This allows encryption and decryption to be
 		// done in the same method, reducing code.
 		DES des = new DES();
+		System.out.println("DES encryption and decryption");
+		System.out.printf("input: %s\n", input);
+		System.out.printf("key: %s\n", key);
 		System.out.println("+++ ENCRYPTION +++");
 		int cipherBits[] = des.permute(inputBits, keyBits, false);
 		System.out.println("+++ DECRYPTION +++");
 		int inputBits2[] = des.permute(cipherBits, keyBits, true);
 		
 		assert cmpIntArrays(inputBits2, inputBits) == 0;
+		System.out.println("Success!");
 		
 	}
 
