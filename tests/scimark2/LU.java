@@ -175,9 +175,11 @@ public class LU {
 
             if (jp != j) {
                 // swap rows j and jp
-                double tA[] = A[j];
-                A[j] = A[jp];
-                A[jp] = tA;
+                // System.arraycopy(vector, 0, matrix[row], 0, ncols);
+                double temp[] = new double[A[0].length];
+                System.arraycopy(A[j], 0, temp, 0, A[0].length);
+                System.arraycopy(A[jp], 0, A[j], 0, A[0].length);
+                System.arraycopy(temp, 0, A[jp], 0, A[0].length);
             }
 
             if (j < M - 1)                // compute elements j+1:M of jth column
