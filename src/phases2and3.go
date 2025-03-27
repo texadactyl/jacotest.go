@@ -136,6 +136,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	lastCat := ""
 	hitCounter := 0
 	catCounter := 0
+	var wstr string
 
 	// For each failure category entry, process all the tblHitByCat entries (all the test cases that failed this way).
 	for _, tblEntry := range tblHitByCat {
@@ -155,7 +156,11 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 
 			// Write heading for new error category.
 			WriteOutputText(outHandle, "")
-			wstr := fmt.Sprintf("===== %s =====", tblEntry.fragment)
+			if tblEntry.fragment == "AssertionError" {
+				wstr = fmt.Sprintf("===== %s (Java application-detected failuer) =====", tblEntry.fragment)
+			} else {
+				wstr = fmt.Sprintf("===== %s =====", tblEntry.fragment)
+			}
 			WriteOutputText(outHandle, wstr)
 
 			// Make this the last category for group totaling.
@@ -181,7 +186,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	} // for _, tblEntry := range tblHitByCat
 
 	// Need to emit total for last group.
-	wstr := fmt.Sprintf("--- Total: %d", catCounter)
+	wstr = fmt.Sprintf("--- Total: %d", catCounter)
 	WriteOutputText(outHandle, wstr)
 
 	// Take care of the uncategorized errors.
