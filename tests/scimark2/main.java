@@ -8,6 +8,12 @@
  * -------------
  * <p>
  * 2022-07-25  texadactyl     Added Stopwatch calls.
+ * 2025-03-28  texadactyl
+ *    Massive clean-up of Java syntax bugs excused by the javac compiler.
+ *    Converted several matrix and vector loops to use system.arrayCopy.
+ *    Removed several unused functions and one class (Jacobi).
+ *    Implemented a fake Random class to furnish a known sequence of double values.
+ *    Highlighted return values that are not used.
  **/
 
 
@@ -19,7 +25,7 @@ public class main {
   */
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
     
         String msg = "SciMark2: Benchmark measuring performance of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.";
         System.out.println(msg);
@@ -54,7 +60,7 @@ public class main {
             }
 
             if (args.length > current_arg)
-                min_time = Double.valueOf(args[current_arg]).doubleValue();
+                min_time = Double.parseDouble(args[current_arg]);
         }
 
 
@@ -63,12 +69,12 @@ public class main {
         Stopwatch sw = new Stopwatch();
         sw.start();
 
-        double res[] = new double[6];
+        double[] res = new double[6];
         Random R = new Random(Constants.RANDOM_SEED);
 
         res[1] = kernel.measureFFT(FFT_size, min_time, R);
         res[2] = kernel.measureSOR(SOR_size, min_time, R);
-        res[3] = kernel.measureMonteCarlo(min_time, R);
+        res[3] = kernel.measureMonteCarlo(min_time);
         res[4] = kernel.measureSparseMatmult(Sparse_size_M,
                 Sparse_size_nz,
                 min_time,
@@ -81,7 +87,7 @@ public class main {
 
         // print out results
 
-        System.out.print(String.format("SciMark 2.0a, elasped time in seconds = "));
+        System.out.print("SciMark 2.0a, elasped time in seconds = ");
         System.out.println(elapsed_seconds);
         System.out.println("URL: https://math.nist.gov/scimark2/index.html");
         System.out.print("Composite Score: ");
@@ -89,10 +95,7 @@ public class main {
         System.out.print("FFT (");
         System.out.print(FFT_size);
         System.out.print("): ");
-        if (res[1] == 0.0)
-            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
-        else
-            System.out.println(res[1]);
+        System.out.printf("res[1]: %f\n", res[1]);
 
         System.out.print("SOR (");
         System.out.print(SOR_size);
@@ -116,10 +119,13 @@ public class main {
         System.out.print("x");
         System.out.print(LU_size);
         System.out.print("): ");
-        if (res[5] == 0.0)
-            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - LU!");
-        else
-            System.out.println(res[5]);
+        System.out.println(res[5]);
+
+        // Check results.
+        if (res[1] < 0.000001)
+            throw new AssertionError("*** ERROR, Invalid FFT result (0)");
+        if (res[5] < 0.000001)
+            throw new AssertionError("*** ERROR, Invalid LU result (0)");
 
     }
 

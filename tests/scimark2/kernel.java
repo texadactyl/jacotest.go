@@ -3,12 +3,10 @@
 public class kernel {
     // each measurement returns approx Mflops
 
-
-    public static double measureFFT(int N, double mintime, Random R) {
+   public static double measureFFT(int N, double mintime, Random R) {
         // initialize FFT data as complex (N real/img pairs)
 
-        double x[] = RandomVector(2 * N, R);
-        double oldx[] = NewVectorCopy(x);
+        double[] x = RandomVector(2 * N, R);
         long cycles = 1;
         Stopwatch Q = new Stopwatch();
 
@@ -35,7 +33,7 @@ public class kernel {
 
 
     public static double measureSOR(int N, double min_time, Random R) {
-        double G[][] = RandomMatrix(N, N, R);
+        double[][] G = RandomMatrix(N, N, R);
 
         Stopwatch Q = new Stopwatch();
         int cycles = 1;
@@ -51,13 +49,14 @@ public class kernel {
         return SOR.num_flops(N, N, cycles) / Q.read() * 1.0e-6;
     }
 
-    public static double measureMonteCarlo(double min_time, Random R) {
+    public static double measureMonteCarlo(double min_time) {
         Stopwatch Q = new Stopwatch();
 
         int cycles = 1;
+        double integral;
         while (true) {
             Q.start();
-            MonteCarlo.integrate(cycles);
+            integral = MonteCarlo.integrate(cycles);
             Q.stop();
             if (Q.read() >= min_time) break;
 
@@ -73,8 +72,8 @@ public class kernel {
         // initialize vector multipliers and storage for result
         // y = A*y;
 
-        double x[] = RandomVector(N, R);
-        double y[] = new double[N];
+        double[] x = RandomVector(N, R);
+        double[] y = new double[N];
 
         // initialize square sparse matrix
         //
@@ -101,9 +100,9 @@ public class kernel {
         int anz = nr * N;   // _actual_ number of nonzeros
 
 
-        double val[] = RandomVector(anz, R);
-        int col[] = new int[anz];
-        int row[] = new int[N + 1];
+        double[] val = RandomVector(anz, R);
+        int[] col = new int[anz];
+        int[] row = new int[N + 1];
 
         row[0] = 0;
         for (int r = 0; r < N; r++) {
@@ -139,18 +138,24 @@ public class kernel {
     public static double measureLU(int N, double min_time, Random R) {
         // compute approx Mlfops, or O if LU yields large errors
 
-        double A[][] = RandomMatrix(N, N, R);
-        double lu[][] = new double[N][N];
-        int pivot[] = new int[N];
+        double[][] A = RandomMatrix(N, N, R);
+        double[][] lu = new double[N][N];
+        int[] pivot = new int[N];
 
         Stopwatch Q = new Stopwatch();
 
         int cycles = 1;
+        int ret;
         while (true) {
             Q.start();
-            for (int i = 0; i < cycles; i++) {
+            for (int ix = 0; ix < cycles; ix++) {
                 CopyMatrix(lu, A);
-                LU.factor(lu, pivot);
+                ret = LU.factor(lu, pivot);
+                if (ret != 0) {
+                    String errMsg = String.format("LU.factor(lu, pivot) returned nonzero, cycle=%d",
+                            ix);
+                    throw new AssertionError(errMsg);
+                }
             }
             Q.stop();
             if (Q.read() >= min_time) break;
@@ -160,8 +165,8 @@ public class kernel {
 
 
         // verify that LU is correct
-        double b[] = RandomVector(N, R);
-        double x[] = NewVectorCopy(b);
+        double[] b = RandomVector(N, R);
+        double[] x = NewVectorCopy(b);
 
         LU.solve(lu, pivot, x);
 
@@ -176,25 +181,16 @@ public class kernel {
     }
 
 
-    private static double[] NewVectorCopy(double x[]) {
+    private static double[] NewVectorCopy(double[] x) {
         int N = x.length;
 
-        double y[] = new double[N];
-        for (int i = 0; i < N; i++)
-            y[i] = x[i];
+        double[] y = new double[N];
+        System.arraycopy(x, 0, y, 0, N);
 
         return y;
     }
 
-    private static void CopyVector(double B[], double A[]) {
-        int N = A.length;
-
-        for (int i = 0; i < N; i++)
-            B[i] = A[i];
-    }
-
-
-    private static double normabs(double x[], double y[]) {
+    private static double normabs(double[] x, double[] y) {
         int N = x.length;
         double sum = 0.0;
 
@@ -204,17 +200,16 @@ public class kernel {
         return sum;
     }
 
-    private static void CopyMatrix(double B[][], double A[][]) {
+    private static void CopyMatrix(double[][] B, double[][] A) {
         int M = A.length;
         int N = A[0].length;
 
         int remainder = N & 3;         // N mod 4;
 
         for (int i = 0; i < M; i++) {
-            double Bi[] = B[i];
-            double Ai[] = A[i];
-            for (int j = 0; j < remainder; j++)
-                Bi[j] = Ai[j];
+            double[] Bi = B[i];
+            double[] Ai = A[i];
+            System.arraycopy(Ai, 0, Bi, 0, remainder);
             for (int j = remainder; j < N; j += 4) {
                 Bi[j] = Ai[j];
                 Bi[j + 1] = Ai[j + 1];
@@ -225,7 +220,7 @@ public class kernel {
     }
 
     private static double[][] RandomMatrix(int M, int N, Random R) {
-        double A[][] = new double[M][N];
+        double[][] A = new double[M][N];
 
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
@@ -234,29 +229,29 @@ public class kernel {
     }
 
     private static double[] RandomVector(int N, Random R) {
-        double A[] = new double[N];
+        double[] A = new double[N];
 
         for (int i = 0; i < N; i++)
             A[i] = R.nextDouble();
         return A;
     }
 
-    private static double[] matvec(double A[][], double x[]) {
+    private static double[] matvec(double[][] A, double[] x) {
         int N = x.length;
-        double y[] = new double[N];
+        double[] y = new double[N];
 
         matvec(A, x, y);
 
         return y;
     }
 
-    private static void matvec(double A[][], double x[], double y[]) {
+    private static void matvec(double[][] A, double[] x, double[] y) {
         int M = A.length;
         int N = A[0].length;
 
         for (int i = 0; i < M; i++) {
             double sum = 0.0;
-            double Ai[] = A[i];
+            double[] Ai = A[i];
             for (int j = 0; j < N; j++)
                 sum += Ai[j] * x[j];
 
