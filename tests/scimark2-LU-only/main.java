@@ -30,7 +30,7 @@ public class main {
             Q.start();
             for (int ix = 0; ix < cycles; ix++) {
                 CopyMatrix(lu, data);
-                ret = LU.factor(lu, pivot); // <========================================= POISONS THE WELL
+                ret = LU.factor(lu, pivot);
                 if (ret != 0) {
                     String errMsg = String.format("LU.factor(lu, pivot) returned nonzero, cycle=%d", ix);
                     throw new AssertionError(errMsg);
@@ -45,9 +45,17 @@ public class main {
 
         System.out.printf("measureLU: lu nrows=%d, ncols=%d\n", lu.length, lu[0].length);
         Singleton values = Singleton.getInstance();
-        values.valueLU = values.sumMatrix(lu); // <============================================== PANIC
+        values.printMatrix(data);
+        values.valueLU = values.sumMatrix(lu);
         System.out.println("measureLU: Singleton.valueLU done");
         values.printFields();
+        long expected = 4559692312573116416L;
+        if (values.valueLU != expected) {
+            System.out.printf("LU output (%d) does not match expected value (%d)\n",
+                values.valueLU, expected);
+            System.exit(1);
+        }
+        System.out.println("Success!");
 
     }
 
