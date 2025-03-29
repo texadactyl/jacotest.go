@@ -54,11 +54,10 @@ public final class KeccakSponge implements UnaryOperator<byte[]> {
      * number of bits in the Keccak state (the sum of the bitrate and the
      * capacity).
      */
-    private static final Set<Short> VALID_WIDTHS;
+    private static HashSet<Short> VALID_WIDTHS = new HashSet<>();
 
     static {
-        Set<Short> widths = new HashSet<>(16);
-        widths.addAll(Arrays.asList(new Short[]{
+        Short[] widths = {
                 25,
                 50,
                 100,
@@ -66,8 +65,10 @@ public final class KeccakSponge implements UnaryOperator<byte[]> {
                 400,
                 800,
                 1600
-        }));
-        VALID_WIDTHS = Collections.unmodifiableSet(widths);
+        };
+        for (int ix = 0; ix < widths.length; ix++)
+            VALID_WIDTHS.add(widths[ix]);
+
     }
 
     private final short bitrate;

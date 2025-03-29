@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-03-29 | 4.1.2 | Added test case scimark2-LU-only. |
+| | | Updated test cases hashed-set and sha3. |
 | 2025-03-27 | 4.1.1 | Added test cases fft-simple, fft-stopwatch, fft-fake, vector-deep-copy. |
 | | | Replaced matrix row ref copy with deep copy in test cases desi, scimark2. |
 | 2025-03-26 | 4.1.0 | 1st attempt at windows installation instructions. |
