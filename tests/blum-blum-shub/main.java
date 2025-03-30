@@ -36,7 +36,6 @@ While the BBS generator is theoretically secure, it can be relatively slow in pr
 */
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
 
 public class main {
 
@@ -57,15 +56,21 @@ public class main {
         for (int ix = 0; ix < 32; ix++) {
             str = str.concat(String.format("%d", bbs.nextBit()));
         }
-        System.out.println("Random bits [32]: " + str);
-        System.out.println("Random 32-bit number: " + bbs.nextBits(32));
+        System.out.printf("Pseudorandom bits [32]: %s\n", str);
+        if (!str.equals("11110101010110110000001010110110"))
+            throw new AssertionError("*** ERROR, Pseudorandom bits [32] test failed");
+        System.out.print("Pseudorandom 32-bit number: ");
+        BigInteger bbsBits = bbs.nextBits(32);
+        System.out.println(bbsBits);
+        if (!bbsBits.equals(new BigInteger("301076126")))
+            throw new AssertionError("*** ERROR, bbs.nextBits(32) test failed");
+        System.out.println("Success!");
     }
 }
 
 class BlumBlumShub {
     private BigInteger n; // Modulus (product of two primes)
     private BigInteger state; // Current state
-    private SecureRandom random = new SecureRandom();
 
     /**
      * Setup: Generate two large primes p and q (p ≡ 3 mod 4, q ≡ 3 mod 4), 
@@ -73,14 +78,8 @@ class BlumBlumShub {
      */
     public void setup(int bitLength) {
         BigInteger p, q;
-        do {
-            p = BigInteger.probablePrime(bitLength / 2, random);
-        } while (!p.mod(BigInteger.valueOf(4)).equals(BigInteger.valueOf(3)));
-
-        do {
-            q = BigInteger.probablePrime(bitLength / 2, random);
-        } while (!q.mod(BigInteger.valueOf(4)).equals(BigInteger.valueOf(3)));
-
+        p = new BigInteger("3863");
+        q = new BigInteger("8543");
         n = p.multiply(q);
     }
 
