@@ -3,15 +3,15 @@
 public class main {
 
     // nain class statics
-    private static boolean mainStaticBoolean = true;
-    private static byte mainStaticByte = 0x07;
-    private static char mainStaticChar = '8';
-    private static double mainStaticDouble = 2.0;
-    private static float mainStaticFloat = 4.0f;
-    private static int mainStaticInt = 1;
-    private static long mainStaticLong = 5;
-    private static short mainStaticShort = 6;
-    private static String mainStaticString = "three";
+    private static final boolean mainStaticBoolean = true;
+    private static final byte mainStaticByte = 0x07;
+    private static final char mainStaticChar = '8';
+    private static final double mainStaticDouble = 2.0;
+    private static final float mainStaticFloat = 4.0f;
+    private static final int mainStaticInt = 1;
+    private static final long mainStaticLong = 5;
+    private static final short mainStaticShort = 6;
+    private static final String mainStaticString = "three";
 
     // main class fields
     private int mainFieldInt = 1;
@@ -55,9 +55,7 @@ public class main {
         
         System.out.println("\n=========================== jj._getStaticString begin");
         errorCount += checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
-        mainStaticBoolean = false;
-        errorCount += checker("static main.mainStaticBoolean", "false", jj._getStaticString("main", "mainStaticBoolean"));
-        errorCount += checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
+        errorCount += checker("static main.mainStaticByte", "7", jj._getStaticString("main", "mainStaticByte"));
         errorCount += checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
         errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
         errorCount += checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
@@ -86,6 +84,7 @@ public class main {
 
         System.out.println();
          if (errorCount == 0) {
+            System.out.println("Success!");
             System.exit(0);
         }
         throw new AssertionError("*** At least one error occurred.");

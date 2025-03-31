@@ -1,23 +1,23 @@
 public class main {
 
-    static byte bite = 19;
-    static byte ba[] = {1, 2, 3};
-    static int ia[] = {1, 2, 3};
-    static String sstr = "Mary had a little lamb";
-    static KlassKambing[] skkvec = { new KlassKambing(101, 102.0, "103"), new KlassKambing(201, 202.0, "203"), new KlassKambing(301, 302.0, "303") };
-    static KlassKambing skkscalar = new KlassKambing(101, 102.0, "103");
+    static final byte bite = 19;
+    static final byte ba[] = {1, 2, 3};
+    static final int ia[] = {1, 2, 3};
+    static final String sstr = "Mary had a little lamb";
+    static final KlassKambing[] skkvec = { new KlassKambing(101, 102.0, "103"), new KlassKambing(201, 202.0, "203"), new KlassKambing(301, 302.0, "303") };
+    static final KlassKambing skkscalar = new KlassKambing(101, 102.0, "103");
 
     // Check observed string to expected string.
     private static int checker(String label, String expected, String observed) {
         if (observed.equals("openjdk")) {
-            System.out.printf("openjdk :: %s, expected=\"%s\"\n", label, expected);
+            System.out.printf("checker ok, %s :: openjdk\n", label);
             return 0;
         }
         if (observed.equals(expected)) {
-            System.out.printf("Success :: %s\n", label);
+            System.out.printf("checker ok, %s :: %s\n", label, expected);
             return 0;
         }
-        System.out.printf("*** ERROR :: %s, expected=\"%s\", observed=\"%s\"\n", label, expected, observed);
+        System.out.printf("checker *** ERROR, %s, expected=\"%s\", observed=\"%s\"\n", label, expected, observed);
         return 1;
     }
 
@@ -28,16 +28,16 @@ public class main {
         int index;
     
         // --------------------- statics
-        
+
         String str = jj._getStaticString("main", "bite");
-        errorCount += checker("static main bite", "0x13", str);
+        errorCount += checker("jj._getStaticString(\"main\", \"bite\")", "19", str);
         if (str.equals("openjdk")) { System.exit(0); }
         
         str = jj._getStaticString("main", "ba");
-        errorCount += checker("static main ba", "1,2,3", str);
+        errorCount += checker("jj._getStaticString(\"main\", \"ba\")", "1,2,3", str);
         
         str = jj._getStaticString("main", "ia");
-        errorCount += checker("static main ia", "1,2,3", str);
+        errorCount += checker("jj._getStaticString(\"main\", \"ia\")", "1,2,3", str);
         
         str = jj._getStaticString("main", "skkvec");
         System.out.printf("static main skkvec: %s\n", str);
@@ -67,19 +67,20 @@ public class main {
         
         KlassKambing fkkscalar = new KlassKambing(4001, 4002.0, "4003"); 
         str = jj._getFieldString(fkkscalar, "kki");
-        errorCount += checker("static fkkscalar kki", "4001", str);
+        errorCount += checker("jj._getFieldString(fkkscalar, \"kki\")", "4001", str);
         
         str = jj._getFieldString(fkkscalar, "kkd");
-        errorCount += checker("static fkkscalar kkd", "4002", str);
+        errorCount += checker("jj._getFieldString(fkkscalar, \"kkd\")", "4002", str);
         
         str = jj._getFieldString(fkkscalar, "kks");
-        errorCount += checker("static fkkscalar kks", "4003", str);
+        errorCount += checker("jj._getFieldString(fkkscalar, \"kks\")s", "4003", str);
         if (!fkkscalar.kks.equals(str)) {
             errorCount += 1;
             System.out.printf("*** ERROR, expected field fkkscalar.kks = \"%s\", observed = \"%s\"\n", str, fkkscalar.kks);
         }
         
         assert(errorCount == 0);
+        System.out.println("Success!");
     }
     
 }
