@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-03-31 | 4.1.4 | Re-instate attribute final on constants in test cases jj-field-static and jj-field-static-2. |
 | 2025-03-30 | 4.1.3 | Added test case process-handle; updated test case blum-blum-shub. |
 | 2025-03-29 | 4.1.2 | Added test case scimark2-LU-only. |
 | | | Updated test cases hashed-set and sha3. |
