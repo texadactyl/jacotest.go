@@ -51,6 +51,16 @@ public class main {
         } catch (ArithmeticException ex) {
             System.out.println("main/f1: Caught an ArithmeticException");
         }
+        try {
+            int ii = 1;
+            int jj = 0;
+            int kk = ii % jj;
+            throw new AssertionError("main IREM: *** ERROR, Failed to catch an ArithmeticException");
+        } catch (ArithmeticException ex) {
+            System.out.println("main/IREM: Caught an ArithmeticException");
+        }
+
+        System.out.println("Success!");
     }
 }
 
