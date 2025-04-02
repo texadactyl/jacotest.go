@@ -26,13 +26,19 @@ public class main {
 
         int errorCount = 0;
 
+        // Shift right.
         errorCount += exec(-95, 4, -6, true);
         errorCount += exec(-95, 3, -12, true);
         errorCount += exec(-95, 2, -24, true);
         errorCount += exec(-95, 1, -48, true);
+        errorCount += exec(95, 4, 5, true);
+        errorCount += exec(95, 3, 11, true);
+        errorCount += exec(95, 2, 23, true);
+        errorCount += exec(95, 1, 47, true);
         errorCount += exec(-100, 2, -25, true);
         errorCount += exec(100, 2, 25, true);
 
+        // Shift left.
         errorCount += exec(-100, 3, -800, false);
         errorCount += exec(100, 3, 800, false);
         errorCount += exec(-95, 4, -1520, false);
