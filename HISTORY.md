@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-02 | 4.1.7 | Split test case JACOBIN-0212-bit-shifting into bit-shifting-signed & bit-shifting-unsigned. |
 | 2025-04-02 | 4.1.6 | Updated test case scimark2 to validate calculations and much more. |
 | 2025-04-01 | 4.1.5 | Updated test case ex-catch-multi-frame to include an IREM try-catch. |
 | 2025-03-31 | 4.1.4 | Re-instate attribute final on constants in test cases jj-field-static and jj-field-static-2. |

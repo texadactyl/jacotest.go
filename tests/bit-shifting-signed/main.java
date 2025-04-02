@@ -35,13 +35,17 @@ public class main {
         errorCount += exec(95, 3, 11, true);
         errorCount += exec(95, 2, 23, true);
         errorCount += exec(95, 1, 47, true);
+        errorCount += exec(-100, 4, -7, true);
+        errorCount += exec(-100, 3, -13, true);
         errorCount += exec(-100, 2, -25, true);
+        errorCount += exec(-100, 1, -50, true);
+        errorCount += exec(-1, 4, -1, true);
+        errorCount += exec(-1, 3, -1, true);
+        errorCount += exec(1, 1, 0, true);
         errorCount += exec(100, 2, 25, true);
         errorCount += exec(100, 2 + 16384, 25, true);
 
         // Shift left.
-        errorCount += exec(-100, 3, -800, false);
-        errorCount += exec(100, 3, 800, false);
         errorCount += exec(-95, 4, -1520, false);
         errorCount += exec(-95, 3, -760, false);
         errorCount += exec(-95, 2, -380, false);
@@ -50,6 +54,15 @@ public class main {
         errorCount += exec(95, 3, 760, false);
         errorCount += exec(95, 2, 380, false);
         errorCount += exec(95, 1, 190, false);
+        errorCount += exec(-100, 4, -1600, false);
+        errorCount += exec(-100, 3, -800, false);
+        errorCount += exec(-100, 2, -400, false);
+        errorCount += exec(-100, 1, -200, false);
+        errorCount += exec(-1, 4, -16, false);
+        errorCount += exec(-1, 3, -8, false);
+        errorCount += exec(1, 1, 2, false);
+        errorCount += exec(100, 2, 400, false);
+        errorCount += exec(100, 2 + 16384, 400, false);
 
         assert (errorCount == 0);
         System.out.println("Success!");
