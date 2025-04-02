@@ -7,8 +7,17 @@ public class main {
 
         int errorCount = 0;
 
-        int a = -100;
-        int b = a >> 2;
+        int a = -95;
+        int b = a >> 4;
+        if (b != -6) {
+            System.out.print("*** ERROR, trying -95 >> 4. Expected -6. Observed ");
+            System.out.println(b);
+            errorCount += 1;
+        } else
+            System.out.println("Success trying -95 >> 4 == -6");
+
+        a = -100;
+        b = a >> 2;
         if (b != -25) {
             System.out.print("*** ERROR, trying -100 >> 2. Expected -25. Observed ");
             System.out.println(b);
