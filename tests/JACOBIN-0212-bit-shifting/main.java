@@ -1,21 +1,21 @@
 public class main {
 
-    private static int exec(int arg, int nshift, int expected, boolean right) {
-        int result;
+    private static int exec(int arg, int nshift, int expected, boolean shiftRight) {
+        int observed;
         String shift;
-        if (right) {
-            result = arg >> nshift;
+        if (shiftRight) {
+            observed = arg >> nshift;
             shift = ">>";
         } else {
-            result = arg << nshift;
+            observed = arg << nshift;
             shift = "<<";
         }
-        if (result != expected) {
-            System.out.printf("exec *** ERROR, %d %s %d, expected %d, observed %d\n", 
-                                arg, shift, nshift, expected, result);
+        if (observed != expected) {
+            System.out.printf("exec *** ERROR, %d %s %d, expected=%d, observed=%d\n",
+                                arg, shift, nshift, expected, observed);
             return 1;
         }
-        System.out.printf("exec ok, %d %s %d == %d\n", arg, shift, nshift, expected);
+        System.out.printf("exec ok, %d %s %d = %d\n", arg, shift, nshift, expected);
         return 0;
     }
 
@@ -31,12 +31,19 @@ public class main {
         errorCount += exec(-95, 2, -24, true);
         errorCount += exec(-95, 1, -48, true);
         errorCount += exec(-100, 2, -25, true);
-        errorCount += exec(-100, 3, -800, false);
         errorCount += exec(100, 2, 25, true);
-        errorCount += exec(100, 3, 800, false);
 
-        System.out.print("Error count = ");
-        System.out.println(errorCount);
+        errorCount += exec(-100, 3, -800, false);
+        errorCount += exec(100, 3, 800, false);
+        errorCount += exec(-95, 4, -1520, false);
+        errorCount += exec(-95, 3, -760, false);
+        errorCount += exec(-95, 2, -380, false);
+        errorCount += exec(-95, 1, -190, false);
+        errorCount += exec(95, 4, 1520, false);
+        errorCount += exec(95, 3, 760, false);
+        errorCount += exec(95, 2, 380, false);
+        errorCount += exec(95, 1, 190, false);
+
         assert (errorCount == 0);
         System.out.println("Success!");
     }
