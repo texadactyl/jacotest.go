@@ -37,6 +37,7 @@ public class main {
         errorCount += exec(95, 1, 47, true);
         errorCount += exec(-100, 2, -25, true);
         errorCount += exec(100, 2, 25, true);
+        errorCount += exec(100, 2 + 16384, 25, true);
 
         // Shift left.
         errorCount += exec(-100, 3, -800, false);
