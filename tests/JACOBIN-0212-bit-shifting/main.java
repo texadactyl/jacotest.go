@@ -1,5 +1,24 @@
 public class main {
 
+    private static int exec(int arg, int nshift, int expected, boolean right) {
+        int result;
+        String shift;
+        if (right) {
+            result = arg >> nshift;
+            shift = ">>";
+        } else {
+            result = arg << nshift;
+            shift = "<<";
+        }
+        if (result != expected) {
+            System.out.printf("exec *** ERROR, %d %s %d, expected %d, observed %d\n", 
+                                arg, shift, nshift, expected, result);
+            return 1;
+        }
+        System.out.printf("exec ok, %d %s %d == %d\n", arg, shift, nshift, expected);
+        return 0;
+    }
+
     public static void main(String[] args) throws Exception {
 
         String msg = "Bit shifting test cases";
@@ -7,51 +26,18 @@ public class main {
 
         int errorCount = 0;
 
-        int a = -95;
-        int b = a >> 4;
-        if (b != -6) {
-            System.out.print("*** ERROR, trying -95 >> 4. Expected -6. Observed ");
-            System.out.println(b);
-            errorCount += 1;
-        } else
-            System.out.println("Success trying -95 >> 4 == -6");
-
-        a = -100;
-        b = a >> 2;
-        if (b != -25) {
-            System.out.print("*** ERROR, trying -100 >> 2. Expected -25. Observed ");
-            System.out.println(b);
-            errorCount += 1;
-        } else
-            System.out.println("Success trying -100 >> 2 == -25");
-
-        b = a << 3;
-        if (b != -800) {
-            System.out.print("*** ERROR, trying -100 << 3. Expected -800. Observed ");
-            System.out.println(b);
-            errorCount += 1;
-        } else
-            System.out.println("Success trying -100 << 3 == -800");
-
-        a = 100;
-        b = a >> 2;
-        if (b != 25) {
-            System.out.print("*** ERROR, trying +100 >> 2. Expected 25. Observed ");
-            System.out.println(b);
-            errorCount += 1;
-        } else
-            System.out.println("Success trying +100 >> 2 == 25");
-
-        b = a << 3;
-        if (b != 800) {
-            System.out.print("*** ERROR, trying +100 << 3. Expected 800. Observed ");
-            System.out.println(b);
-            errorCount += 1;
-        } else
-            System.out.println("Success trying +100 << 3 == 800");
+        errorCount += exec(-95, 4, -6, true);
+        errorCount += exec(-95, 3, -12, true);
+        errorCount += exec(-95, 2, -24, true);
+        errorCount += exec(-95, 1, -48, true);
+        errorCount += exec(-100, 2, -25, true);
+        errorCount += exec(-100, 3, -800, false);
+        errorCount += exec(100, 2, 25, true);
+        errorCount += exec(100, 3, 800, false);
 
         System.out.print("Error count = ");
         System.out.println(errorCount);
         assert (errorCount == 0);
+        System.out.println("Success!");
     }
 }
