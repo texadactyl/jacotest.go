@@ -9,7 +9,7 @@ public class main {
         System.out.println("Begin ArrayList/iterator tests");
         int errorCount = 0;
 
-        // Make a collection
+        // Make a collection of 8.
         ArrayList<String> cars = new ArrayList<String>();
         cars.add("Volvo");
         cars.add("BMW");
@@ -19,18 +19,24 @@ public class main {
         cars.add("Jaguar");
         cars.add("Chevrolet");
         cars.add("Toyota");
-        
+
+        // Remove only the Kia.
         for (int ix = 0; ix < cars.size(); ix++) {
             if (cars.get(ix).equals("Kia"))
                 cars.remove(ix);
         }
+
+        // Test for size = 7.
         int sz = cars.size();
         if (sz != 7) {
             System.out.printf("*** ERROR, cars.size() expected 7, observed %d\n", sz);
             errorCount += 1;
         }
 
+        // Build Iterator from ArrayList.
         Iterator<String> itr = cars.iterator();
+
+        // Remove only the Ford.
         String ss;
         int ix = 0;
         while (itr.hasNext()) {
@@ -44,11 +50,14 @@ public class main {
             }
         }
 
+        // Check that size = 6.
         sz = cars.size();
         if (sz != 6) {
             System.out.printf("*** ERROR, cars.size() expected 6, observed %d\n", sz);
             errorCount += 1;
         }
+
+        // Check first and last.
         String first = cars.get(0);
         String last = cars.get(cars.size() - 1);
         if (!first.equals("Volvo")) {
@@ -61,6 +70,6 @@ public class main {
         }
 
         assert (errorCount == 0);
-
+        System.out.println("Success!");
     }
 } 
