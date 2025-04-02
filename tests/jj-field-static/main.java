@@ -4,7 +4,7 @@ public class main {
 
     // nain class statics
     private static final boolean mainStaticBoolean = true;
-    private static final byte mainStaticByte = 0x07;
+    private static final byte mainStaticByte = 7;
     private static final char mainStaticChar = '8';
     private static final double mainStaticDouble = 2.0;
     private static final float mainStaticFloat = 4.0f;
@@ -55,7 +55,7 @@ public class main {
         
         System.out.println("\n=========================== jj._getStaticString begin");
         errorCount += checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
-        errorCount += checker("static main.mainStaticByte", "7", jj._getStaticString("main", "mainStaticByte"));
+        errorCount += checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
         errorCount += checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
         errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
         errorCount += checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
