@@ -1,15 +1,11 @@
 
 
 public class SOR {
-    public static final double num_flops(int M, int N, int num_iterations) {
-        double Md = (double) M;
-        double Nd = (double) N;
-        double num_iterD = (double) num_iterations;
-
-        return (Md - 1) * (Nd - 1) * num_iterD * 6.0;
+    public static double num_flops(int M, int N, int num_iterations) {
+        return (M - 1) * (N - 1) * num_iterations * 6.0;
     }
 
-    public static final void execute(double omega, double G[][], int
+    public static void execute(double omega, double[][] G, int
             num_iterations) {
         int M = G.length;
         int N = G[0].length;

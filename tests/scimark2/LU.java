@@ -21,59 +21,22 @@ public class LU {
      */
 
 
-    public static final double num_flops(int N) {
-        // rougly 2/3*N^3
+    public static double num_flops(int N) {
+        // roughly 2/3*N^3
 
-        double Nd = (double) N;
-
-        return (2.0 * Nd * Nd * Nd / 3.0);
+        return (2.0 * N * N * N / 3.0);
     }
 
-    protected static double[] new_copy(double x[]) {
-        int N = x.length;
-        double T[] = new double[N];
-        for (int i = 0; i < N; i++)
-            T[i] = x[i];
-        return T;
-    }
-
-
-    protected static double[][] new_copy(double A[][]) {
-        int M = A.length;
-        int N = A[0].length;
-
-        double T[][] = new double[M][N];
-
-        for (int i = 0; i < M; i++) {
-            double Ti[] = T[i];
-            double Ai[] = A[i];
-            for (int j = 0; j < N; j++)
-                Ti[j] = Ai[j];
-        }
-
-        return T;
-    }
-
-
-    public static int[] new_copy(int x[]) {
-        int N = x.length;
-        int T[] = new int[N];
-        for (int i = 0; i < N; i++)
-            T[i] = x[i];
-        return T;
-    }
-
-    protected static final void insert_copy(double B[][], double A[][]) {
+    protected static void insert_copy(double[][] B, double[][] A) {
         int M = A.length;
         int N = A[0].length;
 
         int remainder = N & 3;         // N mod 4;
 
         for (int i = 0; i < M; i++) {
-            double Bi[] = B[i];
-            double Ai[] = A[i];
-            for (int j = 0; j < remainder; j++)
-                Bi[j] = Ai[j];
+            double[] Bi = B[i];
+            double[] Ai = A[i];
+            System.arraycopy(Ai, 0, Bi, 0, remainder);
             for (int j = remainder; j < N; j += 4) {
                 Bi[j] = Ai[j];
                 Bi[j + 1] = Ai[j + 1];
@@ -84,28 +47,13 @@ public class LU {
 
     }
 
-    public double[][] getLU() {
-        return new_copy(LU_);
-    }
-
-    /**
-     * Returns a <em>copy</em> of the pivot vector.
-     *
-     * @return the pivot vector used in obtaining the
-     * LU factorzation.  Subsequent solutions must
-     * permute the right-hand side by this vector.
-     */
-    public int[] getPivot() {
-        return new_copy(pivot_);
-    }
-
     /**
      * Initalize LU factorization from matrix.
      *
      * @param A (in) the matrix to associate with this
      *          factorization.
      */
-    public LU(double A[][]) {
+    public LU(double[][] A) {
         int M = A.length;
         int N = A[0].length;
 
@@ -121,34 +69,20 @@ public class LU {
     }
 
     /**
-     * Solve a linear system, with pre-computed factorization.
-     *
-     * @param b (in) the right-hand side.
-     * @return solution vector.
-     */
-    public double[] solve(double b[]) {
-        double x[] = new_copy(b);
-
-        solve(LU_, pivot_, x);
-        return x;
-    }
-
-
-    /**
      * LU factorization (in place).
      *
      * @param A     (in/out) On input, the matrix to be factored.
      *              On output, the compact LU factorization.
-     * @param pivit (out) The pivot vector records the
+     * @param pivot (out) The pivot vector records the
      *              reordering of the rows of A during factorization.
      * @return 0, if OK, nozero value, othewise.
      */
-    public static int factor(double A[][], int pivot[]) {
+    public static int factor(double[][] A, int[] pivot) {
 
 
-        int N = A.length;
-        int M = A[0].length;
-        int minMN = M < N ? M : N;
+        int Nrows = A.length;
+        int Ncols = A[0].length;
+        int minMN = Math.min(Ncols, Nrows);
 
         for (int j = 0; j < minMN; j++) {
             // find pivot in column j and  test for singularity.
@@ -156,7 +90,7 @@ public class LU {
             int jp = j;
 
             double t = Math.abs(A[j][j]);
-            for (int i = j + 1; i < M; i++) {
+            for (int i = j + 1; i < Ncols; i++) {
                 double ab = Math.abs(A[i][j]);
                 if (ab > t) {
                     jp = i;
@@ -176,20 +110,20 @@ public class LU {
             if (jp != j) {
                 // swap rows j and jp
                 // System.arraycopy(vector, 0, matrix[row], 0, ncols);
-                double temp[] = new double[A[0].length];
+                double[] temp = new double[A[0].length];
                 System.arraycopy(A[j], 0, temp, 0, A[0].length);
                 System.arraycopy(A[jp], 0, A[j], 0, A[0].length);
                 System.arraycopy(temp, 0, A[jp], 0, A[0].length);
             }
 
-            if (j < M - 1)                // compute elements j+1:M of jth column
+            if (j < Ncols - 1)                // compute elements j+1:M of jth column
             {
                 // note A(j,j), was A(jp,p) previously which was
-                // guarranteed not to be zero (Label #1)
+                // guaranteed not to be zero (Label #1)
                 //
                 double recp = 1.0 / A[j][j];
 
-                for (int k = j + 1; k < M; k++)
+                for (int k = j + 1; k < Ncols; k++)
                     A[k][j] *= recp;
             }
 
@@ -202,11 +136,11 @@ public class LU {
                 // y is row vector A(j,j+1:N)
 
 
-                for (int ii = j + 1; ii < M; ii++) {
-                    double Aii[] = A[ii];
-                    double Aj[] = A[j];
+                for (int ii = j + 1; ii < Ncols; ii++) {
+                    double[] Aii = A[ii];
+                    double[] Aj = A[j];
                     double AiiJ = Aii[j];
-                    for (int jj = j + 1; jj < N; jj++)
+                    for (int jj = j + 1; jj < Nrows; jj++)
                         Aii[jj] -= AiiJ * Aj[jj];
 
                 }
@@ -228,13 +162,13 @@ public class LU {
      * @param b     (in/out) On input, the right-hand side.
      *              On output, the solution vector.
      */
-    public static void solve(double LU[][], int pvt[], double b[]) {
+    public static void solve(double[][] LU, int[] pivot, double[] b) {
         int M = LU.length;
         int N = LU[0].length;
         int ii = 0;
 
         for (int i = 0; i < M; i++) {
-            int ip = pvt[i];
+            int ip = pivot[i];
             double sum = b[ip];
 
             b[ip] = b[i];
@@ -254,7 +188,6 @@ public class LU {
         }
     }
 
-
-    private double LU_[][];
-    private int pivot_[];
+    private final double[][] LU_;
+    private final int[] pivot_;
 }

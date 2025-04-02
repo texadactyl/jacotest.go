@@ -11,30 +11,30 @@
  * @author GSL's FFT Code by Brian Gough bjg@vvv.lanl.gov
  */
 
-/* See {@link ComplexDoubleFFT ComplexDoubleFFT} for details of data layout.
+/* See {@link ComplexDoubleFFT} for details of data layout.
  */
 
 public class FFT {
 
-    public static final double num_flops(int N) {
-        double Nd = (double) N;
-        double logN = (double) log2(N);
-
-        return (5.0 * Nd - 2) * logN + 2 * (Nd + 1);
+    public static double num_flops(int N) {
+        double logN = log2(N);
+        return (5.0 * N - 2) * logN + 2 * (N + 1);
     }
 
 
     /**
      * Compute Fast Fourier Transform of (complex) data, in place.
      */
-    public static void transform(double data[]) {
+    public static void transform(double[] data) {
+
         transform_internal(data, -1);
+
     }
 
     /**
      * Compute Inverse Fast Fourier Transform of (complex) data, in place.
      */
-    public static void inverse(double data[]) {
+    public static void inverse(double[] data) {
         transform_internal(data, +1);
         // Normalize
         int nd = data.length;
@@ -48,10 +48,10 @@ public class FFT {
      * Accuracy check on FFT of data. Make a copy of data, Compute the FFT, then
      * the inverse and compare to the original.  Returns the rms difference.
      */
-    public static double test(double data[]) {
+    public static double test(double[] data) {
         int nd = data.length;
         // Make duplicate for comparison
-        double copy[] = new double[nd];
+        double[] copy = new double[nd];
         System.arraycopy(data, 0, copy, 0, nd);
         // Transform & invert
         transform(data);
@@ -70,26 +70,13 @@ public class FFT {
      */
     public static double[] makeRandom(int n) {
         int nd = 2 * n;
-        double data[] = new double[nd];
+        double[] data = new double[nd];
         Random rr = new Random();
         for (int i = 0; i < nd; i++)
             data[i] = rr.nextDouble();
         return data;
     }
 
-    /**
-     * Simple Test routine.
-     */
-    public static void main(String args[]) {
-        if (args.length == 0) {
-            int n = 1024;
-            System.out.println("n=" + n + " => RMS Error=" + test(makeRandom(n)));
-        }
-        for (int i = 0; i < args.length; i++) {
-            int n = Integer.parseInt(args[i]);
-            System.out.println("n=" + n + " => RMS Error=" + test(makeRandom(n)));
-        }
-    }
     /* ______________________________________________________________________ */
 
     protected static int log2(int n) {
@@ -100,13 +87,13 @@ public class FFT {
         return log;
     }
 
-    protected static void transform_internal(double data[], int direction) {
+    protected static void transform_internal(double[] data, int direction) {
         if (data.length == 0) return;
         int n = data.length / 2;
         if (n == 1) return;         // Identity operation!
         int logn = log2(n);
 
-        /* bit reverse the input data for decimation in time algorithm */
+        /* bit reverse the input data for decimation in the time algorithm */
         bitreverse(data);
 
         /* apply fft recursion */
@@ -163,7 +150,7 @@ public class FFT {
     }
 
 
-    protected static void bitreverse(double data[]) {
+    protected static void bitreverse(double[] data) {
         /* This is the Goldrader bit-reversal algorithm */
         int n = data.length / 2;
         int nm1 = n - 1;
@@ -199,12 +186,20 @@ public class FFT {
             j += k;
         }
     }
+
+    /**
+     * Simple Test driver.
+     */
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            int n = 1024;
+            System.out.println("n=" + n + " => RMS Error=" + test(makeRandom(n)));
+        }
+        for (String arg : args) {
+            int n = Integer.parseInt(arg);
+            System.out.println("n=" + n + " => RMS Error=" + test(makeRandom(n)));
+        }
+    }
+
 }
-
-
-
-
-
-
-
 

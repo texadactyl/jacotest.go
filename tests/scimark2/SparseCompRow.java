@@ -21,8 +21,8 @@ public class SparseCompRow {
 		ith row in col[].  
 	*/
 
-    public static void matmult(double y[], double val[], int row[],
-                               int col[], double x[], int NUM_ITERATIONS) {
+    public static void matmult(double[] y, double[] val, int[] row,
+                               int[] col, double[] x, int NUM_ITERATIONS) {
         int M = row.length - 1;
 
         for (int reps = 0; reps < NUM_ITERATIONS; reps++) {

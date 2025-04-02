@@ -19,26 +19,30 @@ public class main {
   */
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
     
         String msg = "SciMark2: Benchmark measuring performance of computational kernels for FFTs, Monte Carlo simulation, sparse matrix computations, Jacobi SOR, and dense LU matrix factorizations.";
         System.out.println(msg);
+        System.out.println("URL: https://math.nist.gov/scimark2/index.html");
+        Singleton sgl = Singleton.getInstance();
+        Random R = new Random();
+        int errorCount = 0;
 
-        double min_time = Constants.RESOLUTION_DEFAULT;
+        double curfew = Constants.CURFEW;
 
-        int FFT_size = Constants.FFT_SIZE;
-        int SOR_size = Constants.SOR_SIZE;
-        int Sparse_size_M = Constants.SPARSE_SIZE_M;
-        int Sparse_size_nz = Constants.SPARSE_SIZE_nz;
-        int LU_size = Constants.LU_SIZE;
+        // Pre-set default constants.
+        int FFT_size = Constants.TINY_FFT_SIZE;
+        int SOR_size = Constants.TINY_SOR_SIZE;
+        int Sparse_size_M = Constants.TINY_SPARSE_SIZE_M;
+        int Sparse_size_nz = Constants.TINY_SPARSE_SIZE_nz;
+        int LU_size = Constants.TINY_LU_SIZE;
 
         // look for runtime options
-
         if (args.length > 0) {
 
             if (args[0].equalsIgnoreCase("-h") ||
                     args[0].equalsIgnoreCase("-help")) {
-                System.out.println("Usage: [-large] [minimum_time]");
+                System.out.println("Usage: [ -large | -tiny ] [ curfew in seconds ]");
                 return;
             }
 
@@ -52,75 +56,116 @@ public class main {
 
                 current_arg++;
             }
+            if (args[current_arg].equalsIgnoreCase("-medium")) {
+                FFT_size = Constants.MED_FFT_SIZE;
+                SOR_size = Constants.MED_SOR_SIZE;
+                Sparse_size_M = Constants.MED_SPARSE_SIZE_M;
+                Sparse_size_nz = Constants.MED_SPARSE_SIZE_nz;
+                LU_size = Constants.MED_LU_SIZE;
+
+                current_arg++;
+            }
 
             if (args.length > current_arg)
-                min_time = Double.valueOf(args[current_arg]).doubleValue();
+                curfew = Double.parseDouble(args[current_arg]);
         }
 
+        // ========================================================= Run the benchmarks.
 
-        // run the benchmark
+        // Take time t0.
+        long t0 = System.currentTimeMillis();
 
-        Stopwatch sw = new Stopwatch();
-        sw.start();
+        // Results in Hz.
+        double[] result = new double[6];
 
-        double res[] = new double[6];
-        Random R = new Random(Constants.RANDOM_SEED);
+        // Measure Hz in each function.
+        result[1] = kernel.measureFFT(FFT_size, curfew, R);
+        result[2] = kernel.measureSOR(SOR_size, curfew, R);
+        result[3] = kernel.measureMonteCarlo(curfew);
+        result[4] = kernel.measureSparseMatmult(Sparse_size_M, Sparse_size_nz, curfew, R);
+        result[5] = kernel.measureLU(LU_size, curfew, R);
+        result[0] = (result[1] + result[2] + result[3] + result[4] + result[5]) / 5;
 
-        res[1] = kernel.measureFFT(FFT_size, min_time, R);
-        res[2] = kernel.measureSOR(SOR_size, min_time, R);
-        res[3] = kernel.measureMonteCarlo(min_time, R);
-        res[4] = kernel.measureSparseMatmult(Sparse_size_M,
-                Sparse_size_nz,
-                min_time,
-                R);
-        res[5] = kernel.measureLU(LU_size, min_time, R);
-        res[0] = (res[1] + res[2] + res[3] + res[4] + res[5]) / 5;
-
-        double elapsed_seconds = sw.stop();
-
-
-        // print out results
-
-        System.out.print(String.format("SciMark 2.0a, elasped time in seconds = "));
+        // tfinal = final time.
+        // Compute elapsed time in seconds.
+        long tfinal = System.currentTimeMillis();
+        double elapsed_seconds = (tfinal - t0) / 1000.0;
+        System.out.print("SciMark 2.0a, elapsed time in seconds = ");
         System.out.println(elapsed_seconds);
-        System.out.println("URL: https://math.nist.gov/scimark2/index.html");
-        System.out.print("Composite Score: ");
-        System.out.println(res[0]);
+
+        //=================================================== Report results and values.
+
         System.out.print("FFT (");
         System.out.print(FFT_size);
         System.out.print("): ");
-        if (res[1] == 0.0)
-            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - FFT!");
-        else
-            System.out.println(res[1]);
+        System.out.print(result[1]);
+        System.out.println(" Hz");
 
         System.out.print("SOR (");
         System.out.print(SOR_size);
         System.out.print("x");
         System.out.print(SOR_size);
         System.out.print("): ");
-        System.out.println(res[2]);
-        
+        System.out.print(result[2]);
+        System.out.println(" Hz");
+
         System.out.print("Monte Carlo : ");
-        System.out.println(res[3]);
-        
+        System.out.print(result[3]);
+        System.out.println(" Hz");
+
         System.out.print("Sparse matmult (N=");
         System.out.print(Sparse_size_M);
         System.out.print(", nz=");
         System.out.print(Sparse_size_nz);
         System.out.print("): ");
-        System.out.println(res[4]);
-        
+        System.out.print(result[4]);
+        System.out.println(" Hz");
+
         System.out.print("LU (");
         System.out.print(LU_size);
         System.out.print("x");
         System.out.print(LU_size);
         System.out.print("): ");
-        if (res[5] == 0.0)
-            throw new AssertionError("*** ERROR, INVALID NUMERICAL RESULT - LU!");
-        else
-            System.out.println(res[5]);
+        System.out.print(result[5]);
+        System.out.println(" Hz");
 
+        System.out.print("Composite Score: ");
+        System.out.print(result[0]);
+        System.out.println(" Hz");
+
+        sgl.printFields();
+
+        // Validate calculations.
+        errorCount += withinTolerance("FFT", -8989986044279245438L, sgl.valueFFT, 1.5);
+        errorCount += withinTolerance("FFT-inverse", 12423419474949865L, sgl.valueFFTi, 1.0);
+        errorCount += withinTolerance("LU", 4600112251643070182L, sgl.valueLU, 1.0);
+        errorCount += withinTolerance("SM", 11024028321273019L, sgl.valueSM, 1.0);
+        errorCount += withinTolerance("SOR", 0L, sgl.valueSOR, 1.0);
+        assert(errorCount == 0);
+        System.out.println("Success!");
+
+    }
+
+    public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
+        if (expected == 0) {
+            if (observed == 0) {
+                System.out.printf("withinTolerance(%.1f) %s ok, observed = expected = 0\n", maxPercent, label);
+                return 0;
+            } else {
+                System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = 0, observed = %d\n", maxPercent, label, observed);
+                return 1;
+            }
+        }
+        long diff = Math.abs(expected - observed);
+        double diffPct = Math.abs(100.0 * diff / expected);
+        double tolerance = Math.abs(expected) * (maxPercent / 100.0);
+        if (diff <= tolerance) {
+            System.out.printf("withinTolerance(%.1f) %s ok, expected = %d, observed = %d, diffPct = %.2f\n", maxPercent, label, expected, observed, diffPct);
+            return 0;
+        } else {
+            System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = %d, observed = %d, diffPct = %.2f\n", maxPercent, label, expected, observed, diffPct);
+            return 1;
+        }
     }
 
 }

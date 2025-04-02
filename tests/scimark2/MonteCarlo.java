@@ -29,22 +29,18 @@
  */
 
 public class MonteCarlo {
-    final static int SEED = 113;
-
-    public static final double num_flops(int Num_samples) {
+    public static double num_flops(int Num_samples) {
         // 3 flops in x^2+y^2 and 1 flop in random routine
 
         return ((double) Num_samples) * 4.0;
 
     }
 
+    public static double integrate(int Num_samples) {
 
-    public static final double integrate(int Num_samples) {
-
-        Random R = new Random(SEED);
-
-
+        Random R = new Random();
         int under_curve = 0;
+
         for (int count = 0; count < Num_samples; count++) {
             double x = R.nextDouble();
             double y = R.nextDouble();

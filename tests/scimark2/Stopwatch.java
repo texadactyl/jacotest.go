@@ -36,17 +36,8 @@ public class Stopwatch {
     /**
      * Return system time (in seconds)
      */
-    public final static double seconds() {
+    public static double seconds() {
         return (System.currentTimeMillis() * 0.001);
-    }
-
-    /**
-     * Return system time (in seconds)
-     */
-    public void reset() {
-        running = false;
-        last_time = 0.0;
-        total = 0.0;
     }
 
     /**
@@ -61,18 +52,6 @@ public class Stopwatch {
     }
 
     /**
-     * Resume timing, after stopping.  (Does not wipe out
-     * accumulated times.)
-     */
-    public void resume() {
-        if (!running) {
-            last_time = seconds();
-            running = true;
-        }
-    }
-
-
-    /**
      * Stop timer
      */
     public double stop() {
@@ -82,7 +61,6 @@ public class Stopwatch {
         }
         return total;
     }
-
 
     /**
      * Display the elapsed time (in seconds)
