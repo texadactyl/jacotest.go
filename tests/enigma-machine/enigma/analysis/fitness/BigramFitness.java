@@ -12,11 +12,16 @@ public class BigramFitness extends FitnessFunction {
         return (a << 5) | b;
     }
 
+    private static void floatArrayFill(float[] array, float value) {
+        for (int ix = 0; ix < array.length; ix++)
+            array[ix] = value;
+    }
 
     public BigramFitness() {
         // Bigrams
         this.bigrams = new float[826];
-        Arrays.fill(this.bigrams, (float)Math.log10(epsilon));
+        //Arrays.fill(this.bigrams, (float)Math.log10(epsilon));
+        floatArrayFill(this.bigrams, (float)Math.log10(epsilon));
         try (final InputStream is = BigramFitness.class.getResourceAsStream("/data/bigrams");
              final Reader r = new InputStreamReader(is, StandardCharsets.UTF_8);
              final BufferedReader br = new BufferedReader(r);
