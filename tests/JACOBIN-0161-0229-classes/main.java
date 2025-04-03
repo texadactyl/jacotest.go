@@ -134,8 +134,8 @@ public class main {
         errorCount += checkStrEqual("myPig.getSound() == oink", myPig.getSound(), "oink");
         errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
  
-        printer("\nError count", String.valueOf(errorCount));
-        assert (errorCount == 0);
+         assert (errorCount == 0);
+         System.out.println("Success!");
     }
 
 }
