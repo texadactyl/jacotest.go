@@ -127,6 +127,17 @@ public class main {
         }
         return hexString.toString();
     }
+    
+    // Compare 2 byte arrays.
+    public static boolean arraysEqual(byte[] A, byte[] B) {
+        if (A.length != B.length)
+            return false;
+        for (int ix = 0; ix < A.length; ix++) {
+            if (A[ix] != B[ix])
+                return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
     
@@ -154,7 +165,7 @@ public class main {
         System.out.printf("main: Decrypted (%d): %s\n", decrypted.length, plaintextString2);
         
         // Test result.
-        if (Arrays.equals(plaintext, decrypted)) {
+        if (arraysEqual(plaintext, decrypted)) {
             System.out.println("main: Success!");
             System.exit(0);
         }

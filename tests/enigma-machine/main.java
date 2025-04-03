@@ -11,6 +11,17 @@ import enigma.hardware.Enigma;
 
 public class main {
 
+    // Compare 2 char arrays.
+    public static boolean arraysEqual(char[] A, char[] B) {
+        if (A.length != B.length)
+            return false;
+        for (int ix = 0; ix < A.length; ix++) {
+            if (A[ix] != B[ix])
+                return false;
+        }
+        return true;
+    }
+
 	private static void assertArrayEquals(char [] ca1, char [] ca2) {
 		int len1 = ca1.length;
 		int len2 = ca2.length;
@@ -20,7 +31,7 @@ public class main {
 			System.out.println(ca2.toString());
 			throw new AssertionError("array lengths");
 		}
-		if (! Arrays.equals(ca1, ca2)) {
+		if (! arraysEqual(ca1, ca2)) {
 			System.out.println("*** ERROR, unequal char array values.");
 			System.out.println(ca1.toString());
 			System.out.println(ca2.toString());

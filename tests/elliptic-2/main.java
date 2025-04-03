@@ -9,6 +9,17 @@ import java.util.Arrays;
 
 public class main {
 
+    // Compare 2 byte arrays.
+    public static boolean arraysEqual(byte[] A, byte[] B) {
+        if (A.length != B.length)
+            return false;
+        for (int ix = 0; ix < A.length; ix++) {
+            if (A[ix] != B[ix])
+                return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) throws Exception {
     
         // TX: Generate key pair.
@@ -28,7 +39,7 @@ public class main {
         System.out.println("Shared secret (Receiver): " + bytesToHex(rxSharedSecret));
 
         // Verify both parties derived the same shared secret.
-        if (Arrays.equals(txSharedSecret, rxSharedSecret)) {
+        if (arraysEqual(txSharedSecret, rxSharedSecret)) {
             System.out.println("Success :: The TX and RX shared secrets match");
         } else {
             throw new AssertionError("TX and RX shared secrets do not match!");

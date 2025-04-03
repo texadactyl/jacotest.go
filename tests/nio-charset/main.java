@@ -15,6 +15,17 @@ public class main {
         System.out.println(value);
     }
 
+    // Compare 2 byte arrays.
+    public static boolean arraysEqual(byte[] A, byte[] B) {
+        if (A.length != B.length)
+            return false;
+        for (int ix = 0; ix < A.length; ix++) {
+            if (A[ix] != B[ix])
+                return false;
+        }
+        return true;
+    }
+
 	private static void showCharset(Charset argCharset, String argString) throws CharacterCodingException {
         String name = argCharset.name();
         String desc = argCharset.toString();
@@ -68,7 +79,7 @@ public class main {
 	 	printer("byte array 2 as a list of integer-valued bytes", Arrays.toString(bytearray2));
 		
 	 	assert hash1 == hash2 :  "hash1 != hash2 after CharsetEncode";
-	 	assert Arrays.equals(bytearray1, bytearray2) : "byte arrays not equal after CharsetEncode";
+	 	assert arraysEqual(bytearray1, bytearray2) : "byte arrays not equal after CharsetEncode";
 		
 	}
 

@@ -11,6 +11,7 @@ Key Features:
 */
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class main {
 
@@ -29,18 +30,18 @@ public class main {
         byte[] autn = new byte[MAC_SIZE];
 
         // Generate MAC (Message Authentication Code)
-        for (int i = 0; i < MAC_SIZE; i++) {
-            mac[i] = (byte) (key[i % key.length] ^ rand[i % rand.length]);
+        for (int ix = 0; ix < MAC_SIZE; ix++) {
+            mac[ix] = (byte) (key[ix % key.length] ^ rand[ix % rand.length]);
         }
 
         // Generate XRES (Expected Response)
-        for (int i = 0; i < MAC_SIZE; i++) {
-            xres[i] = (byte) (mac[i] ^ 0xA5); // Example transformation
+        for (int ix = 0; ix < MAC_SIZE; ix++) {
+            xres[ix] = (byte) (mac[ix] ^ 0xA5);
         }
 
         // Generate AUTN (Authentication Token)
-        for (int i = 0; i < MAC_SIZE; i++) {
-            autn[i] = (byte) (mac[i] ^ 0x5A); // Example transformation
+        for (int ix = 0; ix < MAC_SIZE; ix++) {
+            autn[ix] = (byte) (mac[ix] ^ 0x5A);
         }
 
         return new AuthenticationVector(mac, xres, autn);
@@ -56,9 +57,11 @@ public class main {
         for (int i = 0; i < MAC_SIZE; i++) {
             generatedMac[i] = (byte) (key[i % key.length] ^ rand[i % rand.length]);
         }
+        System.out.printf("authenticate: generated mac: %s\n", Arrays.toString(generatedMac));
 
         // Compare MACs
-        if (!Arrays.equals(mac, generatedMac)) {
+        if (!arraysEqual(mac, generatedMac)) {
+            System.out.println("authenticate: Failed: arraysEqual(mac, generatedMac)");
             return false; // Authentication failed
         }
 
@@ -69,7 +72,11 @@ public class main {
         }
 
         // Compare RES and XRES
-        return Arrays.equals(res, xres);
+        if (!arraysEqual(res, xres)) {
+            System.out.println("authenticate: Failed: arraysEqual(arraysEqual(res, xres))");
+            return false; // Authentication failed
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -99,6 +106,17 @@ public class main {
         }
         throw new AssertionError("*** ERROR, authentication failed!");
     }
+
+    // Compare 2 arrays.
+    public static boolean arraysEqual(byte[] A, byte[] B) {
+        if (A.length != B.length)
+            return false;
+        for (int ix = 0; ix < A.length; ix++) {
+            if (A[ix] != B[ix])
+                return false;    
+        }
+        return true;
+    }
 }
 
 class AuthenticationVector {
@@ -124,16 +142,3 @@ class AuthenticationVector {
         return autn;
     }
 }
-
-class Random {
-
-    void nextBytes(byte[] vector) {
-        long longValue;
-        for (int ix = 0; ix < vector.length; ++ix) {
-            longValue = System.nanoTime();
-            vector[ix] = (byte) (longValue & 0xFF);          
-        }
-    }
-    
-}
-

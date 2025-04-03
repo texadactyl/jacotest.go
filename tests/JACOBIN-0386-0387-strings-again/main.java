@@ -2,7 +2,6 @@ public class main {
 
 	final static int NLOOPS = 1000;
 
-	// Cannot use Arrays.equals because it invokes a native function
 	private static boolean byteArraysEqual(byte[] ba1, byte[] ba2) {
 		if (ba1.length - ba2.length != 0)
 			return false;
