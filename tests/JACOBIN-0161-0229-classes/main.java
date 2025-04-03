@@ -116,10 +116,14 @@ public class main {
         MultiMedia myOrange = new Orange();
 
         String red = myRed.getColor();
+        System.out.printf("red.getColor = %s\n", red);
         String orange = myOrange.getColor();
+        System.out.printf("orange.getColor = %s\n", orange);
 
         String loud = myRed.getSound();
+        System.out.printf("red.getSound = %s\n", loud);
         String soft = myOrange.getSound();
+        System.out.printf("orange.getSound = %s\n", soft);
 
         errorCount += checkStrUnequal("red != rainbow", "red", "rainbow");
         errorCount += checkStrUnequal("red != orange", "red", "orange");
