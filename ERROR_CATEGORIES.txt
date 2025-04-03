@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+Ljava/lang/Class;
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
