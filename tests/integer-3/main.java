@@ -1,4 +1,5 @@
 public class main {
+
 	private static int checker(String label, String expectedValue, String observedValue) {
 		if (observedValue.equals(expectedValue)) {
 			System.out.printf("checker [%s]: OK expected=%s, observed=%s\n", label, expectedValue, observedValue);
@@ -11,7 +12,9 @@ public class main {
 	public static void main(String args[]) {
 		int errCount = 0;
 		int i42 = 42;
-		Integer II = Integer.valueOf(i42);;
+		int wint;
+		Integer II = Integer.valueOf(i42);
+		Integer IIW;
 		String str;
 		
 		str = Integer.toBinaryString(i42);
@@ -29,6 +32,13 @@ public class main {
 		str = Integer.toString(i42);
 		errCount += checker("toString - i42", "42", str);
 		
+		str = Integer.toString(i42, 10);
+		errCount += checker("toString - i42", "42", str);
+		
+		long longue = Integer.toUnsignedLong(i42);
+		str = String.format("%d", longue);
+		errCount += checker("toUnsignedString - no radix #1", "42", str);
+		
 		str = Integer.toUnsignedString(i42);
 		errCount += checker("toUnsignedString - no radix #1", "42", str);
 		
@@ -41,30 +51,18 @@ public class main {
 		str = Integer.toUnsignedString(-i42, 16);
 		errCount += checker("toUnsignedString - radix=16 #2", "ffffffd6", str);
 		
-		byte bb = II.byteValue();
-		str = String.format("%d", bb);
-		errCount += checker("byteValue", "42", str);
-
-		II = Integer.decode("42");
-		str = II.toString();
-		errCount += checker("decode + toString with no arg", "42", str);
+		IIW = Integer.valueOf(42);
+		str = String.format("%d", IIW.intValue());
+		errCount += checker("Integer.valueOf(42)", "42", str);
 		
-		double dd = II.doubleValue();
-		str = String.format("%.0f", dd);
-		errCount += checker("doubleValue + String.format", "42", str);
-				
-		float ff = II.floatValue();
-		str = String.format("%.0f", ff);
-		errCount += checker("floatValue + String.format", "42", str);
-				
-		long jj = II.longValue();
-		str = String.format("%d", jj);
-		errCount += checker("longValue + String.format", "42", str);
-				
-		short ss = (short) II.longValue();
-		str = String.format("%d", ss);
-		errCount += checker("shortValue + String.format", "42", str);
-				
+		IIW = Integer.valueOf("42");
+		str = String.format("%d", IIW.intValue());
+		errCount += checker("Integer.valueOf(\"42\")", "42", str);
+		
+		IIW = Integer.valueOf("42", 16);
+		str = String.format("%d", IIW.intValue());
+		errCount += checker("Integer.valueOf(\"42\", 16)", "66", str);
+		
 		if (errCount == 0)
 			System.out.println("Success!");
 		else {

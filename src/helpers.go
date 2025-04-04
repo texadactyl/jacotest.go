@@ -17,6 +17,12 @@ func Logger(msg string) {
 	fmt.Printf("%s %s\n", now.Format("15:04:05"), msg)
 }
 
+// Logger - Time-stamp log function.
+func LoggerSkip(msg string) {
+	now := time.Now()
+	fmt.Printf("\n%s %s\n", now.Format("15:04:05"), msg)
+}
+
 // LogWarning - Log a warning.
 func LogWarning(msg string) {
 	text := fmt.Sprintf("*** Warning :: %s", msg)

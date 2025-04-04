@@ -4,6 +4,9 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-04 | 4.1.9 | Make the changed results console output easier to read. |
+| | | Test case Integer-all was split into integer-1 and integer-2. |
+| | | Added test case integer-3. |
 | 2025-04-03 | 4.1.8 | Updated several test cases to avoid library function Arrays.equals(). DIY! |
 | | | Added "Ljava/lang/Class;" to ERROR_CATEGORIES.txt. |
 | 2025-04-02 | 4.1.7 | Split test case JACOBIN-0212-bit-shifting into bit-shifting-signed & bit-shifting-unsigned. |

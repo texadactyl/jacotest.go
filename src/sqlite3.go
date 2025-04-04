@@ -384,7 +384,7 @@ func DBPrtChanges() {
 		if prvResult != curResult || prvFailText != curFailText {
 			// Not the same result. Show the changes.
 			counter += 1
-			fmt.Printf("\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
+			fmt.Printf("\n\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
 			fmt.Printf("\tprv  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText)
 		}
 
@@ -416,10 +416,11 @@ func DBPrtChanges() {
 	// Done. How many changed results?
 	if counter == 0 {
 		msg = "No test cases with changed results"
+		Logger(msg)
 	} else {
 		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
+		LoggerSkip(msg)
 	}
-	Logger(msg)
 }
 
 /*
