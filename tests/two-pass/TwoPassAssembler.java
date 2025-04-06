@@ -49,12 +49,12 @@ class LitTuple {
 
 class TwoPassAssembler {
 	static int lc;
-	static List<Tuple> mot;
-	static List<String> pot;
-	static List<SymTuple> symtable;
-	static List<LitTuple> littable;
-	static List<Integer> lclist;
-	static Map<Integer, Integer> basetable;
+	static LinkedList<Tuple> mot;
+	static LinkedList<String> pot;
+	static LinkedList<SymTuple> symtable;
+	static LinkedList<LitTuple> littable;
+	static ArrayList<Integer> lclist;
+	static HashMap<Integer, Integer> basetable;
 	static PrintWriter output_pass2;
 	static PrintWriter output_pass1;
 	static int line_no;
@@ -321,7 +321,7 @@ class TwoPassAssembler {
 			} else {
 				s[i] = "BC";
 			}
-			List<String> temp = new ArrayList<>();
+			ArrayList<String> temp = new ArrayList<>();
 			for(String x : s) {
 				temp.add(x);
 			}
@@ -414,7 +414,7 @@ class TwoPassAssembler {
 	}
 	
 	static String[] tokenizeOperands(String[] s) {
-		List<String> temp = new LinkedList<>();
+		LinkedList<String> temp = new LinkedList<>();
 		for(int j=0 ; j<s.length-1 ; j++) {
 			temp.add(s[j]);
 		}
@@ -436,14 +436,16 @@ class TwoPassAssembler {
 		String s;
 		BufferedReader br;
 		br = new BufferedReader(new InputStreamReader(new FileInputStream("machine_opcode_table.txt")));
+		Tuple tuple;
 		while((s = br.readLine()) != null) {
 			StringTokenizer st = new StringTokenizer(s, " ", false);
-			mot.add(new Tuple(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
+			tuple = new Tuple(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken());
+			mot.add(tuple);
 		}
 		br = new BufferedReader(new InputStreamReader(new FileInputStream("pseudo_opcode_table.txt")));
 		while((s = br.readLine()) != null) {
 			pot.add(s);
 		}
-		Collections.sort(pot);
+		//Collections.sort(pot);
 	}
 }
