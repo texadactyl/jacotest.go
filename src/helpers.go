@@ -8,8 +8,11 @@ import (
 	"unicode"
 )
 
-const ModeOutputFile = 0644
-const FlagsOpen = os.O_CREATE | os.O_WRONLY
+const (
+	ModeOutputFile = 0644
+	FlagsOpen      = os.O_CREATE | os.O_WRONLY
+	DirPermissions = 0755
+)
 
 // Logger - Time-stamp log function.
 func Logger(msg string) {
@@ -17,7 +20,7 @@ func Logger(msg string) {
 	fmt.Printf("%s %s\n", now.Format("15:04:05"), msg)
 }
 
-// Logger - Time-stamp log function.
+// LoggerSkip - Time-stamp log function with a preceding newline for readability.
 func LoggerSkip(msg string) {
 	now := time.Now()
 	fmt.Printf("\n%s %s\n", now.Format("15:04:05"), msg)
@@ -25,113 +28,87 @@ func LoggerSkip(msg string) {
 
 // LogWarning - Log a warning.
 func LogWarning(msg string) {
-	text := fmt.Sprintf("*** Warning :: %s", msg)
-	Logger(text)
+	Logger(fmt.Sprintf("*** Warning :: %s", msg))
 }
 
 // LogError - Log an error.
 func LogError(msg string) {
-	text := fmt.Sprintf("*** ERROR :: %s", msg)
-	Logger(text)
+	Logger(fmt.Sprintf("*** ERROR :: %s", msg))
 }
 
 // LogTimeout - Log a timeout.
 func LogTimeout(msg string) {
-	text := fmt.Sprintf("*** TIMEOUT :: %s", msg)
-	Logger(text)
+	Logger(fmt.Sprintf("*** TIMEOUT :: %s", msg))
 }
 
-// LogSkip - skip a line for report readability.
+// LogSkip - Skip a line for report readability.
 func LogSkip() {
-	fmt.Printf("\n")
+	fmt.Println()
 }
 
-// FatalText - Log a fatal error message and croak.
+// FatalText - Log a fatal error message and exit.
 func FatalText(text string) {
-	errMsg := fmt.Sprintf("*** FATAL :: %s", text)
-	Logger(errMsg)
+	Logger(fmt.Sprintf("*** FATAL :: %s", text))
 	DBClose()
 	os.Exit(1)
 }
 
-// FatalErr - Log a fatal error message with error.Error() text and croak.
+// FatalErr - Log a fatal error message with error text and exit.
 func FatalErr(msg string, err error) {
-	var text string
-	text = fmt.Sprintf("*** FATAL :: %s\n\terr: %s", msg, err.Error())
-	Logger(text)
+	Logger(fmt.Sprintf("*** FATAL :: %s\n\terr: %s", msg, err.Error()))
 	DBClose()
 	os.Exit(1)
 }
 
 // GetUtcDate - Get UTC date string, YYYY-MM-DD.
 func GetUtcDate() string {
-	now := time.Now().UTC()
-	return now.Format("2006-01-02")
+	return time.Now().UTC().Format("2006-01-02")
 }
 
 // GetUtcTime - Get UTC time string in the format of hh:mm:ss.ddd.
 func GetUtcTime() string {
-	now := time.Now().UTC()
-	return now.Format("15:04:05.000")
+	return time.Now().UTC().Format("15:04:05.000")
 }
 
 // WriteOutputText - Write a text line to the given output file handle.
 func WriteOutputText(outHandle *os.File, textLine string) {
-
-	_, err := fmt.Fprintln(outHandle, textLine)
-	if err != nil {
+	if _, err := fmt.Fprintln(outHandle, textLine); err != nil {
 		outPath, _ := filepath.Abs(filepath.Dir(outHandle.Name()))
 		FatalErr(fmt.Sprintf("fmt.Fprintln(%s) failed", outPath), err)
 	}
-
 }
 
 // MakeDir - If the specified directory does not yet exist, create it.
 func MakeDir(pathDir string) {
 	info, err := os.Stat(pathDir)
-	if err == nil { // found it
-		if !info.IsDir() { // expected a directory, not a simple file !!
+	if err == nil {
+		if !info.IsDir() {
 			FatalText(fmt.Sprintf("MakeDir: Observed a simple file: %s (expected a directory)", pathDir))
 		}
-	} else { // not found or an error occurred
-		if os.IsNotExist(err) {
-			// Create directory
-			err = os.Mkdir(pathDir, 0755)
-			if err != nil {
-				FatalErr(fmt.Sprintf("MakeDir: os.MkDir(%s) failed", pathDir), err)
-			}
-		} else { // some type of error
-			FatalErr(fmt.Sprintf("MakeDir: os.Stat(%s) failed", pathDir), err)
+	} else if os.IsNotExist(err) {
+		if err := os.Mkdir(pathDir, DirPermissions); err != nil {
+			FatalErr(fmt.Sprintf("MakeDir: os.Mkdir(%s) failed", pathDir), err)
 		}
+	} else {
+		FatalErr(fmt.Sprintf("MakeDir: os.Stat(%s) failed", pathDir), err)
 	}
 }
 
 // StoreText - Store a text file in the specified directory.
-func StoreText(targetDir string, argFile string, text string) {
-	// Create the log file
+func StoreText(targetDir, argFile, text string) {
 	fullPath := filepath.Join(targetDir, argFile)
 	outHandle, err := os.Create(fullPath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("StoreText: os.Create(%s) failed, err=%s", fullPath), err)
+		FatalErr(fmt.Sprintf("StoreText: os.Create(%s) failed", fullPath), err)
 	}
 	defer outHandle.Close()
 
-	// Store the given text
-	_, err = fmt.Fprintln(outHandle, text)
-	if err != nil {
+	if _, err := fmt.Fprintln(outHandle, text); err != nil {
 		FatalErr(fmt.Sprintf("StoreText: fmt.Fprintln(%s) failed", fullPath), err)
 	}
 }
 
-// CleanerText
-// If newlines
-//
-//	Replace all non-printable characters in a string with a space.
-//	Preserve \r and \n.
-//
-// else
-//
-//	Strip out all nonprintable characters.
+// CleanerText - Replace or remove non-printable characters in a string.
 func CleanerText(inString string, newlines bool) string {
 	inRunes := []rune(inString)
 	var outRunes []rune
@@ -142,25 +119,21 @@ func CleanerText(inString string, newlines bool) string {
 			} else {
 				outRunes = append(outRunes, rr)
 			}
-		} else {
-			if unicode.IsPrint(rr) {
-				outRunes = append(outRunes, rr)
-			}
+		} else if unicode.IsPrint(rr) {
+			outRunes = append(outRunes, rr)
 		}
 	}
 	return string(outRunes)
 }
 
+// isDirectory - Check if the given path is a directory.
 func isDirectory(path string) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			//fmt.Printf("DEBUG path %s does not exist\n", path)
 			return false, nil // Path does not exist
 		}
-		//fmt.Printf("DEBUG path %s has other O/S error %v\n", path, err)
 		return false, err // Other errors (e.g., permission issues)
 	}
-	//fmt.Printf("DEBUG isDirectory? %s ... %v\n", path, info.IsDir())
 	return info.IsDir(), nil
 }
