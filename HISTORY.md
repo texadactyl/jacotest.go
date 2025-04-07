@@ -8,6 +8,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | Passes on local Ubuntu, GA MacOS, and GA Windows. Failing on GA Ubuntu. |
 | | | Updated enigma-machine to moved it along to avoid a bug that is reported elsewhere. |
 | | | Updated test case JACOBIN-0281-get-property to work-around null property values. |
+| | | Updated test case JACOBIN-0319-println-object to check for null and empty boundary cases in Object & String. |
 | 2025-04-06 | 4.1.11 | Updated test case two-pass. New test case list-linked-list-hybrid. |
 | 2025-04-05 | 4.1.10 | Updated test case linked-list. |
 | 2025-04-04 | 4.1.9 | Make the changed results console output easier to read. |
