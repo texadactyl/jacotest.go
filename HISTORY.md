@@ -7,6 +7,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2025-04-06 | 4.1.12 | Updated test case JACOBIN-0281-get-property to get properties in a different order. |
 | | | Passes on local Ubuntu, GA MacOS, and GA Windows. Failing on GA Ubuntu. |
 | | | Updated enigma-machine to moved it along to avoid a bug that is reported elsewhere. |
+| | | Updated test case JACOBIN-0281-get-property to work-around null property values. |
 | 2025-04-06 | 4.1.11 | Updated test case two-pass. New test case list-linked-list-hybrid. |
 | 2025-04-05 | 4.1.10 | Updated test case linked-list. |
 | 2025-04-04 | 4.1.9 | Make the changed results console output easier to read. |
