@@ -18,22 +18,35 @@ public class BigramFitness extends FitnessFunction {
     }
 
     public BigramFitness() {
-        // Bigrams
         this.bigrams = new float[826];
-        //Arrays.fill(this.bigrams, (float)Math.log10(epsilon));
         floatArrayFill(this.bigrams, (float)Math.log10(epsilon));
-        try (final InputStream is = BigramFitness.class.getResourceAsStream("/data/bigrams");
-             final Reader r = new InputStreamReader(is, StandardCharsets.UTF_8);
-             final BufferedReader br = new BufferedReader(r);
-             final Stream<String> lines = br.lines()) {
-            lines.map(line -> line.split(","))
-                    .forEach(s -> {
-                        String key = s[0];
-                        int i = biIndex(key.charAt(0) - 65, key.charAt(1) - 65);
-                        this.bigrams[i] = Float.parseFloat(s[1]);
-                    });
+        try {
+            FileInputStream fis = new FileInputStream("./data/bigrams");
+            InputStreamReader rdr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(rdr);
+            String strLine;
+            String strArray[];
+            String key;
+            int index;
+            for(int ix = 0; ix < this.bigrams.length; ix++) {
+                strLine = br.readLine();
+                if (strLine == null) break;
+                strArray = strLine.split(",");
+                key = strArray[0];
+                index = biIndex(key.charAt(0) - 65, key.charAt(1) - 65);
+                //System.out.printf("DEBUG [%d] code=%s, index=%d, value=%f\n", ix, strArray[0], index, Float.parseFloat(strArray[1]));
+                this.bigrams[index] = Float.parseFloat(strArray[1]);
+            }
         } catch (IOException e) {
-            this.bigrams = null;
+            String errMsg = e.getMessage();
+            System.out.printf("IOException, %s\n", errMsg);
+            e.printStackTrace();
+            System.exit(1);
+        } catch (Exception e) {
+            String errMsg = e.getMessage();
+            System.out.printf("Some other Exception, %s\n", errMsg);
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 

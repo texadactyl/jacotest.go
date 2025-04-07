@@ -18,6 +18,9 @@ public class main {
 
 	System.out.println("Exercise System.getProperty()");
 		int errorCount = 0;
+        errorCount += reporter("user.name");
+        errorCount += reporter("user.home");
+        errorCount += reporter("user.dir");
         errorCount += reporter("file.separator");
         errorCount += reporter("java.class.path");
         errorCount += reporter("java.home");
@@ -29,11 +32,9 @@ public class main {
         errorCount += reporter("os.name");
         errorCount += reporter("os.version");
         errorCount += reporter("path.separator");
-        errorCount += reporter("user.dir");
-        errorCount += reporter("user.home");
-        errorCount += reporter("user.name");
 
         assert (errorCount == 0);
+        System.out.println("Success!");
     }
 
 }
