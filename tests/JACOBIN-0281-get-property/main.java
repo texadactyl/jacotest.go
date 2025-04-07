@@ -2,15 +2,12 @@ public class main {
 
 	public static int reporter(String property) {
         String pv = System.getProperty(property);
-        if (pv.equals("null")) {
-        	System.out.print("*** ERROR, ");
-		    System.out.print(property);
-		    System.out.println(": null");
-		    return 1;
-        }
+        if (pv == null || pv.equals(""))
+        	pv = "null";
+        if (pv.equals("\n"))
+            pv = "\\n";
         System.out.print(property);
-        System.out.print(": ");
-        System.out.println(pv);
+        System.out.printf(": \"%s\"\n", pv);
         return 0;
 	}
 
