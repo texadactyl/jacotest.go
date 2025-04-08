@@ -20,6 +20,7 @@ public class main {
 
     public static void main(String[] args) {
     
+        String str;
         BigInteger BI = new BigInteger("42");
         System.out.println(BI);
 
@@ -27,6 +28,7 @@ public class main {
         byte[] ba2 = { (byte)0xa4, (byte)0xa5, (byte)0xa6};
         System.out.println(ba1);
         System.out.println(ba2);
+        
         
 		LinkedList<byte[]> baLL = new LinkedList<>();
 		baLL.add(ba1);
@@ -99,16 +101,16 @@ public class main {
 		
 		System.out.println(FF);
 
-		String str = "gamma";
+		str = "gamma";
 		System.out.println(str);
 		
-		System.out.println("I survived!");
-		System.out.println("Console output should be eyeballed.");
-
 		baLL.add(ba1);
 		baLL.add(ba2);
 		str = baLL.toString();
 		System.out.println(str);
 		
+		System.out.println("I survived!");
+		System.out.println("Console output needs some annotations.");
+
     }
 }
