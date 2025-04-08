@@ -20,13 +20,14 @@ public class main {
 
     public static void main(String[] args) {
     
-       // LinkedList objects
-
         BigInteger BI = new BigInteger("42");
         System.out.println(BI);
 
-		byte ba1[] = {1, 2, 3};
-		byte ba2[] = {4, 5, 6};
+        byte[] ba1 = { (byte)0xa1, (byte)0xa2, (byte)0xa3};
+        byte[] ba2 = { (byte)0xa4, (byte)0xa5, (byte)0xa6};
+        System.out.println(ba1);
+        System.out.println(ba2);
+        
 		LinkedList<byte[]> baLL = new LinkedList<>();
 		baLL.add(ba1);
 		baLL.add(ba2);
@@ -80,8 +81,6 @@ public class main {
         customLL.add(new CustomObject(3, "Charlie"));
         System.out.println(customLL);
         
-        // Non-LinkedList objects
-
 	    CustomObject custom = new CustomObject(42, "Turtle");
         System.out.println(custom);
         
@@ -105,6 +104,11 @@ public class main {
 		
 		System.out.println("I survived!");
 		System.out.println("Console output should be eyeballed.");
+
+		baLL.add(ba1);
+		baLL.add(ba2);
+		str = baLL.toString();
+		System.out.println(str);
 		
     }
 }
