@@ -75,7 +75,7 @@ class main {
 	// Entry point
 	public static void main (String[] args) {
 		long nth = 13l;
-		long arg = 12345671234l;
+		long arg = 1234567l;
 		reporter("Original argument", arg);
 		reporter("Nth", nth);
 	
