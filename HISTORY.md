@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-09 | 4.1.14 | Updated test case print-objects-linked-lists. |
 | 2025-04-08 | 4.1.13 | New test case: print-objects-linked-lists. |
 | 2025-04-06 | 4.1.12 | Updated test case JACOBIN-0281-get-property to get properties in a different order. |
 | | | Passes on local Ubuntu, GA MacOS, and GA Windows. Failing on GA Ubuntu. |
