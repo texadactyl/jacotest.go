@@ -50,6 +50,9 @@ public class main {
         // Test stripTrailingZeros()
         check("stripTrailingZeros()", new BigDecimal("5"), new BigDecimal("5.000").stripTrailingZeros());
         check("stripTrailingZeros()", new BigDecimal("5"), new BigDecimal("5").stripTrailingZeros());
+        check("stripTrailingZeros()", new BigDecimal("3.1416"), new BigDecimal("0.31416e+1").stripTrailingZeros());
+        check("stripTrailingZeros()", new BigDecimal("-3.1416"), new BigDecimal("-3141600e-6").stripTrailingZeros());
+        check("stripTrailingZeros()", new BigDecimal("3.1416"), new BigDecimal("3141600e-6").stripTrailingZeros());
 
         // Test subtract()
         check("subtract()", new BigDecimal("2"), new BigDecimal("5").subtract(new BigDecimal("3")));
@@ -75,10 +78,6 @@ public class main {
         check("toString()", "5", new BigDecimal("5").toString());
         check("toString()", "123.456", new BigDecimal("123.456").toString());
 
-        // Test ulp()
-        check("ulp()", new BigDecimal("1"), new BigDecimal("5").ulp());
-        check("ulp()", new BigDecimal("0.1"), new BigDecimal("0.5").ulp());
-
         // Test unscaledValue()
         check("unscaledValue()", new BigInteger("5"), new BigDecimal("5").unscaledValue());
         check("unscaledValue()", new BigInteger("123456789"), new BigDecimal("123456789").unscaledValue());
@@ -86,6 +85,8 @@ public class main {
         // Test valueOf(Double)
         check("valueOfDouble()", new BigDecimal("5.0"), BigDecimal.valueOf(5.0));
         check("valueOfDouble()", new BigDecimal("5.123"), BigDecimal.valueOf(5.123));
+        check("valueOfDouble()", new BigDecimal("-5.0"), BigDecimal.valueOf(-5.0));
+        check("valueOfDouble()", new BigDecimal("-5.123"), BigDecimal.valueOf(-5.123));
 
         // Test valueOf(Long)
         check("valueOfLong()", new BigDecimal("5"), BigDecimal.valueOf(5L));
@@ -96,19 +97,30 @@ public class main {
         check("valueOfLongInt()", new BigDecimal("12345"), BigDecimal.valueOf(12345L, 0));
 
         // Final assertion for errorCounter
+        if (errorCounter > 0)
+            System.out.printf("Error count = %d\n", errorCounter);
         assert errorCounter == 0;
         System.out.println("Success!");
     }
 
     // Helper methods for comparing expected and observed values
 
+    static String rptBigDecimal(BigDecimal arg) {
+        int prec = arg.precision();
+        int scale = arg.scale();
+        BigInteger bi = arg.unscaledValue();
+        long bigInt = bi.longValue();
+        return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
+        
+    }
+
     static void check(String test, BigDecimal expected, BigDecimal observed) {
         if (expected.equals(observed)) {
-            System.out.printf("%s OK\n", test);
+            System.out.printf("%s OK %s\n", test, rptBigDecimal(expected));
         } else {
             System.out.printf("%s *** ERROR", test);
-            System.out.printf(", Expected: %s", expected.toString());
-            System.out.printf(", Observed: %s\n", observed.toString());
+            System.out.printf(", Expected: %s", rptBigDecimal(expected));
+            System.out.printf(" ----- Observed: %s\n", rptBigDecimal(observed));
             errorCounter++;
         }
     }

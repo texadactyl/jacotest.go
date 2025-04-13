@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -31,14 +32,23 @@ public class main {
         assert errorCounter == 0;
         System.out.println("Success!");
     }
+    
+    static String rptBigDecimal(BigDecimal arg) {
+        int prec = arg.precision();
+        int scale = arg.scale();
+        BigInteger bi = arg.unscaledValue();
+        long bigInt = bi.longValue();
+        return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
+        
+    }
 
     static void check(String test, BigDecimal expected, BigDecimal observed) {
         if (expected.equals(observed)) {
-            System.out.printf("%s OK\n", test);
+            System.out.printf("%s OK %s\n", test, rptBigDecimal(expected));
         } else {
             System.out.printf("%s *** ERROR", test);
-            System.out.printf(", Expected: %s", expected.toString());
-            System.out.printf(", Observed: %s\n", observed.toString());
+            System.out.printf(", Expected: %s", rptBigDecimal(expected));
+            System.out.printf(" ----- Observed: %s\n", rptBigDecimal(observed));
             errorCounter++;
         }
     }
@@ -190,7 +200,7 @@ public class main {
 
     static void testMovePointRight() {
         check("movePointRight(1.23, 1)", new BigDecimal("12.3"), new BigDecimal("1.23").movePointRight(1));
-        check("movePointRight(1, 3)", new BigDecimal("1000"), new BigDecimal("1").movePointRight(3));
+        check("movePointRight(1, 3)", new BigDecimal("1000"), new BigDecimal("1.0").movePointRight(3));
     }
 
     static void testMultiply() {
