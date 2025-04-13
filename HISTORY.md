@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-13 | 4.1.16 | Still amending test cases big-decimal-1, big-decimal-2. |
 | 2025-04-12 | 4.1.15 | New test cases: big-decimal-1, big-decimal-2. |
 | 2025-04-09 | 4.1.14 | Updated test case print-objects-linked-lists. |
 | 2025-04-08 | 4.1.13 | New test case: print-objects-linked-lists. |
