@@ -112,8 +112,9 @@ public class main {
     }
 
     static void testCompareTo() {
-        check("compareTo(3, 4)", -1, new BigDecimal("3").compareTo(new BigDecimal("4")));
-        check("compareTo(4, 4)", 0, new BigDecimal("4").compareTo(new BigDecimal("4")));
+        check("compareTo(3, 4)=-1", -1, new BigDecimal("3").compareTo(new BigDecimal("4")));
+        check("compareTo(4, 4)=0", 0, new BigDecimal("4").compareTo(new BigDecimal("4")));
+        check("compareTo(4, 3)=+1", 1, new BigDecimal("4").compareTo(new BigDecimal("3")));
     }
 
     static void testDivide() {
