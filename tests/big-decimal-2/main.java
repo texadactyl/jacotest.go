@@ -12,8 +12,8 @@ public class main {
         check("negate()", new BigDecimal("-10"), new BigDecimal("10").negate());
 
         // Test plus()
-        check("plus()", new BigDecimal("5"), new BigDecimal("-5").plus());
-        check("plus()", new BigDecimal("15"), new BigDecimal("10").plus());
+        check("plus()", new BigDecimal("-5"), new BigDecimal("-5").plus());
+        check("plus()", new BigDecimal("10"), new BigDecimal("10").plus());
 
         // Test pow()
         check("pow(3)", new BigDecimal("125"), new BigDecimal("5").pow(3));
@@ -21,7 +21,7 @@ public class main {
 
         // Test precision()
         check("precision()", 1, new BigDecimal("5").precision());
-        check("precision()", 2, new BigDecimal("123").precision());
+        check("precision()", 3, new BigDecimal("123").precision());
 
         // Test remainder()
         check("remainder()", new BigDecimal("1"), new BigDecimal("10").remainder(new BigDecimal("3")));
@@ -32,7 +32,7 @@ public class main {
         check("scale()", 2, new BigDecimal("5.00").scale());
 
         // Test scaleByPowerOfTen()
-        check("scaleByPowerOfTen(3)", new BigDecimal("5000"), new BigDecimal("5").scaleByPowerOfTen(3));
+        check("scaleByPowerOfTen(3)", new BigDecimal("5E+3"), new BigDecimal("5").scaleByPowerOfTen(3));
         check("scaleByPowerOfTen(-3)", new BigDecimal("0.005"), new BigDecimal("5").scaleByPowerOfTen(-3));
 
         // Test setScale()
@@ -49,7 +49,7 @@ public class main {
 
         // Test stripTrailingZeros()
         check("stripTrailingZeros()", new BigDecimal("5"), new BigDecimal("5.000").stripTrailingZeros());
-        check("stripTrailingZeros()", new BigDecimal("5.00"), new BigDecimal("5.000").stripTrailingZeros());
+        check("stripTrailingZeros()", new BigDecimal("5"), new BigDecimal("5").stripTrailingZeros());
 
         // Test subtract()
         check("subtract()", new BigDecimal("2"), new BigDecimal("5").subtract(new BigDecimal("3")));
@@ -64,8 +64,8 @@ public class main {
         check("toBigIntegerExact()", new BigInteger("1000"), new BigDecimal("1000").toBigIntegerExact());
 
         // Test toEngineeringString()
-        check("toEngineeringString()", "5", new BigDecimal("5000").toEngineeringString());
-        check("toEngineeringString()", "5.0E2", new BigDecimal("500").toEngineeringString());
+        check("toEngineeringString()", "5000", new BigDecimal("5000").toEngineeringString());
+        check("toEngineeringString()", "0.0005", new BigDecimal("0.0005").toEngineeringString());
 
         // Test toPlainString()
         check("toPlainString()", "5", new BigDecimal("5").toPlainString());
@@ -100,16 +100,86 @@ public class main {
         System.out.println("Success!");
     }
 
-    // Helper method for comparing expected and observed values
-    private static void check(String test, Object expected, Object observed) {
+    // Helper methods for comparing expected and observed values
+
+    static void check(String test, BigDecimal expected, BigDecimal observed) {
         if (expected.equals(observed)) {
-            System.out.println(test + " OK");
+            System.out.printf("%s OK\n", test);
         } else {
-            System.out.print(test + " *** ERROR");
-            System.out.print(", Expected: " + expected);
-            System.out.println(", Observed: " + observed);
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %s", expected.toString());
+            System.out.printf(", Observed: %s\n", observed.toString());
             errorCounter++;
         }
     }
+
+    static void check(String test, BigInteger expected, BigInteger observed) {
+        if (expected.equals(observed)) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %s", expected.toString());
+            System.out.printf(", Observed: %s\n", observed.toString());
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, String expected, String observed) {
+        if (expected.equals(observed)) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %s", expected);
+            System.out.printf(", Observed: %s\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, byte expected, byte observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: 0x%02x", expected);
+            System.out.printf(", Observed: 0x%02x\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, int expected, int observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %d", expected);
+            System.out.printf(", Observed: %d\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, double expected, double observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %g", expected);
+            System.out.printf(", Observed: %g\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, boolean expected, boolean observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.print(", Expected: ");
+            System.out.print(expected);
+            System.out.print(", Observed: ");
+            System.out.println(observed);
+            errorCounter++;
+        }
+    }
+
 }
 

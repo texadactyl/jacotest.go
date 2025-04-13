@@ -26,17 +26,65 @@ public class main {
         testMovePointRight();
         testMultiply();
 
+        if (errorCounter > 0)
+            System.out.printf("Error count = %d\n", errorCounter);
         assert errorCounter == 0;
         System.out.println("Success!");
     }
 
-    static void check(String test, Object expected, Object observed) {
-        if (Objects.equals(expected, observed)) {
-            System.out.println(test + " OK");
+    static void check(String test, BigDecimal expected, BigDecimal observed) {
+        if (expected.equals(observed)) {
+            System.out.printf("%s OK\n", test);
         } else {
-            System.out.print(test + " *** ERROR");
-            System.out.print(", Expected: " + expected);
-            System.out.println(", Observed: " + observed);
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %s", expected.toString());
+            System.out.printf(", Observed: %s\n", observed.toString());
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, byte expected, byte observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: 0x%02x", expected);
+            System.out.printf(", Observed: 0x%02x\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, int expected, int observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %d", expected);
+            System.out.printf(", Observed: %d\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, double expected, double observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.printf(", Expected: %g", expected);
+            System.out.printf(", Observed: %g\n", observed);
+            errorCounter++;
+        }
+    }
+
+    static void check(String test, boolean expected, boolean observed) {
+        if (expected == observed) {
+            System.out.printf("%s OK\n", test);
+        } else {
+            System.out.printf("%s *** ERROR", test);
+            System.out.print(", Expected: ");
+            System.out.print(expected);
+            System.out.print(", Observed: ");
+            System.out.println(observed);
             errorCounter++;
         }
     }
@@ -54,6 +102,13 @@ public class main {
     static void testByteValueExact() {
         check("byteValueExact(127)", (byte)127, new BigDecimal("127").byteValueExact());
         check("byteValueExact(-128)", (byte)-128, new BigDecimal("-128").byteValueExact());
+        try {
+            check("byteValueExact(-129)", (byte)-129, new BigDecimal("-129").byteValueExact());
+            errorCounter++;
+            System.out.println("byteValueExact(-129): Failed to catch expected arithmetic exception  *** ERROR");
+        } catch(ArithmeticException ex) {
+            System.out.println("byteValueExact(-129): Caught expected arithmetic exception  OK");
+        }
     }
 
     static void testCompareTo() {
@@ -88,6 +143,7 @@ public class main {
     static void testEquals() {
         check("equals(3.0 == 3.00)", false, new BigDecimal("3.0").equals(new BigDecimal("3.00")));
         check("equals(3.0 == 3.0)", true, new BigDecimal("3.0").equals(new BigDecimal("3.0")));
+        check("equals(3.0 == 4.0)", false, new BigDecimal("3.0").equals(new BigDecimal("4.0")));
     }
 
     static void testFloatValue() {
@@ -126,6 +182,7 @@ public class main {
     }
 
     static void testMovePointLeft() {
+        check("movePointLeft(5, 3)", new BigDecimal("0.005"), new BigDecimal("5").movePointLeft(3));
         check("movePointLeft(123, 1)", new BigDecimal("12.3"), new BigDecimal("123").movePointLeft(1));
         check("movePointLeft(5, 3)", new BigDecimal("0.005"), new BigDecimal("5").movePointLeft(3));
     }
