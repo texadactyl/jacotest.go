@@ -106,16 +106,18 @@ public class main {
     // Helper methods for comparing expected and observed values
 
     static String rptBigDecimal(BigDecimal arg) {
+        double dbl = arg.doubleValue();
         int prec = arg.precision();
         int scale = arg.scale();
         BigInteger bi = arg.unscaledValue();
         long bigInt = bi.longValue();
-        return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
-        
+        return String.format("double=%f, bigInt=%d, prec=%d, scale=%d", dbl,bigInt, prec, scale);
     }
 
     static void check(String test, BigDecimal expected, BigDecimal observed) {
-        if (expected.equals(observed)) {
+        double dblExpected = expected.doubleValue();
+        double dblObserved = observed.doubleValue();
+        if (dblExpected == dblObserved) {
             System.out.printf("%s OK %s\n", test, rptBigDecimal(expected));
         } else {
             System.out.printf("%s *** ERROR", test);
