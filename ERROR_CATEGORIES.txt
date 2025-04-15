@@ -4,6 +4,8 @@
 # Highest priority for fragment searching
 # ---------------------------------------
 Ljava/lang/Class;
+deprecated
+not yet supported
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE

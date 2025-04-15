@@ -43,16 +43,16 @@ public class main {
             return;
         }
 
-        LinkedList<String> dirs = new LinkedList<>();
+        String dirs[] = {};
         
         if (args.length == 0) {
-            dirs.add(System.getenv("JAVA_HOME"));
+            dirs = append(dirs, System.getenv("JAVA_HOME"));
             quiet = true;
         }
         else {
 		    for( String arg : args ) {
 		        if( !arg.startsWith("-") ) {
-		            dirs.add( arg );
+		            dirs = append(dirs, arg);
 		        }
 		        else {
 		            if( arg.equalsIgnoreCase( "-nosubdirs" ) ||
@@ -77,7 +77,7 @@ public class main {
         FileSizer fileSizer = new FileSizer();
 
         // Get the file sizes for all files in each specified directory
-        if( dirs.size() > 0 ) {
+        if( dirs.length > 0 ) {
             for( String dir : dirs )
                 fileSizer.loadFileSizes( dir, nosubdirs, quiet, sizesTable );
         }
@@ -101,6 +101,14 @@ public class main {
     }
 
 
+    // Append one string to an existing String array.
+    private static String[] append(String[] oldArray, String newString) {
+        String[] newArray = new String[oldArray.length + 1];
+        System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
+        newArray[oldArray.length] = newString;
+        return newArray;
+    }
+    
     /**
      * Simply prints the copyright
      */
