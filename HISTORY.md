@@ -4,6 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-17 | 4.1.18 | Updated test case vectors. |
+| | | Correct spelling error in src/phases2and3.go. |
 | 2025-04-14 | 4.1.17 | In big-decimal-2, make the BigDecimal comparison realistic. |
 | 2025-04-13 | 4.1.16 | Still amending test cases big-decimal-1, big-decimal-2. |
 | 2025-04-12 | 4.1.15 | New test cases: big-decimal-1, big-decimal-2. |

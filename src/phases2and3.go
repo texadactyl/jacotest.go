@@ -157,7 +157,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 			// Write heading for new error category.
 			WriteOutputText(outHandle, "")
 			if tblEntry.fragment == "AssertionError" {
-				wstr = fmt.Sprintf("===== %s (Java application-detected failuer) =====", tblEntry.fragment)
+				wstr = fmt.Sprintf("===== %s (Java application-detected failure) =====", tblEntry.fragment)
 			} else {
 				wstr = fmt.Sprintf("===== %s =====", tblEntry.fragment)
 			}

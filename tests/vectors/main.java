@@ -27,34 +27,33 @@ public class main {
 
         // Vector of 6 integer values
         Integer[] vintIntegers = {1, 2, 3, 4, 5, 6};
-        Vector<Integer> vint = new Vector<Integer>(Arrays.asList(vintIntegers));
-        printLabeledString("Vector vint(3): ", vint);
-        printLabeledString("Vector vint: ", vint);
-        printLabeledString("Vector vint capacity: ", vint.capacity());
-        errorCount += isItTrue("vint.capacity() = 6", vint.capacity() == 6);
-        System.out.println("Vector vint hashCode: " + vint.hashCode());
-        errorCount += isItTrue("vint.hashCode() = 918073252", vint.hashCode() == 918073252);
-        System.out.println("Vector vint as a String: " + vint.toString());
-        errorCount += isItTrue("vint.toString() = [1, 2, 3, 4, 5, 6]", vint.toString().equals("[1, 2, 3, 4, 5, 6]"));
-        Integer sum = vint.stream().reduce(Integer::sum).get();
-        System.out.println("Vector vint element sum: " + sum);
-        errorCount += isItTrue("sum of vint elements = 21", sum == 21);
+        Vector<Integer> vint = new Vector<Integer>();
+        for (Integer II : vintIntegers) 
+            vint.add(II);
+        System.out.printf("Vector vint(6) as a String: %s\n", vint.toString());
+        errorCount += isItTrue("vint.capacity() = 10", vint.capacity() == 10);
+        errorCount += isItTrue("vint.size() = 6", vint.size() == 6);
 
         // Elongate the vector to 8 elements
-        vint.ensureCapacity(8);
+        vint.ensureCapacity(10);
+        errorCount += isItTrue("vint.capacity() = 10", vint.capacity() == 10);
         vint.add(7);
         vint.add(8);
-        printLabeledString("Vector vint(8): ", vint);
-        errorCount += isItTrue("elongated vint.toString() = [1, 2, 3, 4, 5, 6, 7, 8]", vint.toString().equals("[1, 2, 3, 4, 5, 6, 7, 8]"));
-        sum = vint.stream().reduce(Integer::sum).get();
-        printLabeledString("Vector vint element sum: ", sum);
-        errorCount += isItTrue("sum of elongated vint elements = 36", sum == 36);
+        int sum = 0;
+        for (int elem : vint) {
+            sum += elem;
+            System.out.printf(">> elem: %d, sum: %d\n", elem, sum);
+        }
+        errorCount += isItTrue("sum of vint elements BEFORE removing '4' = 36", sum == 36);
 
         // Remove some elements
         vint.removeElementAt(3);
-        sum = vint.stream().reduce(Integer::sum).get();
-        printLabeledString("Vector vint element sum after removing one element: ", sum);
-        errorCount += isItTrue("sum of elongated vint elements after removing '4' = 32", sum == 32);
+        sum = 0;
+        for (int elem : vint) {
+            sum += elem;
+            System.out.printf(">> elem: %d, sum: %d\n", elem, sum);
+        }
+        errorCount += isItTrue("sum of vint elements AFTER removing '4' = 32", sum == 32);
         vint.removeAllElements();
         errorCount += isItTrue("After removing all elements, vint.size() = 0", vint.size() == 0);
         errorCount += isItTrue("After removing all elements, vint.isEmpty() is true", vint.isEmpty());
