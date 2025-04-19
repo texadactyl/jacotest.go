@@ -79,7 +79,7 @@ func compileOneTree(pathTreeTop string) int {
 	// Get all of the directory entries from fullPathDir
 	entries, err := os.ReadDir(pathTreeTop)
 	if err != nil {
-		FatalErr(fmt.Sprintf("compileOneTree: os.ReadDir failed", pathTreeTop), err)
+		FatalErr(fmt.Sprintf("compileOneTree: os.ReadDir(%s) failed", pathTreeTop), err)
 	}
 
 	// Compile every .java file at the top level.
@@ -94,7 +94,7 @@ func compileOneTree(pathTreeTop string) int {
 		// If a directory, we will skip it
 		fileInfo, err := os.Stat(fullPathFile)
 		if err != nil {
-			FatalErr(fmt.Sprintf("compileOneTree: os.Stat failed", fullPathFile), err)
+			FatalErr(fmt.Sprintf("compileOneTree: os.Stat(%s) failed", fullPathFile), err)
 		}
 		if fileInfo.IsDir() {
 			continue
@@ -203,7 +203,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
 	err2 := os.Chdir(here)
 	if err2 != nil {
-		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir failed.  Was trying to return here:", here), err2)
+		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here), err2)
 	}
 
 	// Return runner execution result

@@ -67,7 +67,7 @@ func sqlFunc(text string, commit bool) error {
 
 		_, err = statement.Exec()
 		if err != nil {
-			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n%s", text, textBegin, err.Error())
+			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n", text, textBegin, err.Error())
 			LogError(msg)
 			return err
 		}
@@ -84,7 +84,7 @@ func sqlFunc(text string, commit bool) error {
 	// Execute SQL statement.
 	_, err = statement.Exec()
 	if err != nil {
-		msg := fmt.Sprintf("sqlFunc: Exec (%s) failed, err: %s\n%s", text, err.Error())
+		msg := fmt.Sprintf("sqlFunc: Exec (%s) failed, err: %s\n", text, err.Error())
 		LogError(msg)
 		return err
 	}
@@ -101,7 +101,7 @@ func sqlFunc(text string, commit bool) error {
 
 		_, err = statement.Exec() // Execute SQL Statements
 		if err != nil {
-			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n%s", text, textCommit, err.Error())
+			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n", text, textCommit, err.Error())
 			LogError(msg)
 			return err
 		}
@@ -156,13 +156,13 @@ func initDB() {
 	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
 	err := sqlFunc(sqlText, true)
 	if err != nil {
-		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL create-table error", sqlText), err)
+		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL error: %s", sqlText), err)
 	}
 
 	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
 	err = sqlFunc(sqlText, true)
 	if err != nil {
-		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL create-index error", sqlText), err)
+		FatalErr(fmt.Sprintf("initDB: unrecoverable SQL error: %s", sqlText), err)
 	}
 
 	if sqlTracing {
