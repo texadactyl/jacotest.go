@@ -36,6 +36,7 @@ type GlobalsStruct struct {
 	SumFilePath    string        // Full path of the Summary file
 	ErrCatFilePath string        // Full path of the error categories file
 	FlagVerbose    bool          // Verbose logging? true/false
+	FlagGalt       bool          // JVM Jacobin -JJ=galt
 	JvmName        string        // JVM name: "openjdk" or "jacobin"
 	JvmExe         string        // JVM executable file: "java" or "jacobin"
 	Deadline       time.Duration // Run deadline in seconds (type time.Duration)
@@ -73,7 +74,7 @@ func ShowExecInfo() {
 }
 
 // Initialise the singleton global
-func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) GlobalsStruct {
+func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose, flagGalt bool) GlobalsStruct {
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
 	if err != nil {
@@ -130,6 +131,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose bool) Gl
 		SumFilePath:    absSummaryFile,
 		ErrCatFilePath: absErrCatFile,
 		FlagVerbose:    flagVerbose,
+		FlagGalt:       flagGalt,
 		JvmExe:         jvmExe,
 		JvmName:        jvmName,
 		Deadline:       duration,

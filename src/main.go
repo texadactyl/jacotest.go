@@ -18,22 +18,25 @@ const MyName = "Jacotest"
 
 // Show help and then exit to the O/S
 func showHelp() {
-	_ = InitGlobals("dummy", "dummy", 0, false)
+	_ = InitGlobals("dummy", "dummy", 0, false, false)
 	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [-h]  [-c]  [-x]  [-r {1,2}]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]\n\nwhere\n", suffix)
+	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", suffix)
 	fmt.Printf("\t-h : This display.\n")
-	fmt.Printf("\t-c : Compile the test cases.\n")
-	fmt.Printf("\t-r 1 : Print the last two test case results if there was a change (pass/fail).\n")
-	fmt.Printf("\t-r 2 : Print the test case results where current failures passed sometime previously.\n")
-	fmt.Printf("\t-r 3 : Print the last result for all test cases.\n")
-	fmt.Printf("\t-s : Delete database records of obsolete test cases.\n")
-	fmt.Printf("\t-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 60.\n")
-	fmt.Printf("\t-j : This is the JVM to use in executing all test cases. Default: jacobin.\n")
-	fmt.Printf("\t     Specifying -j implies parameters -x and -r 1.\n")
+	fmt.Printf("\t-c : Compile all the test cases.\n")
+	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
+	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
+	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
+	fmt.Printf("\t-s : Delete database records of non-existing test cases (they were deleted).\n")
+	fmt.Printf("\t-t N : This is the timeout value of N seconds in executing each test case.  Default: 60.\n")
+	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
+	fmt.Printf("\t     Other JVM names recognized:\n")
+	fmt.Printf("\t     * openjdk : OpenJDK (aka Hotspot) JVM\n")
+	fmt.Printf("\t     * galt : jacobin in a -JJ=galt mode\n")
+	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
-	fmt.Printf("\t-z : Remove the most recent test case result.\n")
+	fmt.Printf("\t-z : Remove the most recent result for all test cases.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n\n")
 	ShowExecInfo()
 	os.Exit(0)
@@ -82,8 +85,9 @@ func main() {
 	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	deadlineSecs := 60   // default deadline in seconds
-	now := time.Now()    // Get the current time.
+	flagGalt := false
+	deadlineSecs := 60 // default deadline in seconds
+	now := time.Now()  // Get the current time.
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
 	exitStatus := 0 // optimistic
@@ -127,6 +131,9 @@ func main() {
 				jvmExe = "java" // openjdk JVM executable name
 			case "jacobin":
 				jvmExe = "jacobin" // jacobin JVM executable name
+			case "galt":
+				jvmExe = "jacobin" // jacobin JVM executable name
+				flagGalt = true
 			default:
 				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
 				showHelp()
@@ -206,7 +213,7 @@ func main() {
 	}
 
 	// Initialise globals and get a handle to it
-	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose)
+	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose, flagGalt)
 	if flagPrintMostRecent {
 		fmt.Printf("%s version %s", MyName, global.Version)
 	} else {

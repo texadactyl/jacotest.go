@@ -16,14 +16,14 @@ import (
 // 1 : failure
 // 2 : timeout
 func runner(cmdName string, cmdExec string, dirName string, argOpts string, argFile string) (int, string) {
-	global := GetGlobalRef()
-	if global.FlagVerbose {
+	globals := GetGlobalRef()
+	if globals.FlagVerbose {
 		here, _ := os.Getwd()
 		Logger(fmt.Sprintf("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, here=%s, argFile=%s", cmdName, cmdExec, dirName, here, argFile))
 	}
 
 	// Set up a command context with a timeout
-	ctx, cancel := context.WithTimeout(context.Background(), global.Deadline)
+	ctx, cancel := context.WithTimeout(context.Background(), globals.Deadline)
 	defer cancel()
 
 	// Construct a command with the given parameters
@@ -45,14 +45,14 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 		// Timeout?
 		if ctx.Err() == context.DeadlineExceeded { // YES
 			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-			StoreText(global.DirLogs, "TIMEOUT."+infix+".log", outString)
+			StoreText(globals.DirLogs, "TIMEOUT."+infix+".log", outString)
 			return RC_EXEC_TIMEOUT, outString
 		}
 
 		// Not a timeout error but something else bad happened
 		outString = CleanerText(outString, true)
 		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-		StoreText(global.DirLogs, "FAILED."+infix+".log", outString)
+		StoreText(globals.DirLogs, "FAILED."+infix+".log", outString)
 		if cmdExec == "javac" {
 			return RC_COMP_ERROR, outString
 		}
@@ -63,7 +63,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	// No errors occurred.
 	// If not a compile run, store outString.
 	if cmdExec != "javac" {
-		StoreText(global.DirLogs, "PASSED."+infix+".log", outString)
+		StoreText(globals.DirLogs, "PASSED."+infix+".log", outString)
 	}
 
 	// Return outString and a normal status code to caller
@@ -194,8 +194,12 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	testName := filepath.Base(fullPathDir)
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
 	var outString string
-	if global.JvmName == "jacobin" {
-		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea", "main.class")
+	if global.JvmExe == "jacobin" {
+		if global.FlagGalt {
+			stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -JJ=galt", "main.class")
+		} else {
+			stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea", "main.class")
+		}
 	} else {
 		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -server", "main")
 	}
