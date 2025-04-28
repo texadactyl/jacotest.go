@@ -196,7 +196,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 	var outString string
 	if global.JvmExe == "jacobin" {
 		if global.FlagGalt {
-			stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -JJ=galt", "main.class")
+			stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -JJ:galt", "main.class")
 		} else {
 			stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea", "main.class")
 		}

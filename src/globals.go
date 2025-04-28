@@ -36,7 +36,7 @@ type GlobalsStruct struct {
 	SumFilePath    string        // Full path of the Summary file
 	ErrCatFilePath string        // Full path of the error categories file
 	FlagVerbose    bool          // Verbose logging? true/false
-	FlagGalt       bool          // JVM Jacobin -JJ=galt
+	FlagGalt       bool          // JVM Jacobin is run in G-alternate mode
 	JvmName        string        // JVM name: "openjdk" or "jacobin"
 	JvmExe         string        // JVM executable file: "java" or "jacobin"
 	Deadline       time.Duration // Run deadline in seconds (type time.Duration)

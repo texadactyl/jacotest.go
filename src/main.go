@@ -31,7 +31,7 @@ func showHelp() {
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
 	fmt.Printf("\t     * openjdk : OpenJDK (aka Hotspot) JVM\n")
-	fmt.Printf("\t     * galt : jacobin in a -JJ=galt mode\n")
+	fmt.Printf("\t     * galt : Run jacobin in G-alternate mode\n")
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")

@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-04-28 | 4.2.1 | -j accepts a specification of "galt" (jacobin -JJ:galt). |
 | 2025-04-22 | 4.2.0 | -j accepts a specification of "galt" (jacobin -JJ=galt). |
 | 2025-04-17 | 4.1.18 | Updated test case vectors. |
 | | | Correct spelling error in src/phases2and3.go. |
