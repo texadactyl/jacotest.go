@@ -1,6 +1,7 @@
 # This workflow will run jacotest against https://github.com/texadactyl/jacobin.
 # -JJ:galt
 # Only runs on demand.
+# Only runs on ubuntu-latest.
 
 name: Jacotest -j galt
 
