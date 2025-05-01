@@ -12,8 +12,7 @@ jobs:
 
   run_galt:
     strategy:
-      matrix:
-        
+      matrix:        
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -74,7 +73,6 @@ jobs:
     - name: Create Output Env Names
       run: |
         echo "REPORT_NAME=jacotest-galt-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
-        tar --format=ustar -czf logs.tar.gz ./logs
         echo "LOGS_NAME=jacotest-galt-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
       
     - name: Create Summary Artifact
@@ -88,5 +86,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.LOGS_NAME }}
-        path: logs.tar.gz
+        path: logs
         retention-days: 30  # can be 1 to 90
