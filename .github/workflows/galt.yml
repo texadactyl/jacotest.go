@@ -80,11 +80,11 @@ jobs:
       with:
         name: ${{ env.REPORT_NAME }}
         path: reports/Summary*.txt
-        retention-days: 30  # can be 1 to 90
+        retention-days: 7  # can be 1 to 90
 
     - name: Create Logs Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.LOGS_NAME }}
         path: logs
-        retention-days: 30  # can be 1 to 90
+        retention-days: 7  # can be 1 to 90
