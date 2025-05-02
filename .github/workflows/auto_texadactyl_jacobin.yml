@@ -79,3 +79,22 @@ jobs:
     - name: Summary of Results
       run: |
         jacotest -r 3
+
+    - name: Create Output Env Names
+      run: |
+        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+      
+    - name: Create Summary Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.REPORT_NAME }}
+        path: reports/Summary*.txt
+        retention-days: 7  # can be 1 to 90
+
+    - name: Create Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.LOGS_NAME }}
+        path: logs
+        retention-days: 7  # can be 1 to 90
