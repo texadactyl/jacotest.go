@@ -18,9 +18,10 @@ const MyName = "Jacotest"
 
 // Show help and then exit to the O/S
 func showHelp() {
-	_ = InitGlobals("dummy", "dummy", 0, false, false)
-	suffix := filepath.Base(os.Args[0])
-	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", suffix)
+	_ = InitGlobals("dummy", "dummy", 0)
+	name := filepath.Base(os.Args[0])
+	ShowExecInfo(name)
+	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", name)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-c : Compile all the test cases.\n")
 	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
@@ -38,7 +39,6 @@ func showHelp() {
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
 	fmt.Printf("\t-z : Remove the most recent result for all test cases.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n\n")
-	ShowExecInfo()
 	os.Exit(0)
 }
 
@@ -71,38 +71,42 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 // Command line interface
 func main() {
 	tStart := time.Now()
+	var err error
+	exitStatus := 0 // optimistic
 	_ = os.Setenv("java.awt.headless", "true")
 	var Args []string
 	var wString string
-	flagVerbose := false
-	flagExecute := false
-	flagTwoMostRecent := false
-	flagPrintMostRecent := false
-	flagDeleteMostRecent := false
-	flagDeleteObsolete := false
-	flagFailedPassed := false
-	flagCompile := false
-	flagMdReport := false
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
-	flagGalt := false
-	deadlineSecs := 60 // default deadline in seconds
-	now := time.Now()  // Get the current time.
+	deadlineSecs := 60   // default deadline in seconds
+
+	// Temporary flags before setting them in global.
+	flagVerbose := false          // Verbose logging? true/false
+	flagGalt := false             // JVM Jacobin is run in G-alternate mode
+	flagCompile := false          // -c option
+	flagDeleteObsolete := false   // -s option
+	flagMdReport := false         // -M option
+	flagTwoMostRecent := false    // -r 1 option
+	flagFailedPassed := false     // -r 2 option
+	flagPrintMostRecent := false  // -r 3 option
+	flagExecute := false          // -x option
+	flagDeleteMostRecent := false // -z option
+
+	// Positioned in the tree top directory?
+	_, err = os.Open("VERSION.txt")
+	if err != nil {
+		FatalText("You are not positioned in the jacotest tree top directory")
+	}
+
+	// Get current timestamp and zone.
+	now := time.Now() // Get the current time.
 	nowStamp := now.Format("2006-01-02 15:04:05")
 	timeZone, _ := now.Zone()
-	exitStatus := 0 // optimistic
 
 	// Handle signal interruptions.
 	var wg sync.WaitGroup
 	shutdownChan := make(chan os.Signal, 1)
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
-
-	// Positioned in the tree top directory?
-	handle, err := os.Open("VERSION.txt")
-	if err != nil {
-		FatalText("You are not positioned in the jacotest tree top directory")
-	}
-	_ = handle.Close()
 
 	// Initialise Args to the command-line arguments.
 	Args = append(Args, os.Args[1:]...)
@@ -190,6 +194,19 @@ func main() {
 		}
 	}
 
+	// Initialise globals and get a handle to it
+	global := InitGlobals(jvmName, jvmExe, deadlineSecs)
+	global.FlagVerbose = flagVerbose
+	global.FlagGalt = flagGalt
+	global.FlagCompile = flagCompile
+	global.FlagDeleteObsolete = flagDeleteObsolete
+	global.FlagMdReport = flagMdReport
+	global.FlagTwoMostRecent = flagTwoMostRecent
+	global.FlagFailedPassed = flagFailedPassed
+	global.FlagPrintMostRecent = flagPrintMostRecent
+	global.FlagExecute = flagExecute
+	global.FlagDeleteMostRecent = flagDeleteMostRecent
+
 	// Start up signal listener.
 	wg.Add(1)
 	go func() {
@@ -199,41 +216,40 @@ func main() {
 		FatalText(msg)
 	}()
 
-	// Open database
-	defer DBClose()
-	DBOpen(flagVerbose)
-
-	// Make sure that the jvmExe file can be found in the O/S PATH
-	wString, err = exec.LookPath(jvmExe)
-	if err != nil {
-		FatalErr(fmt.Sprintf("exec.LookPath(%s) failed", jvmExe), err)
-	}
-	if flagVerbose {
-		Logger(fmt.Sprintf("Found JVM %s", wString))
-	}
-
-	// Initialise globals and get a handle to it
-	global := InitGlobals(jvmName, jvmExe, deadlineSecs, flagVerbose, flagGalt)
-	if flagPrintMostRecent {
+	// Show the program version.
+	if global.FlagPrintMostRecent {
 		fmt.Printf("%s version %s", MyName, global.Version)
 	} else {
 		Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
 	}
 
-	// Open logs directory
+	// Open database.
+	defer DBClose()
+	DBOpen()
+
+	// Make sure that the jvmExe file can be found in the O/S PATH.
+	wString, err = exec.LookPath(jvmExe)
+	if err != nil {
+		FatalErr(fmt.Sprintf("exec.LookPath(%s) failed", jvmExe), err)
+	}
+	if global.FlagVerbose {
+		Logger(fmt.Sprintf("Found JVM %s", wString))
+	}
+
+	// Open logs directory.
 	fileOpened, err := os.Open(global.DirLogs)
 	if err != nil {
 		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.DirLogs), err)
 	}
 
-	// Get all the file entries in the logs directory
+	// Get all the file entries in the logs directory.
 	names, err := fileOpened.Readdirnames(0) // get all entries
 	if err != nil {
 		FatalErr(fmt.Sprintf("Readdirnames(%s) failed", global.DirLogs), err)
 	}
 
-	// For each logs entry, remove it
-	if flagCompile || flagExecute {
+	// For each logs entry, remove it.
+	if global.FlagCompile || global.FlagExecute {
 		for index := range names {
 			name := names[index]
 			fullPath := filepath.Join(global.DirLogs, name)
@@ -244,8 +260,8 @@ func main() {
 		}
 	}
 
-	// Process execute request
-	if flagExecute || flagCompile {
+	// Process execute request.
+	if global.FlagExecute || global.FlagCompile {
 		var successNames []string
 		var errCompileNames []string
 		var errExecutionNames []string
@@ -254,7 +270,7 @@ func main() {
 		var rptHandle *os.File
 		counterErrCases := 0
 
-		if flagMdReport {
+		if global.FlagMdReport {
 			// Initialise detailed report file
 			rptHandle, err = os.Create(global.ReportFilePath)
 			if err != nil {
@@ -270,7 +286,7 @@ func main() {
 			_, _ = fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 		}
 
-		// Initialise summary report file
+		// Initialise summary report file.
 		outPath := global.SumFilePath
 		outHandle, err := os.OpenFile(outPath, FlagsOpen, ModeOutputFile)
 		if err != nil {
@@ -279,7 +295,6 @@ func main() {
 		msg := fmt.Sprintf("%s version %s", MyName, global.Version)
 		WriteOutputText(outHandle, msg)
 		msg = fmt.Sprintf("O/S %s, arch %s", runtime.GOOS, runtime.GOARCH)
-		WriteOutputText(outHandle, msg)
 		WriteOutputText(outHandle, msg)
 		outLines, err := exec.Command(jvmExe, "--version").Output()
 		if err != nil {
@@ -294,8 +309,7 @@ func main() {
 			FatalErr(fmt.Sprintf("os.ReadDir(%s) failed", global.DirTests), err)
 		}
 
-		// Phase 1
-		// For each test case subdirectory of tests, run it.
+		// Phase 1 - For each test case subdirectory of tests, run it.
 		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
 		for _, entry := range entries {
 
@@ -309,48 +323,48 @@ func main() {
 					LogWarning(msg)
 					continue
 				}
-				resultCode, outlog := ExecuteOneTest(fullPath, flagCompile, flagExecute, global)
+				resultCode, outlog := ExecuteOneTest(fullPath)
 				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
 				switch resultCode {
 				case RC_NORMAL:
 					successNames = append(successNames, testCaseName)
-					if flagMdReport {
+					if global.FlagMdReport {
 						_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 					}
-					if flagExecute {
+					if global.FlagExecute {
 						DBStorePassed(testCaseName)
 					}
 				case RC_COMP_ERROR:
 					exitStatus = 1
 					errCompileNames = append(errCompileNames, testCaseName)
-					if flagMdReport {
+					if global.FlagMdReport {
 						_, _ = fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
 					}
-					if flagExecute {
+					if global.FlagExecute {
 						DBStoreFailed(testCaseName, "Compile error")
 					}
 				case RC_EXEC_ERROR:
 					exitStatus = 1
 					errExecutionNames = append(errExecutionNames, testCaseName)
 					tblErrCases[testCaseName] = 0
-					if flagMdReport {
+					if global.FlagMdReport {
 						_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
 					}
 					// DBStoreFailed calls will be made in the SQL database source file.
 				case RC_EXEC_TIMEOUT:
 					exitStatus = 1
 					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
-					if flagMdReport {
+					if global.FlagMdReport {
 						_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
 					}
-					if flagExecute {
+					if global.FlagExecute {
 						DBStoreFailed(testCaseName, "Timeout")
 					}
 				}
 			}
 		}
 
-		// Show successes
+		// Show successes.
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
 		Logger(msg)
 		WriteOutputText(outHandle, msg)
@@ -359,25 +373,25 @@ func main() {
 			WriteOutputText(outHandle, msg)
 		}
 
-		// Show compilation errors
-		if flagCompile {
+		// Show compilation errors.
+		if global.FlagCompile {
 			showResults("Compilation", errCompileNames, outHandle, true)
 		}
 
 		// Exit now if compilation only.
-		if !flagExecute {
+		if !global.FlagExecute {
 			msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 			Logger(msg)
 			os.Exit(exitStatus)
 		}
 
-		// Show timeout errors
+		// Show timeout errors.
 		showResults("Execution timeout", timeoutExecutionNames, outHandle, true)
 
-		// Show execution failures
+		// Show execution failures.
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
-		// Phases 2 and 3
+		// Phases 2 and 3 - Show failures grouped by error category.
 		counterErrCases += Phases2And3(tblErrCases, outHandle)
 
 		// Discrepancies in error total?
@@ -414,40 +428,37 @@ func main() {
 		elapsed := tStop.Sub(tStart)
 		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 
-	} // if flagExecute || flagCompile
+	} // if global.FlagExecute || global.FlagCompile
 
 	// Print the last-2-results report?
-	if flagTwoMostRecent {
+	if global.FlagTwoMostRecent {
 		DBPrtChanges()
 	}
 
 	// Print the last result of every test case?
-	if flagPrintMostRecent {
+	if global.FlagPrintMostRecent {
 		DBPrintMostRecent()
 	}
 
 	// Delete the most recent test result for each test case?
-	if flagDeleteMostRecent {
+	if global.FlagDeleteMostRecent {
 		DBDeleteMostRecent()
 	}
 
 	// Print the failed-passed report?
-	if flagFailedPassed {
+	if global.FlagFailedPassed {
 		DBPrtLastPass()
 	}
 
 	// Delete database records of obsolete test cases?
-	if flagDeleteObsolete {
+	if global.FlagDeleteObsolete {
 		DBDeleteObsolete()
 	}
 
-	// Close database
+	// Close database.
 	DBClose()
 
-	// Hangs: Ensure goroutine completes before exiting
-	//        wg.Wait()
-
-	// Bye bye
+	// Bye bye.
 	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
 	fmt.Println(msg)
 	os.Exit(exitStatus)

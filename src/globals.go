@@ -27,54 +27,39 @@ const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.txt"
 
 // Definition of the singleton global
 type GlobalsStruct struct {
-	Version        string        // Software version string
-	DirTests       string        // Full path of tests directory
-	DirLogs        string        // Full path of logs directory
-	LogFileExt     string        // .log
-	DirReports     string        // Full path of reports directory
-	ReportFilePath string        // Full path of the detailed report file
-	SumFilePath    string        // Full path of the Summary file
-	ErrCatFilePath string        // Full path of the error categories file
-	FlagVerbose    bool          // Verbose logging? true/false
-	FlagGalt       bool          // JVM Jacobin is run in G-alternate mode
-	JvmName        string        // JVM name: "openjdk" or "jacobin"
-	JvmExe         string        // JVM executable file: "java" or "jacobin"
-	Deadline       time.Duration // Run deadline in seconds (type time.Duration)
+	Version              string        // Software version string
+	DirTests             string        // Full path of tests directory
+	DirLogs              string        // Full path of logs directory
+	LogFileExt           string        // .log
+	DirReports           string        // Full path of reports directory
+	ReportFilePath       string        // Full path of the detailed report file
+	SumFilePath          string        // Full path of the Summary file
+	ErrCatFilePath       string        // Full path of the error categories file
+	FlagVerbose          bool          // Verbose logging? true/false
+	FlagGalt             bool          // JVM Jacobin is run in G-alternate mode
+	FlagCompile          bool          // -c option
+	FlagDeleteObsolete   bool          // -s option
+	FlagMdReport         bool          // -M option
+	FlagTwoMostRecent    bool          // -r 1 option
+	FlagFailedPassed     bool          // -r 2 option
+	FlagPrintMostRecent  bool          // -r 3 option
+	FlagExecute          bool          // -x option
+	FlagDeleteMostRecent bool          // -z option
+	JvmName              string        // JVM name: "openjdk" or "jacobin"
+	JvmExe               string        // JVM executable file: "java" or "jacobin"
+	Deadline             time.Duration // Run deadline in seconds (type time.Duration)
 }
 
 // Here's the singleton
 var global GlobalsStruct
 
-// Convert a UTC time string into a local one
-func UTCTimeStr2LocalTimeStr(utcString string) string {
-	timeStamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
-	if err != nil {
-		return fmt.Sprintf("time.Parse error: %s", err.Error())
-	}
-	zone, _ := time.Now().Zone()
-	return fmt.Sprintf("%s %s", timeStamp.Local().Format("2006-01-02 15:04:05"), zone)
-}
-
-// Show executable binary information relevant to "vcs"
-func ShowExecInfo() {
-	fmt.Printf("jacotest version: %s\n", global.Version)
-	fmt.Printf("Built with: %s\n", runtime.Version())
-	// Only interested in the "vcs." information
-	info, _ := debug.ReadBuildInfo()
-	for ii := 0; ii < len(info.Settings); ii++ {
-		biKey := info.Settings[ii].Key
-		biValue := info.Settings[ii].Value
-		if strings.HasPrefix(biKey, "vcs.") {
-			if biKey == "vcs.time" {
-				biValue = UTCTimeStr2LocalTimeStr(biValue)
-			}
-			fmt.Printf("BuildData %s: %s\n", biKey, biValue)
-		}
-	}
+// GetGlobalRef returns a reference to the singleton instance of GlobalsStruct
+func GetGlobalRef() *GlobalsStruct {
+	return &global
 }
 
 // Initialise the singleton global
-func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose, flagGalt bool) GlobalsStruct {
+func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
 	if err != nil {
@@ -122,24 +107,55 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, flagVerbose, flagGal
 		FatalErr(fmt.Sprintf("InitGlobals: time.ParseDuration(%d seconds) failed", deadline_secs), err)
 	}
 	global = GlobalsStruct{
-		Version:        versionString,
-		DirTests:       absTests,
-		DirLogs:        absLogs,
-		LogFileExt:     ".log",
-		DirReports:     absReports,
-		ReportFilePath: absReportFile,
-		SumFilePath:    absSummaryFile,
-		ErrCatFilePath: absErrCatFile,
-		FlagVerbose:    flagVerbose,
-		FlagGalt:       flagGalt,
-		JvmExe:         jvmExe,
-		JvmName:        jvmName,
-		Deadline:       duration,
+		Version:              versionString,
+		DirTests:             absTests,
+		DirLogs:              absLogs,
+		LogFileExt:           ".log",
+		DirReports:           absReports,
+		ReportFilePath:       absReportFile,
+		SumFilePath:          absSummaryFile,
+		ErrCatFilePath:       absErrCatFile,
+		FlagVerbose:          false,
+		FlagGalt:             false,
+		FlagExecute:          false,
+		FlagTwoMostRecent:    false,
+		FlagPrintMostRecent:  false,
+		FlagDeleteMostRecent: false,
+		FlagDeleteObsolete:   false,
+		FlagFailedPassed:     false,
+		FlagCompile:          false,
+		FlagMdReport:         false,
+		JvmExe:               jvmExe,
+		JvmName:              jvmName,
+		Deadline:             duration,
 	}
-	return global
+	return &global
 }
 
-// GetGlobalRef returns a pointer to the singleton instance of GlobalsStruct
-func GetGlobalRef() *GlobalsStruct {
-	return &global
+// Convert a UTC time string into a local one
+func UTCTimeStr2LocalTimeStr(utcString string) string {
+	timeStamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
+	if err != nil {
+		return fmt.Sprintf("time.Parse error: %s", err.Error())
+	}
+	zone, _ := time.Now().Zone()
+	return fmt.Sprintf("%s %s", timeStamp.Local().Format("2006-01-02 15:04:05"), zone)
+}
+
+// Show executable binary information relevant to "vcs"
+func ShowExecInfo(name string) {
+	fmt.Printf("%s version: %s\n", name, global.Version)
+	fmt.Printf("Built with: %s\n", runtime.Version())
+	// Only interested in the "vcs." information
+	info, _ := debug.ReadBuildInfo()
+	for ii := 0; ii < len(info.Settings); ii++ {
+		biKey := info.Settings[ii].Key
+		biValue := info.Settings[ii].Value
+		if strings.HasPrefix(biKey, "vcs.") {
+			if biKey == "vcs.time" {
+				biValue = UTCTimeStr2LocalTimeStr(biValue)
+			}
+			fmt.Printf("BuildData %s: %s\n", biKey, biValue)
+		}
+	}
 }

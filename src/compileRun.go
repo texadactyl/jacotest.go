@@ -155,8 +155,9 @@ func compileOneTree(pathTreeTop string) int {
 // 0 : success
 // 1 : compilation errors
 // 2 : run errors
-func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, global GlobalsStruct) (int, string) {
+func ExecuteOneTest(fullPathDir string) (int, string) {
 	var stcode int
+	global := GetGlobalRef()
 
 	// Save the path of the current working dir
 	here, err := os.Getwd()
@@ -170,13 +171,13 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", fullPathDir), err)
 	}
 
-	if flagCompile {
+	if global.FlagCompile {
 		// Compile every .java file in the tree
 		errorCount := compileOneTree(fullPathDir)
 
 		// If there was at least one compilation error, go no further
 		if errorCount > 0 {
-			// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
+			// Go back to the original working directory.
 			err2 := os.Chdir(here)
 			if err2 != nil {
 				FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", here), err2)
@@ -185,7 +186,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 		}
 	}
 
-	if !flagExecute {
+	if !global.FlagExecute {
 		return RC_NORMAL, ""
 	}
 
@@ -204,7 +205,7 @@ func ExecuteOneTest(fullPathDir string, flagCompile bool, flagExecute bool, glob
 		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -server", "main")
 	}
 
-	// Go back to the original working dir  (!!!!!!!!!!!!!!!!!!!!)
+	// Go back to the original working directory.
 	err2 := os.Chdir(here)
 	if err2 != nil {
 		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here), err2)

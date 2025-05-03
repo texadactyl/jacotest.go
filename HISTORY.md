@@ -4,6 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-05-02 | 4.3.0 | Galt-mode does not update the database. |
+| | | Move program flags to global for consistency. Simplify function calls. |
 | 2025-04-28 | 4.2.1 | -j accepts a specification of "galt" (jacobin -JJ:galt). |
 | 2025-04-22 | 4.2.0 | -j accepts a specification of "galt" (jacobin -JJ=galt). |
 | 2025-04-17 | 4.1.18 | Updated test case vectors. |

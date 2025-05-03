@@ -55,9 +55,14 @@ func sqlFunc(text string, commit bool) error {
 	}
 
 	// Begin transaction if commit true.
+	textBegin := "BEGIN TRANSACTION;"
 	if commit {
-		dbHandle.Begin()
-		textBegin := "BEGIN TRANSACTION;"
+		_, err := dbHandle.Begin()
+		if err != nil {
+			msg := fmt.Sprintf("sqlFunc: Begin (%s) (%s) failed, err: \n%s", text, textBegin, err.Error())
+			LogError(msg)
+			return err
+		}
 		statement, err := dbHandle.Prepare(textBegin) // Prepare COMMIT SQL Statement
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Prepare (%s) (%s) failed, err: \n%s", text, textBegin, err.Error())
@@ -179,9 +184,13 @@ DBOpen - Database Open
 * Connect to DB.
 * Validate DB.
 */
-func DBOpen(flagVerbose bool) {
+func DBOpen() {
+	global := GetGlobalRef()
+	if global.FlagGalt {
+		return
+	}
 
-	sqlTracing = flagVerbose
+	sqlTracing = global.FlagVerbose
 	if sqlTracing {
 		Logger("DBOpen: Begin")
 	}
@@ -238,6 +247,10 @@ func DBOpen(flagVerbose bool) {
 DBClose - Close the database.
 */
 func DBClose() {
+	global := GetGlobalRef()
+	if global.FlagGalt {
+		return
+	}
 
 	// Quick return if database is closed.
 	if !dbIsOpen {
@@ -263,6 +276,9 @@ DBStorePassed - Store a PASSED jacotest test case resjvmult.
 func DBStorePassed(testCaseName string) {
 
 	global := GetGlobalRef()
+	if global.FlagGalt {
+		return
+	}
 
 	jvm := "'" + global.JvmName + "'"
 	tcn := "'" + testCaseName + "'"
@@ -295,6 +311,9 @@ DBStoreFailed - Store a FAILED jacotest test case result.
 func DBStoreFailed(testCaseName, failText string) {
 
 	global := GetGlobalRef()
+	if global.FlagGalt {
+		return
+	}
 
 	// Clean failText
 	runes := []rune(failText)
@@ -574,7 +593,7 @@ func DBDeleteMostRecent() {
 
 	// Close and re-open database.
 	DBClose()
-	DBOpen(sqlTracing)
+	DBOpen()
 
 	msg := fmt.Sprintf("Removed %d test case result records", counter)
 	Logger(msg)
