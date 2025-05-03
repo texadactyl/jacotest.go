@@ -81,6 +81,7 @@ jobs:
         jacotest -r 3
 
     - name: Create Output Env Names
+      shell: bash
       run: |
         echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
         echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
