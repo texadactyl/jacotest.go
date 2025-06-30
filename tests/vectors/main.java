@@ -59,6 +59,7 @@ public class main {
         errorCount += isItTrue("After removing all elements, vint.isEmpty() is true", vint.isEmpty());
 
         // Check the error count
+        System.out.printf("Check assertion using errorCount == %d .....\n", errorCount);
         assert (errorCount == 0);
     }
 }
