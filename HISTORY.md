@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-07-02 | 4.3.2 | New test case: stat-distros. |
 | 2025-05-14 | 4.3.1 | New test case: magic-square. |
 | 2025-05-02 | 4.3.0 | Galt-mode does not update the database. |
 | | | Move program flags to global for consistency. Simplify function calls. |
