@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-07-07 | 4.3.4 | New test case: crypto-3fish. |
 | 2025-07-06 | 4.3.3 | New test case: crypto-speck. |
 | 2025-07-02 | 4.3.2 | New test case: stat-distros. |
 | 2025-05-14 | 4.3.1 | New test case: magic-square. |
