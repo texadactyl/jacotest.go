@@ -29,7 +29,7 @@ public class main {
         
         // Outcome: failure (file not found)
         ++subtest;
-        if (os.contains("win")) {
+        if (os.contains("windows")) {
             obj.commandLine = new String[] { "SAURON_IS_NICE.exe", "/c", "dir" };
         } else {
             obj.commandLine = new String[] { "sauron_is_nice", "-c", "ls -l" };
