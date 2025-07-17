@@ -1,30 +1,24 @@
-import java.util.Optional;
-
 public class main {
 
-    public static void main(String[] args) {
-    
-        ProcessHandle ph = ProcessHandle.current();
-		System.out.println("ProcessHandle ph = ProcessHandle.current() OK");
+    public static void main(String args[]) {
+
+		System.out.println("Exercise ProcessHandle");
+    	ProcessHandle ph = ProcessHandle.current();
 		ProcessHandle.Info info = ph.info();
-		System.out.println("ProcessHandle.Info info = ph.info() OK");
-		
-		Optional<String> opt = info.command();
-		System.out.printf("Optional info.command(): %s\n", opt.toString());
-		
-		String command = info.command().orElse("command?");
-		System.out.printf("command: %s\n", command);
+		String command = info.command().orElse("?");
+		String commandLine = info.commandLine().orElse("?");
+		String user = info.user().orElse("?");
+        System.out.printf("command: %s\n", command);
+        System.out.printf("commandLine: %s\n", commandLine);
+        System.out.printf("user: %s\n", user);
 
-		String arguments = info.arguments().toString();
-		System.out.printf("arguments: %s\n", arguments);
-
-		String commandLine = info.commandLine().orElse("commandLine?");
-		System.out.printf("commandLine: %s\n", commandLine);
-
-		String user = info.user().orElse("user?");
-		System.out.printf("user: %s\n", user);
-		
+		if ( command.equals("?") || commandLine.equals("?") || user.equals("?") ) {
+			throw new AssertionError("*** ERROR, ProcessHandle.info() failed");
+		}
+        
+        System.out.println("Success!");
+        
     }
-}
 
+}
 
