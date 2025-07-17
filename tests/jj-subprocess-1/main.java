@@ -12,6 +12,7 @@ public class main {
         jjSubProcessObject obj = new jjSubProcessObject();
         obj.classpath = new String[] {};
         String os = System.getProperty("os.name").toLowerCase();
+        System.out.printf("O/S: %s\n", os);
         
         // Outcome: success
         if (os.contains("win")) {
