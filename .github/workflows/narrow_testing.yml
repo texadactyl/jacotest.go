@@ -1,0 +1,103 @@
+# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+
+name: Narrow Testing
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - '*.py'
+      - '*.txt'
+      - '**.yml'
+    branches: [ "main" ]
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '**.yml'
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+
+  run_jacobin:
+    strategy:
+      matrix:
+        
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.24.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Setup for Linux or MacOS
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+      shell: bash
+      if: runner.os != 'Windows'
+
+    - name: Setup for Windows
+      run: |
+        echo "%HOMEPATH%\go\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+      shell: powershell
+      if: runner.os == 'Windows'
+        
+    - name: Setup Jacotest
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup Jacobin
+      run: |
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        go get
+        go install -v ./...
+        cd ../..
+        jacobin --version
+        
+    - name: Setup JDK
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
+    - name: Run Test Cases
+      run: |
+        java --version
+        javac --version
+        cd tests/jj-subprocess-1
+        jacobin main.class || true
+        cd ../..
+
+    - name: Summary of Results
+      run: |
+        jacotest -r 3
+
+    - name: Create Output Env Names
+      shell: bash
+      run: |
+        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+      
+    - name: Create Summary Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.REPORT_NAME }}
+        path: reports
+        retention-days: 7  # can be 1 to 90
+
+    - name: Create Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.LOGS_NAME }}
+        path: logs
+        retention-days: 7  # can be 1 to 90
