@@ -75,6 +75,7 @@ jobs:
         java --version
         javac --version
         cd tests/jj-subprocess-1
+        javac main.java
         jacobin main.class || true
         cd ../..
 
