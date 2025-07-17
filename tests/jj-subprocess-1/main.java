@@ -15,7 +15,7 @@ public class main {
         System.out.printf("O/S: %s\n", os);
         
         // Outcome: success
-        if (os.contains("win")) {
+        if (os.contains("windows")) {
             obj.commandLine = new String[] { "cmd.exe", "/c", "dir" };
         } else {
             obj.commandLine = new String[] { "sh", "-c", "ls -l" };
