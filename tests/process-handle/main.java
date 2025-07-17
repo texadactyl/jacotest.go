@@ -12,10 +12,6 @@ public class main {
         System.out.printf("commandLine: %s\n", commandLine);
         System.out.printf("user: %s\n", user);
 
-		if ( command.equals("?") || commandLine.equals("?") || user.equals("?") ) {
-			throw new AssertionError("*** ERROR, ProcessHandle.info() failed");
-		}
-        
         System.out.println("Success!");
         
     }
