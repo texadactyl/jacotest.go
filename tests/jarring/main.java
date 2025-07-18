@@ -5,8 +5,17 @@ public class main {
 
     public static int runner() {
         System.out.println("runner: Testing the use of import pkgcalc.Calculator");
-        Calculator obj = new Calculator();
-        int result = obj.add(100, 200);
+        System.out.println("runner: Next, instantiate the Calculator ...");
+        int result = -1;
+        try {
+            Calculator obj = new Calculator();
+            result = obj.add(100, 200);
+        } catch (Exception ex) {
+            String msg = String.format("runner: *** EXCEPTION during Calculator obj = new Calculator(), err: %s", ex.getMessage());
+            throw new AssertionError(msg);
+        }
+        System.out.println("runner: Instantiated the Calculator");
+        System.out.println("runner: add(100, 200) should yield 300 ...");
         if (result != 300) {
             String msg = String.format("runner: *** ERROR, expected middle.pkgcalc.Calculator result=300 but observed %d", result);
             throw new AssertionError(msg);
@@ -30,25 +39,25 @@ public class main {
     public static void main(String args[]) {
 
         // Get the JVM program name.
-        System.out.printf("main: Argument count: %d\n", args.length);
         if (args.length > 0) {
             // %s -jar jarring.jar RUNNER
-            System.out.println("main: Let's call function runner");
+            System.out.printf("\n\n======================================= main: args.length=%d, args[0]=%s\n", args.length, args[0]);
+            System.out.println("======================================= main: Let's call function runner");
             int statusCode = runner();
             assert (statusCode == 0);
-            System.out.println("main: RUNNER returned 0 (ok)");
+            System.out.println("======================================= main: RUNNER returned 0 (ok)");
             System.exit(0);
         }
         
-		System.out.println("main: Create a jar");
+		System.out.println("\n======================================= main: Create a jar");
 		String jvmPgmName = jj._getProgramName();
 		System.out.printf("main: jvmPgmName=%s\n", jvmPgmName);
         execCommand("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
         
-		System.out.println("main: Show the jar table of contents");
+		System.out.println("\n======================================= main: Show the jar table of contents");
         execCommand("jar tf jarring.jar");
         
-        System.out.println("main: Force the call of function runner");
+        System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
         String text = String.format("%s -jar jarring.jar RUNNER", jvmPgmName);
         execCommand(text);
 
