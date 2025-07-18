@@ -1,4 +1,4 @@
-//import java.lang.AssertionError;
+import java.io.*;
 
 public class main {
 
@@ -50,10 +50,56 @@ public class main {
 // Class jj in case we are executed by the OpenJDK JVM.
 class jj {
 
-   public static int _subProcess(Object obj) {
-        System.out.println("J-class function _subProcess (not Jacobin)");
-        return main.subtest;
-   }
+    public static int _subProcess(jjSubProcessObject obj) {
+        System.out.println("J function _subProcess (not Jacobin)");
+        ProcessBuilder builder = new ProcessBuilder(obj.commandLine);
+        Process process = null;
+        int exitCode = 86;
+
+        try {
+            process = builder.start();
+        } catch (IOException ex) {
+            String errMsg = ex.getMessage();
+            System.out.printf("J function _subProcess: Failed to start commandLine, err: %s\n", errMsg);
+            return exitCode;
+        }
+
+        try {
+            // Capture stdout
+            BufferedReader stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = stdOut.readLine()) != null) {
+                output.append(line).append(System.lineSeparator());
+            }
+
+            // Capture stderr
+            BufferedReader stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            StringBuilder errors = new StringBuilder();
+            while ((line = stdErr.readLine()) != null) {
+                errors.append(line).append(System.lineSeparator());
+            }
+
+            // Wait for the process to exit
+            exitCode = process.waitFor();
+
+            System.out.println("J function _subProcess: Exit Code: " + exitCode);
+            System.out.println("J function _subProcess: Standard Output:");
+            System.out.println(output);
+
+            System.out.println("J function _subProcess: Standard Error:");
+            System.out.println(errors);
+
+        } catch (IOException | InterruptedException ex) {
+            String errMsg = ex.getMessage();
+            System.out.printf("J function _subProcess: Unexpected error after starting commandLine, err: %s\n", errMsg);
+            ex.printStackTrace();
+            return exitCode;
+        }
+        
+        // No crashes!
+        return exitCode;
+    }
    
 }
 

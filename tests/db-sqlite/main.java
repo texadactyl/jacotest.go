@@ -1,38 +1,23 @@
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.jacotest.dbclient; // Force compilation of dbclient.java.
 
 public class main {
 
-    public static void cmd(String text) {
-        System.out.printf("cmd: Begin, text=%s\n", text);
-        String [] cmdArray = text.split(" +");
-        try {
-            String line;
-            Process process = Runtime.getRuntime().exec(cmdArray);
-            BufferedReader bri = new BufferedReader
-                    (new InputStreamReader(process.getInputStream()));
-            BufferedReader bre = new BufferedReader
-                    (new InputStreamReader(process.getErrorStream()));
-            while ((line = bri.readLine()) != null) {
-                System.out.println(line);
-            }
-            bri.close();
-            while ((line = bre.readLine()) != null) {
-                System.out.println(line);
-            }
-            bre.close();
-            int exitValue = process.waitFor();
-            if (exitValue != 0) {
-                String msg = String.format("*** ERROR, cmd: exit value = %d", exitValue);
-                throw new AssertionError(msg);
-            }
-            System.out.println("cmd: End");
-        }
-        catch (Exception ex) {
-            String msg = String.format("*** ERROR, cmd: %s", ex.getMessage());
-            throw new AssertionError(msg);
-        }
+
+    public static void execCommand(String text) {
+        System.out.printf("execCommand: Command line: %s\n", text);
+        jjSubProcessObject obj = new jjSubProcessObject();
+        obj.classpath = new String[] {};
+        obj.commandLine = text.split(" +");
+        int exitCode = jj._subProcess(obj);
+        System.out.printf("execCommand: Exit code: %d\n", exitCode);
+        System.out.printf("execCommand: Stdout: %s\n", obj.stdout);
+        System.out.printf("execCommand: Stderr: %s\n", obj.stderr);
+        assert exitCode == 0;
     }
 
     public static void main(String args[]) {
@@ -41,19 +26,11 @@ public class main {
         String nameSqliteJar = "sqlite-jdbc.jar";
         String nameDbclientJar = "dbclient.jar";
         String nameDbclientClass = "dbclient";
-		System.out.println("Create and use a database client (sqlite) jar, exercising Runtime.getRuntime().exec()");
+		System.out.println("Create and use a database client (sqlite) jar");
 
-        // Get the process command full path.
-    	ProcessHandle ph = ProcessHandle.current();
-		System.out.println("ProcessHandle ph = ProcessHandle.current() OK");
-		ProcessHandle.Info info = ph.info();
-		System.out.println("ProcessHandle.Info info = ph.info() OK");
-		String jvmPath = info.command().orElse("?");
-		System.out.println("String jvmPath = info.command().orElse(\"?\") OK");
-		System.out.printf("jvmPath: %s\n", jvmPath);
-		if (jvmPath.equals("?")) {
-			throw new AssertionError("*** ERROR, ProcessHandle.Info.command() failed");
-		}
+        // Get the JVM program name.
+		String jvmPgmName = jj._getProgramName();
+		System.out.printf("jvmPgmName: %s\n", jvmPgmName);
 
         // Construct path objects for Files.copy.
 		Path pathSqliteJar = Paths.get(nameSqliteJar);
@@ -71,16 +48,76 @@ public class main {
 
         text = String.format("jar --update --verbose --main-class org.jacotest.%s --file=%s org/jacotest/%s.class",
                 nameDbclientClass, nameDbclientJar, nameDbclientClass);
-        cmd(text);
+        execCommand(text);
 
         // Display directory of the dbclient jar.
         text = String.format("jar tf %s", nameDbclientJar);
-        cmd(text);
+        execCommand(text);
 
         // Execute dbclient main().
-        text = String.format("%s -jar %s", jvmPath, nameDbclientJar);
-        cmd(text);
+        text = String.format("%s -jar %s", jvmPgmName, nameDbclientJar);
+        execCommand(text);
 
     }
 
 }
+
+class jjSubProcessObject {
+	String[] commandLine; // input
+	String[] classpath; // input; empty means use existing
+	String stdout; // output
+	String stderr; // output
+}
+
+// Class jj in case we are executed by the OpenJDK JVM.
+class jj {
+
+    public static int _subProcess(jjSubProcessObject obj) {
+        System.out.println("J function _subProcess (not Jacobin)");
+        ProcessBuilder builder = new ProcessBuilder(obj.commandLine);
+        int exitCode = -86;
+
+        try {
+            Process process = builder.start();
+
+            // Capture stdout
+            BufferedReader stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = stdOut.readLine()) != null) {
+                output.append(line).append(System.lineSeparator());
+            }
+
+            // Capture stderr
+            BufferedReader stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            StringBuilder errors = new StringBuilder();
+            while ((line = stdErr.readLine()) != null) {
+                errors.append(line).append(System.lineSeparator());
+            }
+
+            // Wait for the process to exit
+            exitCode = process.waitFor();
+
+            System.out.println("J function _subProcess: Exit Code: " + exitCode);
+            System.out.println("J function _subProcess: Standard Output:");
+            System.out.println(output);
+
+            System.out.println("J function _subProcess: Standard Error:");
+            System.out.println(errors);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        
+        // No crashes!
+        return exitCode;
+    }
+   
+    public static String _getProgramName() {
+        System.out.println("J-class function _getProgramName (not Jacobin)");
+        return "java";
+    }
+   
+}
+

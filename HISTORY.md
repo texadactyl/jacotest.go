@@ -4,6 +4,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-07-18 | 4.3.6 | Removed redundant test case: parent-child-process. |
+| | | Updated test case db-sqlite. |
+| | | Updated test case jarring. |
+| | | Updated test case jj-subprocess-1. |
 | 2025-07-17 | 4.3.5 | New test case: jj-subprocess-1. |
 | | | Update test case process-handle. |
 | 2025-07-07 | 4.3.4 | New test case: crypto-3fish. |
