@@ -1,4 +1,5 @@
-# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+# On push or open pull request events, this workflow will run https://github.com/texadactyl/jacobin against a single test case.
+# See line 78.
 
 name: Narrow Testing
 
@@ -74,7 +75,7 @@ jobs:
       run: |
         java --version
         javac --version
-        cd tests/jj-subprocess-1
+        cd tests/jarring
         javac main.java
         jacobin main.class || true
         cd ../..
