@@ -2,7 +2,6 @@
 // https://en.wikipedia.org/wiki/Gauss%E2%80%93Legendre_algorithm
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class main {
 
