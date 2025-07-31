@@ -1,6 +1,16 @@
 // https://en.wikipedia.org/wiki/Speck_(cipher)
 
+import java.util.HexFormat;
+
+
 public class main {
+
+    private static HexFormat hf = HexFormat.of();
+
+    private static String longTo16HexDigits(long value) {
+        //return String.format("%016X", value);
+        return hf.toHexDigits(value, 16);
+    }
 
     public static void main(String[] args) {
     
@@ -8,14 +18,14 @@ public class main {
         long[] key = {0x0A0B0C0D0E0F1011L, 0x1121314151617181L};
         long[] cipherText = new long[2];
         long[] decrypted = new long[2];
-        System.out.printf("Cleartext: %016X %016X\n", clearText[0], clearText[1]);
-        System.out.printf("Key::::::: %016X %016X\n", key[0], key[1]);
+        System.out.printf("Cleartext: %s %s\n", longTo16HexDigits(clearText[0]), longTo16HexDigits(clearText[1]));
+        System.out.printf("Key::::::: %s %s\n", longTo16HexDigits(key[0]), longTo16HexDigits(key[1]));
 
         Speck.encrypt(cipherText, clearText, key);
-        System.out.printf("Encrypted: %016X %016X\n", cipherText[0], cipherText[1]);
+        System.out.printf("Encrypted: %s %s\n", longTo16HexDigits(cipherText[0]), longTo16HexDigits(cipherText[1]));
 
         Speck.decrypt(decrypted, cipherText, key);
-        System.out.printf("Decrypted: %016X %016X\n", decrypted[0], decrypted[1]);
+        System.out.printf("Decrypted: %s %s\n", longTo16HexDigits(decrypted[0]), longTo16HexDigits(decrypted[1]));
         
         assert decrypted[0] == clearText[0] && decrypted[1] == clearText[1];
         
