@@ -7,8 +7,7 @@ public class main {
 
     private static HexFormat hf = HexFormat.of();
 
-    private static String longTo16HexDigits(long value) {
-        //return String.format("%016X", value);
+    public static String longTo16HexDigits(long value) {
         return hf.toHexDigits(value, 16);
     }
 
