@@ -1,3 +1,5 @@
+import java.util.HexFormat;
+
 public class main {
 
     static long[] three_256_00_key = { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L };
@@ -109,8 +111,11 @@ public class main {
 
         // Prepare first vector
         ByteLong.PutBytes(three_256_00_input, dataIn, 0, dataIn.length);
+        hexdump("256 dataIn", dataIn, dataIn.length);
         ByteLong.PutBytes(three_256_00_key, key, 0, key.length);
+        hexdump("256 key", key, key.length);
         ByteLong.PutBytes(three_256_00_result, result, 0, result.length);
+        hexdump("256 expected result", result, result.length);
 
         ParametersForThreefish pft = new ParametersForThreefish(
                 new KeyParameter(key), stateSize, three_256_00_tweak);
@@ -118,9 +123,10 @@ public class main {
         // Encrypt and check
         tfc.init(true, pft);
         tfc.processBlock(dataIn, 0, dataOut, 0);
+        hexdump("256 dataOut", dataOut, dataOut.length);
 
         if (!Arrays.areEqual(result, dataOut)) {
-            hexdump("basicTest256: Wrong cipher text 256 00", dataOut, dataOut.length);
+            System.out.println("*** ERROR, basicTest256: dataOut does not match the expected result for 256 00");
             return false;
         }
         // Decrypt and check
@@ -306,7 +312,7 @@ public class main {
     private static final char[] hex = "0123456789abcdef".toCharArray();
 
     /**
-     * Dump a buffer in hex and readable format.
+     * Dump a buffer in hex.
      * 
      * @param title
      *            Printed at the beginning of the dump
@@ -317,45 +323,18 @@ public class main {
      *            length
      */
     public static void hexdump(String title, byte[] buf, int len) {
-        byte b;
-        System.err.println(title);
-        for (int i = 0;; i += 16) {
-            for (int j = 0; j < 16; ++j) {
-                if (i + j >= len) {
-                    System.err.print("   ");
-                }
-                else {
-                    b = buf[i + j];
-                    System.err.print(" " + hex[(b >>> 4) & 0xf] + hex[b & 0xf]);
-                }
-            }
-            System.err.print("  ");
-            for (int j = 0; j < 16; ++j) {
-                if (i + j >= len)
-                    break;
-                b = buf[i + j];
-                if ((byte) (b + 1) < 32 + 1) {
-                    System.err.print('.');
-                }
-                else {
-                    System.err.print((char) b);
-                }
-            }
-            System.err.println();
-            if (i + 16 >= len) {
-                break;
-            }
+        System.err.printf("hexdump: %s (%d bytes)\n", title, len);
+        if (len < 1  || len > buf.length) {
+            System.err.println("Oops, hexdump: buffer length < 0 or requested length exceeds buffer capacity");
+            return;
         }
+        System.err.println(HexFormat.of().formatHex(buf, 0, len));
     }
     
     public static void main(String[] args) {
-        try {
-            assert(basicTest256());
-            assert(basicTest512());
-            assert(basicTest1024());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assert(basicTest256());
+        assert(basicTest512());
+        assert(basicTest1024());
         System.out.println("Success!");
     }
 
