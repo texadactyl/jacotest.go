@@ -41,29 +41,22 @@ public class ThreefishCipher /**implements BlockCipher**/ {
         expandedKey[i] = parity;
     }
 
-    public static ThreefishCipher createCipher(int stateSize) {
-        switch (stateSize) {
-        case 256:
-            return new ThreefishCipher().new Threefish256();
-        case 512:
-            return new ThreefishCipher().new Threefish512();
-        case 1024:
-            return new ThreefishCipher().new Threefish1024();
-        }
-        return null;
-    }
-
     private void setCipher(int stateSize) {
         cipher = null;
+        System.out.printf("setCipher: stateSize=%d\n", stateSize);
+
         switch (stateSize) {
         case 256:
             cipher = new Threefish256();
             break;
         case 512:
-            cipher = new Threefish512();
+             cipher = new Threefish512();
             break;
         case 1024:
             cipher = new Threefish1024();
+            break;
+        default:
+            throw new IllegalArgumentException(String.format("setCipher: unsupported state size: %d", stateSize));
         }
     }
 
@@ -74,18 +67,18 @@ public class ThreefishCipher /**implements BlockCipher**/ {
             stateSize = params.getStateSize();
             setCipher(stateSize);
             if (cipher == null)
-                throw new IllegalArgumentException("Threefish: unsupported state size: " + stateSize);
+                throw new IllegalArgumentException("cipher init: cipher=null, unsupported state size: " + stateSize);
 
             byte[] key = (params.getParameters()).getKey();
             if (key.length != (stateSize / 8))
-                throw new IllegalArgumentException("Threefish: key length does not match state size: " + key.length);
+                throw new IllegalArgumentException("cipher init: key length does not match state size: " + key.length);
 
             long[] tweak = params.getTweak();
             if (tweak == null)
-                throw new IllegalArgumentException("Threefish: tweak data not set");
+                throw new IllegalArgumentException("cipher init: tweak data not set");
             cipher.setTweak(tweak);
             
-            // Get a long array for cipher key and moves the byte key buffer to it
+            // Get a long array for cipher key and move the byte key buffer to it
             long[] keyLong = new long[stateSize / 64];
             for (int i = 0; i < keyLong.length; i++)
                 keyLong[i] = ByteLong.GetUInt64(key, i * 8);
@@ -101,7 +94,7 @@ public class ThreefishCipher /**implements BlockCipher**/ {
             return;
         }
         
-        throw new IllegalArgumentException("Threfish: invalid parameter passed to init - " + params.getClass().getName());
+        throw new IllegalArgumentException("Threefish: invalid parameter passed to init - " + params.getClass().getName());
     }
 
     public String getAlgorithmName() {
@@ -153,7 +146,9 @@ public class ThreefishCipher /**implements BlockCipher**/ {
      * @param output
      *     The ciphertext output.
      */
-    public void encrypt(long[] input, long[] output) {}
+    public void encrypt(long[] input, long[] output) { 
+        throw new RuntimeException("*** ERROR, ThreefishCipher encrypt(): I should have been replaced by an extending encrypt function !!!"); 
+    }
 
     /**
      * Decrypt function
@@ -165,7 +160,9 @@ public class ThreefishCipher /**implements BlockCipher**/ {
      * @param output
      *     The plaintext output.
      */
-    public void decrypt(long[] input, long[] output) {}
+    public void decrypt(long[] input, long[] output) { 
+        throw new RuntimeException("*** ERROR, ThreefishCipher decrypt(): I should have been replaced by an extending decrypt function !!!"); 
+    }
 
     /*
      * Note: do not edit the unrolled Threefish operations below - I use
