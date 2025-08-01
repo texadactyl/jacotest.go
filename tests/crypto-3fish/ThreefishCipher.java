@@ -118,29 +118,23 @@ public class ThreefishCipher /**implements BlockCipher**/ {
         int blockLenByte = stateSize / 8;
         int blockLenLong = stateSize / 64;
         
-        if (cipher.expandedKey == null)
-        {
+        if (cipher.expandedKey == null) {
             throw new IllegalStateException("Threefish: engine not initialised");
         }
 
-        if ((inOff + blockLenByte) > in.length)
-        {
+        if ((inOff + blockLenByte) > in.length) {
             throw new IllegalArgumentException("Threefish: input buffer too short");
         }
 
-        if ((outOff + blockLenByte) > out.length)
-        {
+        if ((outOff + blockLenByte) > out.length) {
             throw new IllegalArgumentException("Threefish: output buffer too short");
         }
         for (int i = 0; i < blockLenLong; i++)
             cipherIn[i] = ByteLong.GetUInt64(in, inOff + i * 8);
 
-        if (forEncryption)
-        {
+        if (forEncryption) {
             cipher.encrypt(cipherIn, cipherOut);
-        }
-        else
-        {
+        } else {
             cipher.decrypt(cipherIn, cipherOut);
         }
         ByteLong.PutBytes(cipherOut, out, outOff, blockLenByte);
@@ -148,9 +142,6 @@ public class ThreefishCipher /**implements BlockCipher**/ {
         return stateSize / 8;
     }
     
-
-    public void reset() {
-    }
 
     /**
      * Encrypt function
