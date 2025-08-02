@@ -5,7 +5,6 @@
 # ---------------------------------------
 Native method requested
 Missing field
-Ljava/lang/Class;
 deprecated
 not yet supported
 TRAP:
