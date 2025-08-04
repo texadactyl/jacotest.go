@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-08-04 | 4.3.10 | New test case: JACOBIN-0760-submethod. |
 | 2025-08-02 | 4.3.9 | New test case: arrays-copyof. |
 | 2025-08-01 | 4.3.8 | New test case: array-copy. |
 | 2025-07-29 | 4.3.7 | New test cases: rounding-mode & vector-rm-elem. |
