@@ -45,47 +45,54 @@
 
  public final class main {
  
-    private static int checker(int ii, String label, double observed, double expected) {
+    static int nloops = 10;
+    static long defaultSeed = 42;
+
+    private static int checker(String label, double observed, double expected) {
         double epsilon = 0.00001;
         if (Math.abs(expected - observed) < epsilon) {
-            System.out.printf("%8.5f ", observed);
+            System.out.printf("	ok %s %8.5f\n", label, observed);
             return 0;
         }
-        System.out.printf("*** ERROR :: %s, observed %8.5f, expected %8.5f\n%d) ", label, observed, expected, ii);
+        System.out.printf("	*** ERROR :: %s, observed %8.5f, expected %8.5f\n", label, observed, expected);
         return 1;
     }
  
-    private static int checker(int ii, String label, long observed, long expected) {
+    private static int checker(String label, long observed, long expected) {
         if (observed == expected) {
-            System.out.printf("%d ", observed);
+            System.out.printf("	ok %s %d\n", label, observed);
             return 0;
         }
-        System.out.printf("*** ERROR :: %s, observed %d, expected %d\n%d) ", label, observed, expected, ii);
+        System.out.printf("	*** ERROR :: %s, observed %d, expected %d\n", label, observed, expected);
         return 1;
     }
  
-    private static int checker(int ii, String label, String observed, String expected) {
+    private static int checker(String label, String observed, String expected) {
         if (observed.equals(expected)) {
-            System.out.printf("%s ", observed);
+            System.out.printf("	ok %s %s\n", label, observed);
             return 0;
         }
-        System.out.printf("*** ERROR :: %s, observed %s, expected %s\n%d) ", label, observed, expected, ii);
+        System.out.printf("	*** ERROR :: %s, observed %s, expected %s\n", label, observed, expected);
         return 1;
     }
  
-    private static int checker(int ii, String label, boolean observed, boolean expected) {
+    private static int checker(String label, boolean observed, boolean expected) {
         if (observed == expected) {
-            System.out.printf("%b ", observed);
+            if (observed)
+                System.out.printf("	ok %s true\n", label);
+            else
+                System.out.printf("	ok %s false\n", label);
             return 0;
         }
-        System.out.printf("*** ERROR :: %s, observed %b, expected %b\n%d) ", label, observed, expected, ii);
+        if (observed)
+            System.out.printf("	*** ERROR :: %s, observed true, expected false\n", label);
+        else
+            System.out.printf("	*** ERROR :: %s, observed false, expected true\n", label);
         return 1;
     }
- 
+  
     public static void main(String[] args) {
     
-        int nloops = 10;
-        long defaultSeed = 42;
         int errorCount = 0;
     
         System.out.println("Generate pseudo-random numbers from different distributions\nuniformInt, uniformDouble, bernoulli, gaussian, discreteProbabilities, discreteFrequencies, and uniformLong");
@@ -109,21 +116,20 @@
         String[] strArray = {"BDAGFCE", "FDCABEG", "FCAEDGB", "FBGDACE", "BCGDAEF", "GCEFBAD", "FDABEGC", "GBCAFED", "GFBDAEC", "DEBCFGA"};
 
         for (int ii = 0; ii < nloops; ii++) {
-            System.out.printf("%d) ",   ii);
-            errorCount += checker(ii, "uniformInt(100)", sr.uniformInt(100), ui[ii]);
-            errorCount += checker(ii, "sr.uniformDouble(10.0, 99.0)", sr.uniformDouble(10.0, 99.0), ud[ii]);
-            errorCount += checker(ii, "sr.bernoulli(0.5)", sr.bernoulli(0.5), ber[ii]);
-            errorCount += checker(ii, "sr.gaussian(9.0, 0.2)", sr.gaussian(9.0, 0.2), gau[ii]);
-            errorCount += checker(ii, "sr.discrete(probabilities)", sr.discrete(probabilities), dpr[ii]);
-            errorCount += checker(ii, "sr.discrete(frequencies)", sr.discrete(frequencies), dfr[ii]);
-            errorCount += checker(ii, "sr.uniformLong(100000000000L)", sr.uniformLong(100000000000L), uj[ii]);
+            System.out.printf("Loop %d\n", ii);
+            errorCount += checker("uniformInt(100)", sr.uniformInt(100), ui[ii]);
+            errorCount += checker("sr.uniformDouble(10.0, 99.0)", sr.uniformDouble(10.0, 99.0), ud[ii]);
+            errorCount += checker("sr.bernoulli(0.5)", sr.bernoulli(0.5), ber[ii]);
+            errorCount += checker("sr.gaussian(9.0, 0.2)", sr.gaussian(9.0, 0.2), gau[ii]);
+            errorCount += checker("sr.discrete(probabilities)", sr.discrete(probabilities), dpr[ii]);
+            errorCount += checker("sr.discrete(frequencies)", sr.discrete(frequencies), dfr[ii]);
+            errorCount += checker("sr.uniformLong(100000000000L)", sr.uniformLong(100000000000L), uj[ii]);
             sr.shuffle(alist);
             String whole = "";
             for (String str : alist) {
                 whole = whole.concat(str);
             }
-            errorCount += checker(ii, "strArray", whole, strArray[ii]);
-            System.out.println();
+            errorCount += checker("strArray", whole, strArray[ii]);
         }
         
         assert errorCount == 0;
