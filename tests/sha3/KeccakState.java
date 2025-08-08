@@ -14,6 +14,8 @@
  */
 abstract class KeccakState {
 
+    private static final boolean DEBUGGING = true;
+
     /**
      * Set to {@code true} to enable the "The lane complementing transform"
      * recommended by the "Keccak implementation overview" v3.2 (May 2012). Set
@@ -80,6 +82,9 @@ abstract class KeccakState {
     void absorbBitsIntoState(byte[] input, int inputStartBitIndex,
                              int readLengthInBits) {
         byte laneLength = getLaneLengthInBits();
+        if (DEBUGGING)
+            System.out.printf("DEBUG absorbBitsIntoState input.length=%d, inputStartBitIndex=%d, readLengthInBits=%d, laneLength=%d\n",
+                input.length, inputStartBitIndex, readLengthInBits, laneLength);
         assert input != null;
         assert inputStartBitIndex >= 0;
         assert readLengthInBits >= 0 && readLengthInBits <= laneLength * 25;
@@ -89,12 +94,15 @@ abstract class KeccakState {
             for (int x = 0; x < 5; ++x) {
                 if (inputBitIndex % Byte.SIZE == 0 && readRemaining
                         >= laneLength) {
+                    if (DEBUGGING)
+                        System.out.printf("DEBUG absorbBitsIntoState readRemaining>0 x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
                     absorbEntireLaneIntoState(input, inputBitIndex, x, y);
                     inputBitIndex += laneLength;
                     readRemaining -= laneLength;
                 } else {
-                    absorbBitByBitIntoState(input, inputBitIndex, readRemaining,
-                            x, y);
+                    if (DEBUGGING)
+                        System.out.printf("DEBUG absorbBitsIntoState readRemaining=0 x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
+                    absorbBitByBitIntoState(input, inputBitIndex, readRemaining, x, y);
                     return;
                 }
             }
