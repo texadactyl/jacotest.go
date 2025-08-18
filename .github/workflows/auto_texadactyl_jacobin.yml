@@ -63,8 +63,7 @@ jobs:
         cd jacobin/src
         go get
         go build -o . -v ./...
-        mv jacobin $HOME/go/bin
-        cd ../..
+        mv src $HOME/go/bin/jacobin
         jacobin --version
         
     - name: Setup JDK
