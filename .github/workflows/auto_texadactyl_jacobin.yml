@@ -61,6 +61,8 @@ jobs:
         cd jacobin/src
         go get
         go install -v ./...
+        echo ====================== Contents of $HOME/go/bin
+        ls echo "$HOME/go/bin"
         cd ../..
         jacobin --version
         
