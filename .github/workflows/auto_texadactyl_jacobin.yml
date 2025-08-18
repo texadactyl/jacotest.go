@@ -59,8 +59,8 @@ jobs:
       run: |
         echo "====================== git clone"
         git clone https://github.com/texadactyl/jacobin
-        echo "====================== Contents of jacobin"
-        ls ./jacobin
+        echo "====================== Contents of $HOME/go/bin"
+        ls $HOME/go/bin
         cd jacobin/src
         go get
         go install -v ./...
