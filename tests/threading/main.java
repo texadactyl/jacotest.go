@@ -22,13 +22,15 @@ public class main {
         PSYNC.printNL("main: Waiting for threads T1/T2/T3 to end");
         try {
             T1.join();
-            PSYNC.printNL("main: T1 joined");
+            PSYNC.printNL("main: T1 ended");
             T2.join();
-            PSYNC.printNL("main: T2 joined");
+            PSYNC.printNL("main: T2 ended");
             T3.join();
-            PSYNC.printNL("main: T3 joined");
+            PSYNC.printNL("main: T3 ended");
         } catch (Exception ex) {
-            PSYNC.printNL("main: Interrupted !!");
+            PSYNC.printNL("\nmain: Interrupted while waiting for threads !!");
+            String errMsg = String.format("main: Exception reason: %s", ex.getMessage());
+            PSYNC.printNL(errMsg);
         }
         PSYNC.printNL("main: End");
     }
@@ -48,9 +50,7 @@ class PrintingSynced {
         try {
             for (int ii = 5; ii > 0; ii--) {
                 synchronized (this) {
-                    System.out.print(name);
-                    System.out.print(" printSomeLines ");
-                    System.out.println(ii);
+                    System.out.printf("%s: %d\n", name, ii);
                 }
                 Thread.sleep(100);
             }
