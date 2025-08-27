@@ -42,13 +42,13 @@ class PrintingSynced {
         System.out.println(msg);
     }
 
-    public synchronized void printMsg(String name, String msg) {
+    public synchronized void printNamedMsg(String name, String msg) {
         System.out.printf("%s: %s\n", name, msg);
     }
 
-    public synchronized void printSomeLines(String name) {
+    public void printSomeLines(String name) {
         try {
-            for (int ii = 5; ii > 0; ii--) {
+            for (int ii = 10; ii > 0; ii--) {
                 synchronized (this) {
                     System.out.printf("%s: %d\n", name, ii);
                 }
@@ -56,15 +56,10 @@ class PrintingSynced {
             }
         } catch (Exception ex) {
             synchronized (this) {
-                System.out.println("\nprintSomeLines: Thread interrupted.");
+                System.out.printf("\nprintSomeLines: Thread %s interrupted !!\n", name);
                 System.out.printf("printSomeLines: Exception reason: %s\n", ex.getMessage());
                 return;
             }
-        }
-        
-        // Add final newline.
-        synchronized (this) {
-            System.out.println();
         }
     }
 
@@ -82,11 +77,11 @@ class MyThread extends Thread {
 
     public void run() {
         PSYNC.printSomeLines(threadName);
-        PSYNC.printMsg(threadName, "exiting");
+        PSYNC.printNamedMsg(threadName, "exiting");
     }
 
     public void start() {
-        PSYNC.printMsg(threadName, "started");
+        PSYNC.printNamedMsg(threadName, "started");
         th = new Thread(this, threadName);
         th.start();
     }
