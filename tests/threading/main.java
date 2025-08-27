@@ -36,16 +36,18 @@ public class main {
 
 class PrintingSynced {
 
-    public void printNL(String msg) {
-        synchronized (PrintingSynced.class) {
-            System.out.println(msg);
-        }
+    public synchronized void printNL(String msg) {
+        System.out.println(msg);
     }
 
-    public void printSomeLines(String name) {
+    public synchronized void printMsg(String name, String msg) {
+        System.out.printf("%s: %s\n", name, msg);
+    }
+
+    public synchronized void printSomeLines(String name) {
         try {
             for (int ii = 5; ii > 0; ii--) {
-                synchronized (PrintingSynced.class) {
+                synchronized (this) {
                     System.out.print(name);
                     System.out.print(" printSomeLines ");
                     System.out.println(ii);
@@ -53,16 +55,16 @@ class PrintingSynced {
                 Thread.sleep(100);
             }
         } catch (Exception ex) {
-            System.out.println("\nprintSomeLines: Thread interrupted.");
+            synchronized (this) {
+                System.out.println("\nprintSomeLines: Thread interrupted.");
+                System.out.printf("printSomeLines: Exception reason: %s\n", ex.getMessage());
+                return;
+            }
         }
-        System.out.println();
-    }
-
-    public void printMsg(String name, String msg) {
-        synchronized (PrintingSynced.class) {
-            System.out.print(name);
-            System.out.print(": ");
-            System.out.println(msg);
+        
+        // Add final newline.
+        synchronized (this) {
+            System.out.println();
         }
     }
 

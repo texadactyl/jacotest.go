@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-08-27 | 4.3.13 | Added "Empty code segment" to ERROR_CATEGORIES.txt. |
+| | | Made test case threading more realistic. |
 | 2025-08-07 | 4.3.12 | New random number generation design for test case stat-distros. |
 | 2025-08-06 | 4.3.11 | Fixed print formatting in test case stat-distros. |
 | 2025-08-04 | 4.3.10 | New test case: JACOBIN-0760-submethod. |
