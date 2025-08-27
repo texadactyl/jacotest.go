@@ -62,7 +62,7 @@ public class main {
         System.out.printf("sf3: \"%s\"\n", sf3);
         errorCount += hh.isItTrue("format sf1.equals(streetName)", sf1.equals(streetName));
         errorCount += hh.isItTrue("format sf2.equals(\"123.456700\")", sf2.equals("123.456700"));
-        errorCount += hh.isItTrue("format sf3.equals(\"0000123.456700000000\")", sf3.equals("0000123.456700000000"));
+        errorCount += hh.checker("format sf3.equals(\"0000123.456700000000\")", "0000123.456700000000", sf3);
         
         byte [] ssaba = ssa.getBytes();
         workString = new String(ssaba);
