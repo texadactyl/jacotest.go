@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-08-28 | 4.3.14 | New test case: warp-speed. |
 | 2025-08-27 | 4.3.13 | Added "Empty code segment" to ERROR_CATEGORIES.txt. |
 | | | Made test case threading more realistic. |
 | 2025-08-07 | 4.3.12 | New random number generation design for test case stat-distros. |
