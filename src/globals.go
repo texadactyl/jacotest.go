@@ -50,6 +50,8 @@ type GlobalsStruct struct {
 	JvmName              string        // JVM name: "openjdk" or "jacobin"
 	JvmExe               string        // JVM executable file: "java" or "jacobin"
 	Deadline             time.Duration // Run deadline in seconds (type time.Duration)
+	JvmOptions           string        // JVM execution options
+	JavacOptions         string        // Java compiler options
 }
 
 // Here's the singleton
@@ -77,6 +79,8 @@ func ckPath(argPath string) string {
 	if !info.IsDir() {
 		FatalText(fmt.Sprintf("InitGlobals:ckPath: Path (%s) exists but is not a directory", absPath))
 	}
+
+	//Logger(fmt.Sprintf("InitGlobals:ckPath: argPath=%s, absPath=%s", argPath, absPath))
 	return absPath
 }
 
@@ -151,6 +155,20 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 		JvmName:              jvmName,
 		Deadline:             duration,
 	}
+
+	global.JavacOptions = "-Xlint:all -Werror -cp ." + string(os.PathListSeparator) + global.DirHelpers
+	Logger(fmt.Sprintf("JavacOptions: %s", global.JavacOptions))
+
+	if global.JvmExe == "jacobin" {
+		global.JvmOptions = "-ea -cp ." + string(os.PathListSeparator) + global.DirHelpers
+		if global.FlagGalt {
+			global.JvmOptions += " -JJ:galt"
+		}
+	} else {
+		global.JvmOptions = "-ea -server -cp ." + string(os.PathListSeparator) + global.DirHelpers
+	}
+	Logger(fmt.Sprintf("JvmOptions: %s", global.JvmOptions))
+
 	return &global
 }
 

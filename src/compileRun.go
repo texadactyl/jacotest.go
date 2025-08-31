@@ -110,8 +110,7 @@ func compileOneTree(pathTreeTop string) int {
 		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(pathTreeTop), fileName))
 
 		// Run compilation
-		options := "-Xlint:all -Werror -cp ." + string(os.PathListSeparator) + global.DirHelpers
-		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), options, fileName)
+		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), global.JavacOptions, fileName)
 		errorCount += statusCode
 	}
 
@@ -196,21 +195,12 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	testName := filepath.Base(fullPathDir)
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
 	var outString string
-	baseOptions := "-ea -cp ." + string(os.PathListSeparator) + global.DirHelpers
-	if global.JvmExe == "jacobin" {
-		if global.FlagGalt {
-			stcode, outString = runner(global.JvmName, global.JvmExe, testName, baseOptions+" -JJ:galt", "main.class")
-		} else {
-			stcode, outString = runner(global.JvmName, global.JvmExe, testName, baseOptions, "main.class")
-		}
-	} else {
-		stcode, outString = runner(global.JvmName, global.JvmExe, testName, "-ea -server", "main")
-	}
+	stcode, outString = runner(global.JvmName, global.JvmExe, testName, global.JvmOptions, "main.class")
 
 	// Go back to the original working directory.
-	err2 := os.Chdir(here)
-	if err2 != nil {
-		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here), err2)
+	err = os.Chdir(here)
+	if err != nil {
+		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here), err)
 	}
 
 	// Return runner execution result
