@@ -4,6 +4,9 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-08-31 | 5.0.0 | Implemented test helpers (tests/HELPERS). |
+| | | Migrated to using the Jacobin classpath option (mandatory for jacotest). |
+| | | Will migrate individual test cases. First: array-copy (done). |
 | 2025-08-31 | 4.3.16 | New test case: math-context. |
 | | | Improved test cases rounding-mode, sha3. |
 | 2025-08-30 | 4.3.15 | New test cases: string-formatter-basic, string-formatter-biggies, string-formatter-other-objects. |

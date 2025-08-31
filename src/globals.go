@@ -22,6 +22,7 @@ const TEMPLATE_RUN_REPORT = PATH_DIR_REPORTS + "/RUN_REPORT_%s_%s.md"
 const TEMPLATE_SUMMARY_REPORT = PATH_DIR_REPORTS + "/Summary_%s_%s.txt"
 const PATH_DIR_LOGS = "./logs"
 const PATH_DIR_TESTS = "./tests"
+const PATH_DIR_HELPERS = "./tests/HELPERS"
 const PATH_VERSION = "./VERSION.txt"
 const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.txt"
 
@@ -29,6 +30,7 @@ const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.txt"
 type GlobalsStruct struct {
 	Version              string        // Software version string
 	DirTests             string        // Full path of tests directory
+	DirHelpers           string        // Full path of tests/HELPERS directory
 	DirLogs              string        // Full path of logs directory
 	LogFileExt           string        // .log
 	DirReports           string        // Full path of reports directory
@@ -72,6 +74,10 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 	if err != nil {
 		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_TESTS), err)
 	}
+	absHelpers, err := filepath.Abs(PATH_DIR_HELPERS)
+	if err != nil {
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_HELPERS), err)
+	}
 
 	absLogs, err := filepath.Abs(PATH_DIR_LOGS)
 	if err != nil {
@@ -109,6 +115,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 	global = GlobalsStruct{
 		Version:              versionString,
 		DirTests:             absTests,
+		DirHelpers:           absHelpers,
 		DirLogs:              absLogs,
 		LogFileExt:           ".log",
 		DirReports:           absReports,
