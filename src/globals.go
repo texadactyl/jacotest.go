@@ -60,6 +60,26 @@ func GetGlobalRef() *GlobalsStruct {
 	return &global
 }
 
+func ckPath(argPath string) string {
+	absPath, err := filepath.Abs(argPath)
+	if err != nil {
+
+		FatalErr(fmt.Sprintf("InitGlobals:ckPath: filepath.Abs(%s) failed", argPath), err)
+	}
+	info, err := os.Stat(absPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			FatalText(fmt.Sprintf("InitGlobals:ckPath: Cannot find path (%s)", absPath))
+		} else {
+			FatalErr(fmt.Sprintf("InitGlobals:ckPath: os.Stat (%s) failed", absPath), err)
+		}
+	}
+	if !info.IsDir() {
+		FatalText(fmt.Sprintf("InitGlobals:ckPath: Path (%s) exists but is not a directory", absPath))
+	}
+	return absPath
+}
+
 // Initialise the singleton global
 func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 
@@ -70,14 +90,9 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 
 	versionString := string(versionBytes[:])
 	versionString = strings.Trim(versionString, " ")
-	absTests, err := filepath.Abs(PATH_DIR_TESTS)
-	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_TESTS), err)
-	}
-	absHelpers, err := filepath.Abs(PATH_DIR_HELPERS)
-	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_HELPERS), err)
-	}
+
+	absTests := ckPath(PATH_DIR_TESTS)
+	absHelpers := ckPath(PATH_DIR_HELPERS)
 
 	absLogs, err := filepath.Abs(PATH_DIR_LOGS)
 	if err != nil {
