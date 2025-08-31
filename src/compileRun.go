@@ -196,7 +196,11 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
 	var outString string
 	options := global.JvmOptPrefix + " -cp " + fullPathDir + string(os.PathListSeparator) + global.DirHelpers
-	stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
+	if global.JvmName == "jacobin" {
+		stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
+	} else {
+		stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main")
+	}
 
 	// Go back to the original working directory.
 	err = os.Chdir(here)
