@@ -158,7 +158,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 
 	global.JavacOptPrefix = "-Xlint:all -Werror"
 
-	if global.JvmExe == "jacobin" {
+	if global.JvmName == "jacobin" {
 		global.JvmOptPrefix = "-ea"
 		if global.FlagGalt {
 			global.JvmOptPrefix += " -JJ:galt"
