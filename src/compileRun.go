@@ -72,7 +72,6 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 
 // compileOneTree - Compile all .java files in the directory tree rooted at pathTreeTop.
 // Then, javap all .class files in the directory tree rooted at pathTreeTop.
-// (internal function)
 func compileOneTree(pathTreeTop string) int {
 	var statusCode int
 
@@ -110,7 +109,8 @@ func compileOneTree(pathTreeTop string) int {
 		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(pathTreeTop), fileName))
 
 		// Run compilation
-		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), global.JavacOptions, fileName)
+		options := global.JavacOptPrefix + " -cp " + pathTreeTop + string(os.PathListSeparator) + global.DirHelpers
+		statusCode, _ = runner("javac", "javac", filepath.Base(pathTreeTop), options, fileName)
 		errorCount += statusCode
 	}
 
@@ -195,7 +195,8 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	testName := filepath.Base(fullPathDir)
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
 	var outString string
-	stcode, outString = runner(global.JvmName, global.JvmExe, testName, global.JvmOptions, "main.class")
+	options := global.JvmOptPrefix + " -cp " + fullPathDir + string(os.PathListSeparator) + global.DirHelpers
+	stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
 
 	// Go back to the original working directory.
 	err = os.Chdir(here)

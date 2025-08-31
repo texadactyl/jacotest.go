@@ -50,8 +50,8 @@ type GlobalsStruct struct {
 	JvmName              string        // JVM name: "openjdk" or "jacobin"
 	JvmExe               string        // JVM executable file: "java" or "jacobin"
 	Deadline             time.Duration // Run deadline in seconds (type time.Duration)
-	JvmOptions           string        // JVM execution options
-	JavacOptions         string        // Java compiler options
+	JvmOptPrefix         string        // JVM execution options prefix
+	JavacOptPrefix       string        // Java compiler options prefix
 }
 
 // Here's the singleton
@@ -156,18 +156,16 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 		Deadline:             duration,
 	}
 
-	global.JavacOptions = "-Xlint:all -Werror -cp ." + string(os.PathListSeparator) + global.DirHelpers
-	Logger(fmt.Sprintf("JavacOptions: %s", global.JavacOptions))
+	global.JavacOptPrefix = "-Xlint:all -Werror"
 
 	if global.JvmExe == "jacobin" {
-		global.JvmOptions = "-ea -cp ." + string(os.PathListSeparator) + global.DirHelpers
+		global.JvmOptPrefix = "-ea"
 		if global.FlagGalt {
-			global.JvmOptions += " -JJ:galt"
+			global.JvmOptPrefix += " -JJ:galt"
 		}
 	} else {
-		global.JvmOptions = "-ea -server -cp ." + string(os.PathListSeparator) + global.DirHelpers
+		global.JvmOptPrefix = "-ea -server"
 	}
-	Logger(fmt.Sprintf("JvmOptions: %s", global.JvmOptions))
 
 	return &global
 }
