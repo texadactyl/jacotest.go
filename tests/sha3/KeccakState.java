@@ -82,26 +82,25 @@ abstract class KeccakState {
     void absorbBitsIntoState(byte[] input, int inputStartBitIndex,
                              int readLengthInBits) {
         byte laneLength = getLaneLengthInBits();
-        if (DEBUGGING)
-            System.out.printf("DEBUG absorbBitsIntoState input.length=%d, inputStartBitIndex=%d, readLengthInBits=%d, laneLength=%d\n",
-                input.length, inputStartBitIndex, readLengthInBits, laneLength);
         assert input != null;
         assert inputStartBitIndex >= 0;
         assert readLengthInBits >= 0 && readLengthInBits <= laneLength * 25;
         int inputBitIndex = inputStartBitIndex;
         int readRemaining = readLengthInBits;
+        if (DEBUGGING)
+            System.out.printf("DEBUG absorbBitsIntoState: input.length=%d, inputStartBitIndex=%d, readLengthInBits=%d, laneLength=%d, readRemaining=%d\n",
+                input.length, inputStartBitIndex, readLengthInBits, laneLength, readRemaining);
         for (int y = 0; y < 5; ++y) {
             for (int x = 0; x < 5; ++x) {
-                if (inputBitIndex % Byte.SIZE == 0 && readRemaining
-                        >= laneLength) {
+                if (inputBitIndex % Byte.SIZE == 0 && readRemaining >= laneLength) {
                     if (DEBUGGING)
-                        System.out.printf("DEBUG absorbBitsIntoState readRemaining>0 x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
+                        System.out.printf("DEBUG inner loop: 0 mod Byte.SIZE x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
                     absorbEntireLaneIntoState(input, inputBitIndex, x, y);
                     inputBitIndex += laneLength;
                     readRemaining -= laneLength;
                 } else {
                     if (DEBUGGING)
-                        System.out.printf("DEBUG absorbBitsIntoState readRemaining=0 x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
+                        System.out.printf("DEBUG inner loop: else x=%d, y=%d, inputBitIndex=%d, readRemaining=%d\n", x, y, inputBitIndex, readRemaining);
                     absorbBitByBitIntoState(input, inputBitIndex, readRemaining, x, y);
                     return;
                 }

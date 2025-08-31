@@ -4,7 +4,9 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2025-08-30 | 4.3.15 | New test cases: string-formatter-basic, string-formatter-biggies. |
+| 2025-08-31 | 4.3.16 | New test case: math-context. |
+| | | Improved test cases rounding-mode, sha3. |
+| 2025-08-30 | 4.3.15 | New test cases: string-formatter-basic, string-formatter-biggies, string-formatter-other-objects. |
 | 2025-08-28 | 4.3.14 | New test case: warp-speed. |
 | 2025-08-27 | 4.3.13 | Added "Empty code segment" to ERROR_CATEGORIES.txt. |
 | | | Made test case threading more realistic. |
