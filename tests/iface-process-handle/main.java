@@ -12,6 +12,8 @@ public class main {
 		}
 	    System.out.print("3. parent: JVM executable: ");
 	    System.out.println(jvmPath);
+	    
+	    Checkers.theEnd(0);
 
     }
 }

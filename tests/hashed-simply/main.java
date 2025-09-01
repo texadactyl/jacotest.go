@@ -2,23 +2,6 @@ import java.util.HashMap;
 
 public class main {
 
-    private static int checker(String label, String expected, String observed) {
-        if (expected.equals(observed)) {
-            System.out.printf("checker ok, %s: expected(%s) = observed(%s)\n", label, expected, observed);
-            return 0;
-        }
-        System.out.printf("checker*** ERROR, %s: expected(%s) != observed(%s)\n", label, expected, observed);
-        return 1;
-    }
-
-    private static int checker(String label, boolean expected, boolean observed) {
-        if (expected == observed) {
-            System.out.printf("checker ok, %s: expected = observed\n", label);
-            return 0;
-        }
-        System.out.printf("checker *** ERROR, %s: expected != observed\n", label);
-        return 1;
-    }
 
     public static void main(String[] args) {
         int errorCount = 0;
@@ -27,7 +10,7 @@ public class main {
         hmapA.put(1, "apple");
         hmapA.put(2, "pie");
         hmapA.put(42, "the meaning of life");
-        errorCount += checker("hmapA.get(2)", "pie", hmapA.get(2));
+        errorCount += Checkers.checker("hmapA.get(2)", "pie", hmapA.get(2));
         String str = hmapA.get(3);
         if (str != null) {
             errorCount += 1;
@@ -42,25 +25,25 @@ public class main {
         hmapB.put(0, "zilch!");
         
         hmapA.putAll(hmapB);
-        errorCount += checker("hmapA.get(6)", "six", hmapA.get(6));
+        errorCount += Checkers.checker("hmapA.get(6)", "six", hmapA.get(6));
         
-        errorCount += checker("hmapA.containsKey(0) true", true, hmapA.containsKey(0));
-        errorCount += checker("hmapA.containsKey(86) false", false, hmapA.containsKey(86));
+        errorCount += Checkers.checker("hmapA.containsKey(0) true", true, hmapA.containsKey(0));
+        errorCount += Checkers.checker("hmapA.containsKey(86) false", false, hmapA.containsKey(86));
         
         int sz = hmapA.size();
         str = String.format("%d", sz);
-        errorCount += checker("hmapA.size()", "6", str);
+        errorCount += Checkers.checker("hmapA.size()", "6", str);
         
         str = hmapA.remove(2);
-        errorCount += checker("hmapA.remove(2)", "pie", str);
+        errorCount += Checkers.checker("hmapA.remove(2)", "pie", str);
         sz = hmapA.size();
         str = String.format("%d", sz);
-        errorCount += checker("hmapA.size() after hmapA.remove(2)", "5", str);
+        errorCount += Checkers.checker("hmapA.size() after hmapA.remove(2)", "5", str);
         
         hmapA.clear();
         sz = hmapA.size();
         str = String.format("%d", sz);
-        errorCount += checker("hmapA.clear()", "0", str);
+        errorCount += Checkers.checker("hmapA.clear()", "0", str);
         
         HashMap<String, String> hmapC = new HashMap<String, String>();
         hmapC.put("one", "Line 1");
@@ -68,9 +51,9 @@ public class main {
         hmapC.put("three", "Line 3");
         sz = hmapC.size();
         str = String.format("%d", sz);
-        errorCount += checker("hmapC.size()", "3", str);
+        errorCount += Checkers.checker("hmapC.size()", "3", str);
         
-        errorCount += checker("hmapC.get(\"two\")", "Line 2", hmapC.get("two"));
+        errorCount += Checkers.checker("hmapC.get(\"two\")", "Line 2", hmapC.get("two"));
         str = hmapC.get("Not a key");
         if (str != null) {
             errorCount += 1;
@@ -79,8 +62,7 @@ public class main {
             System.out.println("hmapA.get(\"Not a key\") returned null as expected");
         }
     
-        assert errorCount == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 }
 

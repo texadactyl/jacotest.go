@@ -32,6 +32,8 @@ public class main {
         et = Q.read();
         double cps = cycles / et;
         System.out.printf("measureFFT: cycles: %d, elapsed time (s): %f, cycles/second: %f\n", cycles, et, cps);
+        
+        Checkers.theEnd(0);
 
     }
 

@@ -7,7 +7,8 @@ public class main implements IfaceLorentz {
         double t2 = t1 * instance.lorentzFunc(v);
         System.out.printf("t1: %.2f years, v: %.2f Km/s, t2 (dilated t1): %.2f years\n", t1, v, t2); 
         assert(t2 > 115.0);
-        System.out.println("Success!");
+        
+        Checkers.theEnd(0);
     }
 
 }

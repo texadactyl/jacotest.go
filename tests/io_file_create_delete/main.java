@@ -21,5 +21,7 @@ public class main {
         	throw new AssertionError("*** ERROR, file.delete() failed");
         }
         System.out.println("File deleted.");
+        
+        Checkers.theEnd(0);
     }
 }

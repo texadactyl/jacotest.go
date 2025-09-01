@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class main {
+
+    // TODO: needs qualitative tests
+    
     public static void main(String args[]) throws IOException {
 
 		System.out.println("ImageIO exercise");
@@ -45,6 +48,7 @@ public class main {
             ee.printStackTrace();
             throw new AssertionError("ImageIO.write IOException");
         }
-		System.out.println("Success!");
+        
+		Checkers.theEnd(0);
     }
 }

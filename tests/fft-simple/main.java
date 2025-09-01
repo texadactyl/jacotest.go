@@ -4,6 +4,8 @@ import java.lang.Thread;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
     private static long sleepTime = 0;
     private static int defaultSampleSize = 16384;
     private static double MAX_ERROR = 0.00001;
@@ -24,7 +26,7 @@ public class main {
             }
         }
         
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
  
     /**

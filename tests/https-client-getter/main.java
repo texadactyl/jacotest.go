@@ -12,6 +12,8 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
     private static final String GetURLString = "https://www.netcraft.com/";
     private static final int Timeout = 20000;
     private static final int stCodeOk = 200;
@@ -64,6 +66,8 @@ public class main {
             String errMsg = String.format("*** ERROR, syncedGet: status code: %d\n", stCode);
             throw new AssertionError(errMsg);
         }
+        
+        Checkers.theEnd(0);
 
     } // public static void main(String[] args)
 

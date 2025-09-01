@@ -50,7 +50,7 @@ public class main {
 		int N_ELEMENTS = 64;
 		String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+=";
 		int N_ALPHABET = alphabet.length();
-    	int errorCounter = 0;
+    	int errorCount = 0;
     	String FilePath = "./out.bin";
     	String wstr;
     	int index;
@@ -73,7 +73,7 @@ public class main {
         osw.close();
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after write(array)", chArray, N_ELEMENTS, FilePath);
+        errorCount += doRdAllCmp("after write(array)", chArray, N_ELEMENTS, FilePath);
         
     	// Write the entire chArray to file, one by one.
     	fos = new FileOutputStream(FilePath);
@@ -84,7 +84,7 @@ public class main {
         osw.close();
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after writing one int at a time", chArray, N_ELEMENTS, FilePath);
+        errorCount += doRdAllCmp("after writing one int at a time", chArray, N_ELEMENTS, FilePath);
        
     	// Write a subset of chArray to a file.
     	fos = new FileOutputStream(FilePath);
@@ -97,7 +97,7 @@ public class main {
         }
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after writing a subset", charSubArray, length, FilePath);
+        errorCount += doRdAllCmp("after writing a subset", charSubArray, length, FilePath);
         
         // Whole string
         String str1 = "Mary had a little lambe whose fleece was white as snow.";
@@ -114,7 +114,7 @@ public class main {
 		String str2 = new String(bytes);
 		if (!str2.equals(str1)) {
 			System.out.printf("*** ERROR, str1=%s, str2=%s\n", str1, str2);
-			errorCounter += 1;
+			errorCount += 1;
 		} else {
 			System.out.printf("\n========== Whole string output and input is successful.\n");
 		}
@@ -123,6 +123,6 @@ public class main {
         File file = new File(FilePath);
         file.delete();
        
-        assert(errorCounter == 0);
+        Checkers.theEnd(errorCount);
     }
 }

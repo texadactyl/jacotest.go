@@ -42,7 +42,7 @@ public class main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
     
 		int NBYTES = 10000;
-    	int errorCounter = 0;
+    	int errorCount = 0;
     	String FilePath = "./out.bin";
     	String wstr;
 
@@ -62,7 +62,7 @@ public class main {
         fos.close();
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after write(array)", bytes_1, NBYTES, FilePath);
+        errorCount += doRdAllCmp("after write(array)", bytes_1, NBYTES, FilePath);
        
     	// Write the entire bytes_1 to file, one by one.
     	file = new File(FilePath);
@@ -73,7 +73,7 @@ public class main {
         fos.close();
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after writing one int at a time", bytes_1, NBYTES, FilePath);
+        errorCount += doRdAllCmp("after writing one int at a time", bytes_1, NBYTES, FilePath);
        
     	// Write a subset of bytes_1 to a file.
         fos = new FileOutputStream(FilePath);
@@ -85,12 +85,12 @@ public class main {
         }
         
         // Read back and compare.
-        errorCounter += doRdAllCmp("after writing a subset", bytes_3, length, FilePath);
+        errorCount += doRdAllCmp("after writing a subset", bytes_3, length, FilePath);
         
         // Delete file.
         file = new File(FilePath);
         file.delete();
        
-        assert(errorCounter == 0);
+        Checkers.theEnd(errorCount);;
     }
 }

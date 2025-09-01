@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
     private static int getPort() {
         // Ref: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
         for (int candidate = 3101; candidate < 3128; candidate++) {
@@ -44,5 +46,7 @@ public class main {
 
         // The client and server are finished.
         ps.printLabeledMsg(MY_NAME, "End");
+        
+        Checkers.theEnd(0);
     }
 }

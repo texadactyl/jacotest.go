@@ -69,47 +69,49 @@ public final class main {
 
 	}
 
-    private static void errorCases(int idividend, int idivisor) {
+    private static void catchCases(int idividend, int idivisor) {
 		long ldividend = idividend;
 		long ldivisor = idivisor;
-		System.out.printf("errorCases: For int and long, dividend=%d, divisor=%d\n", idividend, idivisor);
+		System.out.printf("catchCases: For int and long, dividend=%d, divisor=%d\n", idividend, idivisor);
 
 		try {
 			int observed = Math.floorDiv(idividend, idivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorDiv(II) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorDiv(II) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorDiv(II) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorDiv(II) threw an ArithmeticException"); }
 
 		try {
 			long observed = Math.floorDiv(ldividend, idivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorDiv(JI) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorDiv(JI) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorDiv(JI) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorDiv(JI) threw an ArithmeticException"); }
 
 		try {
 			long observed = Math.floorDiv(ldividend, ldivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorDiv(JJ) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorDiv(JJ) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorDiv(JJ) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorDiv(JJ) threw an ArithmeticException"); }
 
 		try {
 			int observed = Math.floorMod(idividend, idivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorMod(II) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorMod(II) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorMod(II) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorMod(II) threw an ArithmeticException"); }
 
 		try {
 			long observed = Math.floorMod(ldividend, idivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorMod(JI) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorMod(JI) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorMod(JI) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorMod(JI) threw an ArithmeticException"); }
 
 		try {
 			long observed = Math.floorMod(ldividend, ldivisor);
-			throw new AssertionError("*** ERROR, errorCases: Math.floorMod(JJ) failed to throw an ArithmeticException");
-		} catch (ArithmeticException ex) { System.out.println("Success, errorCases: Math.floorMod(JJ) threw an ArithmeticException"); }
+			throw new AssertionError("*** ERROR, catchCases: Math.floorMod(JJ) failed to throw an ArithmeticException");
+		} catch (ArithmeticException ex) { System.out.println("Success, catchCases: Math.floorMod(JJ) threw an ArithmeticException"); }
 
-		System.out.println("errorCases: ok");
+		System.out.println("catchCases: ok");
     }
 
     public static void main(String[] args) {
 		successCases(-4, 3, -2, 2); 		
 		successCases(1057, -19, -56, -7);
-		errorCases(137, 0);	
+		catchCases(137, 0);
+		
+		Checkers.theEnd(0);
 	}
 }

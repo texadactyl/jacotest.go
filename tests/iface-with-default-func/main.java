@@ -7,6 +7,8 @@ public class main {
         assert (result == 42);
         result = bc.bcReturnAnInt();
         assert (result == 42);
+        
+        Checkers.theEnd(0);
     }
 
 }

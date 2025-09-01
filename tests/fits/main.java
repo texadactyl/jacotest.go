@@ -252,6 +252,6 @@ public class main { // formerly called TestFits
             }
         }
 
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

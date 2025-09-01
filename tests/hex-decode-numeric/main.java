@@ -1,5 +1,7 @@
 public class main {
+
 	private static final int NLOOPS = 1000;
+	
 	public static void main(String[] args) {
 		for (int ii = 0; ii < NLOOPS; ii++ ) {
 			int wint = Integer.decode("18");
@@ -13,6 +15,8 @@ public class main {
 			System.out.printf("Byte conversion: |%s|\n", ss2);
 			
 			assert (ss1.equals(ss2));
+			
+			Checkers.theEnd(0);
 		}
 	}
 }
