@@ -19,7 +19,8 @@ public class main {
         }
         
         jj._dumpStatics("Here is a statics dump just AFTER the assertion-check.", 3, "");
-        assert (errorCount == 0);
+        
+        Checkers.theEnd(0);
 
    }
 }

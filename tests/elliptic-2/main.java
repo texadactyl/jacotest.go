@@ -63,11 +63,11 @@ public class main {
         System.out.println("Decrypted cleartext message: " + cleartext_2);
         
         // How did we do?
-        if(cleartext_2.equals(cleartext_1)) {
-            System.out.println("Success :: The TX and RX decryptions match");
-        } else {
-            throw new AssertionError("The TX and RX decryptions do not match");
+        if(!cleartext_2.equals(cleartext_1)) {
+           throw new AssertionError("The TX and RX decryptions do not match");
         }
+        
+        Checkers.theEnd(0);
     }
 
     // Derive a shared secret using ECDH

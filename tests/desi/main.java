@@ -103,7 +103,8 @@ public class main {
 		int inputBits2[] = des.permute(cipherBits, keyBits, true);
 		
 		assert cmpIntArrays(inputBits2, inputBits) == 0;
-		System.out.println("Success!");
+		
+		Checkers.theEnd(0);
 		
 	}
 

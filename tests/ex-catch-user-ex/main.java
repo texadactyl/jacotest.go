@@ -21,7 +21,7 @@ public class main {
             System.out.println("Success - Caught a user-defined exception as expected");
             // Print the message from MyException object
             System.out.println(ex.getMessage());
-            System.exit(0);
+            Checkers.theEnd(0);
         }
         
         System.out.println("*** ERROR *** Expected to catch a MyException !!!");

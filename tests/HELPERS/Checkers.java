@@ -3,6 +3,8 @@ import java.math.BigInteger;
 
 public class Checkers {
 
+    public static double MAX_PERCENT = 0.0001;
+
     public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
         if (expected == 0) {
             if (observed == 0) {
@@ -25,6 +27,10 @@ public class Checkers {
         }
     }
 
+    public static int withinTolerance(String label, double expected, double observed) {
+        return withinTolerance(label, expected, observed, MAX_PERCENT);
+    }
+    
     public static int withinTolerance(String label, double expected, double observed, double maxPercent) {
         double diff = Math.abs(expected - observed);
         double diffPct = Math.abs(100.0 * diff / expected);
@@ -71,6 +77,8 @@ public class Checkers {
             return 0;
         }
         System.out.printf("*** DISCREPANCY %s: expected = %s, observed = %s\n", label, expected, observed);
+        System.out.print(HexDump.dumpBytes("expected bytes", expected.getBytes(), expected.length(), HexDump.COLUMN_SIZE));
+        System.out.print(HexDump.dumpBytes("observed bytes", observed.getBytes(), observed.length(), HexDump.COLUMN_SIZE));
         return 1;
     }
     
@@ -104,6 +112,12 @@ public class Checkers {
         }
         System.out.printf("*** DISCREPANCY %s: expected = %d, observed = %s\n", label, expected, observed);
         return 1;
+    }
+    
+    public static void theEnd(int errorCount) {
+        assert errorCount == 0;
+        System.out.println("Success!");
+        System.exit(0);
     }
 
 }

@@ -28,7 +28,7 @@ public class main {
         
         assert decrypted[0] == clearText[0] && decrypted[1] == clearText[1];
         
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 }
 

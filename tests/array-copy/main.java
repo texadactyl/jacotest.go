@@ -59,8 +59,7 @@ public class main {
             str = str.concat(String.format("%d", dstKlassy[ix].ii));
         errorCount += Checkers.checker("dest klassy[]", "00023", str);
         
-        assert(errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
         
     }
 }

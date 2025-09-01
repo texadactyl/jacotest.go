@@ -42,6 +42,7 @@ public final class main {
 		System.out.printf("No-exception count (should = 0) = %d\n", counterNoex);
 		if (counterNoex != 0 || counterCatch != NLOOPS || ixFinally != NLOOPS)
 			throw new AssertionError("*** ERROR detected, look at the log");
-		System.out.println("Success!");
+		
+		Checkers.theEnd(0);
 	}
 }

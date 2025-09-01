@@ -1,5 +1,7 @@
 public class main {
 
+    // TODO: add qualitative tests.
+
     public static void main(String[] args) {
         IntArray original = new IntArray(new int[]{1, 2, 3, 4, 5});
 

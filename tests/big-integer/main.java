@@ -12,16 +12,6 @@ public class main {
         return str;
     }
     
-    private static int checker(String label, long expected, long observed) {
-        if (expected == observed) {
-            System.out.printf("Success, %s: expected(%d) = observed(%d)\n", label, expected, observed);
-            return 0;
-        }
-        System.out.printf("*** ERROR, %s: expected(%d) != observed(%d)\n", label, expected, observed);
-        return 1;
-
-    }
-
     public static void main(String[] args) {
         int errorCount = 0;
         
@@ -43,22 +33,22 @@ public class main {
         System.out.println(bint2);
         
         int ii = bint1.intValue();
-        errorCount += checker("barr1 intValue", 65L, (long) ii);       
+        errorCount += Checkers.checker("barr1 intValue", 65L, (long) ii);       
         long jj = bint1.longValue();
-        errorCount += checker("barr1 longValue", 65L, jj);
+        errorCount += Checkers.checker("barr1 longValue", 65L, jj);
         
         ii = bint2.intValue();
-        errorCount += checker("barr2 intValue", -3L, (long) ii);       
+        errorCount += Checkers.checker("barr2 intValue", -3L, (long) ii);       
         jj = bint2.longValue();
-        errorCount += checker("barr2 longValue", -3L, jj);
+        errorCount += Checkers.checker("barr2 longValue", -3L, jj);
         
         ii = bint2.intValueExact();
-        errorCount += checker("barr2 intValueExact", -3L, (long) ii);       
+        errorCount += Checkers.checker("barr2 intValueExact", -3L, (long) ii);       
         jj = bint2.longValueExact();
-        errorCount += checker("barr2 longValueExact", -3L, jj);
+        errorCount += Checkers.checker("barr2 longValueExact", -3L, jj);
 
         short ss = bint2.shortValueExact();
-        errorCount += checker("barr2 shortValueExact", -3L, (long)ss);
+        errorCount += Checkers.checker("barr2 shortValueExact", -3L, (long)ss);
         
         String str1 = "65";
         String str2 = "-3";
@@ -66,171 +56,170 @@ public class main {
         bint2 = new BigInteger(str2);
         
         jj = bint1.longValue();
-        errorCount += checker("str1 longValue", 65L, jj);
+        errorCount += Checkers.checker("str1 longValue", 65L, jj);
         jj = bint2.longValue();
-        errorCount += checker("str2 longValue", -3L, jj);
+        errorCount += Checkers.checker("str2 longValue", -3L, jj);
         
         BigInteger w1 = bint1.abs();
         jj = w1.longValue();
-        errorCount += checker("w1=bint1.abs", 65L, jj);
+        errorCount += Checkers.checker("w1=bint1.abs", 65L, jj);
         
         BigInteger w2 = bint2.abs();
         jj = w2.longValue();
-        errorCount += checker("w2=bint1.abs", 3L, jj);
+        errorCount += Checkers.checker("w2=bint1.abs", 3L, jj);
         
         BigInteger w3 = w1.add(w2);
         jj = w3.longValue();
-        errorCount += checker("w3=w1+w2", 68L, jj);
+        errorCount += Checkers.checker("w3=w1+w2", 68L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         w3 = w1.subtract(w2);
         jj = w3.longValue();
-        errorCount += checker("w3=w1-w2", 62L, jj);
+        errorCount += Checkers.checker("w3=w1-w2", 62L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         w3 = w1.and(w2);
         jj = w3.longValue();
-        errorCount += checker("w3=w1&w2", 1L, jj);
+        errorCount += Checkers.checker("w3=w1&w2", 1L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w1.bitCount();
-        errorCount += checker("w1.bitCount", 2L, jj);
+        errorCount += Checkers.checker("w1.bitCount", 2L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w1.bitLength();
-        errorCount += checker("w1.bitLength", 7L, jj);
+        errorCount += Checkers.checker("w1.bitLength", 7L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w1.byteValueExact();
-        errorCount += checker("w1.byteValueExact", 65L, jj);
+        errorCount += Checkers.checker("w1.byteValueExact", 65L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w1.compareTo(w2);
-        errorCount += checker("w1.compareTo(w2)", 1L, jj);
+        errorCount += Checkers.checker("w1.compareTo(w2)", 1L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w1.compareTo(w1);
-        errorCount += checker("w1.compareTo(w1)", 0L, jj);
+        errorCount += Checkers.checker("w1.compareTo(w1)", 0L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = (long) w2.compareTo(w1);
-        errorCount += checker("w2.compareTo(w1)", -1L, jj);
+        errorCount += Checkers.checker("w2.compareTo(w1)", -1L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         w3 = w1.divide(w2);
         jj = w3.longValue();
-        errorCount += checker("w1.divide(w2)", 21L, jj);
+        errorCount += Checkers.checker("w1.divide(w2)", 21L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         BigInteger warray[] = w1.divideAndRemainder(w2);
         long jj1 = warray[0].longValue();
         long jj2 = warray[1].longValue();
-        errorCount += checker("w1.divideAndRemainder(w2) quotient", 21L, jj1);
-        errorCount += checker("w1.divideAndRemainder(w2) remainder", 2L, jj2);
+        errorCount += Checkers.checker("w1.divideAndRemainder(w2) quotient", 21L, jj1);
+        errorCount += Checkers.checker("w1.divideAndRemainder(w2) remainder", 2L, jj2);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = w1.equals(w1)? 0L : 1L;
-        errorCount += checker("w1.equals(w1)", 0L, jj);
+        errorCount += Checkers.checker("w1.equals(w1)", 0L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         jj = w1.equals(w2)? 0L : 1L;
-        errorCount += checker("w1.equals(w1)", 1L, jj);
+        errorCount += Checkers.checker("w1.equals(w1)", 1L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 65L, jj);
+        errorCount += Checkers.checker("w1 again", 65L, jj);
 
         w1 = new BigInteger("27");
         w2 = new BigInteger("45");
         w3 = w1.gcd(w2);
         jj = w3.longValue();
-        errorCount += checker("w1.gcd(w2)", 9L, jj);
+        errorCount += Checkers.checker("w1.gcd(w2)", 9L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 27L, jj);
+        errorCount += Checkers.checker("w1 again", 27L, jj);
 
         w1 = new BigInteger("43");
         w2 = new BigInteger("79");
         w3 = w1.modInverse(w2);
         jj = w3.longValue();
-        errorCount += checker("w1.modInverse(w2)", 68L, jj);
+        errorCount += Checkers.checker("w1.modInverse(w2)", 68L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 43L, jj);
+        errorCount += Checkers.checker("w1 again", 43L, jj);
 
         w1 = new BigInteger("23895");
         BigInteger ee = new BigInteger("15");
         BigInteger mm = new BigInteger("14189");
         BigInteger w4 = w1.modPow(ee, mm);
         jj = w4.longValue();
-        errorCount += checker("23895.modPow(ee=15, mm=14189)", 344L, jj);
+        errorCount += Checkers.checker("23895.modPow(ee=15, mm=14189)", 344L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 23895L, jj);
+        errorCount += Checkers.checker("w1 again", 23895L, jj);
 
         w1 = new BigInteger("23");
         w2 = new BigInteger("100");
         w3 = w1.multiply(w2);
         jj = w3.longValue();
-        errorCount += checker("23 * 100", 2300L, jj);
+        errorCount += Checkers.checker("23 * 100", 2300L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 23L, jj);
+        errorCount += Checkers.checker("w1 again", 23L, jj);
 
         w3 = w1.negate();
         jj = w3.longValue();
-        errorCount += checker("-23", -23L, jj);
+        errorCount += Checkers.checker("-23", -23L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 23L, jj);
+        errorCount += Checkers.checker("w1 again", 23L, jj);
        
         byte bb[] = w4.toByteArray();
         jj = bb[0] * 256 + bb[1];
-        errorCount += checker("w4.toByteArray", 344L, jj);
+        errorCount += Checkers.checker("w4.toByteArray", 344L, jj);
         jj = w4.longValue();
-        errorCount += checker("w4 again", 344L, jj);
+        errorCount += Checkers.checker("w4 again", 344L, jj);
        
         String str = w4.toString();
         BigInteger w5 = new BigInteger(str);
         jj = w5.longValue();
-        errorCount += checker("w4.toString", 344L, jj);
+        errorCount += Checkers.checker("w4.toString", 344L, jj);
        
         str = w4.toString(10);
         w5 = new BigInteger(str);
         jj = w5.longValue();
-        errorCount += checker("w4.toString", 344L, jj);
+        errorCount += Checkers.checker("w4.toString", 344L, jj);
        
         str = w4.toString(16);
         w5 = new BigInteger(str, 16);
         jj = w5.longValue();
-        errorCount += checker("w4.toString/radix", 344L, jj);
+        errorCount += Checkers.checker("w4.toString/radix", 344L, jj);
        
         w1 = new BigInteger("23");
         w2 = new BigInteger("100");
         w3 = w1.xor(w2);
         jj = w3.longValue();
-        errorCount += checker("23 xor 100", 115L, jj);
+        errorCount += Checkers.checker("23 xor 100", 115L, jj);
         jj = w1.longValue();
-        errorCount += checker("w1 again", 23L, jj);
+        errorCount += Checkers.checker("w1 again", 23L, jj);
         
         if (w1.isProbablePrime(1))
             jj = 1L;
         else
             jj = 0L;
-        errorCount += checker("w1=23.isProbablePrime(1)", 1L, jj);
+        errorCount += Checkers.checker("w1=23.isProbablePrime(1)", 1L, jj);
         if (w2.isProbablePrime(1))
             jj = 1L;
         else
             jj = 0L;
-        errorCount += checker("w2=100.isProbablePrime(1)", 0L, jj);
+        errorCount += Checkers.checker("w2=100.isProbablePrime(1)", 0L, jj);
 
-        assert(errorCount == 0);
-        System.out.println("No errors encountered");
+        Checkers.theEnd(errorCount);
    }
 
 }

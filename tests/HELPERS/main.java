@@ -19,8 +19,7 @@ public class main {
         errorCount += Checkers.checker("Primes.findLargestTwoPrimes(1000000) #1", 999983l, myPrimes[0]);
         errorCount += Checkers.checker("Primes.findLargestTwoPrimes(1000000) #2", 999979l, myPrimes[1]);
         
-        assert(errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
     
 } 

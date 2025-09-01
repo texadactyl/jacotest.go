@@ -1,13 +1,13 @@
 public class HexDump {
 
-    private static final int COLUMN_SIZE = 16;
+    public static final int COLUMN_SIZE = 16;
 
     /*
         Dump a byte array, formatted as hex on the left, ASCII on the right.
         The finished String is can be displayed with printf or written to a file.
     */
     public static String dumpBytes(String label, byte[] buffer, int numBytes, int columnSize) {
-        String output = "";
+        String output = String.format("%s (%d bytes)\n", label, buffer.length);
         
         int offset = 0;
         while (offset < numBytes) {

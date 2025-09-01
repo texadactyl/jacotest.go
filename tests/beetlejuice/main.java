@@ -22,5 +22,7 @@ public class main {
 		System.out.println(beetlejuice);
 		System.out.println(beetlejuice);
 		System.out.println(beetlejuice);
+		
+		Checkers.theEnd(0);
 	}
 }

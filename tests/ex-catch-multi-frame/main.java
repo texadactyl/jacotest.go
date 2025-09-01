@@ -60,7 +60,7 @@ public class main {
             System.out.println("main/IREM: Caught an ArithmeticException");
         }
 
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 }
 

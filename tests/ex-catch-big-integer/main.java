@@ -11,5 +11,6 @@ public class main {
         } catch (ArithmeticException ex) {
             System.out.println("Caught ArithmeticException");
         }
+        Checkers.theEnd(0);
     }
 }

@@ -65,10 +65,12 @@ public class main {
         // Verify both parties derived the same shared secret
         boolean result = MessageDigest.isEqual(txSecret, rxSecret);
         if (result) {
-            System.out.println("Success :: The TX and RX shared secrets match");
+            System.out.println("The TX and RX shared secrets match");
         } else {
             throw new AssertionError("The TX and RX shared secrets do not match");
         }
+        
+        Checkers.theEnd(0);
     }
 
     // Utility method to convert byte array to hex string

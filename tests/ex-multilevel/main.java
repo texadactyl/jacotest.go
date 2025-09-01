@@ -27,6 +27,8 @@ public class main {
         finally {
             System.out.println("Finally level #1");
         }
+        
+        Checkers.theEnd(0);
 
     }
 }

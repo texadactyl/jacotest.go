@@ -30,6 +30,8 @@ public class main {
         rptStr("Default Charset by InputStreamReader", str);
         str = Charset.defaultCharset().toString();
         rptStr("Default Charset via Charset.defaultCharset()", str);
+        
+        Checkers.theEnd(0);
     }
     
 }

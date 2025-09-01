@@ -33,5 +33,7 @@ public class main {
 		if (! finny) {
 			throw new AssertionError("*** ERROR, I did not pass through finally!");
 		}
+		
+		Checkers.theEnd(0);
     }
 }

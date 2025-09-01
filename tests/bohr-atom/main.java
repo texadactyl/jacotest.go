@@ -49,26 +49,8 @@ public class main {
         p2();
         p3();
         p4();
-        assert errorCount == 0;
-        System.out.println("Success!");
-    }
-
-	// Is the observed value close enough to the expected value?
-    private static int isItClose(String label, double observed, double expected, double tolerance) { 	
-        if (Math.abs(expected) < tolerance && Math.abs(observed) < tolerance) {
-            System.out.printf("isItClose? %s: Success (close enough): observed=%f vs expected=%f\n",
-                    label, observed, expected);
-            return 0; // Consider them equal
-        }
-        double difference = Math.abs(expected - observed);
-    	System.out.printf("isItClose? %s: ", label);
-        if (difference < tolerance) {
-            System.out.printf("isItClose? %s: Success (close enough): observed=%f vs expected=%f\n",
-                    label, observed, expected);
-            return 0;
-        }
-        System.out.printf(": *** ERROR, not close enough: observed=%f vs expected=%f\n", observed, expected);
-        return 1;
+        
+        Checkers.theEnd(errorCount);
     }
 
     // Convert joules to electron volts.
@@ -166,8 +148,8 @@ public class main {
         System.out.printf("\t3 to 1 (electron -, photon +): %.3f eV\n", joulesToEv(deltaE(3, 1)));
         System.out.printf("\t6 to 4 (electron -, photon +): %.3f eV\n", joulesToEv(deltaE(6, 4)));
         System.out.printf("\t7 to 2 (electron -, photon +): %.3f eV\n", joulesToEv(deltaE(7, 2)));
-        errorCount += isItClose("joulesToEv(deltaE(2, 5)", joulesToEv(deltaE(2, 5)), 2.856, TOLERANCE);
-        errorCount += isItClose("joulesToEv(deltaE(6, 4)", joulesToEv(deltaE(6, 4)), 0.472, TOLERANCE);
+        errorCount += Checkers.withinTolerance("joulesToEv(deltaE(2, 5)", 2.85564, joulesToEv(deltaE(2, 5)), TOLERANCE);
+        errorCount += Checkers.withinTolerance("joulesToEv(deltaE(6, 4)", 4.721628e-01, joulesToEv(deltaE(6, 4)), TOLERANCE);
     }
 
 
@@ -181,8 +163,8 @@ public class main {
         System.out.printf("\t7 to 5: %s\n", computeJumpToInfo(7, 5).toString());
         System.out.printf("\t7 to 1: %s\n", computeJumpToInfo(7, 1).toString());
         JumpToInfo jti = computeJumpToInfo(7, 5);
-        errorCount += isItClose("computeJumpToInfo(7, 5).waveLength(nm)", jti.waveLength, 4653.792, TOLERANCE);
-        errorCount += isItClose("computeJumpToInfo(7, 5).energy(eV)", jti.energy, 0.266, TOLERANCE);
+        errorCount += Checkers.withinTolerance("computeJumpToInfo(7, 5).waveLength(nm)", 4653.792, jti.waveLength, TOLERANCE);
+        errorCount += Checkers.withinTolerance("computeJumpToInfo(7, 5).energy(eV)", 2.664154e-01, jti.energy, TOLERANCE);
     }
 
     // Testing phase 4.
@@ -195,8 +177,8 @@ public class main {
         System.out.printf("\t5 to 7: %s\n", computeJumpToInfo(5, 7).toString());
         System.out.printf("\t1 to 7: %s\n", computeJumpToInfo(1, 7).toString());
         JumpToInfo jti = computeJumpToInfo(1, 7);
-        errorCount += isItClose("computeJumpToInfo(1, 7).waveLength(nm)", jti.waveLength, 93.076, TOLERANCE);
-        errorCount += isItClose("computeJumpToInfo(1, 7).energy(eV)", jti.energy, 13.321, TOLERANCE);
+        errorCount += Checkers.withinTolerance("computeJumpToInfo(1, 7).waveLength(nm)", 93.076, jti.waveLength, TOLERANCE);
+        errorCount += Checkers.withinTolerance("computeJumpToInfo(1, 7).energy(eV)", 1.332077e+01, jti.energy, TOLERANCE);
         
     }
     

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class main {
-    static int errorCounter = 0;
+    static int errorCount = 0;
 
     public static void main(String[] args) {
         testAbs();
@@ -27,10 +27,7 @@ public class main {
         testMovePointRight();
         testMultiply();
 
-        if (errorCounter > 0)
-            System.out.printf("Error count = %d\n", errorCounter);
-        assert errorCounter == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
     
     static String rptBigDecimal(BigDecimal arg) {
@@ -49,7 +46,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %s", rptBigDecimal(expected));
             System.out.printf(" ----- Observed: %s\n", rptBigDecimal(observed));
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -60,7 +57,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: 0x%02x", expected);
             System.out.printf(", Observed: 0x%02x\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -71,7 +68,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %d", expected);
             System.out.printf(", Observed: %d\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -82,7 +79,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %g", expected);
             System.out.printf(", Observed: %g\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -95,7 +92,7 @@ public class main {
             System.out.print(expected);
             System.out.print(", Observed: ");
             System.out.println(observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -114,7 +111,7 @@ public class main {
         check("byteValueExact(-128)", (byte)-128, new BigDecimal("-128").byteValueExact());
         try {
             check("byteValueExact(-129)", (byte)-129, new BigDecimal("-129").byteValueExact());
-            errorCounter++;
+            errorCount++;
             System.out.println("byteValueExact(-129): Failed to catch expected arithmetic exception  *** ERROR");
         } catch(ArithmeticException ex) {
             System.out.println("byteValueExact(-129): Caught expected arithmetic exception  OK");

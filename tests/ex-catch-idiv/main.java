@@ -16,5 +16,6 @@ public final class main {
 			}
 		}
 		System.out.printf("Finished %d loops of IDIV exceptions\n", NLOOPS);
+		Checkers.theEnd(0);
 	}
 }

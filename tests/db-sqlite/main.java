@@ -7,6 +7,8 @@ import org.jacotest.dbclient; // Force compilation of dbclient.java.
 
 public class main {
 
+    // TODO: needs qualitative tests
+
 
     public static void execCommand(String text) {
         System.out.printf("execCommand: Command line: %s\n", text);
@@ -57,6 +59,8 @@ public class main {
         // Execute dbclient main().
         text = String.format("%s -jar %s", jvmPgmName, nameDbclientJar);
         execCommand(text);
+        
+        Checkers.theEnd(0);
 
     }
 

@@ -335,7 +335,8 @@ public class main {
         assert(basicTest256());
         assert(basicTest512());
         assert(basicTest1024());
-        System.out.println("Success!");
+        
+        Checkers.theEnd(0);
     }
 
 }

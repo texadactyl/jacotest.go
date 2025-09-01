@@ -101,6 +101,8 @@ public class main {
         System.out.println("Valid blockchain at the end");
         printLabeledString("Total chain size in bytes: ", String.valueOf(totalChainSize));
         printLabeledString("Total payload size in bytes: ", String.valueOf(totalPayloadSize));
+        
+        Checkers.theEnd(errorCount);
     }
 }
 

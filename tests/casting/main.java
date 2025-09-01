@@ -9,10 +9,10 @@ public class main {
 
     public static int isItTrue(String label, boolean bool, String observed) {
         if (bool) {
-            System.out.printf("Success :: %s\n", label);
+            System.out.printf("ok %s\n", label);
             return 0;
         }
-        System.out.printf("*** ERROR, test: %s, observed value: %s\n", label, observed);
+        System.out.printf("*** ERROR, test: %s, observed: %s\n", label, observed);
         return 1;
     }
 
@@ -49,7 +49,6 @@ public class main {
         errorCount += isItTrue("cc == 1", cc == 1, String.valueOf(cc));
         errorCount += isItTrue("bb == 1", bb == 1, String.valueOf(bb));
 
-        // Check the error count
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

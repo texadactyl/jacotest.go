@@ -125,6 +125,8 @@ public class main {
             spectra[ii] = new Color( (int) (plot * wavRed), (int) (plot * wavGreen), (int) (plot * wavBlue));
             hashes[ii] = spectra[ii].hashCode();
         }
+        
+        Checkers.theEnd(0);
 
     }
 

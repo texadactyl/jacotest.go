@@ -64,7 +64,6 @@ public class main {
         errorCount += exec(100, 2, 400, false);
         errorCount += exec(100, 2 + 16384, 400, false);
 
-        assert (errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 }

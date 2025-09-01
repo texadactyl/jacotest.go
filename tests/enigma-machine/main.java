@@ -190,6 +190,8 @@ public class main {
     	encryptTest();
     	decryptTest();
     	plugboardTest();
+    	
+    	Checkers.theEnd(0);
 	}
 	
 }

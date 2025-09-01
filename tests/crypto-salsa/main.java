@@ -141,6 +141,8 @@ public class main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        Checkers.theEnd(0);
     }
 }
 

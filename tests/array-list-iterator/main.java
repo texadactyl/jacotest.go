@@ -69,7 +69,6 @@ public class main {
             errorCount += 1;
         }
 
-        assert (errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 } 

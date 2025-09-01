@@ -1,4 +1,7 @@
 public class main {
+
+    // TODO: needs qualitative tests
+
 	enum Color {
 		RED,
 		GREEN,
@@ -8,5 +11,7 @@ public class main {
     {
         Color c1 = Color.RED;
         System.out.println(c1);
+        
+        Checkers.theEnd(0);
     }
 }

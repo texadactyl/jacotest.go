@@ -3,7 +3,7 @@ public class main {
     public static void main(String[] args) {
         int counter = 0;
         int iparsed;
-        String fmt = "[%d] Caught NumberFormatException\n";
+        String fmt = "[%d] Caught NumberFormatException as expected\n";
         String errMsg;
         
 	    try {
@@ -62,5 +62,7 @@ public class main {
 	            }
 		    }
 		}
+		
+		Checkers.theEnd(0);
     }
 }

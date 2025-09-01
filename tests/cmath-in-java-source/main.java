@@ -2,6 +2,8 @@
 
 public class main {
 
+    // TODO: needs qualitative tests
+
     private static final double pi = 3.14159265d;
 
     private static void printComplex(String label, Complex value) {
@@ -40,5 +42,7 @@ public class main {
         Complex myPower = new Complex(0.0d, pi);
         Complex euler = myPower.eRaisedToComplex();
         printComplex("Euler", euler);
+        
+        Checkers.theEnd(0);
     }
 }

@@ -2,100 +2,91 @@ import java.util.Base64;
 
 public class main {
 
-    private static int checker(String label, String expected, String observed) {
-        String expSubset = expected.substring(0, expected.length());
-        String obsSubset = observed.substring(0, expected.length());
-        if (expSubset.equals(obsSubset)) {
-            System.out.printf("checker ok, %s: expected(%s) = observed(%s)\n", label, expSubset, obsSubset);
-            return 0;
-        }
-        System.out.printf("checker *** ERROR, %s: expected(%s) != observed(%s)\n", label, expSubset, obsSubset);
-        return 1;
-    }
-
     public static void main(String args[]) {
     
+        System.out.println("\nMIME base64 with padding");
     
-        int errorCounter = 0;
-        String wstr;
-        String[] mary = {
-            "Mary had a little lamb,",
-            "Its fleece was white as snow (or black as coal).",
-            "And everywhere that Mary went,",
-            "The lamb was sure to go.",
-            "He followed her to school one day,",
-            "That was against the rule.",
-            "It made the children laugh and play",
-            "To see a lamb at school."
-        };
-        String original = "[";
-        for (String line : mary) {
-            original = String.format("%s %s", original, line);
-        }
-        original = original.concat("]");
-        byte[] bbsrc = original.getBytes();
+        int errorCount = 0;
+        String observed;
+        String src = "Mary had a little lamb whose fleece was white as snow.";
+        System.out.println(src);
+        byte[] bbsrc = src.getBytes();
+        
+        // Set up encoder and decoder.
         Base64.Decoder de = Base64.getMimeDecoder();
-
-        System.out.println("MIME base64 with padding");
         Base64.Encoder be = Base64.getMimeEncoder();
-        String expected = "WyBNYXJ5IGhhZCBhIGxpdHRsZSBsYW1iLCBJdHMg";
         
-        byte[] bbdst = be.encode(bbsrc);
-        wstr = new String(bbdst);
-        errorCounter += checker("encode #1", expected, wstr);
+        // I expect the encoded output to be this:
+        String expected = "TWFyeSBoYWQgYSBsaXR0bGUgbGFtYiB3aG9zZSBmbGVlY2Ugd2FzIHdoaXRlIGFzIHNub3cu";
         
-        int size = be.encode(bbsrc, bbdst);
-        wstr = new String(bbdst);
-        errorCounter += checker("encode #2", expected, wstr);
+        // Return the encoded source string and compare to the expected output.
+        byte[] bbout = be.encode(bbsrc);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("encode #1 returned bytes", expected, observed);
         
-        wstr = be.encodeToString(bbsrc);
-        errorCounter += checker("encode #3 (to string)", expected, wstr);
+        // Put the encoded source string in the second argument.
+        // Compare to the expected output.
+        int size = be.encode(bbsrc, bbout);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("encode #2 set 2nd argument", expected, observed);
+        errorCount += Checkers.checker("encode #2 returned size", 72, size);
+        
+        // Encode to a string.
+        observed = be.encodeToString(bbsrc);
+        errorCount += Checkers.checker("encode #3 (encodeToString)", expected, observed);
 
-        byte[] bbsrc2 = bbdst;
+        // Make a second copy of the encoded byte array.
+        byte[] bbsrc2 = new byte[bbout.length];
+        System.arraycopy(bbout, 0, bbsrc2, 0, bbout.length);
         
-        bbdst = de.decode(bbsrc2);
-        wstr = new String(bbdst);
-        errorCounter += checker("decode #1", original, wstr);
+        // Return the decoded byte array and compare to the expected output.
+        bbout = de.decode(bbsrc2);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("decode #1", src, observed);
 
-        size = de.decode(bbsrc2, bbdst);
-        wstr = new String(bbdst);
-        errorCounter += checker("decode #2", original.substring(0, 30), wstr);
+        // Put the decoded byte array in the second argument.
+        // Compare to the expected output.
+        size = de.decode(bbsrc2, bbout);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("decode #2", src, observed);
+        errorCount += Checkers.checker("decode #2 returned size", 54, size);
         
-        wstr = new String(bbsrc2);
-        bbdst = de.decode(wstr);
-        errorCounter += checker("decode #3 (from string)", original.substring(0, 30), new String(bbdst));
+        observed = new String(bbsrc2);
+        bbout = de.decode(observed);
+        errorCount += Checkers.checker("decode #3 (from string)", src, new String(bbout));
         
-        System.out.println("MIME base64 without padding");
+        System.out.println("\nMIME base64 without padding");
+        
         be = Base64.getMimeEncoder().withoutPadding();
-        expected = "WyBNYXJ5IGhhZCBhIGxpdHRsZSBsYW1iLCBJdHMg";
+        expected = "TWFyeSBoYWQgYSBsaXR0bGUgbGFtYiB3aG9zZSBmbGVlY2Ugd2FzIHdoaXRlIGFzIHNub3cu";
         
-        bbdst = be.encode(bbsrc);
-        wstr = new String(bbdst);
-        errorCounter += checker("encode #1", expected, wstr);
+        bbout = be.encode(bbsrc);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("encode #1", expected, observed);
         
-        size = be.encode(bbsrc, bbdst);
-        wstr = new String(bbdst);
-        errorCounter += checker("encode #2", expected, wstr);
+        size = be.encode(bbsrc, bbout);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("encode #2", expected, observed);
         
-        wstr = be.encodeToString(bbsrc);
-        errorCounter += checker("encode #3 (to string)", expected, wstr);
+        observed = be.encodeToString(bbsrc);
+        errorCount += Checkers.checker("encode #3", expected, observed);
 
-        bbsrc2 = bbdst;
+        bbsrc2 = new byte[bbout.length];
+        System.arraycopy(bbout, 0, bbsrc2, 0, bbout.length);
         
-        bbdst = de.decode(bbsrc2);
-        wstr = new String(bbdst);
-        errorCounter += checker("decode #1", original, wstr);
+        bbout = de.decode(bbsrc2);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("decode #1", src, observed);
 
-        size = de.decode(bbsrc2, bbdst);
-        wstr = new String(bbdst);
-        errorCounter += checker("decode #2", original.substring(0, 30), wstr);
+        size = de.decode(bbsrc2, bbout);
+        observed = new String(bbout);
+        errorCount += Checkers.checker("decode #2", src, observed);
         
-        wstr = new String(bbsrc2);
-        bbdst = de.decode(wstr);
-        errorCounter += checker("decode #3 (from string)", original.substring(0, 30), new String(bbdst));
+        observed = new String(bbsrc2);
+        bbout = de.decode(observed);
+        errorCount += Checkers.checker("decode #3", src, new String(bbout));
         
-        assert errorCounter == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
 
     }
 }

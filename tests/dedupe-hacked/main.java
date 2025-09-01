@@ -98,6 +98,8 @@ public class main {
         int dupesCount = dupesList.showDupes( dupesTable );
 
         System.out.println( "Number of duplicates found: " + dupesCount );
+        
+        Checkers.theEnd(0);
     }
 
 

@@ -9,7 +9,7 @@ public class main {
 			throw new AssertionError("*** ERROR, failed to catch the AssertionError!");
 		} catch (AssertionError ae) {
 			System.out.println("Caught the Assertion Error");
-			System.exit(0);
+			Checkers.theEnd(0);
 		}
 	}
 

@@ -3,7 +3,7 @@ import java.math.BigInteger;
 
 public class main {
 
-    static int errorCounter = 0;
+    static int errorCount = 0;
 
     public static void main(String[] args) {
 
@@ -96,11 +96,7 @@ public class main {
         check("valueOfLongInt()", new BigDecimal("5"), BigDecimal.valueOf(5L, 0));
         check("valueOfLongInt()", new BigDecimal("12345"), BigDecimal.valueOf(12345L, 0));
 
-        // Final assertion for errorCounter
-        if (errorCounter > 0)
-            System.out.printf("Error count = %d\n", errorCounter);
-        assert errorCounter == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 
     // Helper methods for comparing expected and observed values
@@ -123,7 +119,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %s", rptBigDecimal(expected));
             System.out.printf(" ----- Observed: %s\n", rptBigDecimal(observed));
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -134,7 +130,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %s", expected.toString());
             System.out.printf(", Observed: %s\n", observed.toString());
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -145,7 +141,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %s", expected);
             System.out.printf(", Observed: %s\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -156,7 +152,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: 0x%02x", expected);
             System.out.printf(", Observed: 0x%02x\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -167,7 +163,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %d", expected);
             System.out.printf(", Observed: %d\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -178,7 +174,7 @@ public class main {
             System.out.printf("%s *** ERROR", test);
             System.out.printf(", Expected: %g", expected);
             System.out.printf(", Observed: %g\n", observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 
@@ -191,7 +187,7 @@ public class main {
             System.out.print(expected);
             System.out.print(", Observed: ");
             System.out.println(observed);
-            errorCounter++;
+            errorCount++;
         }
     }
 

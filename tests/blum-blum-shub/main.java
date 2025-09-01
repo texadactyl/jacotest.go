@@ -64,11 +64,13 @@ public class main {
         System.out.println(bbsBits);
         if (!bbsBits.equals(new BigInteger("301076126")))
             throw new AssertionError("*** ERROR, bbs.nextBits(32) test failed");
-        System.out.println("Success!");
+        
+        Checkers.theEnd(0);
     }
 }
 
 class BlumBlumShub {
+
     private BigInteger n; // Modulus (product of two primes)
     private BigInteger state; // Current state
 

@@ -132,7 +132,7 @@ public class main {
             inputs[ix].send(0L);
         }
 
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 }
 

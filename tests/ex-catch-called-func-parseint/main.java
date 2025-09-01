@@ -11,5 +11,6 @@ public class main {
         } catch (NumberFormatException ex) {
             System.out.println("Caught NumberFormatException");
         }
+        Checkers.theEnd(0);
    }
 }

@@ -1,6 +1,6 @@
-import java.lang.Thread;
-
 public class main {
+
+    // TODO: add qualitative tests.
 
     final static int NLOOPS = 10000;
 

@@ -9,6 +9,8 @@ public class main {
         System.out.println("Here come the des.objectArray elements .....");
         for (int ix = 0; ix < 3; ix++) 
             System.out.printf("des.objectArray[%d]: %s\n", ix, des.objectArray[ix]);
+            
+        Checkers.theEnd(0);
     
     }
 }
