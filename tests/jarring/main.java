@@ -60,6 +60,8 @@ public class main {
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
         String text = String.format("%s -jar jarring.jar RUNNER", jvmPgmName);
         execCommand(text);
+        
+        Checkers.theEnd(0);
 
     }
 

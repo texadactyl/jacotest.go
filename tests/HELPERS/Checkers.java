@@ -124,9 +124,12 @@ public class Checkers {
     }
     
     public static void theEnd(int errorCount) {
-        assert errorCount == 0;
-        System.out.println("Success!");
-        System.exit(0);
+        if (errorCount == 0) {
+            System.out.println("Success!");
+            System.exit(0);
+        }
+        String errMsg = String.format("*** Test case diagnosed %d errors", errorCount);
+        throw new AssertionError(errMsg);
     }
 
 }

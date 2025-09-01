@@ -30,6 +30,6 @@ public class main {
 			System.out.print(string);
 		}
 		
-		Checkers.theEnd(0;
+		Checkers.theEnd(0);
 	}
 }
