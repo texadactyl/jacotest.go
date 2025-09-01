@@ -19,5 +19,7 @@ public class main {
 		System.out.println(locale2);
 		System.out.println(locale3);
 		System.out.println(locale4);
+		
+		Checkers.theEnd(0);
 	}
 }

@@ -17,7 +17,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying a + b == 35");
+            System.out.println("ok a + b == 35");
 
         c = a - b;
         System.out.print("c = a - b: ");
@@ -26,7 +26,7 @@ public class main {
             System.out.println("*** ERROR, if(c != -15). Expected false. Observed true");
             errorCount += 1;
         } else
-            System.out.println("Success trying a - b == -15");
+            System.out.println("ok a - b == -15");
 
         c = b / a;
         if (c != 2) {
@@ -34,7 +34,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying b / a == 2");
+            System.out.println("ok b / a == 2");
 
         c = b % a;
         if (c != 5) {
@@ -42,7 +42,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying b % a == 5");
+            System.out.println("ok b % a == 5");
 
         a = 60;
         b = 13;
@@ -54,7 +54,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying b % a == 12");
+            System.out.println("ok b % a == 12");
 
         c = b | a;
         if (c != 61) {
@@ -62,7 +62,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying b | a == 61");
+            System.out.println("ok b | a == 61");
 
         c = b ^ a;
         if (c != 49) {
@@ -70,7 +70,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying b ^ a == 49");
+            System.out.println("ok b ^ a == 49");
 
         c = ~a;
         System.out.println("c = unary bitwise complement operator on a");
@@ -79,7 +79,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying ~a == -61");
+            System.out.println("ok ~a == -61");
 
         c = ~60;
         System.out.println("c = unary bitwise complement operator on 60");
@@ -88,7 +88,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying ~60 == -61");
+            System.out.println("ok ~60 == -61");
 
         c = a >>> 2;
         if (c != 15) {
@@ -96,7 +96,7 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying a>>>2 == 15");
+            System.out.println("ok a>>>2 == 15");
 
         boolean A = true;
         boolean B = false;
@@ -105,13 +105,13 @@ public class main {
             System.out.println("*** ERROR, trying A && B. Expected false. Observed true");
             errorCount += 1;
         } else
-            System.out.println("Success trying A && B == false");
+            System.out.println("ok A && B == false");
 
         if (!(A || B)) {
             System.out.println("*** ERROR, trying A || B. Expected true. Observed false");
             errorCount += 1;
         } else
-            System.out.println("Success trying A || B == true");
+            System.out.println("ok A || B == true");
 
         c = (a == 42) ? 1001 : 1002;
         if (c != 1002) {
@@ -119,10 +119,8 @@ public class main {
             System.out.println(c);
             errorCount += 1;
         } else
-            System.out.println("Success trying c = (a == 42) ? 1001: 1002 ==>> 1002");
+            System.out.println("ok c = (a == 42) ? 1001: 1002 ==>> 1002");
 
-        System.out.print("Error count = ");
-        System.out.println(errorCount);
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

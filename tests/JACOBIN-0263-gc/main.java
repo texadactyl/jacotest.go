@@ -73,7 +73,7 @@ public class main {
     	double pct_other = 100.0 - pct_allocate - pct_assign - pct_null - pct_gc;
     	System.out.printf("Pct spent in other = %.2f\n", pct_other); 
 
-    	System.out.println("End");
+    	Checkers.theEnd(0);
     	
     }
 }

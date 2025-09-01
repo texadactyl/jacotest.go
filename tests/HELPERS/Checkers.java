@@ -33,6 +33,15 @@ public class Checkers {
     
     public static int withinTolerance(String label, double expected, double observed, double maxPercent) {
         double diff = Math.abs(expected - observed);
+        if (expected < maxPercent) {
+            if (diff < maxPercent) {
+                System.out.printf("ok withinTolerance(%e) %s ok expected = %e, observed = %e\n", maxPercent, label, expected, observed);
+                return 0;
+            } else {
+                System.out.printf("*** DISCREPANCY withinTolerance(%e) %s, expected = %e, observed = %e\n", maxPercent, label, expected, observed);
+                return 1;
+            }
+        }
         double diffPct = Math.abs(100.0 * diff / expected);
         double tolerance = Math.abs(expected) * (maxPercent / 100.0);
         if (diff <= tolerance) {

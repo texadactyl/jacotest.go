@@ -33,5 +33,7 @@ public class main {
 			jj++;
 		}
 		System.out.println("Subset array copy ok");
+		
+		Checkers.theEnd(0);
     }
 }

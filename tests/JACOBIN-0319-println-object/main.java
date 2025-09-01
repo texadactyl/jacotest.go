@@ -1,5 +1,7 @@
 public class main {
 
+    // TODO: needs qualitative tests
+
     public static void printLabeledObject(String label, Object obj) {
         System.out.print(label);
         System.out.print(": ");
@@ -44,6 +46,8 @@ public class main {
 
         ss = "";
 		printLabeledObject("String ss \"\"", ss);
+		
+		Checkers.theEnd(0);
     }
 
 }

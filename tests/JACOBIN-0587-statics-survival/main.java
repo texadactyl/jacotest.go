@@ -14,6 +14,9 @@ public class main {
         byte[] bb = originalString.getBytes();
         String hexString = sub1.toString(bb);
         System.out.println(hexString);
+        assert hexString .equals("31323334353637383930313233343536");
+        
+        Checkers.theEnd(0);
     }
 }
 

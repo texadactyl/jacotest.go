@@ -21,25 +21,17 @@ public class main {
         System.out.println(value);
     }
 
-    public static int isItTrue(String label, boolean bool) {
-        if (bool) {
-            printLabeledString("Success :: ", label);
-            return 0;
-        }
-        printLabeledString("*** ERROR, not true that ", label);
-        return 1;
-    }
-    
 	public static void main(String[] args) {
 		int errorCount = 0;
-		errorCount += isItTrue("i42 = fi42", i42 == fi42);
-		errorCount += isItTrue("s42 = fs42", s42 == fs42);
-		errorCount += isItTrue("l42 = fl42", l42 == fl42);
-		errorCount += isItTrue("f42 = ff42", f42 == ff42);
-		errorCount += isItTrue("d42 = fd42", d42 == fd42);
-		errorCount += isItTrue("cc = fcc", cc == fcc);
-		errorCount += isItTrue("bb = fbb", bb == fbb);
-		assert(errorCount == 0);
+		errorCount += Checkers.checker("i42 = fi42", i42, fi42);
+		errorCount += Checkers.checker("s42 = fs42", (int) s42, (int) fs42);
+		errorCount += Checkers.checker("l42 = fl42", l42, fl42);
+		errorCount += Checkers.withinTolerance("f42 = ff42", (double) f42, (double) ff42);
+		errorCount += Checkers.withinTolerance("d42 = fd42", d42, fd42);
+		errorCount += Checkers.checker("cc = fcc", cc, fcc);
+		errorCount += Checkers.checker("bb = fbb", bb, fbb);
+		
+		Checkers.theEnd(errorCount);
 	}
 
 }

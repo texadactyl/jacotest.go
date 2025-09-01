@@ -1,5 +1,7 @@
 public class main {
 
+    // TODO: needs qualitative tests
+
 	public static void main(String[] args) {
 	
 		boolean tryFormatting = true;
@@ -26,6 +28,8 @@ public class main {
 
 			string = fmtString.formatted(beetlejuice, bb, dd, ff, ii, jj, ss);
 			System.out.print(string);
-		}		
+		}
+		
+		Checkers.theEnd(0;
 	}
 }

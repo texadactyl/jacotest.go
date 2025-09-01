@@ -64,7 +64,7 @@ public class main {
             }
         }
 
-        assert(errorCount == 0);
+        Checkers.theEnd(errorCount);
 
     }
     

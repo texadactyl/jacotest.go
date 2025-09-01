@@ -1,4 +1,7 @@
 public class main {
+
+    // TODO: needs qualitatve tests
+
 	public static void main(String[] args) {
 		double dd = 42.0d;
 		String fmtPrintf_1 = "================= printf(\"This is a String variable format string\") --> %s %s";
@@ -31,5 +34,7 @@ public class main {
 		String s4 = "================= This String is s4";
 		System.out.print(s4);
 		System.out.println("\n");
+		
+		Checkers.theEnd(0);
 	}
 }

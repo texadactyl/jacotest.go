@@ -21,6 +21,8 @@ class main {
         assert objRef.nsf2 == 30;
         
         new AnonymousClassMaker().createAnonymous().print(); 
+        
+        Checkers.theEnd(0);
     }
 }
 

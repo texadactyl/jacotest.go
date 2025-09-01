@@ -1,5 +1,7 @@
 public class main {
 
+    // TODO: needs qualitative tests
+
     public static void main(String args[]) {
         String msg = "Testing basic statistical functions and a square root algorithm";
         System.out.println(msg);
@@ -48,6 +50,8 @@ public class main {
         hh.printLabeledDouble("x - y correlation", correl_x_y);
         hh.printLabeledDouble("x - z correlation", correl_x_z);
         hh.printLabeledDouble("elapsed time (seconds)", elapsedSeconds);
+        
+        Checkers.theEnd(0);
     }
 
 }

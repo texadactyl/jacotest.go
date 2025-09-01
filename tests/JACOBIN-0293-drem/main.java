@@ -9,6 +9,7 @@ public class main {
     		System.out.println(ndx);
     		d3 = d1 % d2;
     	}
-    	System.out.println("DREM Loop - success");
+    	System.out.println("DREM Loop - ok");
+    	Checkers.theEnd(0);
     }
 }

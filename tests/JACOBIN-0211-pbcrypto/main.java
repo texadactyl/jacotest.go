@@ -102,8 +102,7 @@ public class main {
         // Show that we got back the original message cleartext.
         noPrintf("Cleartext (string)", decryptedString);
         if (decryptedString.equals(originalString)) {
-            System.out.println("Success!");
-            System.exit(0);
+            Checkers.theEnd(0);
         }
         throw new AssertionError("*** ERROR, decryptedString != originalString");
     }

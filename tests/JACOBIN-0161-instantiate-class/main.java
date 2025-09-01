@@ -1,4 +1,6 @@
 public class main {
+
+    // TODO: needs qualitative tests
     
     public static void main(String args[]) {
         String msg = "Testing one instantiation of a class residing in a separate source file";
@@ -12,6 +14,8 @@ public class main {
         double absd = Library.absValue(d);
         System.out.print("Absolute value of -1.0: ");
         System.out.println(absd);
+        
+        Checkers.theEnd(0);
     }
 
 }

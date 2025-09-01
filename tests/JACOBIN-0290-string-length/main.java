@@ -46,8 +46,7 @@ public class main {
         	System.out.println("*** ERROR, bText.length != wstr.length");
         }
 
-        // Check the error count
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 
 }

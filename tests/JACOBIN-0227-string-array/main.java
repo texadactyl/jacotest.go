@@ -1,5 +1,7 @@
 public class main {
 
+    // TODO: needs qualitative tests
+
     public static void main(String args[]) {
         String msg = "Testing accessibility of String arrays, setting and getting values";
         System.out.println(msg);
@@ -28,7 +30,7 @@ public class main {
             System.out.print(": ");
             System.out.println(arr_strings[ndx]);
         }
-        System.out.println("End");
+        Checkers.theEnd(0);
     }
 
 }

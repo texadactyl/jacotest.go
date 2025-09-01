@@ -17,5 +17,7 @@ public class main {
 		assert (bb == '\u0001');
 		assert (cc == '\u0001');
         assert (sh == 1);
+        
+        Checkers.theEnd(0);
     }
 }

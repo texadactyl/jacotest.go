@@ -29,19 +29,19 @@ public class main {
     }
     
     public static void main(String[] args) {
-        int errCount = 0;
-        errCount += reporter(+0x1234567812345678L,	"1234567812345678");
-        errCount += reporter(+0x8234567812345678L,	"8234567812345678");
-        errCount += reporter(+65535L,    	"000000000000ffff");
-        errCount += reporter(+32767L,    	"0000000000007fff");
-        errCount += reporter(+64L,       	"0000000000000040");
-        errCount += reporter(0L,         	"0000000000000000");
-        errCount += reporter(-1L,        	"ffffffffffffffff");
-        errCount += reporter(-2L,        	"fffffffffffffffe");
-        errCount += reporter(-64L,       	"ffffffffffffffc0");
-        errCount += reporter(-32767L,    	"ffffffffffff8001");
-        errCount += reporter(-65535L,    	"ffffffffffff0001");
+        int errorCount = 0;
+        errorCount += reporter(+0x1234567812345678L,	"1234567812345678");
+        errorCount += reporter(+0x8234567812345678L,	"8234567812345678");
+        errorCount += reporter(+65535L,    	"000000000000ffff");
+        errorCount += reporter(+32767L,    	"0000000000007fff");
+        errorCount += reporter(+64L,       	"0000000000000040");
+        errorCount += reporter(0L,         	"0000000000000000");
+        errorCount += reporter(-1L,        	"ffffffffffffffff");
+        errorCount += reporter(-2L,        	"fffffffffffffffe");
+        errorCount += reporter(-64L,       	"ffffffffffffffc0");
+        errorCount += reporter(-32767L,    	"ffffffffffff8001");
+        errorCount += reporter(-65535L,    	"ffffffffffff0001");
         
-        assert (errCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }  

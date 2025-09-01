@@ -20,7 +20,7 @@ public class main {
             System.out.println(c);
             ++errorCount;
         } else
-            System.out.println("Success c < 0");
+            System.out.println("ok c < 0");
         System.out.println("");
 
         c = b - a;
@@ -31,23 +31,20 @@ public class main {
             System.out.println(c);
             ++errorCount;
         } else
-            System.out.println("Success b - a == -47");
+            System.out.println("ok b - a == -47");
         System.out.println("");
 
         c = ~60;
         System.out.print("c = ~60 ==> ");
         System.out.println(c);
         if (c < 0) {
-            System.out.println("Success trying c = ~60 ==> -61");
+            System.out.println("ok trying c = ~60 ==> -61");
         } else {
             System.out.print("*** ERROR, trying c = ~60. Expected -61. Observed ");
             System.out.println(c);
             ++errorCount;
         }
-        System.out.println("");
 
-        System.out.print("Error count = ");
-        System.out.println(errorCount);
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

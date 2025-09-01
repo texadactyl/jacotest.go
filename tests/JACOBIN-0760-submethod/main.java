@@ -5,10 +5,9 @@ public class main {
         MotherClass mc = new MotherClass();
         mc.init();
         if (mc.obj.dipsyDoo("ABC"))
-            System.out.println("Success!");
+            Checkers.theEnd(0);
         else {
-            System.out.println("*** Failed");
-            System.exit(1);
+            Checkers.theEnd(1);
         }
     }    
 

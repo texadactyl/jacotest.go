@@ -1,63 +1,5 @@
 public class main {
 
-    public static void printer(String label, String value) {
-        System.out.print(label);
-        System.out.print(" : ");
-        System.out.println(value);
-    }
-
-    public static int checkNumEqual(String text, long xx, long yy) {
-        if (xx == yy) return 0;
-        System.out.print("*** ERROR, checkNumEqual: compare failed");
-        System.out.print(text);
-        System.out.print(" !! ");
-        System.out.print(xx);
-        System.out.print(" ");
-        System.out.print("!=");
-        System.out.print(" ");
-        System.out.println(yy);
-        return 1;
-    }
-
-    public static int checkNumUnequal(String text, long xx, long yy) {
-        if (xx != yy) return 0;
-        System.out.print("*** ERROR, checkNumUnequal: equal but should not be !! ");
-        System.out.print(text);
-        System.out.print(" !! ");
-        System.out.print(xx);
-        System.out.print(" ");
-        System.out.print("!=");
-        System.out.print(" ");
-        System.out.println(yy);
-        return 1;
-    }
-
-    public static int checkStrEqual(String text, String xx, String yy) {
-        if (xx.equals(yy)) return 0;
-        System.out.print("*** ERROR, checkStrEqual: compare failed !! ");
-        System.out.print(text);
-        System.out.print(" !! ");
-        System.out.print(xx);
-        System.out.print(" ");
-        System.out.print("!=");
-        System.out.print(" ");
-        System.out.println(yy);
-        return 1;
-    }
-
-    public static int checkStrUnequal(String text, String xx, String yy) {
-        if (!xx.equals(yy)) return 0;
-        System.out.print("*** ERROR, checkStrUnequal: equal but should not be !! ");
-        System.out.print(text);
-        System.out.print(" !! ");
-        System.out.print(xx);
-        System.out.print(" ");
-        System.out.print("!=");
-        System.out.print(" ");
-        System.out.println(yy);
-        return 1;
-    }
-
     static class Insider extends Outsider {
         int with_teeth;
 
@@ -88,29 +30,29 @@ public class main {
         Insider insider = new Insider();
         System.out.println("Insider class was instantiated");
 
-        errorCount += checkStrEqual("insider.teething() == done", insider.teething(), "done");
-        errorCount += checkNumEqual("insider.with_teeth == 42", insider.with_teeth, 42);
+        errorCount += Checkers.checker("insider.teething() == done", "done", insider.teething());
+        errorCount += Checkers.checker("insider.with_teeth == 42", 42, insider.with_teeth);
 
         System.out.println("Outsider class will now be instantiated .....");
         Outsider outsider = new Outsider();
         System.out.println("Outsider class was instantiated");
 
         String gimme_in = insider.gimmeString();
-        printer("gimme_in", gimme_in);
+        System.out.printf("gimme_in: %s\n", gimme_in);
         String gimme_out = outsider.gimmeString();
-        printer("gimme_out", gimme_out);
+        System.out.printf("gimme_out: %s\n", gimme_out);
 
         insider.iota += 1;
-        errorCount += checkNumUnequal("insider.iota != outsider.iota", insider.iota, outsider.iota);
+        errorCount += Checkers.checker("outsider.iota != insider.iota", false, outsider.iota == insider.iota);
         outsider.iota += 1;
-        errorCount += checkNumEqual("insider.iota == outsider.iota", insider.iota, outsider.iota);
+        errorCount += Checkers.checker("outsider.iota == insider.iota", outsider.iota, insider.iota);
 
-        errorCount += checkNumUnequal("insider.lucretia != outsider.lucretia", insider.lucretia, outsider.lucretia);
+        errorCount += Checkers.checker("outsider.lucretia != insider.lucretia", false, outsider.lucretia == insider.lucretia);
         outsider.lucretia += 1;
-        errorCount += checkNumEqual("insider.lucretia == outsider.lucretia", insider.lucretia, outsider.lucretia);
+        errorCount += Checkers.checker("outsider.lucretia == insider.lucretia", outsider.lucretia, insider.lucretia);
 
-        errorCount += checkNumUnequal("insider.is_this_a_7() != outsider.is_this_a_7()", insider.is_this_a_7(), outsider.is_this_a_7());
-        errorCount += checkNumEqual("insider.is_this_a_7() - 1 != outsider.is_this_a_7()", insider.is_this_a_7() - 1, outsider.is_this_a_7());
+        errorCount += Checkers.checker("outsider.is_this_a_7() != insider.is_this_a_7()", false, outsider.is_this_a_7() == insider.is_this_a_7());
+        errorCount += Checkers.checker("outsider.is_this_a_7() == insider.is_this_a_7() - 1", outsider.is_this_a_7(), insider.is_this_a_7() - 1);
 
         MultiMedia myRed = new Red();
         MultiMedia myOrange = new Orange();
@@ -125,17 +67,16 @@ public class main {
         String soft = myOrange.getSound();
         System.out.printf("orange.getSound = %s\n", soft);
 
-        errorCount += checkStrUnequal("red != rainbow", "red", "rainbow");
-        errorCount += checkStrUnequal("red != orange", "red", "orange");
-        errorCount += checkStrUnequal("loud != soft", "loud", "soft");
-        errorCount += checkNumEqual("myRed.getNumber() == 42", myRed.getNumber(), 42);
+        errorCount += Checkers.checker("myRed.getColor() == \"red\"", "red", myRed.getColor());
+        errorCount += Checkers.checker("myRed.getColor() != orange", false, myRed.getColor().equals("orange"));
+        errorCount += Checkers.checker("myRed.getSound() == \"loud\"", "loud", myRed.getSound());
+        errorCount += Checkers.checker("myRed.getNumber() == 42", 42, myRed.getNumber());
 
         Pig myPig = new Pig();  // Create a Pig object implemented from Animal
-        errorCount += checkStrEqual("myPig.getSound() == oink", myPig.getSound(), "oink");
-        errorCount += checkStrEqual("myPig.getColor() == pink", myPig.getColor(), "pink");
+        errorCount += Checkers.checker("myPig.getSound() == oink", "oink", myPig.getSound());
+        errorCount += Checkers.checker("myPig.getColor() == pink", "pink", myPig.getColor());
  
-         assert (errorCount == 0);
-         System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 
 }

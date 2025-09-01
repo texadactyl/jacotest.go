@@ -10,5 +10,7 @@ public class main {
 			System.out.print(") ");
 			System.out.println(xx);
 		}
+		
+		Checkers.theEnd(0);
     }
 }

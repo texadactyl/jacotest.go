@@ -73,6 +73,7 @@ public class main {
 		testGetBytesSubbie();
 		testGetBytes();
 		testNewStringGivenBytes();
+		Checkers.theEnd(0);
 	}
 	
 }

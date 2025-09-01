@@ -22,6 +22,8 @@ class main {
             }
 
         }
+        
+        Checkers.theEnd(0);
 
     }
 

@@ -30,8 +30,8 @@ public class main {
         }
 
         if (i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0) {
-            System.out.println("Success :: i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0");
-            return;
+            System.out.println("i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0");
+            Checkers.theEnd(0);
         }
         throw new AssertionError("*** ERROR, expected :: i2d[2][1] == 4 && f2d[2][1] == 4.0 && d2d[2][1] == 4.0");
     }

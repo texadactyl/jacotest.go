@@ -15,6 +15,8 @@ public class main {
 		System.out.print(myModel.getModelName());
 		System.out.println("!");
 		
+		Checkers.theEnd(0);
+		
 	}
 
 }

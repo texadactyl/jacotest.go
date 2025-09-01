@@ -5,5 +5,6 @@ public class main {
         System.out.println(msg);
         System.out.println();
         System.out.println();
+        Checkers.theEnd(0);
     }
 }

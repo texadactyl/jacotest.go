@@ -30,8 +30,7 @@ public class main {
         errorCount += reporter("os.version");
         errorCount += reporter("path.separator");
 
-        assert (errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 
 }

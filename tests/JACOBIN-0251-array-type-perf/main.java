@@ -70,6 +70,8 @@ public class main {
 		t2 = System.currentTimeMillis();
 		stringArray = null;
 		reporter("String array", t1, t2);
+		
+		Checkers.theEnd(0);
 
      }
 }

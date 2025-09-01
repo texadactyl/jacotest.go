@@ -13,5 +13,7 @@ public class main {
         float quotient = diff / divisor;
         System.out.print("Quotient: ");
         System.out.println(quotient);
+        
+        Checkers.theEnd(0);
     }
 }

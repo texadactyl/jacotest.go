@@ -7,6 +7,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2025-09-01 | 5.0.1 | Work-around for javac 21.0.8 2025-07-15 compilation error in test case http-client-server. |
 | | | Converted test cases array-copy through ex-multilevel to HELPERS.
 | | | Converted test cases through io_outputstreamwriter to HELPERS.
+| | | Converted test cases through JACOBIN-0760-submethod to HELPERS.
 | 2025-08-31 | 5.0.0 | Implemented test helpers (tests/HELPERS). |
 | | | Migrated to using the Jacobin classpath option (mandatory for jacotest). |
 | | | Will migrate individual test cases. First: array-copy (done). |
