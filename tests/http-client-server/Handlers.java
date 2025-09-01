@@ -19,14 +19,20 @@ public class Handlers {
 
 	private static String MY_NAME = "Handlers";
 	private static boolean tracing = true;
+	private static int portnum = -1;
 
 	public static class RootHandler implements HttpHandler {
+	
+	    public RootHandler(int argPort) {
+	        // Save port number for later use.
+	        portnum = argPort;
+	    }
 
 		@Override
 		public void handle(HttpExchange he) throws IOException {
 			PrintingSynced ps = new PrintingSynced();
 			ps.printLabeledMsg(MY_NAME, "Served by RootHandler");
-			String response = "<h1>Server start success if you see this message</h1>" + "<h1>Port: " + main.portnum + "</h1>";
+			String response = "<h1>Server start success if you see this message</h1>" + "<h1>Port: " + portnum + "</h1>";
 			he.sendResponseHeaders(200, response.length());
 			OutputStream os = he.getResponseBody();
 			os.write(response.getBytes());

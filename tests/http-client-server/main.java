@@ -9,11 +9,6 @@ import java.io.IOException;
 
 public class main {
 
-	static private String MY_NAME = "main";
-    static private String CONTEXT = "/ghurkin";
-    static ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor)Executors.newFixedThreadPool(2);
-    static public int portnum = -1;
-
     private static int getPort() {
         // Ref: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
         for (int candidate = 3101; candidate < 3128; candidate++) {
@@ -27,6 +22,11 @@ public class main {
     }
 
     public static void main(String[] args) {
+	    String MY_NAME = "main";
+        String CONTEXT = "/ghurkin";
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor)Executors.newFixedThreadPool(2);
+        int portnum = -1;
+        
         String msg = "HTTP client/server tests";
         System.out.println(msg);
         PrintingSynced ps = new PrintingSynced();

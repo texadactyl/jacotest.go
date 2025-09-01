@@ -19,26 +19,26 @@ import com.sun.net.httpserver.HttpServer;
 
 public class SimpleHttpServer {
 
-	private int port;
-	private HttpServer server;
 	private String MY_NAME = "SimpleHttpServer";
+	private HttpServer server = null;
 
-	public void Start(int port) {
+	public void Start(int argPort) {
 		PrintingSynced ps = new PrintingSynced();
 		try {
-			this.port = port;
-			server = HttpServer.create(new InetSocketAddress(port), 0);
-			String msg = String.format("server created to use " + port);
+			server = HttpServer.create(new InetSocketAddress(argPort), 0);
+			String msg = String.format("server created to use " + argPort);
 			ps.printLabeledMsg(MY_NAME, msg);
-			server.createContext("/", new Handlers.RootHandler());
+			server.createContext("/", new Handlers.RootHandler(argPort));
 			server.createContext("/echoHeader", new Handlers.EchoHeaderHandler());
 			server.createContext("/echoGet", new Handlers.EchoGetHandler());
 			server.createContext("/echoPost", new Handlers.EchoPostHandler());
 			server.setExecutor(null);
 			server.start();
 			ps.printLabeledMsg(MY_NAME, "HttpServer thread started");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+		    String errMsg = String.format("*** ERROR, HttpServer could not start, errMsg: %s\n", ex.getMessage());
+		    ps.printLabeledMsg(MY_NAME, errMsg);
+			ex.printStackTrace();
 		}
 	}
 
