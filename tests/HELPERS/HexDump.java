@@ -29,22 +29,23 @@ public class HexDump {
 
         for (int i = 0; i < lineSize; i++) {
             byte b = buffer[offset + i];
-            hexPortion += String.format("%02x ", b);
+            hexPortion = hexPortion.concat(String.format("%02x ", b));
             if (b >= 32 && b <= 126) {
-                asciiPortion += (char) b;
+                asciiPortion = asciiPortion.concat(String.valueOf((char) b));
             } else {
-                asciiPortion += '.';
+                asciiPortion = asciiPortion.concat(".");
             }
         }
 
         // Pad the hex part if the line is not full
         for (int i = lineSize; i < columnSize; i++) {
-            hexPortion += "   ";
+            hexPortion = hexPortion.concat("   ");
         }
 
         // Ensure the hex part is padded correctly based on column size
         int hexPortionWidth = columnSize * 3;
-        return String.format("%-" + hexPortionWidth + "s %s%n", hexPortion, asciiPortion);
+        String fmt = String.format("%s%d%s", "%-", hexPortionWidth, "s %s%n");
+        return String.format(fmt, hexPortion, asciiPortion);
     }
 
     /*
