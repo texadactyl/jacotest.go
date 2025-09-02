@@ -156,7 +156,9 @@ public class Checkers {
     
     public static void theEnd(int errorCount) {
         if (errorCount == 0) {
+            System.out.println("\n========");
             System.out.println("Success!");
+            System.out.println("========");
             System.exit(0);
         }
         String errMsg = String.format("*** Test case diagnosed %d error(s)", errorCount);
