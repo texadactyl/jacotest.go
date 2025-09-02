@@ -4,6 +4,7 @@ import java.math.BigInteger;
 public class Checkers {
 
     public static double MAX_PERCENT = 0.0001;
+    public static double MAX_PERCENT_F = 0.0001f;
 
     public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
         if (expected == 0) {
@@ -53,6 +54,32 @@ public class Checkers {
         }
     }
 
+    public static int withinTolerance(String label, float expected, float observed) {
+        return withinTolerance(label, expected, observed, MAX_PERCENT_F);
+    }
+    
+    public static int withinTolerance(String label, float expected, float observed, float maxPercent) {
+        float diff = Math.abs(expected - observed);
+        if (expected < maxPercent) {
+            if (diff < maxPercent) {
+                System.out.printf("ok withinTolerance(%e) %s ok expected = %e, observed = %e\n", maxPercent, label, expected, observed);
+                return 0;
+            } else {
+                System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %e, observed = %e\n", maxPercent, label, expected, observed);
+                return 1;
+            }
+        }
+        float diffPct = Math.abs(100.0f * diff / expected);
+        float tolerance = Math.abs(expected) * (maxPercent / 100.0f);
+        if (diff <= tolerance) {
+            System.out.printf("ok withinTolerance(%e) %s ok expected = %e, observed = %e, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
+            return 0;
+        } else {
+            System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %e, observed = %e, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
+            return 1;
+        }
+    }
+
     public static int checker(String label, boolean expected, boolean observed) {
         if (expected == observed) {
             System.out.printf("ok %s ::: expected = observed = %b\n", label, observed);
@@ -81,6 +108,10 @@ public class Checkers {
     }
 
     public static int checker(String label, String expected, String observed) {
+        if (observed.toLowerCase().equals("ignore")) {
+            System.out.printf("ok %s ::: observed = ignore\n", label);
+            return 0;
+        }
         if (expected.equals(observed)) {
             System.out.printf("ok %s ::: expected = observed = %s\n", label, observed);
             return 0;
