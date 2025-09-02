@@ -1,14 +1,5 @@
 class main {
  
-    public static int isItTrue(String label, boolean bool, String observed) {
-        if (bool) {
-            System.out.printf("Success :: %s\n", label);
-            return 0;
-        }
-        System.out.printf("*** ERROR, test: %s, observed value: %s\n", label, observed);
-        return 1;
-    }
-
 	public static void main(String[] args) {
 		int errorCount = 0;
 		int i1;
@@ -308,14 +299,13 @@ class main {
         jj += 1;
         ii += 1;
         ss += 1;
-        errorCount += isItTrue("dd == 43.0", dd == 43.0, String.valueOf(dd));
-        errorCount += isItTrue("ff == 43.0", ff == 43.0f, String.valueOf(ff));
-        errorCount += isItTrue("jj == 43", jj == 43, String.valueOf(jj));
-        errorCount += isItTrue("ii == 43", ii == 43, String.valueOf(ii));
-        errorCount += isItTrue("ss == 43", ss == 43, String.valueOf(ss));
+        errorCount += Checkers.withinTolerance("dd == 43.0", 43.0d, dd);
+        errorCount += Checkers.withinTolerance("ff == 43.0", 43.0f, ff);
+        errorCount += Checkers.checker("jj == 43", 43l, jj);
+        errorCount += Checkers.checker("ii == 43", 43, ii);
+        errorCount += Checkers.checker("ss == 43", 43, (int) ss);
  
-        // Check the error count
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
 	}
 
 }

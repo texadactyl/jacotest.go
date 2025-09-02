@@ -1,23 +1,5 @@
 public class main {
 
-    private static int cmpExpToObs(String label, String expected, String observed) {
-        if (observed.equals(expected)) {
-            System.out.printf("Success :: %s\n", label);
-            return 0;
-        }
-        System.out.printf("*** ERROR :: %s, expected=%s, observed=%s\n", label, expected, observed);
-        return 1;
-    }
-
-    private static int cmpExpToObs(String label, int expected, int observed) {
-        if (observed == expected) {
-            System.out.printf("Success :: %s\n", label);
-            return 0;
-        }
-        System.out.printf("*** ERROR :: %s, expected=%d, observed=%d\n", label, expected, observed);
-        return 1;
-    }
-
     public static void main(String[] args) throws Exception {
     
     	System.out.println("String manipulation and member functions - Part 3");
@@ -32,7 +14,7 @@ public class main {
         String observed = new String(chars);
         String expected = "abcdefghidefmnopqrstuvwxyz";
         System.out.printf("expected: %s\n", expected);
-        errorCount += cmpExpToObs("after getChars(3, 6, chars, 9)", expected, observed);       
+        errorCount += Checkers.checker("after getChars(3, 6, chars, 9)", expected, observed);       
         try {
             start.getChars(-1, 6, chars, 9);
             System.out.println("*** ERROR, failed to catch StringIndexOutOfBoundsException on getChars(-1, 6, chars, 9)");
@@ -66,17 +48,17 @@ public class main {
         
         int lowerCaseD = 100; // 'd'
         int ixOut = start.indexOf(lowerCaseD);
-        errorCount += cmpExpToObs("indexOf(lowerCaseD)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(lowerCaseD)", 3, ixOut);
         ixOut = start.indexOf('?');
-        errorCount += cmpExpToObs("indexOf('?')", -1, ixOut);
+        errorCount += Checkers.checker("indexOf('?')", -1, ixOut);
         ixOut = start.indexOf(lowerCaseD, 2);
-        errorCount += cmpExpToObs("indexOf(lowerCaseD, 2)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(lowerCaseD, 2)", 3, ixOut);
         ixOut = start.indexOf(lowerCaseD, -42);
-        errorCount += cmpExpToObs("indexOf(lowerCaseD, -42)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(lowerCaseD, -42)", 3, ixOut);
         ixOut = start.indexOf(lowerCaseD, 8192);
-        errorCount += cmpExpToObs("indexOf(lowerCaseD, 8192)", -1, ixOut);
+        errorCount += Checkers.checker("indexOf(lowerCaseD, 8192)", -1, ixOut);
         ixOut = start.indexOf(lowerCaseD, 2, 10);
-        errorCount += cmpExpToObs("indexOf(lowerCaseD, 2, 10)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(lowerCaseD, 2, 10)", 3, ixOut);
         try {
             ixOut = start.indexOf(lowerCaseD, 3, 2);
             System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf(lowerCaseD, 3, 2), ixOut=%d\n", ixOut);
@@ -103,17 +85,17 @@ public class main {
         
         String arg = "defgh";
         ixOut = start.indexOf(arg);
-        errorCount += cmpExpToObs("indexOf(arg=defgh)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(arg=defgh)", 3, ixOut);
         ixOut = start.indexOf("???");
-        errorCount += cmpExpToObs("indexOf(???)", -1, ixOut);
+        errorCount += Checkers.checker("indexOf(???)", -1, ixOut);
         ixOut = start.indexOf(arg, 2);
-        errorCount += cmpExpToObs("indexOf(arg, 2)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(arg, 2)", 3, ixOut);
         ixOut = start.indexOf(arg, -42);
-        errorCount += cmpExpToObs("indexOf(arg, -42)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(arg, -42)", 3, ixOut);
         ixOut = start.indexOf(arg, 8192);
-        errorCount += cmpExpToObs("indexOf(arg, 8192)", -1, ixOut);
+        errorCount += Checkers.checker("indexOf(arg, 8192)", -1, ixOut);
         ixOut = start.indexOf(arg, 2, 10);
-        errorCount += cmpExpToObs("indexOf(arg, 2, 10)", 3, ixOut);
+        errorCount += Checkers.checker("indexOf(arg, 2, 10)", 3, ixOut);
         try {
             ixOut = start.indexOf(arg, 3, 2);
             System.out.printf("*** ERROR, failed to catch StringIndexOutOfBoundsException on start.indexOf(arg, 3, 2), ixOut=%d\n", ixOut);
@@ -136,9 +118,7 @@ public class main {
             System.out.println("Successfully caught StringIndexOutOfBoundsException on start.indexOf(arg, 1, -10)");
         }
         
-        // ===== The End
-        
-		assert(errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }
 

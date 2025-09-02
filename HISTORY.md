@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-09-02 | 5.0.3 | Converted test cases through zippy to HELPERS. |
 | 2025-09-02 | 5.0.2 | Converted test cases through stat-distros to HELPERS. |
 | 2025-09-01 | 5.0.1 | Work-around for javac 21.0.8 2025-07-15 compilation error in test case http-client-server. |
 | | | Converted test cases array-copy through ex-multilevel to HELPERS. |

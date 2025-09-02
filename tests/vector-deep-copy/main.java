@@ -33,8 +33,8 @@ public class main {
 
 		errorCount += checkElement(matrix, 2, 3, 203);
 		errorCount += checkElement(matrix, 5, 4, 504);
-		assert errorCount == 0;
-		System.out.println("Success!");
+		
+		Checkers.theEnd(errorCount);
 	}
 
 }

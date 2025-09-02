@@ -6,15 +6,6 @@ import java.util.Vector;
 
 public class main {
 
-    public static int isItTrue(String label, int observed, int expected) {
-        if (expected == observed) {
-            System.out.printf("Success :: %s\n", label);
-            return 0;
-        }
-        System.out.printf("*** ERROR: %s, expected = %d, observed = %d\n", label, expected, observed);
-        return 1;
-    }
-
     public static void main(String[] args) throws Exception {
         int errorCount = 0;
 
@@ -26,12 +17,13 @@ public class main {
         for (Integer II : vintIntegers) 
             vint.add(II);
         System.out.printf("Vector vint(6) as a String: %s\n", vint.toString());
-        errorCount += isItTrue("vint.capacity() = 10", vint.capacity(), 10);
-        errorCount += isItTrue("vint.size() = 6", vint.size(), 6);
+        
+        errorCount += Checkers.checker("vint.capacity() = 10", 10, vint.capacity());
+        errorCount += Checkers.checker("vint.size() = 6", 6, vint.size());
 
         // Elongate the vector to 8 elements
         vint.ensureCapacity(10);
-        errorCount += isItTrue("vint.capacity() = 10", vint.capacity(), 10);
+        errorCount += Checkers.checker("vint.capacity() = 10", 10, vint.capacity());
         vint.add(7);
         vint.add(8);
         int sum = 0;
@@ -39,7 +31,7 @@ public class main {
             sum += elem;
             System.out.printf(">> elem: %d, sum: %d\n", elem, sum);
         }
-        errorCount += isItTrue("sum of vint elements BEFORE removing '4' = 36", sum, 36);
+        errorCount += Checkers.checker("sum of vint elements BEFORE removing '4' = 36", 36, sum);
 
         // Remove some elements
         vint.removeElementAt(3);
@@ -48,19 +40,11 @@ public class main {
             sum += elem;
             System.out.printf(">> elem: %d, sum: %d\n", elem, sum);
         }
-        errorCount += isItTrue("sum of vint elements AFTER removing '4' = 32", sum, 32);
+        errorCount += Checkers.checker("sum of vint elements AFTER removing '4' = 32", 32, sum);
         vint.removeAllElements();
-        errorCount += isItTrue("After removing all elements, vint.size() = 0", vint.size(), 0);
+        errorCount += Checkers.checker("After removing all elements, vint.size() = 0", 0, vint.size());
+        errorCount += Checkers.checker("After removing all elements, vint.isEmpty() = true", true, vint.isEmpty());
         
-        if (vint.isEmpty()) {
-            System.out.println("Success :: After removing all elements, vint.isEmpty() is true");
-        } else {
-            errorCount += 1;
-            System.out.println("*** ERROR: After removing all elements, vint.isEmpty() is false");
-        }
-
-        // Check the error count
-        System.out.printf("Check assertion using errorCount, %d .....\n", errorCount);
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

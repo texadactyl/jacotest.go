@@ -12,6 +12,8 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
 	final static String PATHETIC_PASSWORD = "changeit";
 	final static String TLS_URL = "github.com";
 	final static int TLS_PORT = 443;
@@ -89,5 +91,7 @@ public class main {
 
 		System.out.println("main: end");
 		sslSocket.close();
+		
+		Checkers.theEnd(0);
 	}
 }

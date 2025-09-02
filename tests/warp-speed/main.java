@@ -7,29 +7,6 @@ public class main {
     private static final double AU = 1.495978707e11; // m
     private static final double MAX_PERCENT = 0.01;
 
-    // Return 0 if expected and observed are within tolerance; else complain and return 1.
-    public static int withinTolerance(String label, double expected, double observed) {
-        if (Math.abs(expected) < MAX_PERCENT) {
-            if (Math.abs(observed) < MAX_PERCENT) {
-                //System.out.printf("withinTolerance(%.1f) %s ok, observed = expected = 0\n", MAX_PERCENT, label);
-                return 0;
-            } else {
-                System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = 0, observed = %d\n", MAX_PERCENT, label, observed);
-                return 1;
-            }
-        }
-        double diff = Math.abs(expected - observed);
-        double diffPct = Math.abs(100.0 * diff / expected);
-        double tolerance = Math.abs(expected) * (MAX_PERCENT / 100.0);
-        if (diff <= tolerance) {
-            //System.out.printf("withinTolerance(%.1f) %s ok, expected = %d, observed = %d, diffPct = %.2f\n", MAX_PERCENT, label, expected, observed, diffPct);
-            return 0;
-        } else {
-            System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = %d, observed = %d, diffPct = %.2f\n", MAX_PERCENT, label, expected, observed, diffPct);
-            return 1;
-        }
-    }
-
     // Warp factor to m/s
     public static double wf2mps(double wf) {
         return Math.pow(wf, 10.0 / 3.0) * C;
@@ -60,10 +37,10 @@ public class main {
             String warpLabel = wf > 9.0 ? String.format("%.1f*", wf) : String.format("%.1f", wf);
             if (wf > 9.0) {
                 warpLabel = String.format("%.1f*", wf);
-                errorCount += withinTolerance("mPerSec", 6.246e+11, mPerSec);
-                errorCount += withinTolerance("kmPerSec", 6.246e+08, kmPerSec);
-                errorCount += withinTolerance("multipleOfC", 2083.454315, multipleOfC);
-                errorCount += withinTolerance("auPerSec", 4.175219, auPerSec);
+                errorCount += Checkers.withinTolerance("mPerSec", 6.246039e+11, mPerSec);
+                errorCount += Checkers.withinTolerance("kmPerSec", 6.246039e+08, kmPerSec);
+                errorCount += Checkers.withinTolerance("multipleOfC", 2.083454e+03, multipleOfC);
+                errorCount += Checkers.withinTolerance("auPerSec", 4.175219e+00, auPerSec);
             } else {
                 warpLabel = String.format("%.1f", wf);
             }
@@ -71,9 +48,7 @@ public class main {
                     warpLabel, mPerSec, kmPerSec, multipleOfC, auPerSec);
         }
         
-        // Check for errors.
-        assert(errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 }
 

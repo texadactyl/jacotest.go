@@ -2,6 +2,8 @@
 
 public class main {
 
+    // TODO: needs qualitative tests
+    
     public static void main(String args[]) {
 
         String msg = "Threading tests with a parent thread (main) and 3 child threads";
@@ -33,6 +35,8 @@ public class main {
             PSYNC.printNL(errMsg);
         }
         PSYNC.printNL("main: End");
+        
+        Checkers.theEnd(0);
     }
 }
 

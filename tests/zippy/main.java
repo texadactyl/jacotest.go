@@ -131,7 +131,7 @@ public class main {
             ie.printStackTrace();
         }
         
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
         
     }
  

@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
 	private static int writeTIFF(File tiffFile, BufferedImage image) {
         try {
         
@@ -131,6 +133,8 @@ public class main {
         
         // Delete file.
         tiffFile.delete();
+        
+        Checkers.theEnd(0);
 	}
 
 }

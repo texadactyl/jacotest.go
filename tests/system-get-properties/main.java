@@ -2,11 +2,11 @@ import java.util.Properties;
 
 public class main {
 
-    static int errorCounter = 0;
+    static int errorCount = 0;
 
     public static void main(String[] args) {
 
-        int errorCounter= 0;
+        int errorCount= 0;
         Properties sysprops = System.getProperties();       
         //System.out.println(sysprops.toString());
         
@@ -14,15 +14,15 @@ public class main {
         for (String key : keys) {
             String value1 = sysprops.getProperty(key);
             String value2 = System.getProperty(key);
-            errorCounter += check(key, value1, value2);
+            errorCount += check(key, value1, value2);
         }
         
         String curValue = System.getProperty("file.encoding");
         String oldValue = System.clearProperty("file.encoding");
-        errorCounter += check("file.encoding after getProperty + clearProperty", curValue, oldValue);
+        errorCount += check("file.encoding after getProperty + clearProperty", curValue, oldValue);
         curValue = System.getProperty("file.encoding");
         if (curValue != null) {
-            errorCounter += 1;
+            errorCount += 1;
             System.out.println("*** ERROR, get + clear + get should have returned a null string");
         }
         
@@ -31,16 +31,12 @@ public class main {
         userprops.setProperty("sound", "soft");
         System.setProperties(userprops);
         curValue = System.getProperty("color");
-        errorCounter += check("color", "orange", curValue);
+        errorCount += check("color", "orange", curValue);
         
         curValue = System.getProperty("plant", "default");
-        errorCounter += check("plant", "default", curValue);
+        errorCount += check("plant", "default", curValue);
 
-        // Final assertion for errorCounter
-        if (errorCounter > 0)
-            System.out.printf("Error count = %d\n", errorCounter);
-        assert errorCounter == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 
     static int check(String key, String expected, String observed) {

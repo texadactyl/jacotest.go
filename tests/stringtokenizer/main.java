@@ -110,9 +110,7 @@ public class main {
 		errorCount += test3();
 		errorCount += test4();
 		
-		System.out.println("================================ Done");
-		assert(errorCount == 0);
-		System.out.println("Success!");
+		Checkers.theEnd(errorCount);
 	
 	}
 }

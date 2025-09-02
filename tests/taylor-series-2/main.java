@@ -14,20 +14,6 @@ public class main {
 	static final double X = 0.1;
 	static final double TOLERANCE = 0.001;
 
-	// Is the result close enough?
-    private static int isItClose(String label, double observed, double expected, double tolerance) { 	
-        double diff = Math.abs(expected - observed);
-        if (Math.abs(expected) > tolerance)
-        	diff = diff / expected;
-    	System.out.print(label);
-        if (diff < tolerance) {
-            System.out.printf(": Success (close enough): observed=%f vs expected=%f\n", observed, expected);
-            return 0;
-        }
-        System.out.printf(": *** ERROR, not close enough: observed=%f vs expected=%f\n", observed, expected);
-        return 1;
-    }
-
     // Compute a factorial of the given long integer.
     // Recursive!
 	private static double factorial(long arg) {
@@ -43,7 +29,7 @@ public class main {
     	System.out.println("Taylor series exercise without the rational library functions");
     	double term;
     	double fak;
-    	int errCount = 0;
+    	int errorCount = 0;
 
         // Taylor series for e^X
 		double tsExp = 1.0;
@@ -64,10 +50,12 @@ public class main {
 		}
 
         System.out.printf("sin(x) = %f\n", tsSine);
-        errCount += isItClose("sin(x)", tsSine, 0.000167, TOLERANCE);
+        errorCount += Checkers.withinTolerance("sin(x)", tsSine, 0.000167, TOLERANCE);
 
         System.out.printf("e^x = %f\n", tsExp);
-        errCount += isItClose("exp(x)", tsExp, 1.105171, TOLERANCE);
+        errorCount += Checkers.withinTolerance("exp(x)", tsExp, 1.105171, TOLERANCE);
+        
+        Checkers.theEnd(errorCount);
 
    }
 

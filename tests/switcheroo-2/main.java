@@ -1,16 +1,6 @@
 
 public final class main {
 
-    private static int checker(String label, int expected, int observed) {
-        if (expected == observed) {
-            System.out.printf("%s: Success, expected(%d) = observed(%d)\n", label, expected, observed);
-            return 0;
-        }
-        System.out.printf("%s: *** ERROR, expected(%d) != observed(%d)\n", label, expected, observed);
-        return 1;
-
-    }
-
     private static int sw1(int arg) {
         switch(arg) {
             case 1, 2, 3:
@@ -49,19 +39,19 @@ public final class main {
         String SS = "abc";
         System.out.println("Enhanced switch statements");
         
-        errorCount += checker("sw1", 101, sw1(2));
-        errorCount += checker("sw1", 201, sw1(6));
-        errorCount += checker("sw1", 301, sw1(42));
+        errorCount += Checkers.checker("sw1", 101, sw1(2));
+        errorCount += Checkers.checker("sw1", 201, sw1(6));
+        errorCount += Checkers.checker("sw1", 301, sw1(42));
 
-        errorCount += checker("sw2", 101, sw2(2));
-        errorCount += checker("sw2", 201, sw2(6));
-        errorCount += checker("sw2", 301, sw2(42));
+        errorCount += Checkers.checker("sw2", 101, sw2(2));
+        errorCount += Checkers.checker("sw2", 201, sw2(6));
+        errorCount += Checkers.checker("sw2", 301, sw2(42));
 
-        errorCount += checker("sw3", 101, sw3(2));
-        errorCount += checker("sw3", 201, sw3(6));
-        errorCount += checker("sw3", 301, sw3(42));
+        errorCount += Checkers.checker("sw3", 101, sw3(2));
+        errorCount += Checkers.checker("sw3", 201, sw3(6));
+        errorCount += Checkers.checker("sw3", 301, sw3(42));
 
-        assert(errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
     
 }

@@ -20,6 +20,8 @@
 
 public class main {
 
+    // TODO: needs qualitative tests
+
     // number of terms in the series
 	static final int NTERMS = 10;
 
@@ -63,6 +65,8 @@ public class main {
         printLabeledString("sin(x) = ", tsSine);
 
         printLabeledString("e^x * sin(x) = ", tsExp.times(tsSine).truncate(NTERMS));
+        
+        Checkers.theEnd(0);
 
    }
 

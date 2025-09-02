@@ -1,14 +1,5 @@
 public class main {
 
-    public static int isItTrue(String label, String expected, String observed) {
-        if (expected.equals(observed)) {
-            System.out.printf("Success :: %s=%s\n", label, expected);
-            return 0;
-        }
-        System.out.printf("*** ERROR, %s expected=%s, observed=%s\n", label, expected, observed);
-        return 1;
-    }
-    
     public static void main(String[] args) {
     
     	int errorCount = 0;
@@ -27,42 +18,40 @@ public class main {
     	String str;
     	
         str = String.valueOf(bb);
-        errorCount += isItTrue("bb", "66", str);
+        errorCount += Checkers.checker("bb", "66", str);
         
         str = String.valueOf(cc);
-        errorCount += isItTrue("cc", "A", str);
+        errorCount += Checkers.checker("cc", "A", str);
         
         str = String.valueOf(ca);
-        errorCount += isItTrue("ca", "ABCDEFGH", str);
+        errorCount += Checkers.checker("ca", "ABCDEFGH", str);
         
         str = String.valueOf(ca, 2, 3);
-        errorCount += isItTrue("ca subarray", "CDE", str);
+        errorCount += Checkers.checker("ca subarray", "CDE", str);
         
         str = String.valueOf(dd);
-        errorCount += isItTrue("dd", "3.0", str);
+        errorCount += Checkers.checker("dd", "3.0", str);
         
         str = String.valueOf(ff);
-        errorCount += isItTrue("ff", "5.0", str);
+        errorCount += Checkers.checker("ff", "5.0", str);
         
         str = String.valueOf(ii);
-        errorCount += isItTrue("ii", "7", str);
+        errorCount += Checkers.checker("ii", "7", str);
         
         str = String.valueOf(jj);
-        errorCount += isItTrue("jj", "11", str);
+        errorCount += Checkers.checker("jj", "11", str);
         
         str = String.valueOf(ss);
-        errorCount += isItTrue("ss", "13", str);
+        errorCount += Checkers.checker("ss", "13", str);
         
         str = String.valueOf(zz);
-        errorCount += isItTrue("zz true", "true", str);
+        errorCount += Checkers.checker("zz true", "true", str);
         
 		zz = false;
         str = String.valueOf(zz);
-        errorCount += isItTrue("zz false", "false", str);
+        errorCount += Checkers.checker("zz false", "false", str);
         
-    	System.out.println("Did not crash!");
-        assert (errorCount == 0);
-		System.out.printf("Error count = %d\n", errorCount);
+    	Checkers.theEnd(errorCount);
 
     }
     

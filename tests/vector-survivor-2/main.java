@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Vector;
+
 public class main {
+
+    // TODO: needs qualitative tests
+
     public static void main(String[] args) {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         arrayList.add(10);
@@ -11,9 +15,8 @@ public class main {
         System.out.print("arrayList: ");
         System.out.println(arrayList);
         Vector<Integer> vector = new Vector<Integer>(arrayList);
-        System.out.print("vector: ");
-        System.out.println(vector);
-        System.out.println("I survived!");
+        
+        Checkers.theEnd(0);
    }
 }
 

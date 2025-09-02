@@ -94,10 +94,7 @@ public class main {
         errorCount += tryTwoFish(24, originalBytes);
         errorCount += tryTwoFish(32, originalBytes);
         
-        System.out.print("\nError count = ");
-        System.out.println(errorCount);
-        assert(errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
 
     }
 

@@ -28,11 +28,8 @@ public class main {
 
         // Validate.
         long expected = 5017l;
-        if (sum == expected)
-            System.out.println("Success!");
-        else {
-            System.out.printf("*** Failed, sum expected: %d, observed: %d\n", expected, sum);
-            System.exit(1);
-        }
+        int errorCount = Checkers.checker("long expected = 5017l", expected, 5017l);
+        
+        Checkers.theEnd(errorCount);
     }
 }

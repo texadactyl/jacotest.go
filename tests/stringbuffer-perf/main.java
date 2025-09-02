@@ -115,5 +115,7 @@ public class main {
             	System.out.printf("runBuffer runs %.1f pct faster than runBuilder\n", pct); 
         	}
     	}
+    	
+    	Checkers.theEnd(0);
     }
 }

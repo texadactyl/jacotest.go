@@ -36,7 +36,9 @@ public class main {
 		sum += switcheroo(8, -1, true);
 		sum += switcheroo(9, 0, true);
 		System.out.printf("Sum is %d\n", sum);
-		assert (sum == 2100062);
+		
+		int errorCount = Checkers.checker("sum == 2100062", 2100062, sum);
+		Checkers.theEnd(errorCount);
 	}
 }
 
