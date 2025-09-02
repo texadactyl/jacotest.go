@@ -53,7 +53,7 @@ public class main {
         expectedHashHex = "29D131EB6FAE7E2A457BA8E36852C3E763B282EDBD93E6767715B7F0FCA916E897CB691C2393708EFDE7F9E4F357C5DE291552C386D5848E63E39C8AC657C9CF";
         errorCount += essai(3, messageBytes, expectedHashHex);
 
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 
 }

@@ -160,5 +160,7 @@ class main {
             System.out.println(); // New line after each row
         }
         System.out.printf("Cheapest route: %d\n", theTravellingSalesmanProblem(graph0, startCity));
+        
+        Checkers.theEnd(0);
     }
 }

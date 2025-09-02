@@ -56,7 +56,7 @@ public class main {
      	errorCount += testParseInt("Kona", 10, 0, true);
      	errorCount += testParseInt("100000", 27, 14348907, false);
      	
-     	assert errorCount == 0;
+     	Checkers.theEnd(errorCount);
 	}
 	
 }

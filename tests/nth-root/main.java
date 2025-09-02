@@ -14,24 +14,6 @@ class main {
         System.out.println(value2);
     }
 
-    // Relative Error i.e. how close is the argument to the standard?
-    static double relErr(double standard, double arg) {
-        double diff = Math.abs(standard - arg);
-        if (Math.abs(standard) < errorTolerance)
-            return diff;
-        return diff / standard;
-    }
-
-    static int areTheyClose(String label, double arg1, double arg2) {
-    	System.out.print(label);
-        if (relErr(arg1, arg2) < errorTolerance) {
-            printLabeledObjects(": Success (close enough)", arg1, arg2);
-            return 0;
-        }
-        printLabeledObjects(": *** ERROR, not close enough", arg1, arg2);
-        return 1;
-    }
-    
     static void reporter(String label, Object value) {
         System.out.print(label);
         System.out.print(": ");
@@ -84,8 +66,8 @@ class main {
 		double darg2 = Math.pow(root, nth);
 		reporter("Final argument", darg2);
 		
-		int result = areTheyClose("Original argument and final argument", (double) arg, darg2);
-		assert(result == 0);
+		int errorCount = Checkers.withinTolerance("Original argument and final argument - close?", (double) arg, darg2);		
+		Checkers.theEnd(errorCount);
 	
 	}
 }

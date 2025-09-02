@@ -39,7 +39,7 @@ public class  main {
             assert(ix == ord);
         }
         
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 
 }

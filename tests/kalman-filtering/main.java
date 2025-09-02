@@ -44,20 +44,6 @@ public class main {
     final static double mModelVariance = 0.5; // Initial variance value for the KalmanFilter.mQ matrix
     final static double mInitialStateVariance = 10000.0; // // Initial variance value for the KalmanFilter.mP matrix
 
-	/**
-	 * Return 0 if the input expression is true; else, return 1.
-	 */
-	private static int assertTrue(String label, boolean boolExpr) {
-		Helpers hh = new Helpers();
-		if (boolExpr) {
-			hh.printLabeledString(label, "true");
-			return 0;
-		}
-		System.out.print("*** ERROR, ");
-		hh.printLabeledString(label, "false");
-		return 1;
-	}
-
     /**
      * Initialise the Kalman Filter matrices. 
      */
@@ -178,8 +164,8 @@ public class main {
         System.out.print(mean);
         System.out.print(", variance: ");
         System.out.println(variance);
-        errorCount += assertTrue("abs(mean) < 0.5", Math.abs(mean) < 0.5);
-        errorCount += assertTrue("abs(variance) < 0.5", Math.abs(variance) < 0.5);
+        errorCount += Checkers.checker("abs(mean) < 0.5", true, Math.abs(mean) < 0.5);
+        errorCount += Checkers.checker("abs(variance) < 0.5", true, Math.abs(variance) < 0.5);
         
         return errorCount;
     }
@@ -194,8 +180,7 @@ public class main {
 		// Execute the phase-locked loop
 		int errorCount = testPhaseLockedLoop();
 		
-		// How did we do?
-        assert (errorCount == 0);
+		Checkers.theEnd(errorCount);
         
 	}
 	

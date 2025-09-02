@@ -13,18 +13,6 @@ interface Addable {
 
 public class main {
 
-    public static int checker(String label, boolean bexp) {
-        System.out.print("checker ");
-        if (bexp) {
-            System.out.print(label);
-            System.out.println(" ok");
-            return 0;
-        }
-        System.out.print(label);
-        System.out.println(" *** ERROR");
-        return 1;
-    }
-
     public static void main(String[] args) {
 
         int errorCount = 0;
@@ -36,15 +24,15 @@ public class main {
             return msg;
         };
         String wstr = greeting.say("Theodore");
-        errorCount += checker("greeting.say(Theodore) == Hello, Theodore", wstr.equals("Hello, Theodore"));
+        errorCount += Checkers.checker("greeting.say(Theodore) == Hello, Theodore", "Hello, Theodore", wstr);
 
         // Multiple parameters in lambda expression  
         Addable adder = (a, b) -> (a + b);
-        errorCount += checker("adder.add(10,20)) == 30", adder.add(10, 20) == 30);
+        errorCount += Checkers.checker("adder.add(10,20)) == 30", 30, adder.add(10, 20));
 
         // Multiple parameters with data type in lambda expression  
         Addable typedAdder = (int a, int b) -> (a + b);
-        errorCount += checker("typedAdder.add(10,20)) == 30", typedAdder.add(10, 20) == 30);
+        errorCount += Checkers.checker("typedAdder.add(10,20)) == 30", 30, typedAdder.add(10, 20));
 
         Sayable multi = (message) -> {
             String str1 = "Mary had ";
@@ -52,7 +40,7 @@ public class main {
             return str2;
         };
         wstr = multi.say("a little lamb");
-        errorCount += checker("multi.say", wstr.equals("Mary had a little lamb"));
+        errorCount += Checkers.checker("multi.say", "Mary had a little lamb", wstr);
 
         Map<Integer, String> hm = new HashMap<Integer, String>();
         hm.put(1, "alpha");
@@ -68,10 +56,10 @@ public class main {
             System.out.print(", Value : ");
             System.out.println(entry.getValue());
         }
-        errorCount += checker("map with 3 entries", counter == 5);
-        errorCount += checker("Map get(4) == delta", hm.get(4) == "delta");
+        errorCount += Checkers.checker("map with 3 entries", 5, counter);
+        errorCount += Checkers.checker("Map get(4) == delta", "delta", hm.get(4));
 
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }  
 

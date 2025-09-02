@@ -1,4 +1,7 @@
 public class main {
+
+    // TODO: needs qualitative tests
+
     public static void main(String args[]) {
         String msg = "Special Relativity calculations";
         System.out.println(msg);
@@ -30,5 +33,7 @@ public class main {
             System.out.println(shrunk);
         }
         System.out.println("===== End");
+        
+        Checkers.theEnd(0);
     }
 }

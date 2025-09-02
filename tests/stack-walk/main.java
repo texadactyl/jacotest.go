@@ -8,7 +8,8 @@ public class main {
     public static void main(String args[]) throws Exception {
         System.out.println("main (level1) .....");
         level2(Thread.currentThread().getStackTrace()[1].getLineNumber());
-        System.out.println("main: Success");
+        
+        Checkers.theEnd(0);
     }
 
     private static void level2(int level1Line) throws Exception {

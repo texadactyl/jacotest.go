@@ -5,6 +5,8 @@ import java.util.HexFormat;
 
 class main {
 
+    // TODO: needs qualitative tests
+
     private static void GimmeFive(String label, SecureRandom sr) {
         byte [] bb = new byte[8];
         for(int ix = 0; ix < 100; ix++) {
@@ -37,7 +39,7 @@ class main {
         bseed8 = sr2.generateSeed(8);
         GimmeFive("sr2.generateSeed(8)", sr2);
         
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 }
 

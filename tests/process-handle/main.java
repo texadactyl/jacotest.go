@@ -12,7 +12,7 @@ public class main {
         System.out.printf("commandLine: %s\n", commandLine);
         System.out.printf("user: %s\n", user);
 
-        System.out.println("Success!");
+        Checkers.theEnd(0);
         
     }
 

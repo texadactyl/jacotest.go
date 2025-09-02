@@ -2,15 +2,6 @@
 
 public class main {
 
-	public static void expObs(String label, String expected, String observed) {
-		System.out.print("*** ERROR, ");
-		System.out.print(label);
-		System.out.print(", expected ");
-		System.out.print(expected);
-		System.out.print(", observed ");
-		System.out.println(observed);		
-	}
-
 	public static void main(String args[]) {
 	
 		System.out.println("Cryptography with a deck of cards - https://www.schneier.com/academic/solitaire/");
@@ -32,22 +23,19 @@ public class main {
 		System.out.print("Ciphertext: ");
 		System.out.println(ciphertext);
 		String expectedCiphertext = "WLVGBZAXIE";
-		if (! ciphertext.equals(expectedCiphertext)) {
-			expObs("Ciphertext", expectedCiphertext, ciphertext);
-			errorCount++;
-		}
+		
+		errorCount += Checkers.checker("ciphertext.equals(expectedCiphertext)", expectedCiphertext, ciphertext);
+		
 		System.out.print("Outputtext: ");
 		System.out.println(outputtext);
 		int outlen = outputtext.length();
 		int plainlen = plaintext.length();
 		if (outlen > plainlen )
 			plaintext = plaintext.concat("X");
-		if (! outputtext.equals(plaintext)) {
-			expObs("output plaintext", plaintext, outputtext);
-			errorCount++;
-		}
 
-		assert (errorCount == 0);
+		errorCount += Checkers.checker("outputtext.equals(plaintext)", outputtext, plaintext);
+		
+		Checkers.theEnd(errorCount);
  
 	}
 

@@ -4,18 +4,8 @@ import java.math.BigInteger;
 
 public class main {
 
-    public static int checker(String label, String strExpected, String strObserved) {
-        System.out.printf("checker: %s ", label);
-        if ( strObserved.equals(strExpected) ) {
-            System.out.printf(" ok, value = %s\n", strObserved);
-            return 0;
-        }
-        System.out.printf(" ********** ERROR, expected = %s, observed = %s\n", strExpected, strObserved);
-        return 1;
-    }
-
     public static void main(String[] args) {
-        int errorCounter = 0;
+        int errorCount = 0;
         
         BigRational half  = new BigRational(1, 2);
         BigRational three = new BigRational(3, 1);
@@ -45,23 +35,21 @@ public class main {
 
         // =================== Result ===============================
         
-        errorCounter += checker("p(x)", "1/2 x + 0", p.toString());
-        errorCounter += checker("q(x)", "3 x^2", q.toString());
-        errorCounter += checker("r(x)", "3 x^2 + 1/2 x", r.toString());
-        errorCounter += checker("s(x)", "3/2 x^3", s.toString());
-        errorCounter += checker("t(x)", "9 x^4 + 3 x^3 + 1/4 x^2", t.toString());
-        errorCounter += checker("u(x)", "3 x^3 + 1/4 x^2", u.toString());
-        errorCounter += checker("v(x)", "3 x^2 + 1 x + 1/12", v.toString());
-        errorCounter += checker("w(x)", "9 x^4 + 3 x^3 + 1/4 x^2", w.toString());
-        errorCounter += checker("t(3)", "3249/4", t.evaluate(three).toString());
-        errorCounter += checker("t'(x)", "36 x^3 + 9 x^2 + 1/2 x", t.differentiate().toString());
-        errorCounter += checker("t''(x)", "108 x^2 + 18 x + 1/2", t.differentiate().differentiate().toString());
-        errorCounter += checker("f(x) = int of t(x)", "9/5 x^5 + 3/4 x^4 + 1/12 x^3", t.integrate().toString());
-        errorCounter += checker("integral(t(x), 1/2..3)", "96055/192", t.integrate(half, three).toString());
+        errorCount += Checkers.checker("p(x)", "1/2 x + 0", p.toString());
+        errorCount += Checkers.checker("q(x)", "3 x^2", q.toString());
+        errorCount += Checkers.checker("r(x)", "3 x^2 + 1/2 x", r.toString());
+        errorCount += Checkers.checker("s(x)", "3/2 x^3", s.toString());
+        errorCount += Checkers.checker("t(x)", "9 x^4 + 3 x^3 + 1/4 x^2", t.toString());
+        errorCount += Checkers.checker("u(x)", "3 x^3 + 1/4 x^2", u.toString());
+        errorCount += Checkers.checker("v(x)", "3 x^2 + 1 x + 1/12", v.toString());
+        errorCount += Checkers.checker("w(x)", "9 x^4 + 3 x^3 + 1/4 x^2", w.toString());
+        errorCount += Checkers.checker("t(3)", "3249/4", t.evaluate(three).toString());
+        errorCount += Checkers.checker("t'(x)", "36 x^3 + 9 x^2 + 1/2 x", t.differentiate().toString());
+        errorCount += Checkers.checker("t''(x)", "108 x^2 + 18 x + 1/2", t.differentiate().differentiate().toString());
+        errorCount += Checkers.checker("f(x) = int of t(x)", "9/5 x^5 + 3/4 x^4 + 1/12 x^3", t.integrate().toString());
+        errorCount += Checkers.checker("integral(t(x), 1/2..3)", "96055/192", t.integrate(half, three).toString());
         
-        assert(errorCounter == 0);
-        
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
    }
    
 }

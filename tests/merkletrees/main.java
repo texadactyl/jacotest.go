@@ -38,6 +38,8 @@ class main {
         hash = longLivedTree.getHash();
         System.out.printf("long lived tree of depth=%d, root hash=%d, check=%b\n", maxDepth, hash, ck);
         assert (ck);
+        
+        Checkers.theEnd(0);
     }
 
     private static class TreeNode {

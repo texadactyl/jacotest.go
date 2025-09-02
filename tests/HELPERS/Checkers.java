@@ -6,6 +6,10 @@ public class Checkers {
     public static double MAX_PERCENT = 0.0001;
     public static double MAX_PERCENT_F = 0.0001f;
 
+    public static int withinTolerance(String label, long expected, long observed) {
+        return withinTolerance(label, expected, observed, MAX_PERCENT);
+    }
+    
     public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
         if (expected == 0) {
             if (observed == 0) {

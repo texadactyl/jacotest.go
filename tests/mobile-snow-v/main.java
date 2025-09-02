@@ -164,14 +164,8 @@ public class main {
         String plaintextString2 = new String(decrypted);
         System.out.printf("main: Decrypted (%d): %s\n", decrypted.length, plaintextString2);
         
-        // Test result.
-        if (arraysEqual(plaintext, decrypted)) {
-            System.out.println("main: Success!");
-            System.exit(0);
-        }
-        
-        // Bad news.
-        throw new AssertionError("main: *** ERROR, Decryption result does not match the original plaintext");
+       int errorCount = Checkers.checker("arraysEqual(plaintext, decrypted)", true, arraysEqual(plaintext, decrypted));
+        Checkers.theEnd(errorCount);
         
     }
 }

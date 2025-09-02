@@ -36,7 +36,9 @@ public class main {
         BigInteger decryptedSum = paillier.decrypt(combinedCiphertext);
         int answer = decryptedSum.intValue();
         System.out.printf("Decrypted Sum: %d\n", answer);
-        assert (answer == 57);
+        
+        int errorCount = Checkers.checker("answer == 57", 57, answer);
+        Checkers.theEnd(errorCount);
     }
 }
 

@@ -94,5 +94,7 @@ public class main {
 		showCharset(Charset.forName("UTF-16BE"), ss);
 		showCharset(Charset.forName("UTF-16LE"), ss);
 		
+		Checkers.theEnd(0);
+		
     }
 }

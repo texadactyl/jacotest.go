@@ -11,8 +11,6 @@ public class main {
         errorCount += ProcInteger.procInteger();
         errorCount += ProcString.procString();
 
-        System.out.print("\nError count = ");
-        System.out.println(errorCount);
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

@@ -48,49 +48,6 @@
     static int nloops = 10;
     static long defaultSeed = 42;
 
-    private static int checker(String label, double observed, double expected) {
-        double epsilon = 0.00001;
-        if (Math.abs(expected - observed) < epsilon) {
-            System.out.printf("	ok %s %8.5f\n", label, observed);
-            return 0;
-        }
-        System.out.printf("	*** ERROR :: %s, observed %8.5f, expected %8.5f\n", label, observed, expected);
-        return 1;
-    }
- 
-    private static int checker(String label, long observed, long expected) {
-        if (observed == expected) {
-            System.out.printf("	ok %s %d\n", label, observed);
-            return 0;
-        }
-        System.out.printf("	*** ERROR :: %s, observed %d, expected %d\n", label, observed, expected);
-        return 1;
-    }
- 
-    private static int checker(String label, String observed, String expected) {
-        if (observed.equals(expected)) {
-            System.out.printf("	ok %s %s\n", label, observed);
-            return 0;
-        }
-        System.out.printf("	*** ERROR :: %s, observed %s, expected %s\n", label, observed, expected);
-        return 1;
-    }
- 
-    private static int checker(String label, boolean observed, boolean expected) {
-        if (observed == expected) {
-            if (observed)
-                System.out.printf("	ok %s true\n", label);
-            else
-                System.out.printf("	ok %s false\n", label);
-            return 0;
-        }
-        if (observed)
-            System.out.printf("	*** ERROR :: %s, observed true, expected false\n", label);
-        else
-            System.out.printf("	*** ERROR :: %s, observed false, expected true\n", label);
-        return 1;
-    }
-  
     public static void main(String[] args) {
     
         int errorCount = 0;
@@ -116,23 +73,22 @@
         
         for (int ii = 0; ii < nloops; ii++) {
             System.out.printf("Loop %d\n", ii);
-            errorCount += checker("uniformInt(100)", sr.uniformInt(100), ev.ui[ii]);
-            errorCount += checker("sr.uniformDouble(10.0, 99.0)", sr.uniformDouble(10.0, 99.0), ev.ud[ii]);
-            errorCount += checker("sr.bernoulli(0.5)", sr.bernoulli(0.5), ev.ber[ii]);
-            errorCount += checker("sr.gaussian(9.0, 0.2)", sr.gaussian(9.0, 0.2), ev.gau[ii]);
-            errorCount += checker("sr.discrete(probabilities)", sr.discrete(probabilities), ev.dpr[ii]);
-            errorCount += checker("sr.discrete(frequencies)", sr.discrete(frequencies), ev.dfr[ii]);
-            errorCount += checker("sr.uniformLong(100000000000L)", sr.uniformLong(100000000000L), ev.uj[ii]);
+            errorCount += Checkers.checker("uniformInt(100)", ev.ui[ii], sr.uniformInt(100));
+            errorCount += Checkers.withinTolerance("sr.uniformDouble(10.0, 99.0)", ev.ud[ii], sr.uniformDouble(10.0, 99.0));
+            errorCount += Checkers.checker("sr.bernoulli(0.5)", ev.ber[ii], sr.bernoulli(0.5));
+            errorCount += Checkers.withinTolerance("sr.gaussian(9.0, 0.2)", ev.gau[ii], sr.gaussian(9.0, 0.2));
+            errorCount += Checkers.withinTolerance("sr.discrete(probabilities)", ev.dpr[ii], sr.discrete(probabilities));
+            errorCount += Checkers.withinTolerance("sr.discrete(frequencies)", ev.dfr[ii], sr.discrete(frequencies));
+            errorCount += Checkers.checker("sr.uniformLong(100000000000L)", ev.uj[ii], sr.uniformLong(100000000000L));
             sr.shuffle(alist);
             String whole = "";
             for (String str : alist) {
                 whole = whole.concat(str);
             }
-            errorCount += checker("strArray", whole, ev.strArray[ii]);
+            errorCount += Checkers.checker("strArray", ev.strArray[ii], whole);
         }
         
-        assert errorCount == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 
 }

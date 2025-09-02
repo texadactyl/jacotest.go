@@ -20,7 +20,7 @@ public class main {
     }
     
     
-    private static void checker(int n) {
+    private static void checkValues(int n) {
         int expectedValue = ((n * n * n) + n) / 2;
         System.out.printf("Expected value across rows, columns, and diagonals = %d\n", expectedValue);
         int sum;
@@ -112,8 +112,9 @@ public class main {
             System.out.println();
         }
         
-        checker(n);
-        System.out.println("Success!");
+        checkValues(n);
+        
+        Checkers.theEnd(0);
 
     }   
 }

@@ -18,8 +18,6 @@ public class main {
 		double ad;
 		double ag;
 		
-		int errorCounter = 0;
-	
 		Random rr = new Random();
 		for (int xx = 0; xx < LOOPS; xx++) {
 			abool = rr.nextBoolean();
@@ -78,7 +76,7 @@ public class main {
 			System.out.println();
 		}
 		
-		assert(errorCount == 0);
+		Checkers.theEnd(errorCount);
 	
 	}
 }

@@ -55,8 +55,8 @@ public class main {
 		p = primes[0];
 		q = primes[1];
 		System.out.printf("Primes  = %d, %d\n", p, q);
-		errorCount += checker("p", 997, p); // ***** based on findLargestTwoPrimes(1000)
-		errorCount += checker("q", 991, q); // ***** based on findLargestTwoPrimes(1000)
+		errorCount += Checkers.checker("p", 997, p); // ***** based on findLargestTwoPrimes(1000)
+		errorCount += Checkers.checker("q", 991, q); // ***** based on findLargestTwoPrimes(1000)
 		
 		// The number to be encrypted and decrypted
 		long plainText = 12;
@@ -113,20 +113,10 @@ public class main {
 		System.out.printf("Decrypted ciphertext = %d\n", decryptedCiphertext);
 		
 		// Is the decrypted ciphertext = the plaintext ?
-		errorCount += checker("decryptedCiphertext == plainText?", decryptedCiphertext, plainText);
-		assert(errorCount == 0);
-		System.out.println("Success!");
-	}
+		errorCount += Checkers.checker("decryptedCiphertext == plainText?", decryptedCiphertext, plainText);
 
-    // Check observed vs expected.
-    private static int checker(String label, long expected, long observed) {
-        if (expected == observed) {
-            System.out.printf("ok %s: expected(%d) = observed(%d)\n", label, expected, observed);
-            return 0;
-        }
-        System.out.printf("*** ERROR, %s: expected(%d) != observed(%d)\n", label, expected, observed);
-        return 1;
-    }
+		Checkers.theEnd(errorCount);
+	}
 
     // Find the largets two primes <= the given long argument.
     public static long[] findLargestTwoPrimes(long arg) {

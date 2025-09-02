@@ -34,8 +34,7 @@ public class main {
         System.out.println("Check the last 8 digits .....");
         errorCount += ckSubset(str, NDIGITS - 8, NDIGITS, "54936246");
         
-        assert errorCount == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 }
 

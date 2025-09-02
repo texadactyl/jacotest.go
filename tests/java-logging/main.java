@@ -58,6 +58,8 @@ public class main {
         } catch (SecurityException | IOException ee) {
             ee.printStackTrace();
         }
+        
+        Checkers.theEnd(0);
     }
 
 }

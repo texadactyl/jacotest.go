@@ -111,5 +111,7 @@ public class main {
             throw new AssertionError("*** ERROR, Expected a probable prime result!");
         }
         assert(str.equals("probably prime"));
+        
+        Checkers.theEnd(0);
     }
 }

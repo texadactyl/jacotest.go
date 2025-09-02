@@ -50,12 +50,9 @@ public class main {
         System.out.println("measureLU: Singleton.valueLU done");
         values.printFields();
         long expected = 4559692312573116416L;
-        if (values.valueLU != expected) {
-            System.out.printf("LU output (%d) does not match expected value (%d)\n",
-                values.valueLU, expected);
-            System.exit(1);
-        }
-        System.out.println("Success!");
+        
+        int errorCount = Checkers.checker("values.valueLU == expected", expected, values.valueLU);
+        Checkers.theEnd(errorCount);
 
     }
 

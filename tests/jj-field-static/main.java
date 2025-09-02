@@ -18,20 +18,6 @@ public class main {
     private final double mainFieldDouble = 2.0;
     private String mainFieldString = "three";
     
-    // Check observed string to expected string.
-    private static int checker(String label, String expected, String observed) {
-        if (observed.equals("ignore")) {
-            System.out.printf("Ignore :: %s, expected=\"%s\"\n", label, expected);
-            return 0;
-        }
-        if (observed.equals(expected)) {
-            System.out.printf("Success :: %s\n", label);
-            return 0;
-        }
-        System.out.printf("*** ERROR :: %s, expected=\"%s\", observed=\"%s\"\n", label, expected, observed);
-        return 1;
-    }
-
     // Main entry point.
     public static void main(String[] args) {
     
@@ -54,40 +40,35 @@ public class main {
         jj._dumpStatics("Statics Dump", 3, "");
         
         System.out.println("\n=========================== jj._getStaticString begin");
-        errorCount += checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
-        errorCount += checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
-        errorCount += checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
-        errorCount += checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
-        errorCount += checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
-        errorCount += checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
-        errorCount += checker("static main.mainStaticLong", "5", jj._getStaticString("main", "mainStaticLong"));
-        errorCount += checker("static main.mainStaticShort", "6", jj._getStaticString("main", "mainStaticShort"));
-        errorCount += checker("static main.mainStaticString", "three", jj._getStaticString("main", "mainStaticString"));
+        errorCount += Checkers.checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
+        errorCount += Checkers.checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
+        errorCount += Checkers.checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
+        errorCount += Checkers.checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
+        errorCount += Checkers.checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
+        errorCount += Checkers.checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
+        errorCount += Checkers.checker("static main.mainStaticLong", "5", jj._getStaticString("main", "mainStaticLong"));
+        errorCount += Checkers.checker("static main.mainStaticShort", "6", jj._getStaticString("main", "mainStaticShort"));
+        errorCount += Checkers.checker("static main.mainStaticString", "three", jj._getStaticString("main", "mainStaticString"));
         System.out.println("=========================== jj._getStaticString end");
         
         System.out.println("\n=========================== objKambing jj._getFieldString begin");
-        errorCount += checker("field objKambing.alaska", "1", jj._getFieldString(objKambing, "alaska"));
-        errorCount += checker("field objKambing.Abraham", "2", jj._getFieldString(objKambing, "Abraham"));
-        errorCount += checker("field objKambing.aBEL", "three", jj._getFieldString(objKambing, "aBEL"));
+        errorCount += Checkers.checker("field objKambing.alaska", "1", jj._getFieldString(objKambing, "alaska"));
+        errorCount += Checkers.checker("field objKambing.Abraham", "2", jj._getFieldString(objKambing, "Abraham"));
+        errorCount += Checkers.checker("field objKambing.aBEL", "three", jj._getFieldString(objKambing, "aBEL"));
         System.out.println("=========================== objKambing jj._getFieldString end");
         
         System.out.println("\n=========================== objMain jj._getFieldString begin");
         try {
-            errorCount += checker("field objMain.mainFieldInt", "1", jj._getFieldString(objMain, "mainFieldInt"));
-            errorCount += checker("field objMain.mainFieldDouble", "2", jj._getFieldString(objMain, "mainFieldDouble"));
-            errorCount += checker("field objMain.mainFieldString", "three", jj._getFieldString(objMain, "mainFieldString"));
+            errorCount += Checkers.checker("field objMain.mainFieldInt", "1", jj._getFieldString(objMain, "mainFieldInt"));
+            errorCount += Checkers.checker("field objMain.mainFieldDouble", "2", jj._getFieldString(objMain, "mainFieldDouble"));
+            errorCount += Checkers.checker("field objMain.mainFieldString", "three", jj._getFieldString(objMain, "mainFieldString"));
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
         System.out.println("=========================== objMain jj._getFieldString end");
 
-        System.out.println();
-         if (errorCount == 0) {
-            System.out.println("Success!");
-            System.exit(0);
-        }
-        throw new AssertionError("*** At least one error occurred.");
+        Checkers.theEnd(errorCount);
         
     }
     

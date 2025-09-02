@@ -4,28 +4,6 @@ import java.util.LinkedList;
 
 public class main {
 
-    public static int checker(String label, String observed, String expected) {
-        System.out.print("checker ");
-        if (observed.equals(expected)) {
-            System.out.print(label);
-            System.out.printf(" ok, observed = expected = %s\n", expected);
-            return 0;
-        }
-        System.out.printf("%s *** ERROR, expected %s, observed %s\n", label, expected, observed);
-        return 1;
-    }
-
-    public static int checker(String label, int observed, int expected) {
-        System.out.print("checker ");
-        if (observed == expected) {
-            System.out.print(label);
-            System.out.printf(" ok, observed = expected = %d\n", expected);
-            return 0;
-        }
-        System.out.printf("%s *** ERROR, expected %d, observed %d\n", label, expected, observed);
-        return 1;
-    }
-
     public static void main(String[] args) {
         System.out.println("Testing linked lists");
         int errorCount = 0;
@@ -39,25 +17,25 @@ public class main {
         cars.add("Ford");
         cars.add("Mazda");
         wint = cars.size();
-        errorCount += checker("cars.size() = 4", wint, 4);
-        errorCount += checker("cars.getLast() = Mazda", cars.getLast(), "Mazda");
-        errorCount += checker("cars.getFirst() = Volvo", cars.getFirst(), "Volvo");
+        errorCount += Checkers.checker("cars.size() = 4", 4, wint);
+        errorCount += Checkers.checker("cars.getLast() = Mazda", "Mazda", cars.getLast());
+        errorCount += Checkers.checker("cars.getFirst() = Volvo", "Volvo", cars.getFirst());
 
         wstr1 = cars.removeFirst();
         wstr2 = cars.removeLast();
-        errorCount += checker("cars.removeFirst() = Volvo", wstr1, "Volvo");
-        errorCount += checker("cars.removeLast() = Mazda", wstr2, "Mazda");
+        errorCount += Checkers.checker("cars.removeFirst() = Volvo", "Volvo", wstr1);
+        errorCount += Checkers.checker("cars.removeLast() = Mazda", "Mazda", wstr2);
         wint = cars.size();
-        errorCount += checker("after removing Volvo & Mazda, cars.size() = 2", wint, 2);
+        errorCount += Checkers.checker("after removing Volvo & Mazda, cars.size() = 2", 2, wint);
         System.out.println("cars = [BMW, Ford]");
         
         cars.add(0, "Pontiac");
         wint = cars.size();
-        errorCount += checker("after adding Pontiac at index 0, cars.size() = 3", wint, 3);
+        errorCount += Checkers.checker("after adding Pontiac at index 0, cars.size() = 3", 3, wint);
         System.out.println("cars = [Pontiac, BMW, Ford]");
         
         wint = cars.indexOf("BMW");
-        errorCount += checker("cars.indexOf(\"BMW\") = 1", wint, 1);
+        errorCount += Checkers.checker("cars.indexOf(\"BMW\") = 1", 1, wint);
         
         cars.add("Toyota");
         cars.add("BMW");
@@ -67,29 +45,29 @@ public class main {
             throw new AssertionError("cars.removeFirstOccurrence(\"BMW\") failed");
         System.out.println("cars = [Pontiac, Ford, Toyota, BMW, Studebaker]");
         wint = cars.indexOf("BMW");
-        errorCount += checker("cars.indexOf(\"BMW\") = 3 after cars.removeFirstOccurrence(\"BMW\")", wint, 3);
+        errorCount += Checkers.checker("cars.indexOf(\"BMW\") = 3 after cars.removeFirstOccurrence(\"BMW\")", 3, wint);
         wint = cars.size();
-        errorCount += checker("cars.size() = 5 after cars.removeFirstOccurrence(\"BMW\")", wint, 5);
+        errorCount += Checkers.checker("cars.size() = 5 after cars.removeFirstOccurrence(\"BMW\")", 5, wint);
         
         wstr = cars.pollLast();
-        errorCount += checker("cars.pollLast()", wstr, "Studebaker");
+        errorCount += Checkers.checker("cars.pollLast()", "Studebaker", wstr);
         System.out.println("cars = [Pontiac, Ford, Toyota, BMW]");
         wint = cars.size();
-        errorCount += checker("cars.size() = 4", wint, 4);
+        errorCount += Checkers.checker("cars.size() = 4", 4, wint);
         wint = cars.indexOf("BMW");
-        errorCount += checker("cars.indexOf(\"BMW\") = 3 after cars.reversed()", wint, 3);
+        errorCount += Checkers.checker("cars.indexOf(\"BMW\") = 3 after cars.reversed()", 3, wint);
         wint = cars.indexOf("Ford");
-        errorCount += checker("cars.indexOf(\"Ford\") = 1 after cars.reversed()", wint, 1);
+        errorCount += Checkers.checker("cars.indexOf(\"Ford\") = 1 after cars.reversed()", 1, wint);
         System.out.println(cars);
         wint = cars.indexOf("Honda");
-        errorCount += checker("cars.indexOf(\"Honda\") = -1", wint, -1);
+        errorCount += Checkers.checker("cars.indexOf(\"Honda\") = -1", -1, wint);
         
         wstr = cars.set(2, "Mini");
-        errorCount += checker("cars.set(2, \"Mini\") returns \"Toyota\"", wstr, "Toyota");
+        errorCount += Checkers.checker("cars.set(2, \"Mini\") returns \"Toyota\"", "Toyota", wstr);
         wint = cars.indexOf("Mini");
-        errorCount += checker("cars.indexOf(\"Mini\") = 2", wint, 2);
+        errorCount += Checkers.checker("cars.indexOf(\"Mini\") = 2", 2, wint);
         wint = cars.size();
-        errorCount += checker("cars.size() = 4", wint, 4);
+        errorCount += Checkers.checker("cars.size() = 4", 4, wint);
         
         if (cars.isEmpty())
             throw new AssertionError("cars.isEmpty() reports true but cars is not empty");
@@ -99,7 +77,7 @@ public class main {
         cars.clear();
         
         wint = cars.size();
-        errorCount += checker("cars.size() = 0 after clear()", wint, 0);
+        errorCount += Checkers.checker("cars.size() = 0 after clear()", 0, wint);
         if (!cars.isEmpty())
             throw new AssertionError("cars.isEmpty() reports false but cars is empty");
         else
@@ -119,7 +97,6 @@ public class main {
         else
             System.out.println("ok, cars.contains(\"Zebra\") reports false");
 
-        assert (errorCount == 0);
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
 }

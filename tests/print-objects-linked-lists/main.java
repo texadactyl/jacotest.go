@@ -117,7 +117,7 @@ public class main {
         printObject("CustomObject(42, \"Turtle\")", custom); 
         System.out.println(); 
        
-		System.out.println("I survived!");
+		Checkers.theEnd(0);
 
     }
 }

@@ -60,9 +60,7 @@ public class main {
             errorCount += 1;
 		}
 
-        System.out.print("Error count = ");
-        System.out.println(errorCount);
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
 
 	}  
 

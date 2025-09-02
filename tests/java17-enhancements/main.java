@@ -43,28 +43,6 @@ public class main {
                 .ints(streamSize, 0, upperBound);
     }
 
-    public static int compareHexFormat(String label, String expected, String observed) {
-        String wstr = "compareHexFormat test " + label + ", expected: " + expected + ", observed: " + observed;
-        System.out.println(wstr);
-        if (expected.equals(observed)) {
-            System.out.println("compareHexFormat :: Success");
-            return 0;
-        }
-        System.out.println("compareHexFormat :: *** ERROR");
-        return 1;
-    }
-
-    public static int compareHexFormatLong(String label, long expected, long observed) {
-        String wstr = "compareHexFormat test " + label + ", expected: " + expected + ", observed: " + observed;
-        System.out.println(wstr);
-        if (expected == observed) {
-            System.out.println("compareHexFormat :: Success");
-            return 0;
-        }
-        System.out.println("compareHexFormat :: *** ERROR");
-        return 1;
-    }
-
     public static void main(String[] args) throws Exception {
         int errorCount = 0;
 
@@ -122,28 +100,27 @@ public class main {
 
         // Hex format
         HexFormat hexFormat = HexFormat.of();
-        errorCount += compareHexFormat("hexFormat.toHexDigits('A')", "0041", hexFormat.toHexDigits('A'));
-        errorCount += compareHexFormat("hexFormat.toHexDigits((byte) 10)", "0a", hexFormat.toHexDigits((byte) 10));
-        errorCount += compareHexFormat("hexFormat.toHexDigits((short) 1_000)", "03e8", hexFormat.toHexDigits((short) 1_000));
-        errorCount += compareHexFormat("hexFormat.toHexDigits(1_000_000)", "000f4240", hexFormat.toHexDigits(1_000_000));
-        errorCount += compareHexFormat("hexFormat.toHexDigits(100_000_000_000L)", "000000174876e800", hexFormat.toHexDigits(100_000_000_000L));
+        errorCount += Checkers.checker("hexFormat.toHexDigits('A')", "0041", hexFormat.toHexDigits('A'));
+        errorCount += Checkers.checker("hexFormat.toHexDigits((byte) 10)", "0a", hexFormat.toHexDigits((byte) 10));
+        errorCount += Checkers.checker("hexFormat.toHexDigits((short) 1_000)", "03e8", hexFormat.toHexDigits((short) 1_000));
+        errorCount += Checkers.checker("hexFormat.toHexDigits(1_000_000)", "000f4240", hexFormat.toHexDigits(1_000_000));
+        errorCount += Checkers.checker("hexFormat.toHexDigits(100_000_000_000L)", "000000174876e800", hexFormat.toHexDigits(100_000_000_000L));
         hexFormat = HexFormat.ofDelimiter(" ").withPrefix("0x").withUpperCase();
-        errorCount += compareHexFormat("hexFormat.formatHex(new byte[] {1, 2, 3, 60, 126, -1})", "0x01 0x02 0x03 0x3C 0x7E 0xFF", hexFormat.formatHex(new byte[]{1, 2, 3, 60, 126, -1}));
+        errorCount += Checkers.checker("hexFormat.formatHex(new byte[] {1, 2, 3, 60, 126, -1})", "0x01 0x02 0x03 0x3C 0x7E 0xFF", hexFormat.formatHex(new byte[]{1, 2, 3, 60, 126, -1}));
         int ii = HexFormat.fromHexDigits("03E8"); // 1_000
-        errorCount += compareHexFormatLong("HexFormat.fromHexDigits(03E8)", 1_000L, (long) HexFormat.fromHexDigits("03E8"));
-        errorCount += compareHexFormatLong("HexFormat.fromHexDigitsToLong(174876E800)", 100_000_000_000L, HexFormat.fromHexDigitsToLong("174876E800"));
+        errorCount += Checkers.checker("HexFormat.fromHexDigits(03E8)", 1_000L, (long) HexFormat.fromHexDigits("03E8"));
+        errorCount += Checkers.checker("HexFormat.fromHexDigitsToLong(174876E800)", 100_000_000_000L, HexFormat.fromHexDigitsToLong("174876E800"));
         hexFormat = HexFormat.ofDelimiter(" ").withPrefix("0h").withLowerCase();
         byte[] bytes = hexFormat.parseHex("0h01 0h02 0h03 0h3c 0h7e 0hff"); // byte[] {1, 2, 3, 60, 126, -1}
         boolean btest = (bytes[0] == 0x01) && (bytes[1] == 0x02) && (bytes[2] == 0x03) && (bytes[3] == 0x3c) && (bytes[4] == 0x7e) && (bytes[5] == -1);
         if (btest) {
-            System.out.println("Success :: hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
+            System.out.println("ok hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
         } else {
             errorCount += 1;
             System.out.println("*** ERROR :: hexFormat.parseHex(0h01 0h02 0h03 0h3c 0h7e 0hff)");
             System.out.println(Arrays.toString(bytes));
         }
 
-        // Check the error count
-        assert (errorCount == 0);
+        Checkers.theEnd(errorCount);
     }
 }

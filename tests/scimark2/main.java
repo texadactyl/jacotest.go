@@ -136,36 +136,14 @@ public class main {
         sgl.printFields();
 
         // Validate calculations.
-        errorCount += withinTolerance("FFT", -8989986044279245438L, sgl.valueFFT, 1.5);
-        errorCount += withinTolerance("FFT-inverse", 12423419474949865L, sgl.valueFFTi, 1.0);
-        errorCount += withinTolerance("LU", 4600112251643070182L, sgl.valueLU, 1.0);
-        errorCount += withinTolerance("SM", 11024028321273019L, sgl.valueSM, 1.0);
-        errorCount += withinTolerance("SOR", 0L, sgl.valueSOR, 1.0);
-        assert(errorCount == 0);
-        System.out.println("Success!");
+        errorCount += Checkers.withinTolerance("FFT", -8989986044279245438L, sgl.valueFFT, 1.5);
+        errorCount += Checkers.withinTolerance("FFT-inverse", 12423419474949865L, sgl.valueFFTi, 1.0);
+        errorCount += Checkers.withinTolerance("LU", 4600112251643070182L, sgl.valueLU, 1.0);
+        errorCount += Checkers.withinTolerance("SM", 11024028321273019L, sgl.valueSM, 1.0);
+        errorCount += Checkers.withinTolerance("SOR", 0L, sgl.valueSOR, 1.0);
+        
+        Checkers.theEnd(errorCount);
 
-    }
-
-    public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
-        if (expected == 0) {
-            if (observed == 0) {
-                System.out.printf("withinTolerance(%.1f) %s ok, observed = expected = 0\n", maxPercent, label);
-                return 0;
-            } else {
-                System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = 0, observed = %d\n", maxPercent, label, observed);
-                return 1;
-            }
-        }
-        long diff = Math.abs(expected - observed);
-        double diffPct = Math.abs(100.0 * diff / expected);
-        double tolerance = Math.abs(expected) * (maxPercent / 100.0);
-        if (diff <= tolerance) {
-            System.out.printf("withinTolerance(%.1f) %s ok, expected = %d, observed = %d, diffPct = %.2f\n", maxPercent, label, expected, observed, diffPct);
-            return 0;
-        } else {
-            System.out.printf("withinTolerance(%.1f) %s *** ERROR, expected = %d, observed = %d, diffPct = %.2f\n", maxPercent, label, expected, observed, diffPct);
-            return 1;
-        }
     }
 
 }

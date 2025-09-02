@@ -40,9 +40,8 @@ public class main {
         hexDump("Encrypted Message", cipherText);
         printLabeledString("Decrypted Message", decryptedText);
         
-        // Success?
-        assert decryptedText.equals(clearText);
-        System.out.println("Success!");
+        int errorCount = Checkers.checker("decryptedText.equals(clearText)", clearText, decryptedText);
+        Checkers.theEnd(errorCount);
         
     }
 

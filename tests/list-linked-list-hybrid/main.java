@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 
 public class main {
 
+    // TODO: needs qualitative tests
+
 	static List<Tuple> mot;
 
 	public static void main(String args[]) throws Exception {
@@ -19,6 +21,7 @@ public class main {
 		// There is no anomaly if: static LinkedList<Tuple> mot;
 		mot.add(new Tuple(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()));
 		System.out.println(mot);
+		Checkers.theEnd(0);
 	}
 	
 }

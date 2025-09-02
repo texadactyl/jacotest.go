@@ -55,7 +55,7 @@ public class main {
         assert(result2.equals(expected));
         System.out.println("ok matched expected result!");
         
-        System.out.println("Success!");
+        Checkers.theEnd(0);
     }
 }
 

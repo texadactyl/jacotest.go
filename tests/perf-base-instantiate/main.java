@@ -20,7 +20,7 @@ import javax.crypto.CipherInputStream;
 
 public class main {
 
-    final static int MAX_LOOPS = 1000000;
+    final static int MAX_LOOPS = 10000;
 
     public static void runner(byte [] bbuf, char [] cbuf) throws Exception {
    		ByteArrayInputStream a1 = new  ByteArrayInputStream(bbuf);
@@ -69,6 +69,8 @@ public class main {
     	System.out.print("Overall elapsed time = "); 
     	System.out.print(secs_overall); 
     	System.out.println(" seconds"); 
+    	
+    	Checkers.theEnd(0);
         
     }
 

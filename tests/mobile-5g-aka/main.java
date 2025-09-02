@@ -98,13 +98,9 @@ public class main {
 
         // Authenticate UE
         boolean isAuthenticated = authenticate(authVector, rand, key);
+        int errorCount = Checkers.checker("authenticate(authVector, rand, key)", true, isAuthenticated);
         
-        // How did we do?
-        if (isAuthenticated) {
-            System.out.println("Success!");
-            System.exit(0);
-        }
-        throw new AssertionError("*** ERROR, authentication failed!");
+        Checkers.theEnd(errorCount);
     }
 
     // Compare 2 arrays.

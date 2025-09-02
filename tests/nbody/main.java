@@ -51,6 +51,8 @@ public final class main {
       elapsedSeconds = (double)(t2 - t1) / 1000.0;
       printBracketedObject("Final energy", bodies.energy());
       printBracketedObject("Elapsed time (seconds)", elapsedSeconds);
+      
+      Checkers.theEnd(0);
 	}
 
 }

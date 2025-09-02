@@ -74,8 +74,9 @@ public class main {
         System.out.printf("Expected cleartext 2: \"%s\"\n", expectedClearText);
         
         assert(clearText2.equals(expectedClearText));
+        int errorCount = Checkers.checker("clearText2.equals(expectedClearText", expectedClearText, clearText2);
         
-        System.out.println("..... SUCCESS .....");
+        Checkers.theEnd(errorCount);
 
     }
     

@@ -21,9 +21,7 @@ public class main {
             obj.commandLine = new String[] { "sh", "-c", "ls -l" };
         }
         int exitCode = jj._subProcess(obj);
-        if (exitCode != 0)
-            ++errorCount;
-        System.out.printf("Exit code: %d\n", exitCode);
+        errorCount += Checkers.checker("list directory exit code", 0, exitCode);
         System.out.printf("Stdout: %s\n", obj.stdout);
         System.out.printf("Stderr: %s\n", obj.stderr);
         
@@ -35,14 +33,11 @@ public class main {
             obj.commandLine = new String[] { "sauron_is_nice", "-c", "ls -l" };
         }
         exitCode = jj._subProcess(obj);
-        if (exitCode == 0)
-            ++errorCount;
-        System.out.printf("Exit code: %d\n", exitCode);
+        errorCount += Checkers.checker("looking for SAURON_IS_NICE executable", false, exitCode == 0);
         System.out.printf("Stdout: %s\n", obj.stdout);
         System.out.printf("Stderr: %s\n", obj.stderr);
         
-        assert errorCount == 0;
-        System.out.println("Success!");
+        Checkers.theEnd(errorCount);
     }
     
 }
@@ -60,7 +55,7 @@ class jj {
             process = builder.start();
         } catch (IOException ex) {
             String errMsg = ex.getMessage();
-            System.out.printf("J function _subProcess: Failed to start commandLine, err: %s\n", errMsg);
+            System.out.printf("J function _subProcess: Cannot start commandLine, err: %s\n", errMsg);
             return exitCode;
         }
 

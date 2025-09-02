@@ -42,6 +42,8 @@ public class main {
             ps.printLabeledMsg(MY_NAME, "Interrupted !!");
         }
         ps.printLabeledMsg(MY_NAME, "End");
+        
+        Checkers.theEnd(0);
     }
 }
 

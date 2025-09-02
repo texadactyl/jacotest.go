@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 class main {
 
+    // TODO: needs qualitative tests
+
 	public static ArrayList<Integer> sieveOfEratosthenes(int upperBound) {
 		// Create a boolean array "primeTest[0..n]" and
 		// initialize all entries it as true. A value in
@@ -65,5 +67,7 @@ class main {
 		for (int ii = 0; ii < numPrimes; ++ii) {
 			System.out.printf("%d\n", primes.get(ii));
 		}
+		
+		Checkers.theEnd(0);
 	}
 }
