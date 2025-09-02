@@ -44,7 +44,7 @@ public class HexDump {
 
         // Ensure the hex part is padded correctly based on column size
         int hexPortionWidth = columnSize * 3;
-        String fmt = String.format("%s%d%s", "%-", hexPortionWidth, "s %s%n");
+        String fmt = String.format("\t%s%d%s", "%-", hexPortionWidth, "s %s%n");
         return String.format(fmt, hexPortion, asciiPortion);
     }
 
