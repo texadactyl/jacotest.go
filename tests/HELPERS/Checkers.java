@@ -11,7 +11,7 @@ public class Checkers {
                 System.out.printf("ok withinTolerance(%e) %s, expected = observed = 0\n", maxPercent, label);
                 return 0;
             } else {
-                System.out.printf("*** DISCREPANCY withinTolerance(%e) %s, expected = 0, observed = %d\n", maxPercent, label, observed);
+                System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = 0, observed = %d\n", maxPercent, label, observed);
                 return 1;
             }
         }
@@ -22,7 +22,7 @@ public class Checkers {
             System.out.printf("ok withinTolerance(%e) %s, expected = %d, observed = %d\n", maxPercent, label, expected, observed);
             return 0;
         } else {
-            System.out.printf("*** DISCREPANCY withinTolerance(%e) %s, expected = %d, observed = %d, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
+            System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %d, observed = %d, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
             return 1;
         }
     }
@@ -38,7 +38,7 @@ public class Checkers {
                 System.out.printf("ok withinTolerance(%e) %s ok expected = %e, observed = %e\n", maxPercent, label, expected, observed);
                 return 0;
             } else {
-                System.out.printf("*** DISCREPANCY withinTolerance(%e) %s, expected = %e, observed = %e\n", maxPercent, label, expected, observed);
+                System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %e, observed = %e\n", maxPercent, label, expected, observed);
                 return 1;
             }
         }
@@ -48,46 +48,46 @@ public class Checkers {
             System.out.printf("ok withinTolerance(%e) %s ok expected = %e, observed = %e, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
             return 0;
         } else {
-            System.out.printf("*** DISCREPANCY withinTolerance(%e) %s, expected = %e, observed = %e, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
+            System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %e, observed = %e, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
             return 1;
         }
     }
 
     public static int checker(String label, boolean expected, boolean observed) {
         if (expected == observed) {
-            System.out.printf("ok %s: expected = observed = %b\n", label, observed);
+            System.out.printf("ok %s ::: expected = observed = %b\n", label, observed);
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected = %b, observed = %b\n", label, expected, observed);
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %b, observed = %b\n", label, expected, observed);
         return 1;
     }
 
     public static int checker(String label, int expected, int observed) {
         if (expected == observed) {
-            System.out.printf("ok %s: expected = observed = %d\n", label, observed);
+            System.out.printf("ok %s ::: expected = observed = %d\n", label, observed);
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected = %d, observed = %d\n", label, expected, observed);
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %d, observed = %d\n", label, expected, observed);
         return 1;
     }
 
     public static int checker(String label, long expected, long observed) {
         if (expected == observed) {
-            System.out.printf("ok %s: expected = observed = %d\n", label, observed);
+            System.out.printf("ok %s ::: expected = observed = %d\n", label, observed);
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected = %d, observed = %d\n", label, expected, observed);
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %d, observed = %d\n", label, expected, observed);
         return 1;
     }
 
     public static int checker(String label, String expected, String observed) {
         if (expected.equals(observed)) {
-            System.out.printf("ok %s: expected = observed = %s\n", label, observed);
+            System.out.printf("ok %s ::: expected = observed = %s\n", label, observed);
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected = %s, observed = %s\n", label, expected, observed);
-        System.out.print(HexDump.dumpBytes("expected bytes", expected.getBytes(), expected.length(), HexDump.COLUMN_SIZE));
-        System.out.print(HexDump.dumpBytes("observed bytes", observed.getBytes(), observed.length(), HexDump.COLUMN_SIZE));
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %s, observed = %s\n", label, expected, observed);
+        System.out.print(HexDump.dumpBytes("expected String", expected.getBytes(), expected.length(), HexDump.COLUMN_SIZE));
+        System.out.print(HexDump.dumpBytes("observed String", observed.getBytes(), observed.length(), HexDump.COLUMN_SIZE));
         return 1;
     }
     
@@ -102,10 +102,10 @@ public class Checkers {
 
     public static int checker(String label, BigDecimal expected, BigDecimal observed) {
         if (expected.equals(observed)) {
-            System.out.printf("ok %s: %s\n", label, rptBigDecimal(observed));
+            System.out.printf("ok %s ::: %s\n", label, rptBigDecimal(observed));
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected(", label);
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected(", label);
         System.out.print(rptBigDecimal(expected));
         System.out.print(") != observed(");
         System.out.print(rptBigDecimal(observed));
@@ -116,10 +116,10 @@ public class Checkers {
 
     public static int checker(String label, BigInteger expected, BigInteger observed) {
         if (expected.equals(observed)) {
-            System.out.printf("ok %s: expected = observed = %d\n", label, observed);
+            System.out.printf("ok %s ::: expected = observed = %d\n", label, observed);
             return 0;
         }
-        System.out.printf("*** DISCREPANCY %s: expected = %d, observed = %s\n", label, expected, observed);
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %d, observed = %s\n", label, expected, observed);
         return 1;
     }
     
@@ -128,7 +128,7 @@ public class Checkers {
             System.out.println("Success!");
             System.exit(0);
         }
-        String errMsg = String.format("*** Test case diagnosed %d errors", errorCount);
+        String errMsg = String.format("*** Test case diagnosed %d error(s)", errorCount);
         throw new AssertionError(errMsg);
     }
 
