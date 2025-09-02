@@ -12,6 +12,9 @@ public class main {
         String strObserved = HexDump.bytesToHex(mary.getBytes());
         errorCount += Checkers.checker("String mary", strExpected, strObserved);
         
+        byte[] bb = mary.getBytes();
+        System.out.print(HexDump.dumpBytes("mary", bb, bb.length, HexDump.COLUMN_SIZE));
+        
         errorCount += Checkers.checker("Primes.isPrime(13)", Primes.isPrime(13), true);
         errorCount += Checkers.checker("Primes.isPrime(14) is false", Primes.isPrime(14), false);
         
