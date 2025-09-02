@@ -57,16 +57,6 @@ public class main {
         MultiMedia myRed = new Red();
         MultiMedia myOrange = new Orange();
 
-        String red = myRed.getColor();
-        System.out.printf("red.getColor = %s\n", red);
-        String orange = myOrange.getColor();
-        System.out.printf("orange.getColor = %s\n", orange);
-
-        String loud = myRed.getSound();
-        System.out.printf("red.getSound = %s\n", loud);
-        String soft = myOrange.getSound();
-        System.out.printf("orange.getSound = %s\n", soft);
-
         errorCount += Checkers.checker("myRed.getColor() == \"red\"", "red", myRed.getColor());
         errorCount += Checkers.checker("myRed.getColor() != orange", false, myRed.getColor().equals("orange"));
         errorCount += Checkers.checker("myRed.getSound() == \"loud\"", "loud", myRed.getSound());
