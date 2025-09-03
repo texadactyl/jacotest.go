@@ -1,6 +1,8 @@
 // hacked from https://github.com/xtangle/completable-futures/tree/master/src
 // https://en.wikipedia.org/wiki/Gauss%E2%80%93Legendre_algorithm
 
+// This is a calculation using the Brent Salamin algorithm.
+
 import java.math.BigDecimal;
 
 public class main {

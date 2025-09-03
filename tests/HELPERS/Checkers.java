@@ -1,5 +1,7 @@
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class Checkers {
 
@@ -135,19 +137,18 @@ public class Checkers {
         
     }
 
-    public static int checker(String label, BigDecimal expected, BigDecimal observed) {
-        if (expected.equals(observed)) {
-            System.out.printf("ok %s ::: %s\n", label, rptBigDecimal(observed));
-            return 0;
-        }
-        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected(", label);
-        System.out.print(rptBigDecimal(expected));
-        System.out.print(") != observed(");
-        System.out.print(rptBigDecimal(observed));
-        System.out.println(")");
-        return 1;
+    public static int withinTolerance(String label, BigDecimal bdExpected, BigDecimal bdObserved, BigDecimal bdMaxPercent) {
+        double expected = bdExpected.doubleValue();
+        double observed = bdObserved.doubleValue();
+        double maxPercent = bdMaxPercent.doubleValue();
+        return withinTolerance(label, expected, observed, maxPercent);
     }
 
+    public static int withinTolerance(String label, BigDecimal bdExpected, BigDecimal bdObserved, double maxPercent) {
+        double expected = bdExpected.doubleValue();
+        double observed = bdObserved.doubleValue();
+        return withinTolerance(label, expected, observed, maxPercent);
+    }
 
     public static int checker(String label, BigInteger expected, BigInteger observed) {
         if (expected.equals(observed)) {

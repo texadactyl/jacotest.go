@@ -23,14 +23,17 @@ public class main {
     }
 
     public static void main(String[] args) {
+        int errorCode = 0;
+        
         // Choose rounding mode
         RoundingMode rm = RoundingMode.DOWN;
         int numericVal = rm.ordinal();
         System.out.printf("RoundingMode: %s%n", rm);
         System.out.printf("Numeric value: %d%n", numericVal);
+        errorCode += Checkers.checker("rm.ordinal() DOWN", 1, numericVal);
 
         // Build MathContext
-        int precision = 5;
+        int precision = 6;
         MathContext mc = createMathContext(precision, rm);
         System.out.printf("Created MathContext: %s%n", mc);
 
@@ -39,6 +42,7 @@ public class main {
         BigDecimal b = new BigDecimal("3.14159");
         BigDecimal result1 = a.divide(b, mc);
         System.out.printf("Result using MathContext: %s%n", result1);
+        errorCode += Checkers.withinTolerance("a.divide(b, mc)", BigDecimal.valueOf(39.2975), result1, 0.001);
 
         // Round-trip MathContext
         MathContext mcFromString = new MathContext(mc.toString());
@@ -49,13 +53,9 @@ public class main {
         System.out.printf("Result using round-tripped MathContext: %s%n", result2);
         assert(result2.equals(result1));
         System.out.println("ok round-trip result!");
+        errorCode += Checkers.withinTolerance("a.divide(b, mcFromString)", BigDecimal.valueOf(39.2975), result2, 0.001);
         
-        // Compare to expected result:
-        BigDecimal expected = new BigDecimal("39.297");
-        assert(result2.equals(expected));
-        System.out.println("ok matched expected result!");
-        
-        Checkers.theEnd(0);
+        Checkers.theEnd(errorCode);
     }
 }
 
