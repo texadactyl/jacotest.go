@@ -43,6 +43,7 @@ jobs:
         jacobin --version
         
     - name: Setup Jacotest
+      shell: bash
       run: |
         cd src
         go get
