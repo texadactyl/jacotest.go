@@ -17,12 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
-    - name: Setup for Linux or MacOS
-      shell: bash
-      run: |
-        echo "$HOME/go/bin" >> $GITHUB_PATH
-        mkdir $HOME/go/bin
-
     - name: Setup Go
       uses: actions/setup-go@main
       with:
@@ -30,6 +24,11 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
+    - name: Setup PATH
+      shell: bash
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+
     - name: Setup Jacobin
       shell: bash
       run: |
