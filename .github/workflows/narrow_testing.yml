@@ -62,6 +62,8 @@ jobs:
       run: |
         java --version
         javac --version
-        cd tests/nth-root
+        cd tests/HELPERS
+        javac *.java
+        cd ../nth-root
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
