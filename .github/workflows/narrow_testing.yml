@@ -17,6 +17,18 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
+    - name: Setup for Linux or MacOS
+      shell: bash
+      if: runner.os != 'Windows'
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+
+    - name: Setup for Windows
+      shell: powershell
+      if: runner.os == 'Windows'
+      run: |
+        echo "%HOMEPATH%\go\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+
     - name: Setup Go
       uses: actions/setup-go@main
       with:
@@ -24,21 +36,24 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Setup PATH
-      run: |
-        echo "$HOME/go/bin" >> $GITHUB_PATH
-      shell: bash
-
     - name: Setup Jacobin
+      shell: bash
       run: |
-        echo PATH = $PATH
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
-        go install -v ./...
+        go build -o . -v ./...
+        mv jacobin $HOME/go/bin/
         jacobin --version
-      shell: bash
         
+    - name: Setup Jacotest
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
     - name: Setup JDK
       uses: actions/setup-java@main
       with:
@@ -46,11 +61,10 @@ jobs:
         java-version: '21'
 
     - name: Run Test Cases
+      shell: bash
       run: |
-        echo PATH = $PATH
         java --version
         javac --version
         cd tests/nth-root
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
-      shell: bash
