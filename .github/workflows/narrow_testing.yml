@@ -38,7 +38,8 @@ jobs:
         go build -o . -v ./...
         pwd
         ls -l
-        mv ./jacobin $HOME/go/bin/
+        # Believe it or not, the output jacobin executable is named 'src'!
+        mv ./src $HOME/go/bin/
         jacobin --version
         
     - name: Setup Jacotest
