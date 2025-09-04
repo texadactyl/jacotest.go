@@ -137,17 +137,50 @@ public class Checkers {
         
     }
 
-    public static int withinTolerance(String label, BigDecimal bdExpected, BigDecimal bdObserved, BigDecimal bdMaxPercent) {
-        double expected = bdExpected.doubleValue();
-        double observed = bdObserved.doubleValue();
-        double maxPercent = bdMaxPercent.doubleValue();
+    public static int withinTolerance(String label,
+                                      BigDecimal expected,
+                                      BigDecimal observed,
+                                      double maxPercentDouble) {
+
+        BigDecimal maxPercent = BigDecimal.valueOf(maxPercentDouble);
         return withinTolerance(label, expected, observed, maxPercent);
     }
 
-    public static int withinTolerance(String label, BigDecimal bdExpected, BigDecimal bdObserved, double maxPercent) {
-        double expected = bdExpected.doubleValue();
-        double observed = bdObserved.doubleValue();
-        return withinTolerance(label, expected, observed, maxPercent);
+    public static int withinTolerance(String label,
+                                      BigDecimal expected,
+                                      BigDecimal observed,
+                                      BigDecimal maxPercent) {
+
+        // |expected - observed|
+        BigDecimal absDiff = expected.subtract(observed).abs();
+
+        // Handle case where expected is very small
+        if (expected.abs().compareTo(maxPercent) < 0) {
+            if (absDiff.compareTo(maxPercent) <= 0) {   // changed < to <=
+                System.out.printf("ok withinTolerance(%s) %s ::: ok expected = %s, observed = %s, absDiff = %s%n",
+                        maxPercent.toPlainString(), label, expected.toPlainString(), observed.toPlainString(), absDiff.toPlainString());
+                return 0;
+            } else {
+                System.out.printf("*** DISCREPANCY withinTolerance(%s) ::: %s expected = %s, observed = %s, absDiff = %s%n",
+                        maxPercent.toPlainString(), label, expected.toPlainString(), observed.toPlainString(), absDiff.toPlainString());
+                return 1;
+            }
+        }
+
+        // relative difference = |expected - observed| / |expected|
+        BigDecimal relDiff = absDiff.divide(expected.abs(),
+                                         Math.max(18, expected.scale() + observed.scale()),
+                                         RoundingMode.HALF_UP);
+
+        if (relDiff.compareTo(maxPercent) <= 0) {   // changed < to <=
+            System.out.printf("ok withinTolerance(%s) %s ::: expected = %s, observed = %s, relDiff = %s%n",
+                    maxPercent.toPlainString(), label, expected.toPlainString(), observed.toPlainString(), relDiff.toPlainString());
+            return 0;
+        } else {
+            System.out.printf("*** DISCREPANCY withinTolerance(%s) %s ::: expected = %s, observed = %s, relDiff = %s%n",
+                    maxPercent.toPlainString(), label, expected.toPlainString(), observed.toPlainString(), relDiff.toPlainString());
+            return 1;
+        }
     }
 
     public static int checker(String label, BigInteger expected, BigInteger observed) {

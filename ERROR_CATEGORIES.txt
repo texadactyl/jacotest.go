@@ -8,6 +8,7 @@ Native method requested
 Missing field
 deprecated
 I should have been replaced
+ERROR: LoadClass
 not yet supported
 TRAP:
 INVOKEDYNAMIC
