@@ -62,10 +62,9 @@ jobs:
       run: |
         java --version
         javac --version
-        echo ===== HELPERS
+        set -x
         cd tests/HELPERS
         javac *.java
-        echo ===== nth-root
         cd ../nth-root
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
