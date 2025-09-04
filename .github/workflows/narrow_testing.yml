@@ -41,7 +41,6 @@ jobs:
         cd src
         go get
         go install -v .
-        cd ..
         jacotest -h
 
     - name: Setup Jacobin
@@ -49,9 +48,9 @@ jobs:
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
-        go build -o . -v ./...
-        mv src/jacobin $HOME/go/bin
+        go install -v ./...
         jacobin --version
+      shell: bash
         
     - name: Setup JDK
       uses: actions/setup-java@main
@@ -66,7 +65,7 @@ jobs:
         cd tests/nth-root
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
-        cd ../..
+      shell: bash
 
     - name: Summary of Results
       run: |
