@@ -39,7 +39,7 @@ jobs:
         pwd
         ls -l
         # Believe it or not, the output jacobin executable is named 'src'!
-        mv ./src $HOME/go/bin/
+        mv ./src $HOME/go/bin/jacobin
         jacobin --version
         
     - name: Setup Jacotest
