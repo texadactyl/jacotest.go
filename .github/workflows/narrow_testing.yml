@@ -36,6 +36,8 @@ jobs:
         cd jacobin/src
         go get
         go build -o . -v ./...
+        pwd
+        ls -l
         mv ./jacobin $HOME/go/bin/
         jacobin --version
         
