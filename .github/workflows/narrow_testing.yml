@@ -26,7 +26,7 @@ jobs:
           
     - name: Setup PATH
       run: |
-        export PATH=$HOME/go/bin:$PATH
+        echo "$HOME/go/bin" >> $GITHUB_PATH
       shell: bash
 
     - name: Setup Jacobin
