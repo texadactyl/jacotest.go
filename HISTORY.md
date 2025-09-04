@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2025-09-04 | 5.0.4 | New test cases: big-decimal-4, big-decimal-5. |
+| 2025-09-04 | 5.0.5 | New test cases: big-decimal-4, big-decimal-5. |
 | | | Updated HELPERS to better compare 2 BigDecimal objects. |
 | | | Updated ERROR_CATEGORIES.txt to include a category for class load errors. |
 | 2025-09-03 | 5.0.4 | New test cases: big-decimal-3, pi-digits-bbp, rounding-mode-2. |
