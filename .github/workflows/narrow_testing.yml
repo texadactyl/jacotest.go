@@ -24,20 +24,14 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Setup for Linux or MacOS
+    - name: Setup PATH
       run: |
-        echo "$HOME/go/bin" >> $PATH
+        export PATH=$HOME/go/bin:$PATH
       shell: bash
-      if: runner.os != 'Windows'
 
-    - name: Setup for Windows
-      run: |
-        echo "%HOMEPATH%\go\bin" | Out-File -Append -FilePath $env:PATH
-      shell: powershell
-      if: runner.os == 'Windows'
-        
     - name: Setup Jacobin
       run: |
+        echo PATH = $PATH
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
@@ -53,6 +47,7 @@ jobs:
 
     - name: Run Test Cases
       run: |
+        echo PATH = $PATH
         java --version
         javac --version
         cd tests/nth-root
