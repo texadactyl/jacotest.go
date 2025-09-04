@@ -63,9 +63,9 @@ jobs:
       run: |
         java --version
         javac --version
-        cd tests/jarring
+        cd tests/nth-root
         javac main.java
-        jacobin main.class || true
+        jacobin -cp .:../HELPERS main.class || true
         cd ../..
 
     - name: Summary of Results
