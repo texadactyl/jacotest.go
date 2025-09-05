@@ -36,18 +36,12 @@ jobs:
           cache-dependency-path: "**/go.sum"
           
     - name: Setup for Linux or MacOS
+      shell: bash
       run: |
         echo "$HOME/go/bin" >> $GITHUB_PATH
-      shell: bash
-      if: runner.os != 'Windows'
-
-    - name: Setup for Windows
-      run: |
-        echo "%HOMEPATH%\go\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
-      shell: powershell
-      if: runner.os == 'Windows'
         
     - name: Setup Jacotest
+      shell: bash
       run: |
         cd src
         go get
@@ -63,7 +57,7 @@ jobs:
         cd jacobin/src
         go get
         go build -o . -v ./...
-        mv src $HOME/go/bin/jacobin
+        mv ./src $HOME/go/bin/jacobin
         jacobin --version
         
     - name: Setup JDK
@@ -73,12 +67,14 @@ jobs:
         java-version: '21'
 
     - name: Run Test Cases
+      shell: bash
       run: |
         java --version
         javac --version
         jacotest -c -x || true
 
     - name: Summary of Results
+      shell: bash
       run: |
         jacotest -r 3
 
