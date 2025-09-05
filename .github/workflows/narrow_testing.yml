@@ -64,7 +64,7 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        cd ../nth-root
+        cd ../fits
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
    
@@ -77,6 +77,6 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        cd ../nth-root
+        cd ../fits
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" main.class || true
