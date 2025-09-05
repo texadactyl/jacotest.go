@@ -57,8 +57,9 @@ jobs:
         distribution: 'oracle'
         java-version: '21'
 
-    - name: Run Test Cases
+    - name: Run Test Cases POSIX
       shell: bash
+      if: runner.os != 'Windows'
       run: |
         java --version
         javac --version
@@ -68,3 +69,15 @@ jobs:
         cd ../nth-root
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
+
+    - name: Run Test Cases POSIX
+      shell: powershell
+      if: runner.os == 'Windows'
+      run: |
+        java --version
+        javac --version
+        cd tests\HELPERS
+        javac *.java
+        cd ..\nth-root
+        javac -cp .;..\HELPERS main.java
+        jacobin -cp .;..\HELPERS main.class
