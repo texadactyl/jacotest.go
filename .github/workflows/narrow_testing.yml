@@ -71,11 +71,14 @@ jobs:
         jacobin -cp .:../HELPERS main.class || true
    
     - name: Run Test Cases Windows
-      shell: powershell
+      shell: bash
       if: runner.os == 'Windows'
       run: |
         java --version
         javac --version
-        cd tests/jarring
-        javac main.java
-        jacobin main.class || true
+        set -x
+        cd tests/HELPERS
+        javac *.java
+        cd ../nth-root
+        javac -cp .:../HELPERS main.java
+        jacobin -cp .:../HELPERS main.class || true
