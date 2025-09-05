@@ -36,9 +36,7 @@ jobs:
         cd jacobin/src
         go get
         go build -o . -v ./...
-        pwd
-        ls -l
-        # Believe it or not, the output jacobin executable is named 'src'!
+        # Believe it or not, the output jacobin executable has a file name of 'src'!
         mv ./src $HOME/go/bin/jacobin
         jacobin --version
         
