@@ -70,7 +70,7 @@ jobs:
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
 
-    - name: Run Test Cases POSIX
+    - name: Run Test Cases Windows
       shell: powershell
       if: runner.os == 'Windows'
       run: |
