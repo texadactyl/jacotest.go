@@ -79,10 +79,10 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 			// Skip if the corresponding test case is already in tblHitByTC.
 			// Keeping just the first error message entry for a given test case.
-			_, found := tblHitByTC[testCaseName]
+			detail, found := tblHitByTC[testCaseName]
 			if found {
 				if ph23Tracing {
-					fmt.Printf("DEBUG phase2 skipping duplicate: testCaseName=%s\n", testCaseName)
+					fmt.Printf("DEBUG phase2 skipping duplicate: testCaseName=%s, detail=%s\n", testCaseName, detail)
 				}
 				continue
 			}
@@ -101,7 +101,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			for _, textLine := range logTextLines {
 				textLine = CleanerText(textLine, false)
 				if strings.Contains(textLine, errCatFragment) {
-					// Found the search argument in current line that matches errCatExpected.
+					// Found the search argument in the current line that matches errCatExpected.
 					// Update tblHitByTC, tblHitByCat, and allTestCases.
 					tblHitByTC[testCaseName] = textLine
 					tblHitByCat = append(tblHitByCat, TblHitByCat{errCatFragment, testCaseName, textLine})
@@ -211,6 +211,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Get a handle on the jacotest globals.
 	globals := GetGlobalRef()
+	ph23Tracing = globals.FlagVerbose
 
 	// Get the error categories as a slice of strings.
 	fileBytes, err := os.ReadFile(globals.ErrCatFilePath)

@@ -185,7 +185,7 @@ public class main {
     
     public static void main(String[] args) {
     
-    	System.out.println("Simulation of the Enigma Engine circa WWII.");
+    	System.out.println("Simulation of the Enigma Engine circa WWII. This program uses abstract classes and functions.");
     	fitnessTests();
     	encryptTest();
     	decryptTest();

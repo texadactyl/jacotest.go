@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+abstract
 Empty code segment
 Native method requested
 Missing field
