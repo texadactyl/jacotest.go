@@ -80,5 +80,5 @@ jobs:
         cd tests/HELPERS
         javac *.java
         cd ../nth-root
-        javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS main.class || true
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class || true
