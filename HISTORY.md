@@ -4,9 +4,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-09-06 | 5.0.7 | Updated ERROR_CATEGORIES.txt to include a categories for "getClass", "get.getCallerClass", and "java/lang/Thread" |
 | 2025-09-05 | 5.0.6 | Updated ERROR_CATEGORIES.txt to include a category for "abstract". |
 | | | Ensure that the failure reason for test cases enigma-machine and sha3 is "abstract". |
-| | | Test case JACOBIN-0161-0229-classes required no change to fail for this reason. |
+| | | Test case JACOBIN-0161-0229-classes required no change to fail for "abstract". |
 | | | Simplfied test case fits. |
 | | | Update src/phases2and3.go to do DEBUG tracing based on command line -v flag. |
 | 2025-09-04 | 5.0.5 | New test cases: big-decimal-4, big-decimal-5. |

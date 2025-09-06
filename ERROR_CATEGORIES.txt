@@ -4,6 +4,9 @@
 # Highest priority for fragment searching
 # ---------------------------------------
 abstract
+getClass
+getCallerClass
+java/lang/Thread
 Empty code segment
 Native method requested
 Missing field
