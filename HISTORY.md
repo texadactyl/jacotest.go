@@ -5,6 +5,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-09-06 | 5.0.7 | Updated ERROR_CATEGORIES.txt to include a categories for "getClass", "get.getCallerClass", and "java/lang/Thread" |
+| | | New test cases: big-decimal-6. |
+| | | Removed unrealistic test case pi-digits. |
 | 2025-09-05 | 5.0.6 | Updated ERROR_CATEGORIES.txt to include a category for "abstract". |
 | | | Ensure that the failure reason for test cases enigma-machine and sha3 is "abstract". |
 | | | Test case JACOBIN-0161-0229-classes required no change to fail for "abstract". |
