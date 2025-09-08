@@ -58,18 +58,20 @@ public class LongStringListTable {
             // Add key to keys array, resizing if necessary
             if (keyCount >= keys.length) {
                 long[] newKeys = new long[keys.length * 2];
-                if (debugging) System.out.printf("DEBUG insertEntry keyCount >= keys.length: arraycopy coming up keyCount=%d, keys.length=%d\n", keyCount, keys.length);
+                if (debugging) System.out.printf("DEBUG BEGIN insertEntry current == null and keyCount >= keys.length: arraycopy keyCount=%d, keys.length=%d\n", keyCount, keys.length);
                 System.arraycopy(keys, 0, newKeys, 0, keys.length);
-                if (debugging) System.out.printf("DEBUG insertEntry keyCount >= keys.length: arraycopy done\n");
+                if (debugging) System.out.printf("DEBUG END   insertEntry current == null and keyCount >= keys.length: arraycopy keyCount=%d, keys.length=%d\n", keyCount, keys.length);
                 keys = newKeys;
+            } else {
+                if (debugging) System.out.printf("DEBUG insertEntry (NO arraycopy CALL) current == null and keyCount < keys.length: keyCount=%d, keys.length=%d\n", keyCount, keys.length);
             }
             keys[keyCount++] = numeric;
         } else {
             // Append to existing array
             String[] newEntry = new String[current.length + 1];
-            if (debugging) System.out.printf("DEBUG insertEntry keyCount < keys.length: arraycopy coming up\n");
+            if (debugging) System.out.printf("DEBUG BEGIN insertEntry current != null: arraycopy keyCount=%d, keys.length=%d\n", keyCount, keys.length);
             System.arraycopy(current, 0, newEntry, 0, current.length);
-            if (debugging) System.out.printf("DEBUG insertEntry keyCount < keys.length: arraycopy done\n");
+            if (debugging) System.out.printf("DEBUG END   insertEntry current != null: arraycopy keyCount=%d, keys.length=%d\n", keyCount, keys.length);
             newEntry[current.length] = filename;
             table.put(numeric, newEntry);
         }
@@ -80,7 +82,9 @@ public class LongStringListTable {
      */
     public long[] getKeyArray() {
         long[] result = new long[keyCount];
+        if (debugging) System.out.println("DEBUG BEGIN getKeyArray: arraycopy");
         System.arraycopy(keys, 0, result, 0, keyCount);
+        if (debugging) System.out.println("DEBUG END   getKeyArray: arraycopy");
         return result;
     }
 
