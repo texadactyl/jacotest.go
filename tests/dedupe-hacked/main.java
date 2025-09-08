@@ -89,10 +89,22 @@ public class main {
         LongStringListTable dupesTable = new LongStringListTable();
 
         // sizesTable now holds all the filenames and the corresponding file sizes
-        sizesTable.getFilenames().stream() // get the lists of files for each size
+        /*sizesTable.values().stream() // get the lists of files for each size
             .filter( s -> s.size() > 1 )   // filter for lists of more than 1 file for a given size
             .forEach( s -> new FilesChecksum( s, dupesTable ).go() );  // checksum those files
+        */
+        String[][] allFileArrays = sizesTable.getValuesArray();  // get all arrays of filenames
 
+        for (int i = 0; i < allFileArrays.length; i++) {
+            String[] filesForSize = allFileArrays[i];
+
+            if (filesForSize != null && filesForSize.length > 1) {
+                // Compute checksums for files with the same size
+                FilesChecksum fc = new FilesChecksum(filesForSize, dupesTable);
+                fc.go();
+            }
+        }        
+                
         // Scan the dupesTable and print out all duplicates to stdout
         DupesOutput dupesList = new DupesOutput();
         int dupesCount = dupesList.showDupes( dupesTable );

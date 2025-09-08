@@ -9,7 +9,6 @@
  */
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CRC32;
 
@@ -23,12 +22,12 @@ public class FileChecksum {
     private final String filename;
 
     FileChecksum( File f ) {
-        filename = f.getPath();
+        filename = f.getName();
     }
     
-    FileChecksum( Path p ) {
+    /*FileChecksum( Path p ) {
         this( p.toFile());
-    }
+    }*/
 
     FileChecksum( String s ) { filename = s; }
     

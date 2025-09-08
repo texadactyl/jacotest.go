@@ -22,7 +22,7 @@ public class main {
         assert exitCode == 0;
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[])  throws IOException {
 
 		String text;
         String nameSqliteJar = "sqlite-jdbc.jar";
@@ -35,16 +35,11 @@ public class main {
 		System.out.printf("jvmPgmName: %s\n", jvmPgmName);
 
         // Construct path objects for Files.copy.
-		Path pathSqliteJar = Paths.get(nameSqliteJar);
-		Path pathDbclientJar = Paths.get(nameDbclientJar);
+        String pathSqliteJar = new File(nameSqliteJar).getAbsolutePath();
+		String pathDbclientJar = new File(nameDbclientJar).getAbsolutePath();
 
         // Clone the Sqlite jar to the dbclient jar.
-		try {
-		    Files.copy(pathSqliteJar, pathDbclientJar, StandardCopyOption.REPLACE_EXISTING);
-		} catch(IOException ex) {
-            String msg = String.format("*** ERROR, Files.copy: %s", ex.toString());
-            throw new AssertionError(msg);
-		}
+		FileUtilities.copyFile(pathSqliteJar, pathDbclientJar);
 
         // Update the dbclient jar with dbclient.class and name it as the main class.
 

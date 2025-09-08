@@ -1,62 +1,114 @@
-/*
- * Looks for duplicate files (based on content) in directory structures.
- *
- * Copyright (c) 2020 by Andrew Binstock. All rights reserved.
- * Licensed under the Creative Commons Attribution, Share Alike license
- * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
- */
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Data structure that has key of long integers and values consisting
- * of ArrayLists of Strings.
+ * of arrays of Strings.
  *
- * @author alb (@platypusguy)
+ * Fully array-based; avoids Set, Collection, keySet(), values(), entrySet().
+ *
+ * @author alb
+ * @recoded by chatGPT.
  * @hacked-by R J Elkins
  */
 public class LongStringListTable {
 
-    /**
-     *  the main data structure, with a key consisting of a long
-     *  and a value consisting of an ArrayList of filenames.
-     */
-    private final HashMap<Long, ArrayList<String>> table;
+    private static final boolean debugging = true;
 
+    /** Main data structure: key → array of filenames */
+    private final HashMap<Long, String[]> table;
+
+    /** Array of keys to enable iteration without using Set/Collection */
+    private long[] keys;
+
+    /** Number of keys currently stored */
+    private int keyCount;
+    
+    /**
+     * Constructs a new table with default initial capacity.
+     */
     public LongStringListTable() {
-        table = new HashMap<>();
+        this(16); // default initial capacity
     }
 
     /**
-     * Inserts a new filename and a numeric value associated
-     * with the file (size, cheksum, etc.) This numeric is
-     * the key to the entry; an ArrayList of associated filenames
-     * is the value.
-     *   If a matching numeric key already exists in the table,
-     * then the filename is added to the list of files associated
-     * with the numeric key.
-     *
-     * @param filename  the filename to add
-     * @param numeric  the numeric associated with the filename
+     * Constructs a new table with a specified initial capacity.
      */
-    public void insertEntry( String filename, Long numeric ) {
-        ArrayList<String> tableEntry =
-            table.computeIfAbsent( numeric, c -> new ArrayList<>() );
-        tableEntry.add( filename );
+    public LongStringListTable(int initialCapacity) {
+        table = new HashMap<>(initialCapacity);
+        keys = new long[initialCapacity];
+        keyCount = 0;
     }
 
-    public Set<Long> getKeySet() {
-        return table.keySet();
+    /**
+     * Inserts a new filename associated with the numeric key.
+     * If the key exists, appends the filename to the array.
+     *
+     * @param filename the filename to add
+     * @param numeric  the numeric key
+     */
+    public void insertEntry(String filename, Long numeric) {
+        String[] current = table.get(numeric);
+
+        if (current == null) {
+            // New key
+            String[] newEntry = new String[1];
+            newEntry[0] = filename;
+            table.put(numeric, newEntry);
+
+            // Add key to keys array, resizing if necessary
+            if (keyCount >= keys.length) {
+                long[] newKeys = new long[keys.length * 2];
+                if (debugging) System.out.printf("DEBUG insertEntry keyCount >= keys.length: arraycopy coming up keyCount=%d, keys.length=%d\n", keyCount, keys.length);
+                System.arraycopy(keys, 0, newKeys, 0, keys.length);
+                if (debugging) System.out.printf("DEBUG insertEntry keyCount >= keys.length: arraycopy done\n");
+                keys = newKeys;
+            }
+            keys[keyCount++] = numeric;
+        } else {
+            // Append to existing array
+            String[] newEntry = new String[current.length + 1];
+            if (debugging) System.out.printf("DEBUG insertEntry keyCount < keys.length: arraycopy coming up\n");
+            System.arraycopy(current, 0, newEntry, 0, current.length);
+            if (debugging) System.out.printf("DEBUG insertEntry keyCount < keys.length: arraycopy done\n");
+            newEntry[current.length] = filename;
+            table.put(numeric, newEntry);
+        }
     }
 
-    public Collection<ArrayList<String>> getFilenames() {
-        return table.values();
+    /**
+     * Returns all keys in the table as a long array.
+     */
+    public long[] getKeyArray() {
+        long[] result = new long[keyCount];
+        System.arraycopy(keys, 0, result, 0, keyCount);
+        return result;
     }
 
-    public ArrayList<String> getEntry( long key ) {
-        return table.get( key );
+    /**
+     * Returns all values (arrays of filenames) in the table.
+     * The order corresponds to getKeyArray().
+     */
+    public String[][] getValuesArray() {
+        String[][] values = new String[keyCount][];
+        for (int i = 0; i < keyCount; i++) {
+            values[i] = table.get(keys[i]);
+        }
+        return values;
+    }
+
+    /**
+     * Returns the array of filenames for the given key,
+     * or null if the key does not exist.
+     */
+    public String[] getEntry(long key) {
+        return table.get(key);
+    }
+
+    /**
+     * Returns the number of keys stored in the table.
+     */
+    public int size() {
+        return keyCount;
     }
 }
+

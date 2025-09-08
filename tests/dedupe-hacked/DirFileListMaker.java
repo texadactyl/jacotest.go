@@ -7,51 +7,78 @@
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.File;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Accepts a path and walks the entire path (including subdirectories)
- * and creates a list of all files in the path.
+ * and creates an array of all files in the path.
  *
  * All exceptions are caught in this class and the user message is emitted here.
- * 
- * @author alb
- * @hacked-by R J Elkins
+ *
+ * Rewritten by chatGPT to avoid java.nio, lists, and streams.
+ * Hacked by R J Elkins.
  */
-class DirFileListMaker
-{
-    ArrayList<Path> go( Path dir, boolean skipSubDirs, boolean quiet ) {
-        if( dir == null || dir.toString().isEmpty() )
-            throw( new InvalidParameterException(
-                "Error: Directory to process is null or empty in " +
-                    this.getClass().getSimpleName()));
+class DirFileListMaker {
 
-        ArrayList<Path> fileSet = null;
-        try {
-            //Files.walk's second param gives depth of subdirs to search
-            // Integer.MAX_VALUE means, search all subdirectories
-            if (quiet) {
-		        fileSet =
-		            Files.walk( dir, skipSubDirs? 1 : Integer.MAX_VALUE )
-		                .filter( p -> p.toFile().isFile() )
-		                .collect( Collectors.toCollection( ArrayList::new ));
-		    } else {
-		        fileSet =
-		            Files.walk( dir, skipSubDirs? 1 : Integer.MAX_VALUE )
-		                .filter( p -> p.toFile().isFile() )
-		                .peek( System.out::println )
-		                .collect( Collectors.toCollection( ArrayList::new ));
-		    }
-        } catch( Throwable t ) {
-            System.err.println("Error creating fileset in " + dir +
-                                    "Directory will be skipped." );
-            //return an empty ArrayList in case of error
-            return( new ArrayList<>(0) );
+    String[] go(String dirPath, boolean skipSubDirs, boolean quiet) {
+        if (dirPath == null || dirPath.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("*** ERROR, Directory to process is null or empty in ");
+            sb.append(this.getClass().getSimpleName());
+            throw new AssertionError(sb.toString());
         }
-        return( fileSet );
+
+        File dir = new File(dirPath);
+
+        if (!dir.exists() || !dir.isDirectory()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("*** ERROR, Path is not a valid directory: ");
+            sb.append(dirPath);
+            throw new AssertionError(sb.toString());
+        }
+
+        try {
+            int totalFiles = countFiles(dir, skipSubDirs);
+            String[] fileSet = new String[totalFiles];
+            populateFiles(dir, skipSubDirs, quiet, fileSet, new int[]{0});
+            return fileSet;
+        } catch (Throwable t) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("*** ERROR, creating fileset in ");
+            sb.append(dirPath);
+            sb.append(".");
+            throw new AssertionError(sb.toString());
+        }
+    }
+
+    private int countFiles(File dir, boolean skipSubDirs) {
+        int count = 0;
+        File[] children = dir.listFiles();
+        if (children == null) return 0;
+
+        for (File child : children) {
+            if (child.isFile()) count++;
+            if (child.isDirectory() && !skipSubDirs) {
+                count += countFiles(child, skipSubDirs);
+            }
+        }
+        return count;
+    }
+
+    private void populateFiles(File dir, boolean skipSubDirs, boolean quiet, String[] fileSet, int[] index) {
+        File[] children = dir.listFiles();
+        if (children == null) return;
+
+        for (File child : children) {
+            if (child.isFile()) {
+                fileSet[index[0]++] = child.getAbsolutePath();
+                if (!quiet) {
+                    System.out.println(child.getAbsolutePath());
+                }
+            } else if (child.isDirectory() && !skipSubDirs) {
+                populateFiles(child, skipSubDirs, quiet, fileSet, index);
+            }
+        }
     }
 }

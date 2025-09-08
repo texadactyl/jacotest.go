@@ -8,42 +8,44 @@
  */
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Simple class that takes an ArrayList of filenames,
- * runs a checksum on the files and puts the result into
+ * Simple class that takes an array of filenames,
+ * runs a checksum on the files, and puts the result into
  * a table.
  *
  * @author alb
+ * @recoded by chatGPT.
  * @hacked-by R J Elkins
  */
 public class FilesChecksum {
 
-    LongStringListTable checksumTable;
-    ArrayList<String> filenames;
+    private final LongStringListTable checksumTable;
+    private final String[] filenames;
 
     /**
      * @param files The files to be checksummed
      * @param table The table where the filenames and checksums are inserted
      */
-    public FilesChecksum(ArrayList<String> files, LongStringListTable table) {
-        filenames = Objects.requireNonNull( files );
-        checksumTable = Objects.requireNonNull( table );
+    public FilesChecksum(String[] files, LongStringListTable table) {
+        filenames = Objects.requireNonNull(files);
+        checksumTable = Objects.requireNonNull(table);
     }
 
     /**
-     *  Calls the checksum calculation routine for each file in the ArrayList of filenames
-     *  and inserts the checksum and the filename into the checksumTable.
+     * Calls the checksum calculation routine for each file in the array of filenames
+     * and inserts the checksum and the filename into the checksumTable.
      */
     public void go() {
-        for( String file : filenames ) {
+        for (int i = 0; i < filenames.length; i++) {
+            String file = filenames[i];
             try {
-                checksumTable.insertEntry( file, new FileChecksum( file ).calculate() );
-            } catch( IOException ioe ) {
-                continue; // error messages has already been shown to user; continue with the loop.
+                checksumTable.insertEntry(file, new FileChecksum(file).calculate());
+            } catch (IOException ioe) {
+                // error messages have already been shown to the user; continue with the loop
             }
         }
     }
 }
+
