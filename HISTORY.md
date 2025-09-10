@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-09-10 | 5.0.9 | Added test cases instanceof and system-arraycopy. |
 | 2025-09-08 | 5.0.8 | Updated test cases db-sqlite and dedupe-hacked to stop using Java classes not yet supported (E.g. java/nio/file/FileSystems). |
 | 2025-09-06 | 5.0.7 | Updated ERROR_CATEGORIES.txt to include a categories for "getClass", "get.getCallerClass", and "java/lang/Thread". |
 | | | New test cases: big-decimal-6. |
