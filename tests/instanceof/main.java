@@ -4,9 +4,9 @@ public class main {
         boolean zz;
         
         MyClass objSimple = new MyClass();
-        MyClass objArray[] = { objSimple };
+        MyClass[] objArray = { objSimple };
         String strSimple = "ABC";
-        String strArray[] = { "ABC" };
+        String[] strArray = { "ABC" };
         
         zz = objSimple instanceof MyClass;
         System.out.printf("objSimple instanceof MyClass: %b\n", zz);
@@ -27,9 +27,11 @@ public class main {
         System.out.printf("strArray instanceof String[]: %b\n", zz);
         zz = strArray instanceof Object[];
         System.out.printf("strArray instanceof Object[]: %b\n", zz);
+
+        Checkers.theEnd(0);
     }
 }
 
 class MyClass {
-    int x = 0;
+    int iAmNotUsed = 0;
 }
