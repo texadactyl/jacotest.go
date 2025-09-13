@@ -2,7 +2,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.Arrays;
 
 public class Checkers {
 
@@ -193,23 +192,6 @@ public class Checkers {
         return 1;
     }
     
-    public static int checkArraysEqual(String label, Object src, Object dst) {
-        boolean ok;
-        if (src instanceof Object[] && dst instanceof Object[]) {
-            ok = Arrays.deepEquals((Object[]) src, (Object[]) dst);
-        } else {
-            ok = Arrays.deepEquals(new Object[]{src}, new Object[]{dst});
-        }
-        if (ok) {
-            System.out.printf("ok checkArraysEqual(%s) ::: dst = src\n", label);
-            return 0;
-        } else {
-            System.out.printf("*** DISCREPANCY detected in checkArraysEqual(%s) ::: dst != src\n", label);
-            return 1;
-        }
-    }
-
-
     public static void theEnd(int errorCount) {
         if (errorCount == 0) {
             System.out.println("\n========");
