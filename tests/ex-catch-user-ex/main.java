@@ -2,10 +2,14 @@
 
 // A Class that represents user-defined exception
 class MyException extends Exception {
+    String msg = "rubbish!";
 	private static final long serialVersionUID = 42l;
-    public MyException(String wstring) {
+    public MyException(String arg) {
         // Call constructor of parent Exception
-        super(wstring);
+        msg = arg;
+    }
+    public String getMsg() {
+        return msg;
     }
 }
 
@@ -20,7 +24,7 @@ public class main {
         } catch (MyException ex) {
             System.out.println("Success - Caught a user-defined exception as expected");
             // Print the message from MyException object
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getMsg());
             Checkers.theEnd(0);
         }
         

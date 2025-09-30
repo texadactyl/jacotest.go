@@ -4,6 +4,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-09-30 | 5.0.12 | Use java/Arrays.equals instead of home-grown equivalent. |
+| 2025-09-13 | 5.0.11 | Use java/Arrays.equals instead of home-grown equivalent. |
+| | | In test case system-arraycopy, added additional sub-cases and amendede to make use of java/Arrays.equals. |
+| | | Modest print formatting amendments to test case emission-line-spectra. |
 | 2025-09-11 | 5.0.10 | Added test case checkcast. |
 | 2025-09-10 | 5.0.9 | Added test cases instanceof and system-arraycopy. |
 | 2025-09-08 | 5.0.8 | Updated test cases db-sqlite and dedupe-hacked to stop using Java classes not yet supported (E.g. java/nio/file/FileSystems). |

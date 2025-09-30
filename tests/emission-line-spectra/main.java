@@ -46,10 +46,10 @@ public class main {
         int rptLineCounter = 0;
         System.out.println("Wavelength, Strength, and Colour hash values per line:");
         for (int ii = 0; ii < countEmLines; ++ii) {
-            System.out.printf("\t%d) %f %f %d\n", ++rptLineCounter, obsWavelength[ii], obsStrength[ii], obsHashes[ii]);
-            errorCount += Checkers.withinTolerance("wavelength", obsWavelength[ii], expWavelength[ii]);
-            errorCount += Checkers.withinTolerance("strength", obsStrength[ii], expStrength[ii]);
-            errorCount += Checkers.checker("hash", obsHashes[ii], expHashes[ii]);
+            System.out.printf("\t%d) %f %f %d [0x%08x]\n", ++rptLineCounter, obsWavelength[ii], obsStrength[ii], obsHashes[ii], obsHashes[ii]);
+            errorCount += Checkers.withinTolerance("wavelength", expWavelength[ii], obsWavelength[ii]);
+            errorCount += Checkers.withinTolerance("strength", expStrength[ii], obsStrength[ii]);
+            errorCount += Checkers.checker("hash", expHashes[ii], obsHashes[ii]);
         }
 
         // Exit with good/bad news
