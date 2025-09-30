@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2025-09-30 | 5.0.12 | Use java/Arrays.equals instead of home-grown equivalent. |
+| 2025-09-30 | 5.0.12 | Avoid super() in test case ex-catch-user-ex. |
 | 2025-09-13 | 5.0.11 | Use java/Arrays.equals instead of home-grown equivalent. |
 | | | In test case system-arraycopy, added additional sub-cases and amendede to make use of java/Arrays.equals. |
 | | | Modest print formatting amendments to test case emission-line-spectra. |
