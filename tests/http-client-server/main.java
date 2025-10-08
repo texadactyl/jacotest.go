@@ -3,13 +3,9 @@
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.io.IOException;
 
 public class main {
-
-    // TODO: needs qualitative tests
 
     private static int getPort() {
         // Ref: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
@@ -26,8 +22,8 @@ public class main {
     public static void main(String[] args) {
 	    String MY_NAME = "main";
         String CONTEXT = "/ghurkin";
-        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor)Executors.newFixedThreadPool(2);
         int portnum = -1;
+        int errorCount = 0;
         
         String msg = "HTTP client/server tests";
         System.out.println(msg);
@@ -40,13 +36,14 @@ public class main {
         msg = String.format("HTTP Server thread started using port %d", portnum);
         ps.printLabeledMsg(MY_NAME, msg);
 
-        // Initialise the client and start it.
+        // Initialise the client and run it.
         MyClient client = new MyClient();
-        client.exec(portnum, server);
+        errorCount += client.exec(portnum, server);
 
         // The client and server are finished.
         ps.printLabeledMsg(MY_NAME, "End");
         
-        Checkers.theEnd(0);
+        // Qualitative tests were performed in MyClient.java
+        Checkers.theEnd(errorCount);
     }
 }

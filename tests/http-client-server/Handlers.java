@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Set;
 
 import com.sun.net.httpserver.Headers;
@@ -50,7 +51,7 @@ public class Handlers {
 			Set<Map.Entry<String, List<String>>> entries = headers.entrySet();
 			String response = "";
 			for (Map.Entry<String, List<String>> entry : entries)
-				response += entry.toString() + "\n";
+				response += entry.toString() + ";";
 			he.sendResponseHeaders(200, response.length());
 			OutputStream os = he.getResponseBody();
 			os.write(response.toString().getBytes());
@@ -69,10 +70,11 @@ public class Handlers {
 			URI requestedUri = he.getRequestURI();
 			String query = requestedUri.getRawQuery();
 			parseQuery(query, parameters);
+			parameters = new TreeMap<>(parameters);
 			// send response
 			String response = "";
 			for (String key : parameters.keySet())
-				response += key + " = " + parameters.get(key) + "\n";
+				response += key + " = " + parameters.get(key) + ";";
 			he.sendResponseHeaders(200, response.length());
 			OutputStream os = he.getResponseBody();
 			os.write(response.toString().getBytes());
@@ -93,10 +95,11 @@ public class Handlers {
 			BufferedReader br = new BufferedReader(isr);
 			String query = br.readLine();
 			parseQuery(query, parameters);
+			parameters = new TreeMap<>(parameters);
 			// send response
 			String response = "";
 			for (String key : parameters.keySet())
-				response += key + " = " + parameters.get(key) + "\n";
+				response += key + " = " + parameters.get(key) + ";";
 			he.sendResponseHeaders(200, response.length());
 			OutputStream os = he.getResponseBody();
 			os.write(response.toString().getBytes());

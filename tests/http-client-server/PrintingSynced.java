@@ -3,6 +3,12 @@ import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 
 public class PrintingSynced {
 
+    public void printNL() {
+        synchronized (PrintingSynced.class) {
+            System.out.println();
+        }
+    }
+
     public void printString(String msg) {
         synchronized (PrintingSynced.class) {
         	LocalDateTime ldtNow = LocalDateTime.now();

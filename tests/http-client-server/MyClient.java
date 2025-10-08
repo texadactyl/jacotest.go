@@ -23,34 +23,74 @@ public class MyClient {
 	private String URL_PREFIX = "http://localhost";
     private int stCodeOk = 200;
 
-    public void exec(int port, SimpleHttpServer shs) {
+    public int exec(int port, SimpleHttpServer shs) {
+    
+        int errorCount = 0;
+        HttpResponse<String> response;
+        String observed;
+        String expected;
+        PrintingSynced ps = new PrintingSynced();
 
         // Health check.
-        sendReceive(port, "/", null);
+        response = sendReceive(port, "/", null);
+        expected = "Server start success";
+        observed = response.body();
+        if (! observed.contains(expected)) {
+            String errMsg = String.format("*** ERROR in exec health check: expected: %s, observed: %s\n", expected, observed);
+            ps.printLabeledMsg(MY_NAME, errMsg);
+            errorCount += 1;
+        }
 
         // Echo header in response.
-        sendReceive(port, "/echoHeader", null);
+        response = sendReceive(port, "/echoHeader", null);
+        expected = "Connection=";
+        observed = response.body();
+        if (! observed.contains(expected)) {
+            String errMsg = String.format("*** ERROR in exec echo header: expected: %s, observed: %s\n", expected, observed);
+            ps.printLabeledMsg(MY_NAME, errMsg);
+            errorCount += 1;
+        }
 
-        // Simulate parameters in the location window (GET).
-        sendReceive(port, "/echoGet?fruit=apple&veggie=celery&drink=milk", null);
+        // Simulate GET.
+        response = sendReceive(port, "/echoGet?fruit=apple&veggie=celery&drink=milk", null);
+        expected = "drink = milk;fruit = apple;veggie = celery;";
+        observed = response.body();
+        if (! observed.equals(expected)) {
+            String errMsg = String.format("*** ERROR in exec: expected: %s, observed: %s\n", expected, observed);
+            ps.printLabeledMsg(MY_NAME, errMsg);
+            errorCount += 1;
+        }
 
-        // Simulate an HTML form (POST).
+        // Create HTML POST parameters.
         Map<Object, Object> parmMap = new HashMap<>();
         parmMap.put("fruit", "banana");
         parmMap.put("veggie", "carrot");
         parmMap.put("drink", "water");
-        sendReceive(port, "/echoPost", parmMap);
+        
+        // Simulate POST.
+        response = sendReceive(port, "/echoPost", parmMap);
+        expected = "drink = water;fruit = banana;veggie = carrot;";
+        observed = response.body();
+        if (! observed.equals(expected)) {
+            String errMsg = String.format("*** ERROR in exec: expected: %s, observed: %s\n", expected, observed);
+            ps.printLabeledMsg(MY_NAME, errMsg);
+            errorCount += 1;
+        }
 
+        // Done with client.
+        ps.printNL();
         shs.stopper();
+        return errorCount;
     }
 
-    private void sendReceive(int port, String path, Map<Object, Object> parmMap) {
+    private HttpResponse<String> sendReceive(int port, String path, Map<Object, Object> parmMap) {
 
         HttpRequest request;
         HttpResponse<String> response;
 
         // Synced printing.
         PrintingSynced ps = new PrintingSynced();
+        ps.printNL();
 
         // Send request and receive response.
         try {
@@ -92,8 +132,10 @@ public class MyClient {
             String errMsg = String.format("*** ERROR, MyClient sendReceive: status code: %d\n", stCode);
             throw new AssertionError(errMsg);
         }
+        
+        return response;
 
-    } // private void sendReceive(int port, String path)
+    } // private String sendReceive(int port, String path)
 
     // Prepare form data from map for POST processing.
     private static HttpRequest.BodyPublisher buildFormDataFromMap(Map<Object, Object> data) {
