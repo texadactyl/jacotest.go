@@ -26,7 +26,7 @@ public class SimpleHttpServer {
 		PrintingSynced ps = new PrintingSynced();
 		try {
 			server = HttpServer.create(new InetSocketAddress(argPort), 0);
-			String msg = String.format("server created to use " + argPort);
+			String msg = String.format("server created to use port %d", argPort);
 			ps.printLabeledMsg(MY_NAME, msg);
 			server.createContext("/", new Handlers.RootHandler(argPort));
 			server.createContext("/echoHeader", new Handlers.EchoHeaderHandler());
@@ -36,7 +36,7 @@ public class SimpleHttpServer {
 			server.start();
 			ps.printLabeledMsg(MY_NAME, "HttpServer thread started");
 		} catch (IOException ex) {
-		    String errMsg = String.format("*** ERROR, HttpServer could not start, errMsg: %s\n", ex.getMessage());
+		    String errMsg = String.format("*** ERROR, HttpServer could not start, errMsg: %s", ex.getMessage());
 		    ps.printLabeledMsg(MY_NAME, errMsg);
 			ex.printStackTrace();
 		}
