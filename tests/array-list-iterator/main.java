@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class main {
     public static void main(String[] args) {
 
-        System.out.println("Begin ArrayList/iterator tests");
+        System.out.println("Begin ArrayList/Iterator tests");
         int errorCount = 0;
 
         // Make a collection of 8.

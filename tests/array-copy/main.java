@@ -2,6 +2,8 @@ public class main {
 
     public static void main(String[] args) {
     
+        System.out.println("System.arraycopy using several primitive and object types");
+    
         int errorCount = 0;
         String str;
     

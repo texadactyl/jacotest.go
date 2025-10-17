@@ -1,37 +1,45 @@
-This file is a catalogue of jacotest test cases.  Entries appear in alphabetic order.
+This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 <br>
 <br>
-| `Name` | `Subject`
+| `Name` | `Description`
 | :------------ | :--- |
 |<img width=90/>|<img width=600/>|
-|  array-list-iterator  | java.util.ArrayList and java.util.Iterator |
+|  HELPERS  | Check observed-vs-expected, file utilities, hex dump, prime number utilities |
+| `Name` | `Description`
+| :------------ | :--- |
+|<img width=90/>|<img width=600/>|
+|  array-copy  |  System.arraycopy using several primitive and object types |
+|  array-list-iterator  | ArrayList and Iterator functions |
 |  arrays-1  | Access time of array elements of type byte, char, int, float, double, and String |
-|  atomic-integer  | java.util.concurrent.atomic.AtomicInteger |
+|  arrays-copyof  | New arrays by copying elements from the originals |
+|  atomic-integer  | java.util.concurrent.atomic.AtomicInteger functions |
 |  beetlejuice  | Loop stability of byte to String conversions |
-|  big-integer  | java.math.BigInteger tests #1 |
-|  big-integer-2  | java.math.BigInteger tests #2 |
-|  big-integer-3  | java.math.BigInteger tests #3 |
+|  big-decimal*  | java.math.BigDecimal tests |
+|  big-integer*  | java.math.BigInteger tests |
+|  big-rational  | BigRational tests |
+|  bit-shifting*  | Shifting bits of integers |
 |  blockchain  | Create a blockchain, amend it, and validate it |
 |  blocking-queues-2-3-5 | Solve the 2,3,5 problem; blocking queues |
 |  blum-blum-shub | Blum-Blum-Shub (BBS) Algorithm for PseudoRandom Number Generation |
 |  bohr-atom  | Compute properties of the Bohr model of the atom  |
+|  boolean  | Boolean primitive tests |
+|  cached-thread-pool  | Thread pool that scales dynamically, maximizes parallelism |
 |  casting  | Casting between primitive variable types |
 |  catch-8-survivor  | try-catch 8 levels deep |
 |  charset-encoding  | java.nio.charset.Charset, InputStreamReader.getEncoding() |
-|  cmath-in-java-source  | class Complex |
+|  checkcast  | Exercise JVM CHECKCAST |
+|  cmath-in-java-source  | Complex variables |
 |  crc  | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
-|  crypto-salsa | salsa 2.0 cryptography |
+|  crypto-* | 3fish, salsa, and speck cryptography |
 |  db-sqlite  | SQLITE with a JDBC |
 |  dedupe-hacked  | "Looks for duplicate files based on CRC-32 file sizes and checksums" from @platypusguy |
 |  desi  | DES algorithm in Java |
 |  desi-reduced | Call functions of an object from outside and inside the object |
-|  elliptic-1  | Elliptic cryptography #1 |
-|  elliptic-2  | Elliptic cryptography #2 |
+|  elliptic-*  | Elliptic cryptography |
 |  emission-line-spectra  | Emission line spectra from an element table |
 |  emission-line-spectra-nofuncs  | Less complex emission-line-spectra |
 |  enigma-machine  | Alan Turing's Enigma Machine |
-|  enum-inside  | Enumerated type inside main class |
-|  enum-outside  | Enumerated type outside main class |
+|  enum-*  | Enumerated types |
 |  ex-catch-assertion-error  | Cause and catch an assertion error |
 |  ex-catch-big-integer  | Same as ex-catch-assertion-error but using java.math.BigInteger |
 |  ex-catch-called-func-parseint  | Cause a NumberFormatException inside a called function and catch it in the caller function |
@@ -46,25 +54,20 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  ex-multilevel  | Causing and catching a NumberFormatException + finally processing at multiple try-catch levels |
 |  fits  | Read and process a FITS file |
 |  floor-div-mod-mix  | For int and long: floor, div, mod using try-catch |
-|  hashed-map  | java.util.HashMap |
-|  hashed-set  | java.util.HashSet |
+|  hashed-*  | java.util.HashMap & HashSet |
 |  hex-decode-numeric  | Loop stability of decoding numeric values |
 |  hexxed | java.util.HexMap |
 |  http-client-server  | Simple non-secure web client and server |
 |  https-client-getter  | Simple secure web GET |
-|  iface-with-default-func | Simple interface |
+|  iface-lorentz | Lorentz transform using a Java interface (Physics) |
+|  iface-* | Java interface |
 |  iinc-iadd-isub | Exercise IINC, IADD, and ISUB |
 |  imageio-output  | Simple writing to a PNG file  |
-|  Integer-all  | java.lang.Integer |
-|  io_file_create_delete  | Create and delete a file |
-|  io_fileinputstream  | java.io.FileInputStream |
-|  io_fileoutputstream  | java.io.FileOutputStream |
-|  io_filewriter  | java.io.FileWriter |
-|  io_outputstreamwriter  | java.io.OutputStreamWriter |
+|  integer*  | java.lang.Integer |
+|  io_file*  | java.io file operations |
 |  JACOBIN-0161-0229-classes  | Class methods inside and outside the main class |
 |  JACOBIN-0161-instantiate-class  | Class methods in a file separate from the main class |
 |  JACOBIN-0211-pbcrypto  | Password-based cryptography using AES/CBC/PKCS5Padding |
-|  JACOBIN-0212-bit-shifting  | Shifting bits of integers part 1 |
 |  JACOBIN-0217-multidim-2d  | 2D matrices |
 |  JACOBIN-0217-multidim-3d  | 3D matrices |
 |  JACOBIN-0227-string-array  | Simple array of Strings |
@@ -88,8 +91,7 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  JACOBIN-0314-loop-survival  | Stress test with multiple object and primitive types |
 |  JACOBIN-0319-println-object  | System.out.println(object) with several types of objects |
 |  JACOBIN-0322-default-locale  | java.util.Locale |
-|  JACOBIN-0325-super-1  | Objects of superclasses #1 |
-|  JACOBIN-0325-super-2  | Objects of superclasses #2 |
+|  JACOBIN-0325-super-*  | Objects of superclasses |
 |  JACOBIN-0329-nonfinals  | Finals vs nonfinals |
 |  JACOBIN-0337-static-inits  | Static initializer blocks |
 |  JACOBIN-0369-simplified-0290  | String lengths and related functions, simplified for analysis |
@@ -101,9 +103,13 @@ This file is a catalogue of jacotest test cases.  Entries appear in alphabetic o
 |  JACOBIN-0435-format-int-as-hex  | Format integers in hex |
 |  JACOBIN-0476-arraycopy  | System.arraycopy |
 |  JACOBIN-0587-statics-survival  | Statics |
+|  JACOBIN-0760-submethod  | Methods of a subclass |
 |  jarring  | Create and use functions from a jar |
 |  java17-enhancements  | Java 17 enhancements to the previous release |
 |  java-logging  | java.util.logging |
+
+
+
 |  jj-field-static | xxxxx |
 |  jj-field-static-2 | xxxxx |
 |  kalman-filtering  | xxxxx |
