@@ -6,7 +6,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |<img width=90/>|<img width=600/>|
 |  HELPERS  | Check observed-vs-expected, file utilities, hex dump, prime number utilities |
 | ------------ | --- |
-|<img width=90/>|<img width=600/>|
 |  array-copy  |  System.arraycopy using several primitive and object types |
 |  array-list-iterator  | ArrayList and Iterator functions |
 |  arrays-1  | Access time of array elements of type byte, char, int, float, double, and String |
