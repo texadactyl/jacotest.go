@@ -104,12 +104,11 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  jarring  | Create and use functions from a jar |
 |  java17-enhancements  | Java 17 enhancements to the previous release |
 |  java-logging  | java.util.logging |
+|  jj-* | Special non-Java utility Jacobin gfunctions |
+|  kalman-filtering  | Kalman Filter |
 
 
 
-|  jj-field-static | xxxxx |
-|  jj-field-static-2 | xxxxx |
-|  kalman-filtering  | xxxxx |
 |  lambdas-maps  | xxxxx |
 |  linked-list  | xxxxx |
 |  math-in-java-source  | xxxxx |
