@@ -106,74 +106,63 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  java-logging  | java.util.logging |
 |  jj-* | Special non-Java utility Jacobin gfunctions |
 |  kalman-filtering  | Kalman Filter |
-
-
-
-|  lambdas-maps  | xxxxx |
-|  linked-list  | xxxxx |
-|  math-in-java-source  | xxxxx |
-|  merkletrees  | xxxxx |
-|  miller-rabin-test  | xxxxx |
-|  mobile-5g-aka | xxxxx |
-|  mobile-snow-v | xxxxx |
-|  natives-double  | xxxxx |
-|  natives-float  | xxxxx |
-|  nbody  | xxxxx |
-|  nbody-lite  | xxxxx |
-|  nio-charset  | xxxxx |
-|  nth-root  | xxxxx |
-|  numbers-chars-strings  | xxxxx |
-|  packaging-1  | xxxxx |
-|  packaging-2  | xxxxx |
-|  paillier-cryptosystem  | xxxxx |
-|  parent-child-process  | xxxxx |
-|  parse-int  | xxxxx |
-|  perf-base-instantiate  | xxxxx |
-|  playfair  | xxxxx |
-|  random-1  | xxxxx |
-|  recursion  | xxxxx |
-|  rsa-mini  | xxxxx |
-|  rsa-unrandom  | xxxxx |
-|  salesman  | xxxxx |
-|  scimark2  | xxxxx |
-|  sha3  | xxxxx |
-|  sieve  | xxxxx |
-|  sockets  | xxxxx |
-|  solitairgraphy  | xxxxx |
-|  specrel  | xxxxx |
-|  stack-walk  | xxxxx |
-|  stringbuffer-append  | xxxxx |
-|  stringbuffer-delete  | xxxxx |
-|  stringbuffer-dynamic  | xxxxx |
-|  stringbuffer-insert  | xxxxx |
-|  stringbuffer-misc  | xxxxx |
-|  stringbuffer-perf  | xxxxx |
-|  stringbuffer-replace  | xxxxx |
-|  stringbuilder-append  | xxxxx |
-|  stringbuilder-delete  | xxxxx |
-|  stringbuilder-dynamic  | xxxxx |
-|  stringbuilder-insert  | xxxxx |
-|  stringbuilder-misc  | xxxxx |
-|  stringbuilder-replace  | xxxxx |
-|  stringer-1  | xxxxx |
-|  stringer-2  | xxxxx |
-|  stringer-3  | xxxxx |
-|  stringer-4  | xxxxx |
-|  stringer-5  | xxxxx |
-|  stringer-valueof  | xxxxx |
-|  stringtokenizer  | xxxxx |
-|  switcheroo  | xxxxx |
-|  switcheroo-2  | xxxxx |
-|  taylor-series  | xxxxx |
-|  taylor-series-2  | xxxxx |
-|  threading  | xxxxx |
-|  tiffy  | xxxxx |
-|  tls-one-way  | xxxxx |
-|  two-fish  | xxxxx |
-|  two-pass  | xxxxx |
-|  vectors  | xxxxx |
-|  vector-survivor-2  | xxxxx |
-|  walker  | xxxxx |
-|  wide  | xxxxx |
-|  zippy  | xxxxx |
+|  lambdas-maps  | Lambdas, maps, interfaces |
+|  linked-list*  | Lists and linked lists |
+|  magic-square  | Magic Square 13x13 |
+|  math-context  | BigDecimal, RoundingMode, and MathContext |
+|  math-in-java-source  | Math functions in Java language |
+|  merkletrees  | Merkle tree |
+|  miller-rabin-test  | Miller-Rabin primality test |
+|  mobile-* | Mobile network functions |
+|  natives-double  | Double to long to double conversions |
+|  natives-float  | Float to int to float conversions |
+|  nbody  | N-body simulation execution |
+|  nbody-lite-labels  | N-body simulation starting values with labels |
+|  nbody-lite-nolabels  | N-body simulation starting values without labels |
+|  nio-charset  | java.nio.charset.* |
+|  nth-root  | Nth root, where N=13 |
+|  numbers-chars-strings  | Functions associated with char, double, int, and String |
+|  packaging-*  | Import packages |
+|  paillier-cryptosystem  | Pascal Paillier cryptosystem |
+|  parse-int  | Integer parsing |
+|  perf-base-instantiate  | Stress test of various object instantiations |
+|  pi-digits-bbp | Pi calculated with the Bailey-Borwein-Plouffe algorithm |
+|  playfair  | Playfair-Wheatstone cipher algorithm |
+|  print-objects-linked-lists  | LinkedList, BigInteger |
+|  process-handle  | ProcessHandle interface |
+|  properties  | java.util.Properties |
+|  random-1  | java.util.Random |
+|  rational-polynomial |  java.math.BigInteger, user RationalPolynomial, user BigRational  |
+|  recursion  | Fibonacci sequence using recursion |
+|  rounding-mode* | BigDecimal, RoundingMode |
+|  rsa-mini  | RSA Public and Private Key simple cryptography |
+|  rsa-unrandom  | Like rsa-mini but without random key generation |
+|  salesman  | The traveling salesman problem |
+|  scimark2  | Scimark v2 |
+|  scimark2-LU-only  | Scimark v2 - abbreviated significantly |
+|  secure-random  | java.security.SecureRandom, Provider, SecureRandomSpi, and java.util.HexFormat |
+|  sha3  | SHA-3 calculator |
+|  sieve  | Sieve of Eratosthenes |
+|  sockets  | Client and server socket pair |
+|  solitairgraphy  | Cryptography with a deck of cards (Bruce Schneier) |
+|  specrel  | Special Relativity calculations |
+|  stack-walk  | Walk and verify a Java stack |
+|  stat-distros |  generate pseudo-random numbers from some statistical distributions  |
+|  stringbuffer-*  | StringBuffer functions |
+|  stringbuilder-*  | StringBuilder functions |
+|  stringer-*  | String functions |
+|  stringtokenizer  | String token parsing |
+|  switcheroo*  | JVM TABLESWITCH and LOOKUPSWITCH |
+|  taylor-series  | Taylor Series with rational library functions |
+|  taylor-series-2  | Taylor series exercise without the rational library functions |
+|  threading*  | Multi-threading |
+|  tiffy  | TIF reading |
+|  tls-one-way  | One-way TLS |
+|  two-fish  | Two-fish cryptography |
+|  two-pass  | Two-pass Assembler |
+|  vector*  | Vector functions |
+|  walker  | java.nio.file.Files, Path, and Paths |
+|  warp-speed  | Calculations to/from warp speed (Physics) |
+|  wide  | JVM WIDE |
+|  zippy  | Zip file read |
 
