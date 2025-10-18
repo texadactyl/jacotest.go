@@ -116,9 +116,7 @@ Test cases are compiled in lexical directory name order as the appear under the 
 
 ### Running all Test Cases (jacotest -x)
 
-Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a multi-step process:
-* Assuming that compilation was successful for a given test case, then `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
-* If compilation is successful, then execution proceeds under the control of one of two JVMs: ```java``` or ```jacobin```.
+Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), jacotest performs the process described in the "Running a Single Test Case" section.
 
 ### Running a Single Test Case (manual)
 
@@ -134,7 +132,7 @@ To run an indivdual test case with either JVM,
 
 ### Test Case Results and Reports (jacotest -x)
 
-The following are jacotest output:
+The following are jacotest -x output:
 * Logs of individual test cases
 * Test case summary covering all test cases
 * Optional run report suitable for viewing on github (only produced if -M is specified on the command line)
