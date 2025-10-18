@@ -109,21 +109,23 @@ Each test case occupies a directory immediately under the directory ```tests```.
 * Additional source files (helper.java, etc.) can be present for test case modularity.
 * Package statements and related subdirectories containing .java source files are limited to specific tests that are testing the JVM's ability to handle Java packaging.
 
-### Test Case Run
+### Running all Test Cases
 
 Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a multi-step process:
 * Compilation of all *.java files with ```javac```.
 * Assuming that compilation was successful for a given test case, then `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
 * If compilation is successful, then execution proceeds under the control of one of two JVMs: ```java``` or ```jacobin```.
 
+### Running a Single Test Case
+
 To run an indivdual test case with either JVM,
 * Position in the test case directory as the current directory,
-* Execute one of these two command lines:
+* Execute one of the following two POSIX command lines:
 	* ```java -cp .:../HELPERS main```
 	* ```jacobin -cp .:../HELPERS main.class```
-* On the Windows command line, use
-	* semicolons (;) instead of colons (:)
- 	* back-slashes (\) instead of forward-slashes (/)
+* On the Windows command line, the syntax is slightly different:
+	* ```java -cp .;..\HELPERS main```
+	* ```jacobin -cp .;..\HELPERS main.class```
 
 ### Test Case Results and Reports
 
