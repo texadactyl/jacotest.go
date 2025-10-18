@@ -52,8 +52,9 @@ Open a terminal window / command prompt.
      - cd %HOMEPATH% (Windows)
 * git clone https://github.com/texadactyl/jacotest.go
 * cd jacotest.go/src
-* go get github.com/mattn/go-sqlite3
 * go install -v ./...
+* cd ..
+* jacotest -c
 * cd ..
 
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
@@ -94,9 +95,6 @@ Note that jacobin is the default JVM.
 To run tests against the OpenJDK JVM, 
 ```jacotest -x -j openjdk```
 
-The reports and logs can be discarded as follows:
-```jacotest -c```
-
 If the default timeout value of 60 seconds for each individual case is insufficient, one can use the ```-t``` parameter to specify a different value.  An example: of running with a 2-minute deadline for each test case:
 ```jacotest -x -t 120 -j jacobin```
 
@@ -104,22 +102,29 @@ The ```-v``` (verbose logging) parameter is intended for jacotest software debug
 
 ### Test Case Overview
 
-Each test case occupies a directory immediately under the directory ```tests```.  The test case source code follows the following conventions:
-* For a given test case, there is a main.java file whose main.class file starts execution for the given test case following a successful compilation.
-* Additional source files (helper.java, etc.) can be present for test case modularity.
+Each test case occupies a directory immediately under the ```tests``` directory.  The test case source code follows the following conventions:
+* For a given test case, there is a main.java file whose main.class file starts execution for the given test case.
+* Additional source files (MyClass.java, etc.) can be present for test case modularity.
 * Package statements and related subdirectories containing .java source files are limited to specific tests that are testing the JVM's ability to handle Java packaging.
 
-### Running all Test Cases
+### Compiling all Test Cases (jacotest -c)
+
+Test cases are compiled in lexical directory name order as the appear under the ```tests``` directory.  For each test case directory tree, the following is performed at the highest level and in the subdirectories if there are any:
+* All javap log files are deleted.
+* All resident source code is compiled.
+* `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
+
+### Running all Test Cases (jacotest -x)
 
 Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), execution is a multi-step process:
-* Compilation of all *.java files with ```javac```.
 * Assuming that compilation was successful for a given test case, then `javap -v` is run for all of the compiled ```.class``` files. The javap output files are stored in the same directory as the corresponding class file.
 * If compilation is successful, then execution proceeds under the control of one of two JVMs: ```java``` or ```jacobin```.
 
-### Running a Single Test Case
+### Running a Single Test Case (manual)
 
 To run an indivdual test case with either JVM,
-* Position in the test case directory as the current directory,
+* Position in the test case top-level directory as the current directory.
+* Re-compile the Java source files if needed.
 * Execute one of the following two POSIX command lines:
 	* ```java -cp .:../HELPERS main```
 	* ```jacobin -cp .:../HELPERS main.class```
@@ -127,7 +132,7 @@ To run an indivdual test case with either JVM,
 	* ```java -cp .;..\HELPERS main```
 	* ```jacobin -cp .;..\HELPERS main.class```
 
-### Test Case Results and Reports
+### Test Case Results and Reports (jacotest -x)
 
 The following are jacotest output:
 * Logs of individual test cases
@@ -135,9 +140,9 @@ The following are jacotest output:
 * Optional run report suitable for viewing on github (only produced if -M is specified on the command line)
 * Database holding all of the run summaries
 
-### Logs
+### Logs (jacotest -x)
 
-At the beginning of each run, the ```logs``` directory is cleaned out. For the current run, the detailed results of each test case is recorded as a single file in the logs directory. Files are prefixed with ```PASSED.``` or ```FAILED```, depending on the outcome.
+At the beginning of each ```jacotest -x``` run, the ```logs``` directory is cleaned out. For the current run, the detailed results of each test case is recorded as a single file in the logs directory. Files are prefixed with ```PASSED.``` or ```FAILED```, depending on the outcome.
 
 ### Test Case Summary
 
