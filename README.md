@@ -136,7 +136,7 @@ The following are jacotest -x output:
 * Logs of individual test cases
 * Test case summary covering all test cases
 * Optional run report suitable for viewing on github (only produced if -M is specified on the command line)
-* Database holding all of the run summaries
+* Database updates of the run summaries
 
 ### Logs (jacotest -x)
 
