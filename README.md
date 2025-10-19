@@ -60,25 +60,34 @@ Open a terminal window / command prompt.
 You are now positioned at the ```jacotest``` base and ready to test.  First try this: ```jacotest -h```.  You should see something like this:
 
 ```
-Usage:  jacotest  [-h]  [-c]  [-x]  [-2]  [-M]  [-v]  [-t NSECS]  [ -j { openjdk | jacobin } ]
+jacotest version: v5.1.0
+
+Built with: go1.24.0
+BuildData vcs.revision: aa1866b990a14bb4195c0fb19e7a3e804d8c5301
+BuildData vcs.time: 2025-10-18 10:22:58 CDT
+BuildData vcs.modified: true
+
+Usage:  jacotest  [ options ]
 
 where
 	-h : This display.
-	-c : Compile the test cases.
-	-x : Execute all test cases.
-	     Specifying -x implies parameter -2.
-	-2 : Print the last 2 test case results if there was a change.
-	-t : This is the timeout value in seconds (deadline) in executing all test cases.  Default: 120.
-	-j : This is the JVM to use in executing all test cases. Default: jacobin.
-	     Specifying -j implies parameters -x and -2.
+	-c : Compile all the test cases.
+	-r 1 : For each test case, print the last two results if there was a changed result.
+	-r 2 : For each failed test case, print this result if it passed sometime previously.
+	-r 3 : For each test case, print the last result.
+	-s : Delete database records of non-existing test cases (they were deleted).
+	-t N : This is the timeout value of N seconds in executing each test case.  Default: 60.
+	-j name : This is the JVM to use in executing all test cases. Default: jacobin.
+	     Other JVM names recognized:
+	     * openjdk : OpenJDK (aka Hotspot) JVM
+	     * galt : Run jacobin in G-alternate mode
+	     Note that specifying -j implies parameters -x and -r 1.
+	-u : User-defined options to pass to the JVM when -x is specified.
 	-v : Verbose logging.
+	-x : Execute all test cases.
+	     Specifying -x implies parameter -r 1.
+	-z : Remove the most recent result for all test cases.
 	-M : Generate a run report suitable for viewing on github (normally, not produced).
-
-jacotest version: v3.0.0
-Built with: go1.21.6
-BuildData vcs.revision: 8515bd83cc9ace5e7b30620f5dd925f6bab002ed
-BuildData vcs.time: 2024-01-22 16:39:44 CST
-BuildData vcs.modified: true
 ```
 
 ### Jacotest Operations
@@ -107,6 +116,13 @@ Each test case occupies a directory immediately under the ```tests``` directory.
 * Additional source files (MyClass.java, etc.) can be present for test case modularity.
 * Package statements and related subdirectories containing .java source files are limited to specific tests that are testing the JVM's ability to handle Java packaging.
 
+### Command-line options Supplied Automatically by Jacotest to the Java Compiler and the JVM
+
+* -ea : Process assertion statements.
+* -classpath : This is the classpath to use for searching for source files and classes. Currently, it has only two location elements:
+	* Test case directory of main.java and main.class
+ 	* HELPERS directory with utilities used by the test case
+
 ### Compiling all Test Cases (jacotest -c)
 
 Test cases are compiled in lexical directory name order as the appear under the ```tests``` directory.  For each test case directory tree, the following is performed at the highest level and in the subdirectories if there are any:
@@ -117,6 +133,12 @@ Test cases are compiled in lexical directory name order as the appear under the 
 ### Running all Test Cases (jacotest -x)
 
 Test cases are run in lexical directory name order as the appear under the ```tests``` directory.  For each test case (directory), jacotest performs the process described in the "Running a Single Test Case" section.
+
+### User-specified JVM Options (jacotest -x -u)
+
+The command-line option -u allows the user to supply options for JVM execution. When accompanying -x, this has the effect of passing the specified parameters to the JVM execution of every test case in addition to -the normal -ea and -classpath parameters.
+
+Make sure that the particular JVM understands the option specified!
 
 ### Running a Single Test Case (manual)
 
@@ -129,6 +151,9 @@ To run an indivdual test case with either JVM,
 * On the Windows command line, the syntax is slightly different:
 	* ```java -cp .;..\HELPERS main```
 	* ```jacobin -cp .;..\HELPERS main.class```
+
+An example of supplying a user-specified JVM Option on a POSIX O/S to jacobin: 
+	* ```jacobin -u -732 -cp .:../HELPERS main.class```
 
 ### Test Case Results and Reports (jacotest -x)
 
