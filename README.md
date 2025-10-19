@@ -136,9 +136,9 @@ Test cases are run in lexical directory name order as the appear under the ```te
 
 ### User-specified JVM Options (jacotest -x -u)
 
-The command-line option -u allows the user to supply options for JVM execution. When accompanying -x, this has the effect of passing the specified parameters to the JVM execution of every test case in addition to -the normal -ea and -classpath parameters.
+The command-line option -u allows the user to supply options for JVM execution. When accompanying -x, this has the effect of passing the specified parameters to the JVM execution of every test case in addition to the normal -ea and -classpath parameters.
 
-Make sure that the particular JVM understands the option specified!
+Make sure that the particular JVM understands the command-line option specified!
 
 ### Running a Single Test Case (manual)
 
