@@ -19,7 +19,8 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	globals := GetGlobalRef()
 	if globals.FlagVerbose {
 		here, _ := os.Getwd()
-		Logger(fmt.Sprintf("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, here=%s, argFile=%s", cmdName, cmdExec, dirName, here, argFile))
+		Logger(fmt.Sprintf("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, argOpts=%s, here=%s, argFile=%s",
+			cmdName, cmdExec, dirName, argOpts, here, argFile))
 	}
 
 	// Set up a command context with a timeout
@@ -196,6 +197,9 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
 	var outString string
 	options := global.JvmOptPrefix + " -cp " + fullPathDir + string(os.PathListSeparator) + global.DirHelpers
+	if global.UserXopts != "" {
+		options = options + " " + global.UserXopts
+	}
 	if global.JvmName == "jacobin" {
 		stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
 	} else {

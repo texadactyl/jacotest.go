@@ -18,7 +18,7 @@ const MyName = "Jacotest"
 
 // Show help and then exit to the O/S
 func showHelp() {
-	_ = InitGlobals("dummy", "dummy", 0)
+	_ = InitGlobals("dummy", "dummy", 0, "")
 	name := filepath.Base(os.Args[0])
 	ShowExecInfo(name)
 	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", name)
@@ -34,6 +34,7 @@ func showHelp() {
 	fmt.Printf("\t     * openjdk : OpenJDK (aka Hotspot) JVM\n")
 	fmt.Printf("\t     * galt : Run jacobin in G-alternate mode\n")
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
+	fmt.Printf("\t-u : User-defined options to pass to the JVM when -x is specified.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
@@ -79,6 +80,7 @@ func main() {
 	jvmName := "jacobin" // default virtual machine name
 	jvmExe := "jacobin"  // default virtual machine executable
 	deadlineSecs := 60   // default deadline in seconds
+	userXopts := ""
 
 	// Temporary flags before setting them in global.
 	flagVerbose := false          // Verbose logging? true/false
@@ -178,6 +180,10 @@ func main() {
 				showHelp()
 			}
 
+		case "-u":
+			ii += 1
+			userXopts = Args[ii]
+
 		case "-v":
 			flagVerbose = true
 
@@ -195,7 +201,7 @@ func main() {
 	}
 
 	// Initialise globals and get a handle to it
-	global := InitGlobals(jvmName, jvmExe, deadlineSecs)
+	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
 	global.FlagVerbose = flagVerbose
 	global.FlagGalt = flagGalt
 	global.FlagCompile = flagCompile

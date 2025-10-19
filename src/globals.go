@@ -52,6 +52,7 @@ type GlobalsStruct struct {
 	Deadline             time.Duration // Run deadline in seconds (type time.Duration)
 	JvmOptPrefix         string        // JVM execution options prefix
 	JavacOptPrefix       string        // Java compiler options prefix
+	UserXopts            string        // User-defined options when -x is specified
 }
 
 // Here's the singleton
@@ -85,7 +86,7 @@ func ckPath(argPath string) string {
 }
 
 // Initialise the singleton global
-func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
+func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *GlobalsStruct {
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
 	if err != nil {
@@ -154,6 +155,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int) *GlobalsStruct {
 		JvmExe:               jvmExe,
 		JvmName:              jvmName,
 		Deadline:             duration,
+		UserXopts:            userXopts,
 	}
 
 	global.JavacOptPrefix = "-Xlint:all -Werror"

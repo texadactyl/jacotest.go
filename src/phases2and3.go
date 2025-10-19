@@ -211,7 +211,7 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Get a handle on the jacotest globals.
 	globals := GetGlobalRef()
-	ph23Tracing = globals.FlagVerbose
+	//ph23Tracing = globals.FlagVerbose
 
 	// Get the error categories as a slice of strings.
 	fileBytes, err := os.ReadFile(globals.ErrCatFilePath)
