@@ -59,7 +59,7 @@ public class main {
             System.out.println("*** ERROR, Specified steArray size should be > 0");
         }
         for (int ix = 0; ix < steArray.length; ++ix) {
-            System.out.printf("[%d of %d]: ", ix, steArray.length);
+            System.out.printf("[%d of %d]: ", ix+1, steArray.length);
             System.out.println(steArray[ix]);
         }
         
