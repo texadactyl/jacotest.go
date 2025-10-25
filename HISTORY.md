@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-10-25 | 5.1.1 | Test case threading-2, added an earlyExit boolean. |
 | 2025-10-19 | 5.1.0 | New command-line option: -u. This allows the user to supply additional options when -x is specified. |
 | 2025-10-11 | 5.0.14 | New test case: threading-2. |
 | 2025-10-08 | 5.0.13 | Test case http-client-server: get rid of thread pool; implement qualitative testing. |

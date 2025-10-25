@@ -5,6 +5,8 @@ public class main {
             return super.clone();  // will throw CloneNotSupportedException
         }
     }
+    
+    static final boolean earlyExit = true;
 
     public static void main(String args[]) {
 
@@ -55,6 +57,14 @@ public class main {
         if (steArray.length < 1) {
             errorCount += 1;
             System.out.println("*** ERROR, Specified steArray size should be > 0");
+        }
+        for (int ix = 0; ix < steArray.length; ++ix) {
+            System.out.printf("[%d of %d]: ", ix, steArray.length);
+            System.out.println(steArray[ix]);
+        }
+        
+        if (earlyExit) {
+            Checkers.theEnd(errorCount);
         }
         
         Thread.State cthState = cth.getState();
