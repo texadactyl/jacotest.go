@@ -101,9 +101,10 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  JACOBIN-0476-arraycopy  | System.arraycopy |
 |  JACOBIN-0587-statics-survival  | Statics |
 |  JACOBIN-0760-submethod  | Methods of a subclass |
-|  jar-execute-1  | Use one jar in execute mode (jvm -jar jarname.jar). Employ a calculator in the top-level directory (same as main.class). |
-|  jar-execute-2  | Use one jar in execute mode (jvm -jar jarname.jar). Employ a calculator from subdirectory middle/calculator. |
-|  jar-execute-3  | Use two jars: jar#1 in execute mode and jar#2 is part of the Class-Path in the manifest of jar#1. |
+|  jar-execute-1  | Create one jar for use in execute mode (jvm -jar jarname.jar). Employ a calculator in the top-level directory (same as main.class). |
+|  jar-execute-2  | Create one jar for use in execute mode (jvm -jar jarname.jar). Employ a calculator from subdirectory middle/calculator. |
+|  jar-execute-3  | Create two jars: jar#1 in execute mode and jar#2 is part of the Class-Path in the manifest of jar#1. |
+|  jar-library-1  | Create one jar for use in library mode. |
 |  java17-enhancements  | Java 17 enhancements to the previous release |
 |  java-logging  | java.util.logging |
 |  jj-* | Special non-Java utility Jacobin gfunctions |
