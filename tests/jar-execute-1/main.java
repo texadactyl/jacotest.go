@@ -1,10 +1,11 @@
-import java.io.*;
-import middle.calculator.Calculator;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class main {
 
     public static int runner() {
-        System.out.println("runner: Testing the use of import pkgcalc.Calculator");
+        System.out.println("runner: Testing the use of import Calculator");
         System.out.println("runner: Next, instantiate the Calculator ...");
         int result = -1;
         try {
@@ -38,9 +39,8 @@ public class main {
 
     public static void main(String args[]) {
 
-        // Get the JVM program name.
         if (args.length > 0) {
-            // %s -jar jarring.jar RUNNER
+            // Invoked the second time i.e. with the RUNNER command-line argument.
             System.out.printf("\n\n======================================= main: args.length=%d, args[0]=%s\n", args.length, args[0]);
             System.out.println("======================================= main: Let's call function runner");
             int statusCode = runner();
@@ -49,10 +49,11 @@ public class main {
             System.exit(0);
         }
         
+        // Invoked the first time.
 		System.out.println("\n======================================= main: Create a jar");
 		String jvmPgmName = jj._getProgramName();
 		System.out.printf("main: jvmPgmName=%s\n", jvmPgmName);
-        execCommand("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
+        execCommand("jar --create --verbose --main-class=main --file=jarring.jar main.class Calculator.class");
         
 		System.out.println("\n======================================= main: Show the jar table of contents");
         execCommand("jar tf jarring.jar");
