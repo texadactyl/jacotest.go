@@ -163,6 +163,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  tls-one-way  | One-way TLS |
 |  two-fish  | Two-fish cryptography |
 |  two-pass  | Two-pass Assembler |
+|  tx-student-topzips  | File reading, subclass with 2 init functions, bubble sort with 3 keys |
 |  vector*  | Vector functions |
 |  walker  | java.nio.file.Files, Path, and Paths |
 |  warp-speed  | Calculations to/from warp speed (Physics) |
