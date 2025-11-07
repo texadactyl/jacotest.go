@@ -28,7 +28,6 @@ jobs:
       shell: bash
       run: |
         echo "$HOME/go/bin" >> $GITHUB_PATH
-        echo GITHUB_PATH :: $GITHUB_PATH
         
     - name: Setup JDK on POSIX ARM64
       if: matrix.os != 'windows-11-arm'
@@ -59,11 +58,14 @@ jobs:
       run: |
         set -x
         git clone https://github.com/texadactyl/jacobin
-        cd jacobin/src
+        cd jacobin
         go get
         go install -v ./...
+        echo PATH :: $PATH
         jacobin --version
-        
+      env:
+        GOBIN: $HOME/go/bin
+      
     - name: Run Test Cases
       shell: bash
       run: |
