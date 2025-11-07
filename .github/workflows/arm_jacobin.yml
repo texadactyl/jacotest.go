@@ -69,6 +69,8 @@ jobs:
       run: |
         java --version
         javac --version
+        echo PATH :: $PATH
+        ls $HOME/go/bin
         jacotest -c -x || true
 
     - name: Summary of Results
