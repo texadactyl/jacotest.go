@@ -35,11 +35,12 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Setup for Linux or MacOS
-      shell: bash
-      run: |
-        echo "$HOME/go/bin" >> $GITHUB_PATH
-        
+    - name: Setup JDK
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
     - name: Setup Jacotest
       shell: bash
       run: |
@@ -56,21 +57,21 @@ jobs:
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         go get
-        go build -o . -v ./...
-        mv ./src $HOME/go/bin/jacobin
-        jacobin --version
+        go install -v ./...
+      env:
+        GOBIN: $HOME/go/bin
         
-    - name: Setup JDK
-      uses: actions/setup-java@main
-      with:
-        distribution: 'oracle'
-        java-version: '21'
-
+    - name: Add go/bin to GITHUB_PATH
+      shell: bash
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+        
     - name: Run Test Cases
       shell: bash
       run: |
         java --version
         javac --version
+        jacobin --version
         jacotest -c -x || true
 
     - name: Summary of Results
