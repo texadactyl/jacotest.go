@@ -10,7 +10,6 @@ jobs:
   run_jacobin:
     env:
       GOBIN: $HOME/go/bin
-      PATH: $HOME/go/bin:${PATH}
     strategy:
       fail-fast: false
       matrix:        
@@ -20,6 +19,9 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
+    - name: Add Go to PATH
+      run: echo "$HOME/go/bin" >> $GITHUB_PATH
+      
     - name: Setup Go
       uses: actions/setup-go@main
       with:
