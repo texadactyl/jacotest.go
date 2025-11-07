@@ -1,0 +1,67 @@
+# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+
+name: Jacotest with texadactyl Jacobin
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  run_jacobin:
+    strategy:
+      matrix:
+        
+        os: [ubuntu-24.04-arm, windows-11-arm]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.24.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Setup for Linux or MacOS
+      shell: bash
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+        
+    - name: Setup Jacotest
+      shell: bash
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup Jacobin
+      shell: bash
+      run: |
+        set -x
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        go get
+        go build -o . -v ./...
+        mv ./src $HOME/go/bin/jacobin
+        jacobin --version
+        
+    - name: Setup JDK
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
+    - name: Run Test Cases
+      shell: bash
+      run: |
+        java --version
+        javac --version
+        jacotest -c -x || true
+
+    - name: Summary of Results
+      shell: bash
+      run: |
+        jacotest -r 3
