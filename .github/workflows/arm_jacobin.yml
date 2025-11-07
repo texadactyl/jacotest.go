@@ -9,6 +9,7 @@ jobs:
 
   run_jacobin:
     strategy:
+      fail-fast: false
       matrix:
         
         os: [ubuntu-24.04-arm, windows-11-arm]
