@@ -63,7 +63,7 @@ jobs:
         echo PATH :: $PATH
         jacobin --version
       env:
-        GOBIN: $HOME/go/bin
+        GOBIN: /home/runner/go/bin
       
     - name: Run Test Cases
       shell: bash
