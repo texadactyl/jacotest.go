@@ -1,4 +1,4 @@
-# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+# ARM workflow to run jacotest against https://github.com/texadactyl/jacobin.
 
 name: ARM Jacotest with texadactyl Jacobin
 
