@@ -56,9 +56,8 @@ jobs:
       run: |
         cd $HOME
         git clone https://github.com/texadactyl/jacobin
-        cd jacobin
-        ls
-        go install -v .
+        cd jacobin/src
+        go install -v ./...
         echo PATH :: $PATH
         set -x
         find $HOME -name "jacotest*"
