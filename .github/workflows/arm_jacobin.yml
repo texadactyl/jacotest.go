@@ -10,10 +10,10 @@ jobs:
   run_jacobin:
     strategy:
       fail-fast: false
-      matrix:
-        
+      matrix:        
         os: [ubuntu-24.04-arm, windows-11-arm]
     runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@main
 
@@ -24,30 +24,11 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
-    - name: Setup for Linux or MacOS
+    - name: Add go/bin to GITHUB_PATH and PATH
       shell: bash
       run: |
         echo "$HOME/go/bin" >> $GITHUB_PATH
-        
-    - name: Setup Jacotest
-      shell: bash
-      run: |
-        cd src
-        go get
-        go install -v .
-        cd ..
-        jacotest -h
-
-    - name: Setup Jacobin
-      shell: bash
-      run: |
-        set -x
-        git clone https://github.com/texadactyl/jacobin
-        cd jacobin/src
-        go get
-        go build -o . -v ./...
-        mv ./src $HOME/go/bin/jacobin
-        jacobin --version
+        echo GITHUB_PATH :: $GITHUB_PATH
         
     - name: Setup JDK on POSIX ARM64
       if: matrix.os != 'windows-11-arm'
@@ -64,13 +45,30 @@ jobs:
         java-version: '21'                # or whichever you choose
         architecture: 'arm64'             # key: choose arm64
 
+    - name: Setup Jacotest
+      shell: bash
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup Jacobin
+      shell: bash
+      run: |
+        set -x
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        go get
+        go install -v ./...
+        jacobin --version
+        
     - name: Run Test Cases
       shell: bash
       run: |
         java --version
         javac --version
-        echo PATH :: $PATH
-        ls $HOME/go/bin
         jacotest -c -x || true
 
     - name: Summary of Results
