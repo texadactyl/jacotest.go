@@ -8,8 +8,6 @@ on:
 jobs:
 
   run_jacobin:
-    env:
-      GOBIN: $HOME/go/bin
     strategy:
       fail-fast: false
       matrix:        
