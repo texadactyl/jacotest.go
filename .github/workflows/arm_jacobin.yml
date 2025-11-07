@@ -54,11 +54,11 @@ jobs:
     - name: Setup Jacobin
       shell: bash
       run: |
-        set -x
         git clone https://github.com/texadactyl/jacobin
         cd jacobin
         go install -v ./...
         echo PATH :: $PATH
+        find $HOME -name "jacobin*"
         jacobin --version
       
     - name: Run Test Cases
