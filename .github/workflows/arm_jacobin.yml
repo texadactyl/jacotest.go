@@ -54,6 +54,7 @@ jobs:
     - name: Setup Jacobin
       shell: bash
       run: |
+        cd $HOME
         git clone https://github.com/texadactyl/jacobin
         cd jacobin
         go install -v .
