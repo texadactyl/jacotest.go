@@ -10,7 +10,7 @@ jobs:
   run_jacobin:
     env:
       GOBIN: $HOME/go/bin
-      PATH: $HOME/go/bin:$PATH
+      PATH: $HOME/go/bin:${PATH}
     strategy:
       fail-fast: false
       matrix:        
