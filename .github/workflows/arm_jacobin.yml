@@ -57,7 +57,11 @@ jobs:
         cd $HOME
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
-        go install -v ./...
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
         echo PATH :: $PATH
         set -x
         find $HOME -name "jacotest*"
