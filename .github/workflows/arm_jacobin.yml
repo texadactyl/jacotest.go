@@ -17,9 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
-    - name: Add Go to PATH
-      run: echo "$HOME/go/bin" >> $GITHUB_PATH
-      
     - name: Setup Go
       uses: actions/setup-go@main
       with:
@@ -27,6 +24,9 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
+    - name: Add Go to PATH
+      run: echo "$HOME/go/bin" >> $GITHUB_PATH
+      
     - name: Setup JDK on POSIX ARM64
       if: matrix.os != 'windows-11-arm'
       uses: actions/setup-java@main
