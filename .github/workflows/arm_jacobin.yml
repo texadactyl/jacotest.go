@@ -59,7 +59,6 @@ jobs:
         set -x
         git clone https://github.com/texadactyl/jacobin
         cd jacobin
-        go get
         go install -v ./...
         echo PATH :: $PATH
         jacobin --version
