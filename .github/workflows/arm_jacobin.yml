@@ -58,6 +58,8 @@ jobs:
         cd jacobin
         go install -v ./...
         echo PATH :: $PATH
+        set -x
+        find $HOME -name "jacotest*"
         find $HOME -name "jacobin*"
         jacobin --version
       
