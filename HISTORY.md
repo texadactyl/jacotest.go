@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-07 | 5.1.4 | New test case: threading-3. |
 | 2025-11-04 | 5.1.3 | New test case: tx-student-topzips. |
 | 2025-10-27 | 5.1.2 | Test case jarring was split into 3 separate test cases - see TEST_CASE_CATALOGUE.md. |
 | 2025-10-25 | 5.1.1 | Test case threading-2, added an earlyExit boolean. |

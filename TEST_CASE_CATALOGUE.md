@@ -158,7 +158,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  switcheroo*  | JVM TABLESWITCH and LOOKUPSWITCH |
 |  taylor-series  | Taylor Series with rational library functions |
 |  taylor-series-2  | Taylor series exercise without the rational library functions |
-|  threading*  | Multi-threading |
+|  threading*  | Multi-threading, including thread groups |
 |  tiffy  | TIF reading |
 |  tls-one-way  | One-way TLS |
 |  two-fish  | Two-fish cryptography |
