@@ -35,6 +35,10 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
+    - name: Add Go to PATH
+      shell: bash
+      run: echo "$HOME/go/bin" >> $GITHUB_PATH
+
     - name: Setup JDK
       uses: actions/setup-java@main
       with:
@@ -56,15 +60,11 @@ jobs:
         set -x
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
-        go get
-        go install -v ./...
-      env:
-        GOBIN: $HOME/go/bin
-        
-    - name: Add go/bin to GITHUB_PATH
-      shell: bash
-      run: |
-        echo "$HOME/go/bin" >> $GITHUB_PATH
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
         
     - name: Run Test Cases
       shell: bash
