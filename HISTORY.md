@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-10 | 5.1.5 | Modified test case threading-2 to not take an early exit. |
 | 2025-11-07 | 5.1.4 | New test case: threading-3. |
 | | | Renamed test case "threading" to "threading-1". |
 | 2025-11-04 | 5.1.3 | New test case: tx-student-topzips. |

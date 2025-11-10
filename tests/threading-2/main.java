@@ -6,7 +6,7 @@ public class main {
         }
     }
     
-    static final boolean earlyExit = true;
+    static final boolean earlyExit = false;
 
     public static void main(String args[]) {
 
