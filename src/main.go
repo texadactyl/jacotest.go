@@ -31,6 +31,7 @@ func showHelp() {
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
 	fmt.Printf("\t-N : Report all database history records whose test case name is obsolete (orphans).\n")
+	fmt.Printf("\t-n old new : Rename test case name from old to new.\n")
 	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
 	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
 	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
