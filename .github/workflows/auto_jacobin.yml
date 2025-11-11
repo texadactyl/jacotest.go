@@ -1,6 +1,6 @@
 # On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
 
-name: Jacotest with texadactyl Jacobin
+name: AMD64 Jacotest with texadactyl Jacobin
 
 on:
   push:
