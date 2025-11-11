@@ -47,6 +47,7 @@ type GlobalsStruct struct {
 	FlagPrintMostRecent  bool          // -r 3 option
 	FlagExecute          bool          // -x option
 	FlagDeleteMostRecent bool          // -z option
+	FlagReportOrphans    bool          // -N option (report orphans)
 	JvmName              string        // JVM name: "openjdk" or "jacobin"
 	JvmExe               string        // JVM executable file: "java" or "jacobin"
 	Deadline             time.Duration // Run deadline in seconds (type time.Duration)
@@ -152,6 +153,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		FlagFailedPassed:     false,
 		FlagCompile:          false,
 		FlagMdReport:         false,
+		FlagReportOrphans:    false,
 		JvmExe:               jvmExe,
 		JvmName:              jvmName,
 		Deadline:             duration,

@@ -11,9 +11,10 @@ Downloads + installs:
 import (
 	"database/sql"
 	"fmt"
-	_ "modernc.org/sqlite"
 	"os"
 	"time"
+
+	_ "modernc.org/sqlite"
 )
 
 var sqlTracing = false
@@ -271,7 +272,7 @@ func DBClose() {
 }
 
 /*
-DBStorePassed - Store a PASSED jacotest test case resjvmult.
+DBStorePassed - Store a PASSED jacotest test case result.
 */
 func DBStorePassed(testCaseName string) {
 
@@ -359,7 +360,7 @@ Note that history rows are ordered by test case name, date descending, and time 
 func DBPrtChanges() {
 
 	// Query descending test case, date, and time.
-	sqlText := "SELECT test_case, jvm, date_utc desc, time_utc, result, COALESCE(fail_text, 'n/a') FROM history ORDER BY test_case, date_utc DESC, time_utc DESC"
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Previous result record w.r.t. case, date, and time
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
@@ -449,7 +450,7 @@ Note that history rows are ordered by test case name, date descending, and time 
 func DBPrtLastPass() {
 
 	// Query descending test case, date, and time.
-	sqlText := "SELECT test_case, jvm, date_utc desc, time_utc, result, COALESCE(fail_text, 'n/a') FROM history ORDER BY test_case, date_utc DESC, time_utc DESC"
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Previous result record w.r.t. case, date, and time
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
@@ -543,10 +544,10 @@ DBDeleteMostRecent - Delete the most recent logged pass/fail record for each tes
 func DBDeleteMostRecent() {
 
 	// Query descending test case, date, and time.
-	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc FROM " + tableHistory + " NOLOCK ORDER BY test_case, date_utc DESC, time_utc DESC"
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + " FROM " + tableHistory + " NOLOCK ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Set up for DELETE operaations.
-	deleteFormat := "DELETE FROM " + tableHistory + " WHERE test_case = '%s' AND jvm='%s' AND date_utc = '%s' AND time_utc = '%s'"
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
 	var deleteList []string
 
 	// Most current result record w.r.t. date and time
@@ -613,8 +614,8 @@ func DBPrintMostRecent() {
 	var rows *sql.Rows
 
 	// Query descending test case, date, and time.
-	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc, result, fail_text FROM " +
-		tableHistory + " ORDER BY test_case, date_utc DESC, time_utc DESC"
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colFailText + " FROM " +
+		tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Most current result record w.r.t. date and time
 	var prvTestCase = ""
@@ -686,18 +687,19 @@ func DBPrintMostRecent() {
 }
 
 /*
-DBDeleteObsolete - Delete database records of obsolete test cases.
+DBReportOrDeleteObsolete - Delete database records of obsolete test cases.
 */
-func DBDeleteObsolete() {
+func DBReportOrDeleteObsolete(flagDelete bool) {
 
 	var err error
 	var ok bool
 	var rows *sql.Rows
-	deleteFormat := "DELETE FROM " + tableHistory + " WHERE test_case = '%s' AND jvm='%s' AND date_utc = '%s' AND time_utc = '%s'"
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
 	var deleteList []string
+	counter := 0
 
 	// Query descending test case, date, and time.
-	sqlSelect := "SELECT test_case, jvm, date_utc desc, time_utc FROM " + tableHistory
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + " FROM " + tableHistory
 
 	// Most current result record w.r.t. date and time
 	var curTestCase, curJvm, curDateUTC, curTimeUTC string
@@ -710,7 +712,7 @@ func DBDeleteObsolete() {
 
 	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr("DBDeleteObsolete: os.Getwd failed", err)
+		FatalErr("DBReportOrDeleteObsolete: os.Getwd failed", err)
 	}
 	testsDir := curDir + "/tests/"
 
@@ -720,7 +722,7 @@ func DBDeleteObsolete() {
 		// Get next history row by test case and going back in time.
 		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
 		if err != nil {
-			FatalErr("DBDeleteObsolete: rows.Scan failed", err)
+			FatalErr("DBReportOrDeleteObsolete: rows.Scan failed", err)
 		}
 
 		// New test case.
@@ -729,29 +731,64 @@ func DBDeleteObsolete() {
 		ok, err = isDirectory(testCase)
 		//fmt.Printf("DEBUG path %s --> %v, %v\n", testCase, ok, err)
 		if err != nil {
-			errMsg := fmt.Sprintf("DBDeleteObsolete: isDirectory(%s) failed, err: %v", testCase, err)
+			errMsg := fmt.Sprintf("DBReportOrDeleteObsolete: isDirectory(%s) failed, err: %v", testCase, err)
 			FatalErr(errMsg, err)
 		}
 		if !ok {
-			errMsg := fmt.Sprintf("Removing database record for obsolete test case: %s %s %s %s",
-				curTestCase, curJvm, curDateUTC, curTimeUTC)
-			Logger(errMsg)
-			sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
-			deleteList = append(deleteList, sqlDelete)
+			counter += 1
+			if flagDelete {
+				msg := fmt.Sprintf("Removing database record for obsolete test case: %s %s %s %s",
+					curTestCase, curJvm, curDateUTC, curTimeUTC)
+				Logger(msg)
+				sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
+				deleteList = append(deleteList, sqlDelete)
+			} else {
+				msg := fmt.Sprintf("Orphan database record: %s %s %s %s",
+					curTestCase, curJvm, curDateUTC, curTimeUTC)
+				Logger(msg)
+			}
 		}
 
 	}
 
-	// For each delete statement, execute it.
-	counter := 0
-	for _, sqlStmt := range deleteList {
-		err := sqlFunc(sqlStmt, true)
-		if err != nil {
-			FatalErr("DBDeleteMostRecent: DELETE failed", err)
+	if flagDelete {
+		// For each delete statement, execute it.
+		for _, sqlStmt := range deleteList {
+			err := sqlFunc(sqlStmt, true)
+			if err != nil {
+				FatalErr("DBDeleteMostRecent: DELETE failed", err)
+			}
 		}
-		counter += 1
+		fmt.Printf("Removed %d database records\n", counter)
+	} else {
+		fmt.Printf("Found %d orphaned database records\n", counter)
 	}
 
-	fmt.Printf("Removed %d database records\n", counter)
+}
+
+/*
+DBUpdateTestCaseName - Update test case name.
+*/
+// DBUpdateTestCaseName updates all records in the history table
+// where test_case == oldName, changing it to newName.
+func DBUpdateTestCaseName(oldName, newName string) {
+
+	sqlSelect := fmt.Sprintf("UPDATE "+tableHistory+" SET "+colTestCase+" = '%s' WHERE "+colTestCase+" = '%s'", newName, oldName)
+	err := sqlFunc(sqlSelect, true)
+	if err != nil {
+		FatalErr(fmt.Sprintf("DBUpdateTestCaseName: sqlFunc(%s) failed", sqlSelect), err)
+	}
+
+	sqlSelect = fmt.Sprintf("SELECT "+colTestCase+" FROM "+tableHistory+" WHERE "+colTestCase+" = '%s'", newName)
+	rows, ok := sqlQuery(sqlSelect)
+	if !ok {
+		FatalText(fmt.Sprintf("DBUpdateTestCaseName: sqlQuery(%s) failed", sqlSelect))
+	}
+	defer rows.Close()
+	count := 0
+	for rows.Next() {
+		count++
+	}
+	fmt.Printf("DBUpdateTestCaseName: %d row(s) updated test case name from %s to %s\n", count, oldName, newName)
 
 }

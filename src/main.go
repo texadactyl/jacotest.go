@@ -24,22 +24,24 @@ func showHelp() {
 	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", name)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-c : Compile all the test cases.\n")
-	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
-	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
-	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
-	fmt.Printf("\t-s : Delete database records of non-existing test cases (they were deleted).\n")
-	fmt.Printf("\t-t N : This is the timeout value of N seconds in executing each test case.  Default: 60.\n")
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
 	fmt.Printf("\t     * openjdk : OpenJDK (aka Hotspot) JVM\n")
 	fmt.Printf("\t     * galt : Run jacobin in G-alternate mode\n")
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
+	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
+	fmt.Printf("\t-N : Report all database history records whose test case name is obsolete (orphans).\n")
+	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
+	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
+	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
+	fmt.Printf("\t-s : Delete database records of non-existing test cases (they were deleted).\n")
+	fmt.Printf("\t-t num : This is the timeout value of num seconds in executing each test case.  Default: 60.\n")
 	fmt.Printf("\t-u : User-defined options to pass to the JVM when -x is specified.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
 	fmt.Printf("\t-z : Remove the most recent result for all test cases.\n")
-	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n\n")
+	fmt.Print("\n")
 	os.Exit(0)
 }
 
@@ -93,6 +95,10 @@ func main() {
 	flagPrintMostRecent := false  // -r 3 option
 	flagExecute := false          // -x option
 	flagDeleteMostRecent := false // -z option
+	flagReportOrphans := false    // -N option
+	flagRenameTestCase := false   // -n oldname newname
+	oldTestCaseName := ""
+	newTestCaseName := ""
 
 	// Positioned in the tree top directory?
 	_, err = os.Open("VERSION.txt")
@@ -150,6 +156,24 @@ func main() {
 			flagExecute = true
 			flagTwoMostRecent = true
 
+		case "-N":
+			flagReportOrphans = true
+
+		case "-n":
+			ii++
+			if ii >= len(Args) {
+				LogError("Missing -n argument for old test case name")
+				showHelp()
+			}
+			oldTestCaseName = Args[ii]
+			ii++
+			if ii >= len(Args) {
+				LogError("Missing -n argument for new test case name")
+				showHelp()
+			}
+			newTestCaseName = Args[ii]
+			flagRenameTestCase = true
+
 		case "-r":
 			ii++
 			if ii >= len(Args) {
@@ -200,7 +224,7 @@ func main() {
 		}
 	}
 
-	// Initialise globals and get a handle to it
+	// Initialise global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
 	global.FlagVerbose = flagVerbose
 	global.FlagGalt = flagGalt
@@ -212,6 +236,7 @@ func main() {
 	global.FlagPrintMostRecent = flagPrintMostRecent
 	global.FlagExecute = flagExecute
 	global.FlagDeleteMostRecent = flagDeleteMostRecent
+	global.FlagReportOrphans = flagReportOrphans
 
 	// Start up signal listener.
 	wg.Add(1)
@@ -254,7 +279,7 @@ func main() {
 		FatalErr(fmt.Sprintf("Readdirnames(%s) failed", global.DirLogs), err)
 	}
 
-	// For each logs entry, remove it.
+	// For each log file entry, remove it.
 	if global.FlagCompile || global.FlagExecute {
 		for index := range names {
 			name := names[index]
@@ -458,7 +483,16 @@ func main() {
 
 	// Delete database records of obsolete test cases?
 	if global.FlagDeleteObsolete {
-		DBDeleteObsolete()
+		DBReportOrDeleteObsolete(true)
+	}
+
+	// Delete database records of obsolete test cases?
+	if global.FlagReportOrphans {
+		DBReportOrDeleteObsolete(false)
+	}
+
+	if flagRenameTestCase {
+		renameTestCase(oldTestCaseName, newTestCaseName)
 	}
 
 	// Close database.
