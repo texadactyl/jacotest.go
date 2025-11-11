@@ -6,6 +6,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-11-11 | 5.2.0 | Added the -N option (scan for orphan database history records). |
 | | | Added the -n oldCaseName newCaseName option (rename test case). |
+| | | Renamed rounding-mode to rounding-mode-1. |
 | 2025-11-10 | 5.1.5 | Modified test case threading-2 to not take an early exit. |
 | 2025-11-07 | 5.1.4 | New test case: threading-3. |
 | | | Renamed test case "threading" to "threading-1". |
