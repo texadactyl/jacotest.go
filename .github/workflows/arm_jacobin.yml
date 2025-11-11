@@ -1,6 +1,6 @@
 # ARM64 workflow to run jacotest against https://github.com/texadactyl/jacobin.
 
-name: ARM Jacotest with texadactyl Jacobin
+name: ARM64 Jacotest with texadactyl Jacobin
 
 on:
   workflow_dispatch:
