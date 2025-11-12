@@ -3,6 +3,18 @@
 name: ARM64 Jacotest with texadactyl Jacobin
 
 on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - '*.py'
+      - '*.txt'
+      - '**.yml'
+    branches: [ "main" ]
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '**.yml'
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
