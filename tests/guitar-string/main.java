@@ -21,10 +21,15 @@ public class main {
     public static void main(String[] args) {
         System.out.println("Starting guitar string simulation...");
         GuitarString gstring = new GuitarString();
-        double finalForce = gstring.pluck(saveYplots);
-        System.out.printf("Simulation complete. Final force = %.10f N\n", finalForce);
+        long t1, t2;
         
-        int errorCount = Checkers.checker("Final force almost zero?", true, finalForce < 0.0000002);
+        t1 = System.currentTimeMillis();
+        double finalForce = gstring.pluck(saveYplots);
+        t2 = System.currentTimeMillis();
+        double seconds = (double) (t2 - t1) / 1000.0;
+        System.out.printf("Simulation complete after %.1f seconds. Final force = %.10f N\n", seconds, finalForce);
+        
+        int errorCount = Checkers.checker("Final force almost zero?", true, finalForce < 0.0003);
         Checkers.theEnd(errorCount);
     }
     

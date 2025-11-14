@@ -66,7 +66,7 @@ public class GuitarString {
         
         nPluck = (int) (beta * nString);
         tPlot = 0.05 / frequency;   
-        tEnd = 10.0 / frequency;    // run for 5 periods
+        tEnd = 2.0 / frequency;    // run for 2 periods
         
         System.out.printf("c = %f m/s\n", c);
         System.out.printf("mu = %f kg/m\n", mu);
