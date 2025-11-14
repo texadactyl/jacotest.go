@@ -448,17 +448,19 @@ func main() {
 			WriteOutputText(outHandle, " ")
 		}
 
+		// Show elapsed time.
+		tStop := time.Now()
+		elapsed := tStop.Sub(tStart)
+		etMsg := fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String())
+		Logger(etMsg)
+		WriteOutputText(outHandle, "\n"+etMsg)
+
 		// Close summary report handle.
 		err = outHandle.Close()
 		if err != nil {
 			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
 		}
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
-
-		// Show elapsed time.
-		tStop := time.Now()
-		elapsed := tStop.Sub(tStart)
-		Logger(fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String()))
 
 	} // if global.FlagExecute || global.FlagCompile
 
