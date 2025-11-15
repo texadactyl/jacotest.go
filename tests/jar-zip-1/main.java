@@ -65,18 +65,18 @@ public class main {
 		String jvmPgmName = jj._getProgramName();
 		System.out.printf("main: jvmPgmName=%s\n", jvmPgmName);
 
-        execCommand("jar cfm jar1.jar MyManifest.mf main.class jj.class jjSubProcessObject.class middle/calculator1/Calculator1.class");        
+        execCommand("jar cfm jarA.jar MyManifest.mf main.class jj.class jjSubProcessObject.class middle/calculator1/Calculator1.class");        
 		System.out.println("\n======================================= main: Show the jar1 table of contents");
-        execCommand("jar tf jar1.jar");
+        execCommand("jar tf jarA.jar");
         
         if (os.contains("windows")) {
-            execCommand("tar -a -c -f zip2.zip middle/calculator2/Calculator2.class");
+            execCommand("tar -a -c -f zipB.zip middle/calculator2/Calculator2.class");
         } else {
-            execCommand("zip zip2.zip middle/calculator2/Calculator2.class");
+            execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
         }
         
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
-        String text = String.format("%s -jar jar1.jar RUNNER", jvmPgmName);
+        String text = String.format("%s -jar jarA.jar RUNNER", jvmPgmName);
         execCommand(text);
         
         Checkers.theEnd(0);
