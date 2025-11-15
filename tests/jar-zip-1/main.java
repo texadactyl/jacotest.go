@@ -70,9 +70,9 @@ public class main {
         execCommand("jar tf jar1.jar");
         
         if (os.contains("windows")) {
-            execCommand("tar -a -c -f jar2.zip middle/calculator2/Calculator2.class");
+            execCommand("tar -a -c -f zip2.zip middle/calculator2/Calculator2.class");
         } else {
-            execCommand("zip jar2.zip middle/calculator2/Calculator2.class");
+            execCommand("zip zip2.zip middle/calculator2/Calculator2.class");
         }
         
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
