@@ -54,7 +54,7 @@ public class main {
 		System.out.println("\n======================================= main: Create a jar");
 		String jvmPgmName = jj._getProgramName();
 		System.out.printf("main: jvmPgmName=%s\n", jvmPgmName);
-        execCommand("jar --create --verbose --main-class=main --file=jarring.jar main.class middle/calculator/Calculator.class");
+        execCommand("jar --create --verbose --main-class=main --file=jarring.jar main.class jj.class jjSubProcessObject.class middle/calculator/Calculator.class");
         
 		System.out.println("\n======================================= main: Show the jar table of contents");
         execCommand("jar tf jarring.jar");
