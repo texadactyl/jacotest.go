@@ -108,6 +108,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 |  jar-execute-2  | Create one jar for use in execute mode (jvm -jar jarname.jar). Employ a calculator from subdirectory middle/calculator |
 |  jar-execute-3  | Create two jars: jar#1 in execute mode and jar#2 is part of the Class-Path in the manifest of jar#1 |
 |  jar-library-1  | Create one jar for use in library mode |
+|  jar-zip-1 | Like jar-execute-3 except that #2 is a zip file instead of a jar file. |
 |  java17-enhancements  | Java 17 enhancements to the previous release |
 |  java-logging  | java.util.logging |
 |  jj-* | Special non-Java utility Jacobin gfunctions |

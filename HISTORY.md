@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-15 | 5.2.2 | Added test case jar-zip-1. |
 | 2025-11-14 | 5.2.1 | Added test cases guitar-string, harshad-niven, and JACOBIN-0800-two-crashes. |
 | | | Added the elapsed time to the summary report. |
 | 2025-11-11 | 5.2.0 | Added the -N option (scan for orphan database history records). |
