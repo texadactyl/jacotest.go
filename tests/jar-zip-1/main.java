@@ -69,8 +69,8 @@ public class main {
 		System.out.println("\n======================================= main: Show the jar1 table of contents");
         execCommand("jar tf jarA.jar");
         
-        System.out.println("\n======================================= main: Create zipB.zip with the zip utility");
-        execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
+        System.out.println("\n======================================= main: Create zipB.zip with the 7z utility");
+        execCommand("7z a zipB.zip middle/calculator2/Calculator2.class");
         
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
         String text = String.format("%s -jar jarA.jar RUNNER", jvmPgmName);
