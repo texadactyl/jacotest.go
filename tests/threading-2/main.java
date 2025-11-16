@@ -36,9 +36,14 @@ public class main {
         Thread.dumpStack();
         System.out.println("=== End dumpStack output for current thread.");
         
+        /*
+        Not deprecated but omited due to this API comment:
+        "Due to the inherent race condition in this method, it is recommended that the method only be used for debugging and monitoring purposes."
+        
         Thread[] tarray = new Thread[42];
         int sizeTarray = Thread.enumerate(tarray);
         errorCount += Checkers.checker("Current thread sizeTarray", 1, sizeTarray);
+        */
         
         // Skipped: getAllStackTraces
         
