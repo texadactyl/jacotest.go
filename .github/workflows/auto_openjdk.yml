@@ -49,6 +49,7 @@ jobs:
         java-version: '21'
 
     - name: Run Test Cases
+      shell: bash
       run: |
         java --version
         javac --version
