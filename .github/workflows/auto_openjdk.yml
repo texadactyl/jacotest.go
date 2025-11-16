@@ -3,6 +3,7 @@
 name: Jacotest with OpenJDK JVM
 
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '*.md'
