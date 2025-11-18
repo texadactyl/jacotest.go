@@ -10,6 +10,7 @@ jobs:
 
   run_jacobin:
     strategy:
+      fail-fast: false
       matrix:
         
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -81,4 +82,4 @@ jobs:
         # Which test case?
         cd ../jar-zip-1
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" main.class || true
+        jacobin -cp ".;../HELPERS" main.class
