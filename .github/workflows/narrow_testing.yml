@@ -1,5 +1,5 @@
 # On push or open pull request events, this workflow will run https://github.com/texadactyl/jacobin against a single test case.
-# See line 78.
+# See line: # Which test case?
 
 name: Narrow Testing
 
@@ -64,7 +64,8 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        cd ../fits
+        # Which test case?
+        cd ../jar-zip-1
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
    
@@ -77,6 +78,7 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        cd ../fits
+        # Which test case?
+        cd ../jar-zip-1
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" main.class || true
