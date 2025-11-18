@@ -72,7 +72,8 @@ public class main {
         
         if (os.contains("windows")) {
             System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
-            execCommand("powershell Compress-Archive -Path middle/calculator2 -DestinationPath zipB.zip");
+            // Richard gives up: execCommand("powershell Compress-Archive -Path middle/calculator2 -DestinationPath zipB.zip");
+            execCommand("7z a zipB.zip middle/calculator2/Calculator2.class");
         } else {
             System.out.println("\n======================================= main: Create zipB.zip with the gnu zip utility");
             execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
@@ -155,3 +156,4 @@ class jj {
     }
    
 }
+
