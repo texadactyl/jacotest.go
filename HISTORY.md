@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-18 | 5.2.5 | In test case jar-zip-1, use powershell on windows. |
 | 2025-11-17 | 5.2.4 | Added 7 INVOKEDYNAMIC test cases - see TEST_CASE_CATALOGUE.md. |
 | 2025-11-16 | 5.2.3 | Updated test case jar-zip-1 to use utility 7z. |
 | | | Dropped coverage of enumerate in test case threading-2. |
