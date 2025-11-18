@@ -45,7 +45,8 @@ public class main {
         System.out.printf("execCommand: Exit code: %d\n", exitCode);
         System.out.printf("execCommand: Stdout: %s\n", obj.stdout);
         System.out.printf("execCommand: Stderr: %s\n", obj.stderr);
-        assert exitCode == 0;
+        if (exitCode != 0)
+            System.exit(exitCode);
     }
 
     public static void main(String args[]) {
