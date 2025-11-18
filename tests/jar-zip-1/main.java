@@ -45,7 +45,8 @@ public class main {
         System.out.printf("execCommand: Exit code: %d\n", exitCode);
         System.out.printf("execCommand: Stdout: %s\n", obj.stdout);
         System.out.printf("execCommand: Stderr: %s\n", obj.stderr);
-        assert exitCode == 0;
+        if (exitCode != 0)
+            System.exit(86);
     }
 
     public static void main(String args[]) {
@@ -71,7 +72,7 @@ public class main {
         
         if (os.contains("windows")) {
             System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
-            execCommand("powershell Compress-Archive -Path middle/calculator2/Calculator2.class -DestinationPath zipB.zip");
+            execCommand("powershell Compress-Archive -Path middle/calculator2 -DestinationPath zipB.zip");
         } else {
             System.out.println("\n======================================= main: Create zipB.zip with the gnu zip utility");
             execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
