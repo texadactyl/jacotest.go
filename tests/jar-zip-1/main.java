@@ -73,7 +73,7 @@ public class main {
             System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
             execCommand("powershell Compress-Archive -Path middle/calculator2/Calculator2.class -DestinationPath zipB.zip");
         } else {
-            System.out.println("\n======================================= main: Create zipB.zip with the 7z utility");
+            System.out.println("\n======================================= main: Create zipB.zip with the gnu zip utility");
             execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
         }
         
