@@ -70,11 +70,11 @@ public class main {
         execCommand("jar tf jarA.jar");
         
         if (os.contains("windows")) {
-            System.out.println("\n======================================= main: Create zipB.zip with the 7z utility");
+            System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
             execCommand("powershell Compress-Archive -Path middle/calculator2/Calculator2.class -DestinationPath zipB.zip");
         } else {
             System.out.println("\n======================================= main: Create zipB.zip with the 7z utility");
-            execCommand("7z a zipB.zip middle/calculator2/Calculator2.class");
+            execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
         }
         
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
