@@ -117,6 +117,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | jar-library-1 | Create one jar for use in library mode |
 | jar-zip-1 | Like jar-execute-3 except that #2 is a zip file instead of a jar file. |
 | jar-zip-2 | Like jar-zip-1 except that there is a mix of Class-Path jars, zips, and subdirectories. |
+| jar-zip-3 | Like jar-zip-2 except that classpath comes from the main.class command line. |
 | java17-enhancements | Java 17 enhancements to the previous release |
 | java-logging | java.util.logging |
 | jj-* | Special non-Java utility Jacobin gfunctions |
