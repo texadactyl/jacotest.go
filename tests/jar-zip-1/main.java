@@ -70,14 +70,8 @@ public class main {
 		System.out.println("\n======================================= main: Show the jar1 table of contents");
         execCommand("jar tf jarA.jar");
         
-        if (os.contains("windows")) {
-            System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
-            // Richard gives up: execCommand("powershell Compress-Archive -Path middle/calculator2 -DestinationPath zipB.zip");
-            execCommand("7z a zipB.zip middle/calculator2/Calculator2.class");
-        } else {
-            System.out.println("\n======================================= main: Create zipB.zip with the gnu zip utility");
-            execCommand("zip zipB.zip middle/calculator2/Calculator2.class");
-        }
+        System.out.println("\n======================================= main: Create zipB.zip with the powershell utility");
+        execCommand("7z a zipB.zip middle/calculator2/Calculator2.class");
         
         System.out.println("\n======================================= main: Launch JVM with jar to call function runner");
         String text = String.format("%s -jar jarA.jar RUNNER", jvmPgmName);

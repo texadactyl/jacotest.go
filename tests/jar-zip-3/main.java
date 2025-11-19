@@ -99,7 +99,12 @@ public class main {
         // Pre-existing: middle/calculator8/Calculator8.class
         
         // Execute primary jar.
-        String text = String.format("%s  -cp  .:jarA.jar:zipB.zip:jarC.jar:zipD.zip:jarE.jar  main  RUNNER", jvmPgmName);
+        String text = "";
+        if (os.contains("windows")) {
+            text = String.format("%s  -cp  .;jarA.jar;zipB.zip;jarC.jar;zipD.zip;jarE.jar  main  RUNNER", jvmPgmName);
+        } else {
+            text = String.format("%s  -cp  .:jarA.jar:zipB.zip:jarC.jar:zipD.zip:jarE.jar  main  RUNNER", jvmPgmName);
+        }
         execCommand(text);
         
         Checkers.theEnd(0);
