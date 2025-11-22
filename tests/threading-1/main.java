@@ -21,7 +21,7 @@ public class main {
         T3.start();
 
         // wait for threads to end
-        PSYNC.printNL("main: Waiting for threads T1/T2/T3 to end");
+        PSYNC.printNL("main: Joining threads T1/T2/T3 .....");
         try {
             T1.join();
             PSYNC.printNL("main: T1 ended");
@@ -29,12 +29,14 @@ public class main {
             PSYNC.printNL("main: T2 ended");
             T3.join();
             PSYNC.printNL("main: T3 ended");
+        } catch (InterruptedException ex) {
+            String errMsg = String.format("\nmain: Interrupted during join on a thread !!\n%s", ex.getMessage());
+            PSYNC.printNL(errMsg);
         } catch (Exception ex) {
-            PSYNC.printNL("\nmain: Interrupted while waiting for threads !!");
-            String errMsg = String.format("main: Exception reason: %s", ex.getMessage());
+            String errMsg = String.format("\nmain: Unexpected exception during join on a thread !!\n%s", ex.getMessage());
             PSYNC.printNL(errMsg);
         }
-        PSYNC.printNL("main: End");
+        PSYNC.printNL("main: Joined threads T1/T2/T3.");
         
         Checkers.theEnd(0);
     }
@@ -50,20 +52,9 @@ class PrintingSynced {
         System.out.printf("%s: %s\n", name, msg);
     }
 
-    public void printSomeLines(String name) {
-        try {
-            for (int ii = 10; ii > 0; ii--) {
-                synchronized (this) {
-                    System.out.printf("%s: %d\n", name, ii);
-                }
-                Thread.sleep(100);
-            }
-        } catch (Exception ex) {
-            synchronized (this) {
-                System.out.printf("\nprintSomeLines: Thread %s interrupted !!\n", name);
-                System.out.printf("printSomeLines: Exception reason: %s\n", ex.getMessage());
-                return;
-            }
+    public synchronized void printSomeLines(String name) {
+        for (int ii = 10; ii > 0; ii--) {
+            System.out.printf("%s: %d\n", name, ii);
         }
     }
 
@@ -79,6 +70,7 @@ class MyThread extends Thread {
         PSYNC = psync;
     }
 
+    @Override
     public void run() {
         PSYNC.printSomeLines(threadName);
         PSYNC.printNamedMsg(threadName, "exiting");
