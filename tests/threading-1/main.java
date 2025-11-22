@@ -1,85 +1,54 @@
-// Hacked from https://www.tutorialspoint.com/java/java_thread_synchronization.htm
-
 public class main {
 
-    // TODO: needs qualitative tests
-    
-    public static void main(String args[]) {
+    static int proof[] = { 0, 0, 0 };
+    static Object lock = new Object();
 
-        String msg = "Threading tests with a parent thread (main) and 3 child threads";
-        System.out.println(msg);
+    static class Worker extends Thread {
+        private final int id;
 
-        PrintingSynced PSYNC = new PrintingSynced();
+        Worker(int id) {
+            this.id = id;
+        }
 
-        MyThread T1 = new MyThread("T1", PSYNC);
-        MyThread T2 = new MyThread("T2", PSYNC);
-        MyThread T3 = new MyThread("T3", PSYNC);
+        @Override
+        public void run() {
+            synchronized(lock) { System.out.println("Thread " + id + " started"); }
+            proof[id - 1] = 1;
+            try {
+                Thread.sleep(2000);   // Sleep 5 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            synchronized(lock) { System.out.println("Thread " + id + " ended"); }
+        }
+    }
 
-        PSYNC.printNL("main: Threads T1/T2/T3 are runnable; will start them now");
-        T1.start();
-        T2.start();
-        T3.start();
+    public static void main(String[] args) {
+        int errorCount = 0;
+        Thread t1 = new Worker(1);
+        Thread t2 = new Worker(2);
+        Thread t3 = new Worker(3);
 
-        // wait for threads to end
-        PSYNC.printNL("main: Joining threads T1/T2/T3 .....");
+        t1.start();
+        t2.start();
+        t3.start();
+        synchronized(lock){ System.out.println("All threads started."); }
+
         try {
-            T1.join();
-            PSYNC.printNL("main: T1 ended");
-            T2.join();
-            PSYNC.printNL("main: T2 ended");
-            T3.join();
-            PSYNC.printNL("main: T3 ended");
-        } catch (InterruptedException ex) {
-            String errMsg = String.format("\nmain: Interrupted during join on a thread !!\n%s", ex.getMessage());
-            PSYNC.printNL(errMsg);
-        } catch (Exception ex) {
-            String errMsg = String.format("\nmain: Unexpected exception during join on a thread !!\n%s", ex.getMessage());
-            PSYNC.printNL(errMsg);
+            t1.join();
+            errorCount += Checkers.checker("T1 run proof", 1, proof[0]);            
+            t2.join();
+            errorCount += Checkers.checker("T2 run proof", 1, proof[1]);
+            t3.join();
+            errorCount += Checkers.checker("T3 run proof", 1, proof[2]);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-        PSYNC.printNL("main: Joined threads T1/T2/T3.");
-        
-        Checkers.theEnd(0);
-    }
-}
 
-class PrintingSynced {
-
-    public synchronized void printNL(String msg) {
-        System.out.println(msg);
-    }
-
-    public synchronized void printNamedMsg(String name, String msg) {
-        System.out.printf("%s: %s\n", name, msg);
-    }
-
-    public synchronized void printSomeLines(String name) {
-        for (int ii = 10; ii > 0; ii--) {
-            System.out.printf("%s: %d\n", name, ii);
-        }
-    }
-
-}
-
-class MyThread extends Thread {
-    private Thread th;
-    private String threadName;
-    PrintingSynced PSYNC;
-
-    MyThread(String name, PrintingSynced psync) {
-        threadName = name;
-        PSYNC = psync;
-    }
-
-    @Override
-    public void run() {
-        PSYNC.printSomeLines(threadName);
-        PSYNC.printNamedMsg(threadName, "exiting");
-    }
-
-    public void start() {
-        PSYNC.printNamedMsg(threadName, "started");
-        th = new Thread(this, threadName);
-        th.start();
+        System.out.println("All threads completed.");
+        if (errorCount > 0)
+            System.out.println("*** ERROR, at least one Worker thread did not execute its run() function");
+        Checkers.theEnd(errorCount);
     }
 }
 
