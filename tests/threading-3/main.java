@@ -1,5 +1,8 @@
 public class main {
 
+    static int thCounter = 0;
+    static Object lock = new Object();
+
     // Simple worker thread that sleeps briefly
     static class Worker extends Thread {
         public Worker(ThreadGroup group, String name) {
@@ -8,6 +11,7 @@ public class main {
 
         @Override
         public void run() {
+            synchronized(lock) { thCounter++; }
             System.out.printf("[%s] Running in group: %s%n", getName(), getThreadGroup().getName());
             try {
                 Thread.sleep(200);
@@ -71,12 +75,15 @@ public class main {
             System.out.println("*** ERROR: Parent of groups should be main thread group");
             errorCount++;
         }
-
+        
         // Wait for threads to complete
         t1a.join();
         t1b.join();
         t2a.join();
         t2b.join();
+
+        // Did all 4 Workers run?
+        errorCount += Checkers.checker("thCounter before joins", 4, thCounter);
 
         // 5. Verify thread counts are 0 after completion
         if (group1.activeCount() != 0) {

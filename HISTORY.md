@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-24 | 5.2.8 | Test case threading-3 passed was a false positive. |
 | 2025-11-22 | 5.2.7 | Simplify test case threading-1. |
 | 2025-11-19 | 5.2.6 | New test cases jar-zip-2, jar-zip-3. |
 | 2025-11-18 | 5.2.5 | In test case jar-zip-1, use 7z on windows. |
