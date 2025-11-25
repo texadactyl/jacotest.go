@@ -12,14 +12,14 @@ public class main {
 
         @Override
         public void run() {
-            synchronized(lock) { System.out.println("Thread " + id + " started"); }
+            synchronized(lock) { System.out.printf("Worker Thread %d started\n", id); }
             proof[id - 1] = 1;
             try {
                 Thread.sleep(2000);   // Sleep 5 seconds
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            synchronized(lock) { System.out.println("Thread " + id + " ended"); }
+            synchronized(lock) { System.out.printf("Worker Thread %d ended\n", id); }
         }
     }
 

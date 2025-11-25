@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+fatal error
 abstract
 getClass
 getCallerClass
