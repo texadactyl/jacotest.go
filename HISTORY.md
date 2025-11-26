@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-11-26 | 5.2.10 | Promoted error categories for PUTFIELD and GETFIELD. |
+| | | Enhanced test case threading-3. |
 | 2025-11-25 | 5.2.9 | Avoid INVOKEDYNAMIC in threading-1. |
 | 2025-11-24 | 5.2.8 | Test case threading-3 passed was a false positive. |
 | 2025-11-22 | 5.2.7 | Simplify test case threading-1. |
