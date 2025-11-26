@@ -93,7 +93,7 @@ public class main {
         t2b.join();
 
         // Did all 4 Workers run?
-        errorCount += Checkers.checker("thCounter before joins", 4, thCounter);
+        errorCount += Checkers.checker("thCounter after joins", 4, thCounter);
 
         // 5. Verify thread counts are 0 after completion
         if (group1.activeCount() != 0) {
