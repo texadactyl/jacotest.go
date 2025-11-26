@@ -1,24 +1,33 @@
 public class main {
 
     static int thCounter = 0;
+    static int proof[] = { 0, 0, 0, 0 };
     static Object lock = new Object();
 
     // Simple worker thread that sleeps briefly
     static class Worker extends Thread {
+    
         public Worker(ThreadGroup group, String name) {
             super(group, name);
         }
 
         @Override
         public void run() {
-            synchronized(lock) { thCounter++; }
-            System.out.printf("[%s] Running in group: %s%n", getName(), getThreadGroup().getName());
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // ignore
+            int myCounter;
+            synchronized(lock) { 
+                myCounter = thCounter++;           
+                proof[myCounter] = 1;
+                System.out.printf("[%s - %d] Running in group: %s%n", getName(), myCounter, getThreadGroup().getName()); 
             }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                synchronized(lock) { System.out.printf("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName()); }
+                return;
+            }
+            synchronized(lock) { System.out.printf("[%s - %d] Ended in group: %s%n", getName(), myCounter, getThreadGroup().getName()); }
         }
+        
     }
 
     public static void main(String[] args) throws InterruptedException {

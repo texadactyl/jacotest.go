@@ -3,6 +3,9 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+GETFIELD: Invalid type
+PUTFIELD: invalid attempt
+PUTSTATIC: field 
 fatal error
 abstract
 getClass
@@ -88,7 +91,6 @@ Exception in thread
 Failed to load class
 FetchUTF8stringFromCPEntryNumber: cp.CpIndex
 field type must start with
-GETFIELD: Invalid type
 has no exception table
 Invalid array type specified
 Invalid bytecode
@@ -101,8 +103,6 @@ MethAreaFetch
 Native method requested
 No support yet for user-specified character sets
 null class name is invalid
-PUTFIELD: invalid attempt
-PUTSTATIC: field 
 runtime error: index out of range
 runtime error: invalid memory address
 runtime.sigpanic
