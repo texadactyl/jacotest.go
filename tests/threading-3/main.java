@@ -6,8 +6,8 @@ public class main {
     // Simple worker thread that sleeps briefly
     static class Worker extends Thread {
     
-        public Worker(ThreadGroup group, String name) {
-            super(group, name);
+        public Worker(ThreadGroup argGroup, String argName) {
+            super(argGroup, argName); // assign to the specified ThreadGroup
         }
 
         @Override
@@ -70,14 +70,10 @@ public class main {
         }
 
         // 3. Verify threads belong to correct groups
-        if (t1a.getThreadGroup() != group1) {
-            System.out.println("*** ERROR: T1-A not in Group-1");
-            errorCount++;
-        }
-        if (t2b.getThreadGroup() != group2) {
-            System.out.println("*** ERROR: T2-B not in Group-2");
-            errorCount++;
-        }
+        errorCount += Checkers.checker("Is thread t1a in Group-1?", "Group-1", t1a.getThreadGroup().getName());
+        errorCount += Checkers.checker("Is thread t1b in Group-1?", "Group-1", t1b.getThreadGroup().getName());
+        errorCount += Checkers.checker("Is thread t2a in Group-2?", "Group-2", t2a.getThreadGroup().getName());
+        errorCount += Checkers.checker("Is thread t2b in Group-2?", "Group-2", t2b.getThreadGroup().getName());
 
         // 4. Verify parent group of both is main thread group
         ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();

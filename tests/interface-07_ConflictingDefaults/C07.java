@@ -3,6 +3,7 @@ class C07 implements I07A, I07B {
     @Override
     public String greet() {
         // We can explicitly choose either default using InterfaceName.super.method()
-        return I07A.super.greet() + " | " + I07B.super.greet();
+        String ret = String.format("%s | %s", I07A.super.greet(), I07B.super.greet());
+        return ret;
     }
 }

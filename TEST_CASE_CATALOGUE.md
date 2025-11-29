@@ -63,15 +63,16 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | iinc-iadd-isub | Exercise IINC, IADD, and ISUB |
 | imageio-output | Simple writing to a PNG file |
 | integer* | java.lang.Integer |
-| interface-01 | interface call via irect interface default method
-| interface-02 | interface call via java.lang.Object method via interface reference
-| interface-03 | interface call via maximally-specific superinterface default method
-| interface-04 | interface call in which superinterface declares abstract method; class implements it 
-| interface-05 | interface call which class overrides interface default method
-| interface-06 | interface call which is implemented in a superclass of the implementing class
-| interface-07 | interface call in which there are conflicting default methods between interfaces
-| interface-08 | interface call involving private and static methods
-| interface-09 | interface call test of diamond hierarchy of interfaces with a shared default method
+| interface-01_DirectInterfaceDefault | interface call via irect interface default method |
+| interface-02_ObjectMethod | interface call via java.lang.Object method via interface reference |
+| interface-03_MaximallySpecificSuperinterface | interface call via maximally-specific superinterface default method |
+| interface-04_SuperinterfaceAbstract | interface call in which superinterface declares abstract method; class implements it |
+| interface-05_ImplementingClassOverride | interface call which class overrides interface default method |
+| interface-06_SuperclassImplements | interface call which is implemented in a superclass of the implementing class |
+| interface-07_ConflictingDefaults | interface call in which there are conflicting default methods between interfaces |
+| interface-08_PrivateStaticMethods | interface call involving private and static methods |
+| interface-09_DiamondHierarchy | interface call test of diamond hierarchy of interfaces with a shared default method |
+| interface-10-Invokeinterface | like interface-09_DiamondHierarchy but contains code that generates INVOKEDYNAMIC |
 | io_file* | java.io file operations |
 | invoke-dynamic-concats | "+" operator, mixed primitives/objects, multi-argument, loops |
 | invoke-dynamic-generic-class | Box<T>::new, Pair<A,B>::new; demonstrates type parameter constructor references |
