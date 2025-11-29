@@ -1,6 +1,6 @@
-# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+# ARM64 workflow to run jacotest against https://github.com/texadactyl/jacobin.
 
-name: AMD64 Jacotest with texadactyl Jacobin
+name: Ubuntu & Windows ARM64 Jacotest with texadactyl Jacobin
 
 on:
   push:
@@ -21,10 +21,11 @@ jobs:
 
   run_jacobin:
     strategy:
-      matrix:
-        
-        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+      matrix:        
+        os: [ubuntu-24.04-arm, windows-11-arm]
     runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@main
 
@@ -36,14 +37,22 @@ jobs:
           cache-dependency-path: "**/go.sum"
           
     - name: Add Go to PATH
-      shell: bash
       run: echo "$HOME/go/bin" >> $GITHUB_PATH
-
-    - name: Setup JDK
+      
+    - name: Setup JDK on POSIX ARM64
+      if: matrix.os != 'windows-11-arm'
       uses: actions/setup-java@main
       with:
         distribution: 'oracle'
         java-version: '21'
+
+    - name: Set up JDK on Windows ARM64
+      if: matrix.os == 'windows-11-arm'
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'           # or 'adopt', 'microsoft', depending
+        java-version: '21'                # or whichever you choose
+        architecture: 'arm64'             # key: choose arm64
 
     - name: Setup Jacotest
       shell: bash
@@ -57,7 +66,7 @@ jobs:
     - name: Setup Jacobin
       shell: bash
       run: |
-        set -x
+        cd $HOME
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
         if [[ "$RUNNER_OS" == "Windows" ]]; then
@@ -65,36 +74,20 @@ jobs:
         else
             go build -o "$HOME/go/bin/jacobin" .
         fi
-        
+        echo PATH :: $PATH
+        set -x
+        find $HOME -name "jacotest*"
+        find $HOME -name "jacobin*"
+        jacobin --version
+      
     - name: Run Test Cases
       shell: bash
       run: |
         java --version
         javac --version
-        jacobin --version
         jacotest -c -x || true
 
     - name: Summary of Results
       shell: bash
       run: |
         jacotest -r 3
-
-    - name: Create Output Env Names
-      shell: bash
-      run: |
-        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
-        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
-      
-    - name: Create Summary Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.REPORT_NAME }}
-        path: reports
-        retention-days: 7  # can be 1 to 90
-
-    - name: Create Logs Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.LOGS_NAME }}
-        path: logs
-        retention-days: 7  # can be 1 to 90

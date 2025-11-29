@@ -1,4 +1,4 @@
-# On push or open pull request events, this workflow will run https://github.com/texadactyl/jacobin against a single test case.
+# Only on demand, this workflow will run https://github.com/texadactyl/jacobin against a single test case.
 # See line: # Which test case?
 
 name: Narrow Testing
