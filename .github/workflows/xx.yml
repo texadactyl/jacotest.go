@@ -63,7 +63,7 @@ jobs:
       shell: bash
       run: |
         jacotest -r 3
-        cp ga/passfail.txt passfail-${{ matrix.os }}.txt
+        cp logs/passfail.txt passfail-${{ matrix.os }}.txt
 
     - name: Create Output Env Names
       shell: bash
@@ -85,11 +85,11 @@ jobs:
         path: logs
         retention-days: 7  # can be 1 to 90
 
-    - name: Upload OS-specific file
+    - name: Upload OS-specific passfail file
       uses: actions/upload-artifact@v4
       with:
         name: passfail-${{ matrix.os }}
-        path: ga/passfail-${{ matrix.os }}.txt
+        path: passfail-${{ matrix.os }}.txt
         retention-days: 1
 
   process-collection:
@@ -99,9 +99,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Download all artifacts
+      - name: Download all passfail artifacts
         uses: actions/download-artifact@v4
         with:
+          pattern: passfail-*
           path: collected-results/
       
       - name: List downloaded files
