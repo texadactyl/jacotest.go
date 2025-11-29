@@ -39,6 +39,7 @@ func showHelp() {
 	fmt.Printf("\t-t num : This is the timeout value of num seconds in executing each test case.  Default: 60.\n")
 	fmt.Printf("\t-u : User-defined options to pass to the JVM when -x is specified.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
+	fmt.Printf("\t-X num : Execute the first num test cases.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
 	fmt.Printf("\t-z : Remove the most recent result for all test cases.\n")
@@ -84,6 +85,7 @@ func main() {
 	jvmExe := "jacobin"  // default virtual machine executable
 	deadlineSecs := 60   // default deadline in seconds
 	userXopts := ""
+	numTestCases := 0
 
 	// Temporary flags before setting them in global.
 	flagVerbose := false          // Verbose logging? true/false
@@ -211,6 +213,20 @@ func main() {
 
 		case "-v":
 			flagVerbose = true
+
+		case "-X":
+			ii += 1
+			numTestCases, err = strconv.Atoi(Args[ii])
+			if err != nil {
+				LogError(fmt.Sprintf("Parameter -X requires an integer value, saw: %s", Args[ii]))
+				showHelp()
+			}
+			if numTestCases < 1 {
+				LogError(fmt.Sprintf("Parameter -X requires an integer value > 0, saw: %s", Args[ii]))
+				showHelp()
+			}
+			flagExecute = true
+			flagTwoMostRecent = true
 
 		case "-x":
 			flagExecute = true
@@ -343,9 +359,16 @@ func main() {
 
 		// Phase 1 - For each test case subdirectory of tests, run it.
 		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
+
+		// Begin the test case directory loop.
+		entryCount := 0
 		for _, entry := range entries {
 
 			if entry.IsDir() {
+				entryCount += 1
+				if numTestCases != 0 && numTestCases < entryCount {
+					break
+				}
 				testCaseName := entry.Name()
 				fullPath := filepath.Join(global.DirTests, testCaseName)
 				mainFile := fullPath + string(os.PathSeparator) + "main.java"
@@ -395,6 +418,7 @@ func main() {
 				}
 			}
 		}
+		// End test case directory loop.
 
 		// Show successes.
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
