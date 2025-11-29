@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-11-28 | 5.2.11 | Added nine tests of interface resolution (added by @platypusguy)
 | 2025-11-26 | 5.2.10 | Promoted error categories for PUTFIELD and GETFIELD. |
 | | | Enhanced test case threading-3. |
 | 2025-11-25 | 5.2.9 | Avoid INVOKEDYNAMIC in threading-1. |
