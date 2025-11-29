@@ -613,6 +613,14 @@ func DBPrintMostRecent() {
 	var ok bool
 	var rows *sql.Rows
 
+	// Open the passfail file for output/replace.
+	global := GetGlobalRef()
+	file, err := os.Create(global.PassfailFilePath)
+	if err != nil {
+		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.PassfailFilePath), err)
+	}
+	defer file.Close()
+
 	// Query descending test case, date, and time.
 	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colFailText + " FROM " +
 		tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
@@ -666,6 +674,7 @@ func DBPrintMostRecent() {
 
 			// Show the database information.
 			fmt.Printf("[%d]  %-s  %-8s  %-6s  %-s\n", counter+1, curTestCase, curJvm, curResult, curFailText)
+			fmt.Fprintf(file, "%s\t%s\n", curTestCase, curResult)
 			counter += 1
 			if curResult == "passed" {
 				passes += 1

@@ -21,6 +21,7 @@ const PATH_DIR_REPORTS = "./reports"
 const TEMPLATE_RUN_REPORT = PATH_DIR_REPORTS + "/RUN_REPORT_%s_%s.md"
 const TEMPLATE_SUMMARY_REPORT = PATH_DIR_REPORTS + "/Summary_%s_%s.txt"
 const PATH_DIR_LOGS = "./logs"
+const PATH_DIR_GA = "./ga"
 const PATH_DIR_TESTS = "./tests"
 const PATH_DIR_HELPERS = "./tests/HELPERS"
 const PATH_VERSION = "./VERSION.txt"
@@ -36,6 +37,8 @@ type GlobalsStruct struct {
 	DirReports           string        // Full path of reports directory
 	ReportFilePath       string        // Full path of the detailed report file
 	SumFilePath          string        // Full path of the Summary file
+	DirGA                string        // Full path of the GithubActions directory
+	PassfailFilePath     string        // Full path of the passfail file
 	ErrCatFilePath       string        // Full path of the error categories file
 	FlagVerbose          bool          // Verbose logging? true/false
 	FlagGalt             bool          // JVM Jacobin is run in G-alternate mode
@@ -124,6 +127,18 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
 	}
 
+	absDirGA, err := filepath.Abs(PATH_DIR_GA)
+	if err != nil {
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_GA), err)
+	}
+	MakeDir(absDirGA)
+
+	global.PassfailFilePath = absDirGA + string(os.PathSeparator) + "passfail.txt"
+	absPassfailFile, err := filepath.Abs(global.PassfailFilePath)
+	if err != nil {
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", global.PassfailFilePath), err)
+	}
+
 	absErrCatFile, err := filepath.Abs(PATH_ERROR_CATEGORIES)
 	if err != nil {
 		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_ERROR_CATEGORIES), err)
@@ -142,6 +157,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		DirReports:           absReports,
 		ReportFilePath:       absReportFile,
 		SumFilePath:          absSummaryFile,
+		PassfailFilePath:     absPassfailFile,
 		ErrCatFilePath:       absErrCatFile,
 		FlagVerbose:          false,
 		FlagGalt:             false,

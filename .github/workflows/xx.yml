@@ -1,0 +1,136 @@
+# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+
+name: xx
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  run-on-oses:
+    strategy:
+      matrix:        
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.24.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Add Go to PATH
+      shell: bash
+      run: echo "$HOME/go/bin" >> $GITHUB_PATH
+
+    - name: Setup JDK
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
+    - name: Setup Jacotest
+      shell: bash
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup Jacobin
+      shell: bash
+      run: |
+        set -x
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
+        
+    - name: Run Test Cases
+      shell: bash
+      run: |
+        java --version
+        javac --version
+        jacobin --version
+        jacotest -c -x || true
+
+    - name: Summary of Results
+      shell: bash
+      run: |
+        jacotest -r 3
+        cp ga/passfail.txt passfail-${{ matrix.os }}.txt
+
+    - name: Create Output Env Names
+      shell: bash
+      run: |
+        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+      
+    - name: Create Summary Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.REPORT_NAME }}
+        path: reports
+        retention-days: 7  # can be 1 to 90
+
+    - name: Create Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.LOGS_NAME }}
+        path: logs
+        retention-days: 7  # can be 1 to 90
+
+    - name: Upload OS-specific file
+      uses: actions/upload-artifact@v4
+      with:
+        name: passfail-${{ matrix.os }}
+        path: passfail-${{ matrix.os }}.txt
+        retention-days: 1
+
+  process-collection:
+    needs: run-on-oses
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: collected-results/
+      
+      - name: List downloaded files
+        run: |
+          echo "Downloaded files:"
+          find collected-results -type f
+      
+      - name: Process combined report
+        run: |
+          # Create your custom report
+          export RPT="comparison.txt"
+          echo "=== Combined Report ===" > $RPT
+          echo "" >> $RPT
+          
+          # Process each OS result
+          for os_dir in collected-results/passfail-*; do
+            os_name=$(basename "$os_dir")
+            echo "--- ${os_name} ---" >> $RPT
+            cat "$os_dir"/*.txt >> $RPT
+            echo "" >> $RPT
+          done
+          
+          cat $RPT
+      
+      - name: Upload combined report
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-combined-report
+          path: $RPT
+          retention-days: 30
