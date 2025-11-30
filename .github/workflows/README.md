@@ -7,6 +7,4 @@ Workflows:
 | galt | no | yes | Same as os_latest_jacobin but in "galt" mode |
 | jacobin_all_oses | yes | yes | Jacotest against Jacobin on all O/Ses |
 | narrow_testing | no | yes | Same as os_latest_jacobin but with selected test cases (manual edit) |
-| os_latest_jacobin | no | yes | DEPRECATED: Run against Jacobin on ubuntu-latest, windows-latest, macos-latest |
-| os_arm64_jacobin | no | yes | DEPRECATED: Run against Jacobin on ubuntu-24.04-arm, windows-11-arm |
 
