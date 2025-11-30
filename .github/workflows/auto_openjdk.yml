@@ -6,16 +6,16 @@ on:
   workflow_dispatch:
   push:
     paths-ignore:
-      - '*.md'
-      - '*.py'
-      - '*.txt'
+      - '**.md'
+      - '**.py'
+      - '**.txt'
       - '**.yml'
     branches: [ "main" ]
   pull_request:
     paths-ignore:
-      - '*.md'
-      - '*.py'
-      - '*.txt'
+      - '**.md'
+      - '**.py'
+      - '**.txt'
       - '**.yml'
     branches: [ "main" ]
 
