@@ -31,3 +31,19 @@ writer.writerow(["Test case"] + oses)
 for test_case in sorted(results.keys()):
     row = [test_case] + [results[test_case].get(os_name, "") for os_name in oses]
     writer.writerow(row)
+
+# ---- Summary counts ----
+summary = ["Passed-Failed"]
+
+for os_name in oses:
+    passed = failed = 0
+    for test_case, per_os in results.items():
+        val = per_os.get(os_name, "").lower()
+        if val == "passed":
+            passed += 1
+        elif val == "failed":
+            failed += 1
+    summary.append(f"{passed}-{failed}")
+
+writer.writerow(summary)
+
