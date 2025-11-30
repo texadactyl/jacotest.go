@@ -117,6 +117,7 @@ jobs:
           touch $RPT
           for os_dir in collected-results/passfail-*; do
             os_name=$(basename "$os_dir")
+            os_name=${os_name#passfail-}
             cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $RPT
           done
           
