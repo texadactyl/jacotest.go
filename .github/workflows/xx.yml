@@ -114,15 +114,10 @@ jobs:
         run: |
           # Create your custom report
           export RPT="comparison.txt"
-          echo "=== Combined Report ===" > $RPT
-          echo "" >> $RPT
-          
-          # Process each OS result
+          touch $RPT
           for os_dir in collected-results/passfail-*; do
             os_name=$(basename "$os_dir")
-            echo "--- ${os_name} ---" >> $RPT
-            cat "$os_dir"/*.txt >> $RPT
-            echo "" >> $RPT
+            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $RPT
           done
           
           cat $RPT
