@@ -106,11 +106,13 @@ jobs:
           path: collected-results/
       
       - name: List downloaded files
+        shell: bash
         run: |
           echo "Downloaded files:"
           find collected-results -type f
       
       - name: Concatenate combined passfail results
+        shell: bash
         run: |
           export LIST_ALL="results_list.txt"
           touch $LIST_ALL
@@ -121,14 +123,15 @@ jobs:
           done
           
       - name: Produce combined CSV
+        shell: bash
         run: |
           export LIST_ALL="results_list.txt"
           export CSV="combined.csv"
           cat $LIST_ALL | python3 py/combinedCsv.py > $CSV
       
-      - name: Upload combined report
+      - name: Upload combined CSV
         uses: actions/upload-artifact@v4
         with:
-          name: final-combined-report
+          name: combined-csv
           path: combined.csv
           retention-days: 7
