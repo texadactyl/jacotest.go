@@ -86,7 +86,7 @@ jobs:
         java --version
         javac --version
         jacobin --version
-        jacotest -c -X 10 || true
+        jacotest -c -x || true
 
     - name: Summary of Results
       shell: bash
