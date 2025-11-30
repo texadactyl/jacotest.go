@@ -1,22 +1,8 @@
-# ARM64 workflow to run jacotest against https://github.com/texadactyl/jacobin.
+# DEPRECATED: ARM64 workflow to run jacotest against https://github.com/texadactyl/jacobin.
 
 name: Ubuntu & Windows ARM64 Jacotest with texadactyl Jacobin
 
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-  pull_request:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:

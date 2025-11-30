@@ -1,22 +1,8 @@
-# On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
+# DEPRECATED: On push or open pull request events, this workflow will run jacotest against https://github.com/texadactyl/jacobin.
 
 name: ubuntu-latest, windows-latest, macos-latest Jacotest with texadactyl Jacobin
 
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-  pull_request:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
