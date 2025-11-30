@@ -110,22 +110,25 @@ jobs:
           echo "Downloaded files:"
           find collected-results -type f
       
-      - name: Process combined report
+      - name: Concatenate combined passfail results
         run: |
-          # Create your custom report
-          export RPT="comparison.txt"
-          touch $RPT
+          export LIST_ALL="results_list.txt"
+          touch $LIST_ALL
           for os_dir in collected-results/passfail-*; do
             os_name=$(basename "$os_dir")
             os_name=${os_name#passfail-}
-            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $RPT
+            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $LIST_ALL
           done
           
-          cat $RPT
+      - name: Produce combined CSV
+        run: |
+          export LIST_ALL="results_list.txt"
+          export CSV="combined.csv"
+          cat $LIST_ALL | python3 py/combinedCsv.py > $CSV
       
       - name: Upload combined report
         uses: actions/upload-artifact@v4
         with:
           name: final-combined-report
-          path: comparison.txt
+          path: combined.csv
           retention-days: 7
