@@ -1,5 +1,8 @@
 name: xx
 
+# O/Ses supported: 
+# https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
+
 on:
   workflow_dispatch:
 
