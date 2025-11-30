@@ -13,6 +13,8 @@ on:
   pull_request:
     paths-ignore:
       - '*.md'
+      - '*.py'
+      - '*.txt'
       - '**.yml'
     branches: [ "main" ]
   workflow_dispatch:
