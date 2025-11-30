@@ -23,8 +23,11 @@ public class main {
                 else
                     Thread.sleep(2000);
             } catch (InterruptedException e) {
-                synchronized(lock) { System.out.printf("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName()); }
-                return;
+                String errMsg = String.format("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName());
+                throw new AssertionError(errMsg);
+             } catch (Exception e) {
+                String errMsg = String.format("[%s - %d] Exception in group: %s, errMsg: %s%n", getName(), myCounter, getThreadGroup().getName(), e.getMessage());
+                throw new AssertionError(errMsg);
             }
             synchronized(lock) { System.out.printf("[%s - %d] Ended in group: %s%n", getName(), myCounter, getThreadGroup().getName()); }
         }

@@ -15,9 +15,13 @@ public class main {
             synchronized(lock) { System.out.printf("Worker Thread %d started\n", id); }
             proof[id - 1] = 1;
             try {
-                Thread.sleep(2000);   // Sleep 5 seconds
+                Thread.sleep(2000);   // Sleep 2 seconds
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                String errMsg = String.format("*** Worker Thread %d interrupted\n", id);
+                throw new AssertionError(errMsg);
+            } catch (Exception e) {
+                String errMsg = String.format("*** Worker Thread %d exception, errMsg: %s\n", id, e.getMessage());
+                throw new AssertionError(errMsg);
             }
             synchronized(lock) { System.out.printf("Worker Thread %d ended\n", id); }
         }
