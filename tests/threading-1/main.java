@@ -29,6 +29,7 @@ public class main {
 
     public static void main(String[] args) {
         int errorCount = 0;
+        System.out.println("threading-1.");
         Thread t1 = new Worker(1);
         Thread t2 = new Worker(2);
         Thread t3 = new Worker(3);
