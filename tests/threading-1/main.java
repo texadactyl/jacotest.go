@@ -12,7 +12,10 @@ public class main {
 
         @Override
         public void run() {
-            synchronized(lock) { System.out.printf("Worker Thread %d started\n", id); }
+            synchronized(lock) { 
+                String label = String.format("Worker Thread %d started, statics dump", id); 
+                jj._dumpStatics(label, 2, "java/lang/System");
+            }
             proof[id - 1] = 1;
             try {
                 Thread.sleep(2000);   // Sleep 2 seconds
