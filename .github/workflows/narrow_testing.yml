@@ -68,7 +68,7 @@ jobs:
         # Which test case?
         cd ../threading-1
         javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS main.class 2>&1 || true
+        jacobin -cp .:../HELPERS main.class || true
    
     - name: Run Test Cases Windows
       shell: bash
@@ -82,4 +82,9 @@ jobs:
         # Which test case?
         cd ../threading-1
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" main.class 2>&1 || true
+        jacobin -cp ".;../HELPERS" main.class || true
+        
+    - name: Test stderr
+      run: |
+        echo "stdout line"
+        echo "stderr line" 1>&2
