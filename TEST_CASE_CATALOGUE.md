@@ -61,7 +61,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | iface-lorentz | Lorentz transform using a Java interface (Physics) |
 | iface-* | Java interface |
 | iinc-iadd-isub | Exercise IINC, IADD, and ISUB |
-| imageio-output | Simple writing to a PNG file |
 | integer* | java.lang.Integer |
 | interface-01_DirectInterfaceDefault | interface call via irect interface default method |
 | interface-02_ObjectMethod | interface call via java.lang.Object method via interface reference |
@@ -182,7 +181,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | taylor-series | Taylor Series with rational library functions |
 | taylor-series-2 | Taylor series exercise without the rational library functions |
 | threading* | Multi-threading, including thread groups |
-| tiffy | TIF reading |
 | tls-one-way | One-way TLS |
 | two-fish | Two-fish cryptography |
 | two-pass | Two-pass Assembler |
