@@ -16,20 +16,20 @@ public class main {
             synchronized(lock) { 
                 myCounter = ++thCounter;           
                 System.out.printf("[%s - %d] Running in group: %s%n", getName(), myCounter, getThreadGroup().getName()); 
+                try {
+                    if (myCounter == 4)
+                        Thread.yield();
+                    else
+                        Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    String errMsg = String.format("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName());
+                    throw new AssertionError(errMsg);
+                 } catch (Exception e) {
+                    String errMsg = String.format("[%s - %d] Exception in group: %s, errMsg: %s%n", getName(), myCounter, getThreadGroup().getName(), e.getMessage());
+                    throw new AssertionError(errMsg);
+                }
+                System.out.printf("[%s - %d] Ended in group: %s%n", getName(), myCounter, getThreadGroup().getName());
             }
-            try {
-                if (myCounter == 4)
-                    Thread.yield();
-                else
-                    Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                String errMsg = String.format("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName());
-                throw new AssertionError(errMsg);
-             } catch (Exception e) {
-                String errMsg = String.format("[%s - %d] Exception in group: %s, errMsg: %s%n", getName(), myCounter, getThreadGroup().getName(), e.getMessage());
-                throw new AssertionError(errMsg);
-            }
-            synchronized(lock) { System.out.printf("[%s - %d] Ended in group: %s%n", getName(), myCounter, getThreadGroup().getName()); }
         }
         
     }
@@ -86,10 +86,10 @@ public class main {
         }
         
         // Wait for threads to complete
-        t1a.join();
-        t1b.join();
-        t2a.join();
-        t2b.join();
+        t1a.join(5000);
+        t1b.join(5000);
+        t2a.join(5000);
+        t2b.join(5000);
 
         // Did all 4 Workers run?
         errorCount += Checkers.checker("thCounter after joins", 4, thCounter);

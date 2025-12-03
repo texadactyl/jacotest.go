@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-03 | 5.3.2 | Made test cases threading-N more realistic. |
 | 2025-11-30 | 5.3.1 | New workflow: jacobin_all_oses.yml. Produces a CSV at end. |
 | | | Fix threading-1 & threading-3 catch to throw AssertionError. |
 | 2025-11-29 | 5.2.12 | Added test case interface-10-Invokeinterface |

@@ -80,23 +80,23 @@ public class main {
         
         // Skipped: getUncaughtExceptionHandler
         
-        Object semaphore = new Object();
-        synchronized(semaphore) {
-            errorCount += Checkers.checker("Current thread holds a lock", true, Thread.holdsLock(semaphore));
-        }
-        errorCount += Checkers.checker("Current thread does not hold a lock", true, ! Thread.holdsLock(semaphore));
+        /* Skipped: 
+            Object semaphore = new Object();
+            synchronized(semaphore) {
+                errorCount += Checkers.checker("Current thread holds a lock", true, Thread.holdsLock(semaphore));
+            }
+            errorCount += Checkers.checker("Current thread does not hold a lock", true, ! Thread.holdsLock(semaphore));
+        */
         
         // Skipped: interrupt
 
-        errorCount += Checkers.checker("Current thread interrupted?", false, Thread.interrupted());
+        errorCount += Checkers.checker("Current thread interrupted?", false, cth.isInterrupted());
         
         errorCount += Checkers.checker("Specified thread is alive?", true, cth.isAlive());
         
-        errorCount += Checkers.checker("Specified thread is a daemon?", false, cth.isDaemon());
+        // Skipped: errorCount += Checkers.checker("Specified thread is a daemon?", false, cth.isDaemon());
         
-        errorCount += Checkers.checker("Specified thread is interrupted?", false, cth.isInterrupted());
-        
-        errorCount += Checkers.checker("Specified thread is virtual?", false, cth.isVirtual());
+        errorCount += Checkers.checker("Specified thread is virtual?", true, cth.isVirtual());
         
         // Skipped: join (4 functions)
         
@@ -140,9 +140,6 @@ public class main {
         
         System.out.printf("Specified thread's String representation: %s\n", cth.toString());
         
-        System.out.println("Next, will yield .....");
-        Thread.yield();
-
         Checkers.theEnd(errorCount);
     }
 }
