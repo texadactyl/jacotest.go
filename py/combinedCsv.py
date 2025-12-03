@@ -82,6 +82,7 @@ writer.writerow(summary)
 
 # ---- Write discrepancies to stderr ----
 print(f"Number of discrepancies: {len(discrepancies)}", file=sys.stderr)
+print(f"Passed-Failed = {passed}-{failed}", file=sys.stderr)
 if discrepancies:
     print("Discrepant test cases:", file=sys.stderr)
     for t in discrepancies:
