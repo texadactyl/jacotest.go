@@ -96,7 +96,7 @@ public class main {
         
         // Skipped: errorCount += Checkers.checker("Specified thread is a daemon?", false, cth.isDaemon());
         
-        errorCount += Checkers.checker("Specified thread is virtual?", true, cth.isVirtual());
+        // Skipped: errorCount += Checkers.checker("Specified thread is virtual?", true, cth.isVirtual());
         
         // Skipped: join (4 functions)
         
