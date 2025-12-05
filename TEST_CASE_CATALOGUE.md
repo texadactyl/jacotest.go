@@ -184,6 +184,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | threading-2 | Various Thread functions |
 | threading-3 | 4 simultaneous threads + ThreadGroups |
 | threading-16 | 16 simultaneous threads |
+| threading-nested-locks | 8 simultaneous threads, nested locks 5 deep each |
 | tls-one-way | One-way TLS |
 | two-fish | Two-fish cryptography |
 | two-pass | Two-pass Assembler |
