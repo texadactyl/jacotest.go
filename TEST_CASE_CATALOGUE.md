@@ -183,6 +183,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | threading-1 | 3 simultaneous threads |
 | threading-2 | Various Thread functions |
 | threading-3 | 4 simultaneous threads + ThreadGroups |
+| threading-3-mini | threading-3 reduced to 1 group, 1 thread |
 | threading-16 | 16 simultaneous threads |
 | threading-nested-locks | 8 simultaneous threads, nested locks 5 deep each |
 | threading-runnable | Use Interface Runnable |
