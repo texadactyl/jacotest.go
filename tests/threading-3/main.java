@@ -21,11 +21,16 @@ public class main {
                         Thread.yield();
                     else
                         Thread.sleep(2000);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ex) {
                     String errMsg = String.format("[%s - %d] Interrupted in group: %s%n", getName(), myCounter, getThreadGroup().getName());
                     throw new AssertionError(errMsg);
-                 } catch (Exception e) {
-                    String errMsg = String.format("[%s - %d] Exception in group: %s, errMsg: %s%n", getName(), myCounter, getThreadGroup().getName(), e.getMessage());
+                } catch (Exception ex) {
+                    String thName = getName();
+                    ThreadGroup thGroup = getThreadGroup();
+                    String thGroupName = thGroup.getName();
+                    String excMsg = ex.getMessage();
+                    System.out.println(excMsg); // <------------------------------- nil, not a String object
+                    String errMsg = String.format("[%s - %d] Exception in group: %s, errMsg: %s%n", thName, myCounter, thGroupName, excMsg);
                     throw new AssertionError(errMsg);
                 }
                 System.out.printf("[%s - %d] Ended in group: %s%n", getName(), myCounter, getThreadGroup().getName());

@@ -32,7 +32,8 @@ public class main {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("=== Boild-down ThreadGroup Test (from threading-2) ===");
+        System.out.println("=== Boiled-down ThreadGroup Test (from threading-3) ===");
+        System.out.println("=== One thread group, one thread ===");
 
         // Create two thread groups under the main thread group
         ThreadGroup group1 = new ThreadGroup("Group-1");
