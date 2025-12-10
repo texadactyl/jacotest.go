@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-10 | 5.3.8 | Updated test case threading-runnable. |
 | 2025-12-08 | 5.3.7 | Improve error isolation in threading-3-mini and threading-3. |
 | 2025-12-07 | 5.3.6 | New test case: threading-3-mini (reduced to 1 group, 1 thread). |
 | 2025-12-06 | 5.3.5 | New test case: threading-runnable (uses java/lang/Runnable). |

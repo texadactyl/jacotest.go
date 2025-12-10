@@ -7,23 +7,23 @@ public class main {
         private String name;
         private int count;
         
-        public CounterTask(String name, int count) {
-            this.name = name;
-            this.count = count;
+        public CounterTask(String argName, int argCount) {
+            this.name = argName;
+            this.count = argCount;
         }
         
         @Override
         public void run() {
-            for (int i = 1; i <= count; i++) {
-                System.out.println(name + ": " + i);
+            for (int i = 1; i <= this.count; i++) {
+                System.out.printf("%s: %d of %d\n", this.name, i, this.count);
                 try {
                     Thread.sleep(500); // Sleep for 500ms
                 } catch (InterruptedException e) {
-                    System.out.println(name + " was interrupted");
+                    System.out.printf("%s was interrupted\n", this.name);
                     return;
                 }
             }
-            System.out.println(name + " finished!");
+            System.out.printf("%s is finished!\n", this.name);
         }
     }
     
