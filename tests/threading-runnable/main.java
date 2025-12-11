@@ -111,8 +111,8 @@ public class main {
         
         // Wait for threads to complete
         try {
-            thread1.join();
-            thread2.join();
+            thread1.join(5000);
+            thread2.join(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -130,8 +130,8 @@ public class main {
         thread4.start();
         
         try {
-            thread3.join();
-            thread4.join();
+            thread3.join(5000);
+            thread4.join(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -155,9 +155,9 @@ public class main {
         t3.start();
         
         try {
-            t1.join();
-            t2.join();
-            t3.join();
+            t1.join(5000);
+            t2.join(5000);
+            t3.join(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
