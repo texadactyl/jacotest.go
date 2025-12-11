@@ -33,18 +33,16 @@ public class main {
         
         public synchronized void withdraw(String person, int amount) {
             if (balance >= amount) {
-                System.out.println(person + " is withdrawing " + amount);
+                System.out.printf("%s is withdrawing %d\n", person, amount);
                 try {
                     Thread.sleep(100); // Simulate processing time
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 balance -= amount;
-                System.out.println(person + " withdrew " + amount + 
-                                   ". Balance: " + balance);
+                System.out.printf("%s withdrew %d. Balance: %d\n", person, amount, balance);
             } else {
-                System.out.println(person + " cannot withdraw " + amount + 
-                                   ". Insufficient funds. Balance: " + balance);
+                System.out.printf("%s cannot withdraw %d. Insufficient funds. Balance: %d\n", person, amount, balance);
             }
         }
         
@@ -84,7 +82,7 @@ public class main {
         @Override
         public void run() {
             for (int i = 0; i < times; i++) {
-                System.out.println(message + ": " + i);
+                System.out.printf("%s: %d\n", message, i);
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
@@ -162,7 +160,7 @@ public class main {
             e.printStackTrace();
         }
         
-        System.out.println("\nFinal balance: " + account.getBalance());
+        System.out.printf("\nFinal balance: %d\n", account.getBalance());
         System.out.println("\n=== All examples completed ===");
         
         Checkers.theEnd(0);
