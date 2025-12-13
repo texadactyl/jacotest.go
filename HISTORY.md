@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-13 | 5.3.10 | New test cases: security-provider-1, security-provider-2. |
 | 2025-12-11 | 5.3.9 | Updated test case threading-runnable : join() --> join(5000). No more INVOKEDYNAMIC. |
 | 2025-12-10 | 5.3.8 | Updated test case threading-runnable. |
 | 2025-12-08 | 5.3.7 | Improve error isolation in threading-3-mini and threading-3. |
