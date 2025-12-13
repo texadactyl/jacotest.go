@@ -1,21 +1,19 @@
-import java.util.*;
-
 public class main {
 
     static int errorCount = 0;
     static String PROVIDER_NAME;
     static String jvmPgmName;
-    
 
     public static void main(String args[]) {
 
         jvmPgmName = jj._getProgramName();
-        if (jvmPgmName.equals("java")) 
+        if (jvmPgmName.equals("java"))
             PROVIDER_NAME = java.security.Security.getProviders()[0].getName();
         else
             PROVIDER_NAME = "GoSecurityProvider";
+
         System.out.println("Java security provider #2 tests");
-        System.out.printf("jvmPgmName=%s\n", jvmPgmName);
+        System.out.printf("jvmPgmName=%s%n", jvmPgmName);
 
         TestServiceFieldsAndAliases();
         TestServiceToString();
@@ -26,60 +24,99 @@ public class main {
     // ------------------------ Tests ------------------------
 
     static private void TestServiceFieldsAndAliases() {
-        // Simulate service with aliases
-        List<String> aliases = Arrays.asList("RedApple", "GreenApple");
-        SimulatedService s = new SimulatedService("Fruit", "Apple", "GoRuntimeService", aliases);
 
-        // Map all names (main algorithm + aliases)
-        Map<String, SimulatedService> serviceMap = new HashMap<>();
-        serviceMap.put(s.algorithm, s);
-        for (String alias : s.aliases) {
-            serviceMap.put(alias, s);
+        String[] aliases = { "RedApple", "GreenApple" };
+
+        SimulatedService s =
+            new SimulatedService("Fruit", "Apple", "GoRuntimeService", aliases);
+
+        int entryCount = 1 + aliases.length;
+        String[] names = new String[entryCount];
+        SimulatedService[] services = new SimulatedService[entryCount];
+
+        int idx = 0;
+        names[idx] = s.algorithm;
+        services[idx] = s;
+        idx++;
+
+        for (int i = 0; i < aliases.length; i++) {
+            names[idx] = aliases[i];
+            services[idx] = s;
+            idx++;
         }
 
-        // Print all mappings
-        System.out.println("\nService → Alias mapping:");
-        for (Map.Entry<String, SimulatedService> entry : serviceMap.entrySet()) {
-            SimulatedService svc = entry.getValue();
-            System.out.printf("Name: %s -> Type: %s, Algorithm: %s, ClassName: %s\n",
-                    entry.getKey(), svc.type, svc.algorithm, svc.className);
+        System.out.println("\nService --> Alias mapping:");
+        for (int i = 0; i < names.length; i++) {
+            SimulatedService svc = services[i];
+            System.out.printf(
+                "Name: %s -> Type: %s, Algorithm: %s, ClassName: %s%n",
+                names[i],
+                svc.type,
+                svc.algorithm,
+                svc.className
+            );
         }
 
-        // Verify all aliases resolve correctly
-        for (String alias : aliases) {
-            SimulatedService svc = serviceMap.get(alias);
+        for (int i = 0; i < aliases.length; i++) {
+            SimulatedService svc = lookup(names, services, aliases[i]);
+
             if (svc == null) {
-                System.out.println("*** ERROR, alias not mapped: " + alias);
+                System.out.printf("*** ERROR, alias not mapped: %s%n", aliases[i]);
                 ++errorCount;
-            } else if (!"Apple".equals(svc.algorithm) || !"Fruit".equals(svc.type)) {
-                System.out.println("*** ERROR, alias mapping incorrect for: " + alias);
+            } else if (!"Apple".equals(svc.algorithm)
+                    || !"Fruit".equals(svc.type)) {
+                System.out.printf(
+                    "*** ERROR, alias mapping incorrect for: %s%n",
+                    aliases[i]
+                );
                 ++errorCount;
             }
         }
     }
 
     static private void TestServiceToString() {
-        List<String> aliases = Arrays.asList("RedApple", "GreenApple");
-        SimulatedService s = new SimulatedService("Fruit", "Apple", "GoRuntimeService", aliases);
+
+        String[] aliases = { "RedApple", "GreenApple" };
+
+        SimulatedService s =
+            new SimulatedService("Fruit", "Apple", "GoRuntimeService", aliases);
 
         System.out.println("\nTesting toString() for main algorithm and aliases:");
         String expected = "Fruit/Apple (GoRuntimeService)";
 
-        // Main algorithm
         if (!expected.equals(s.toString())) {
-            System.out.println("*** ERROR, main algorithm toString incorrect: " + s.toString());
+            System.out.printf(
+                "*** ERROR, main algorithm toString incorrect: %s%n",
+                s.toString()
+            );
             ++errorCount;
         }
 
-        // Aliases
-        for (String alias : aliases) {
+        for (int i = 0; i < aliases.length; i++) {
             if (!expected.equals(s.toString())) {
-                System.out.println("*** ERROR, toString output incorrect for alias: " + alias);
+                System.out.printf(
+                    "*** ERROR, toString output incorrect for alias: %s%n",
+                    aliases[i]
+                );
                 ++errorCount;
             }
         }
 
         System.out.println("toString test passed for main algorithm and aliases.\n");
+    }
+
+    // ------------------------ Lookup ------------------------
+
+    static private SimulatedService lookup(
+            String[] names,
+            SimulatedService[] services,
+            String key) {
+
+        for (int i = 0; i < names.length; i++) {
+            if (names[i].equals(key))
+                return services[i];
+        }
+        return null;
     }
 
     // ------------------------ Helper Class ------------------------
@@ -88,9 +125,14 @@ public class main {
         String type;
         String algorithm;
         String className;
-        List<String> aliases;
+        String[] aliases;
 
-        SimulatedService(String type, String algorithm, String className, List<String> aliases) {
+        SimulatedService(
+            String type,
+            String algorithm,
+            String className,
+            String[] aliases
+        ) {
             this.type = type;
             this.algorithm = algorithm;
             this.className = className;
@@ -99,7 +141,14 @@ public class main {
 
         @Override
         public String toString() {
-            return type + "/" + algorithm + " (" + className + ")";
+            StringBuilder sb = new StringBuilder();
+            sb.append(type);
+            sb.append('/');
+            sb.append(algorithm);
+            sb.append(" (");
+            sb.append(className);
+            sb.append(')');
+            return sb.toString();
         }
     }
 }
@@ -111,5 +160,5 @@ class jj {
         System.out.println("J-class function _getProgramName (not Jacobin)");
         return "java";
     }
-   
 }
+
