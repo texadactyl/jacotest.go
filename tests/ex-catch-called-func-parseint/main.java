@@ -10,6 +10,7 @@ public class main {
             fn();
         } catch (NumberFormatException ex) {
             System.out.println("Caught NumberFormatException");
+            ex.printStackTrace();
         }
         Checkers.theEnd(0);
    }

@@ -58,6 +58,7 @@ public class main {
             throw new AssertionError("main IREM: *** ERROR, Failed to catch an ArithmeticException");
         } catch (ArithmeticException ex) {
             System.out.println("main/IREM: Caught an ArithmeticException");
+            ex.printStackTrace();
         }
 
         Checkers.theEnd(0);
