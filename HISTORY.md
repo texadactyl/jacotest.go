@@ -15,9 +15,11 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | New test case name crypto-tls-one-way  <--  old name tls-one-way. |
 | | | New test case name crypto-two-fish  <--  old name two-fish. |
 | | | Tool to convert names in database history records: bash/change_tc_names.sh |
-| | | Test cases updated to use HELPERS: JACOBIN-0227-string-array, blockchain, |
+| | | Test cases updated to use HELPERS: |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JACOBIN-0227-string-array, blockchain, |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-speck, hex-decode-numeric, jar-zip-2. |
-| | | Print some stack traces in ex-catch-assertion-error, ex-catch-called-func-parseint, |
+| | | Print some stack traces: |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex-catch-assertion-error, ex-catch-called-func-parseint, |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex-catch-multi-frame, ex-catch-null-ptr, ex-catch-plus-jj, ex-catch-user-ex. |
 | 2025-12-13 | 5.3.10 | New test cases: security-provider-1, security-provider-2. |
 | 2025-12-11 | 5.3.9 | Updated test case threading-runnable : join() --> join(5000). No more INVOKEDYNAMIC. |
