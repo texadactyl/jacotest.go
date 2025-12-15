@@ -64,6 +64,8 @@ public class main {
 
     // Program entry point
     public static void main(String[] args) {
+        int errorCount = 0;
+        
         System.out.println("Blockchain exercise: create, series of adds, and chain verify");
         printLabeledString("Chain length in blocks: ", String.valueOf(CHAIN_LENGTH));
         printLabeledString("Maximum element size in bytes: ", String.valueOf(MAX_ELEM_SIZE));
@@ -96,13 +98,11 @@ public class main {
         }
 
         // How did we do?
-        System.out.println("Validate the block chain .....");
-        assert (isChainValid());
-        System.out.println("Valid blockchain at the end");
+        errorCount += Checkers.checker("Valid block chain?", true, isChainValid());
         printLabeledString("Total chain size in bytes: ", String.valueOf(totalChainSize));
         printLabeledString("Total payload size in bytes: ", String.valueOf(totalPayloadSize));
         
-        Checkers.theEnd(0);
+        Checkers.theEnd(errorCount);
     }
 }
 

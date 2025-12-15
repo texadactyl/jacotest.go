@@ -76,6 +76,7 @@ public class main {
 
     // Main entry point.
     public static void main(String[] args) throws InterruptedException {
+        int errorCount = 0;
         // 2, 3, 5:
         long[] factors = {2, 3, 5};
         // Number of channel pairs:
@@ -104,7 +105,9 @@ public class main {
         }
 
         // Process all the expected output.
-        for (long expected : expectedOutput) {
+        long expected;
+        for (int jx = 0; jx < expectedOutput.length; jx++) {
+            expected = expectedOutput[jx];
 
             // Send mini to all threads.
             for (int ix = 0; ix < numFactors; ix++) {
@@ -120,12 +123,12 @@ public class main {
 
             // mini = minimum value over all threads.
             mini = minimum(values);
+            errorCount += Checkers.checker(String.format("expectedOutput[%d] correct?", jx), expected, mini);
             if (mini != expected) {
-                String errMsg = String.format("*** ERROR, expected %d, observed %d\n",
-                        expected, mini);
-                throw new AssertionError(errMsg);
+                break; // break loop on first error
             }
-        }
+            
+         }
 
         // Send stop request to all threads.
         for (int ix = 0; ix < numFactors; ix++) {

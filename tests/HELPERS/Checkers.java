@@ -113,6 +113,22 @@ public class Checkers {
         return 1;
     }
 
+    public static int checker(String label, long[] expected, long[] observed) {
+        int errorCount = 0;
+        if (observed.length != expected.length) {
+            System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected length = %d, observed length = %d\n", label, expected.length, observed.length);
+            return 1;
+        }
+        for (int ix = 0; ix < expected.length; ++ix) {
+            if (expected[ix] != observed[ix]) {
+                System.out.printf("*** DISCREPANCY at index %d detected in checker(%s) ::: expected = %d, observed = %d\n", ix, label, expected[ix], observed[ix]);
+                return 1;
+            }
+        }
+        System.out.printf("ok %s ::: expected = observed\n", label);
+        return 0;
+    }
+
     public static int checker(String label, String expected, String observed) {
         if (observed.toLowerCase().equals("ignore")) {
             System.out.printf("ok %s ::: observed = ignore\n", label);

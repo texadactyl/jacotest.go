@@ -72,6 +72,8 @@ public class main {
 	}
 
 	public static void main(String args[]) {
+	
+	    int errorCount = 0;
 		
 		String input = "0123456789ABCDEF";
 		String key   = "71946328C3ED5BA0";
@@ -102,9 +104,9 @@ public class main {
 		System.out.println("+++ DECRYPTION +++");
 		int inputBits2[] = des.permute(cipherBits, keyBits, true);
 		
-		assert cmpIntArrays(inputBits2, inputBits) == 0;
+		errorCount += Checkers.checker("DES decryption match the input clear text?", 0, cmpIntArrays(inputBits2, inputBits));
 		
-		Checkers.theEnd(0);
+		Checkers.theEnd(errorCount);
 		
 	}
 

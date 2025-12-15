@@ -13,6 +13,8 @@ public class main {
 
     public static void main(String[] args) {
     
+        int errorCount = 0;
+    
         long[] clearText = {0x0123456789ABCDEFL, 0x0FEDCBA987654321L};
         long[] key = {0x0A0B0C0D0E0F1011L, 0x1121314151617181L};
         long[] cipherText = new long[2];
@@ -26,9 +28,9 @@ public class main {
         Speck.decrypt(decrypted, cipherText, key);
         System.out.printf("Decrypted: %s %s\n", longTo16HexDigits(decrypted[0]), longTo16HexDigits(decrypted[1]));
         
-        assert decrypted[0] == clearText[0] && decrypted[1] == clearText[1];
+        errorCount += Checkers.checker("Decrypted text match original clear text?", clearText, decrypted);
         
-        Checkers.theEnd(0);
+        Checkers.theEnd(errorCount);
     }
 }
 

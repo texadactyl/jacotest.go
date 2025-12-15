@@ -4,6 +4,18 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-15 | 5.4 | Added long-array checker to HELPERS. |
+| | | New test case name crypto-desi-reduced  <--  old name desi-reduced. |
+| | | New test case name crypto-desi  <--  old name desi. |
+| | | New test case name crypto-playfair  <--  old name playfair. |
+| | | New test case name crypto-rsa-mini  <--  old name rsa-mini. |
+| | | New test case name crypto-rsa-unrandom  <--  old name rsa-unrandom. |
+| | | New test case name crypto-sha3  <--  old name sha3. |
+| | | New test case name crypto-solitairgraphy  <--  old name solitairgraphy. |
+| | | New test case name crypto-tls-one-way  <--  old name tls-one-way. |
+| | | New test case name crypto-two-fish  <--  old name two-fish. |
+| | | Tool to convert names in database history records: bash/change_tc_names.sh |
+| | | Test cases updated to use HELPERS: JACOBIN-0227-string-array, blockchain, crypto-speck, hex-decode-numeric, jar-zip-2. |
 | 2025-12-13 | 5.3.10 | New test cases: security-provider-1, security-provider-2. |
 | 2025-12-11 | 5.3.9 | Updated test case threading-runnable : join() --> join(5000). No more INVOKEDYNAMIC. |
 | 2025-12-10 | 5.3.8 | Updated test case threading-runnable. |

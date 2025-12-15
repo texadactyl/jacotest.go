@@ -1,5 +1,10 @@
 // hacked from https://github.com/Elena-Marin/PlayfairJava/blob/master/src/Playfair.java
 
+/*
+Playfair Cipher: A block cipher invented by Charles Wheatstone (promoted by Lyon Playfair) that encrypts pairs of letters (digraphs) 
+using a keyword-based 5x5 grid, making it stronger than simple substitution ciphers. 
+*/
+
 import java.io.*;
 import java.util.*;
 

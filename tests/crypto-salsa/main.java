@@ -1,3 +1,5 @@
+import java.security.SecureRandom;
+
 public class main {
 
     private static final int ROUNDS = 20;
@@ -108,11 +110,13 @@ public class main {
     }
 
     public static void main(String[] args) {
+        int errorCount = 0;
+        
         try {
-            // Example plaintext
-            String plaintext = "Mary had a little lamb whose fleece was white as snow. And, everywhere that Mary went the lamb was sure to go.";
-            byte[] plaintextBytes = plaintext.getBytes();
-            System.out.printf("Original plaintext: %s\n", plaintext);
+            // Example textOriginal
+            String textOriginal = "Mary had a little lamb whose fleece was white as snow. And, everywhere that Mary went the lamb was sure to go.";
+            byte[] textOriginalBytes = textOriginal.getBytes();
+            System.out.printf("Original textOriginal: %s\n", textOriginal);
 
             // Generate random key and nonce
             SecureRandom random = new SecureRandom();
@@ -121,37 +125,25 @@ public class main {
             random.nextBytes(key);
             random.nextBytes(nonce);
 
-            // Encrypt the plaintext
-            byte[] ciphertext = new byte[plaintextBytes.length];
-            salsa20Encrypt(ciphertext, plaintextBytes, nonce, key);            
+            // Encrypt the textOriginal
+            byte[] ciphertext = new byte[textOriginalBytes.length];
+            salsa20Encrypt(ciphertext, textOriginalBytes, nonce, key);            
             System.out.printf("Ciphertext: %s\n", byteArrayToString(ciphertext));
 
             // Decrypt the ciphertext
             byte[] decrypted = new byte[ciphertext.length];
             salsa20Encrypt(decrypted, ciphertext, nonce, key); 
-            String plaintext2 = new String(decrypted);          
-            System.out.printf("Decrypted plaintext: %s\n", plaintext2);
+            String textDecrypted = new String(decrypted);          
+            System.out.printf("Decrypted textOriginal: %s\n", textDecrypted);
             
             // Check final result.
-            if(plaintext2.compareTo(plaintext) != 0) {
-                throw new AssertionError("*** ERROR, the decrypted plaintext is not the same as the original plaintext!");
-            }
-            System.out.println("Success! The decrypted plaintext is the same as the original plaintext.");
+            errorCount += Checkers.checker("Decrypted text match original clear text?", textOriginal, textDecrypted);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        Checkers.theEnd(0);
+        Checkers.theEnd(errorCount);
     }
 }
 
-class SecureRandom {
-    
-    void nextBytes(byte[] arg) {
-        for(int ix = 0; ix < arg.length; ix++) {
-            arg[ix] = (byte) System.nanoTime();
-        }
-    }
-    
-}

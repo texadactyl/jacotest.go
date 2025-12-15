@@ -13,6 +13,8 @@ import middle.calculator8.Calculator8;
 public class main {
 
     public static int runner() {
+        int errorCount = 0;
+        
         System.out.println("runner: Testing the use of 8 calculators");
         int observed = 42;
         
@@ -40,22 +42,18 @@ public class main {
                     case 8: observed = obj8.add(0); break;
                 }
             } catch (Exception ex) {
-                String msg = String.format("runner: *** EXCEPTION while trying to instantiate one of the calculators, err: %s", ex.getMessage());
-                throw new AssertionError(msg);
+                String msg = String.format("runner: *** ERROR, exception while trying to instantiate one of the calculators, err: %s", ex.getMessage());
+                ++errorCount;
+                return errorCount;
             }
             
             // Success?
             int expected = ix;
-            if (observed != expected) {
-                String msg = String.format("runner: *** ERROR, index[%d of 7] expected=%d, observed=%d", ix, expected, observed);
-                throw new AssertionError(msg);
-            } else {
-                System.out.printf("runner: ok index[%d of 7] expected=observed=%d\n", ix, observed);
-            }
+            errorCount += Checkers.checker("runner", expected, observed);
         }
 
         System.out.println("runner: End");
-        return 0;
+        return errorCount;
     }
 
     public static void execCommand(String text) {
@@ -72,16 +70,20 @@ public class main {
     }
 
     public static void main(String args[]) {
+    
+        int errorCount = 0;
 
         String os = System.getProperty("os.name").toLowerCase();
         if (args.length > 0) {
             // Second time through: invoked with the RUNNER command-line argument.
             System.out.printf("\n\n======================================= main: args.length=%d, args[0]=%s\n", args.length, args[0]);
             System.out.println("======================================= main: Let's call function runner");
-            int statusCode = runner();
-            assert (statusCode == 0);
-            System.out.println("======================================= main: RUNNER returned 0 (ok)");
-            System.exit(0);
+            errorCount = runner();
+            if (errorCount == 0)
+                System.out.println("======================================= main: RUNNER returned 0 (ok)");
+            else
+                System.out.printf("======================================= main: RUNNER returned %d (oops)", errorCount);
+            Checkers.theEnd(errorCount);
         }
         
         // First time through.
@@ -104,8 +106,6 @@ public class main {
         // Execute primary jar.
         String text = String.format("%s -jar jarA.jar RUNNER", jvmPgmName);
         execCommand(text);
-        
-        Checkers.theEnd(0);
 
     }
 
