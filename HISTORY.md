@@ -4,6 +4,13 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-16 | 5.4.1 | Update test catalogue. |
+| | | New test case name crypto-elliptic-1  <--  old name elliptic-1. |
+| | | New test case name crypto-elliptic-2  <--  old name elliptic-2. |
+| | | New test case name crypto-enigma-machine  <--  old name enigma-machine. |
+| | | New test case name crypto-password-based  <--  old name JACOBIN-0211-pbcrypto. |
+| | | New test case name crypto-mobile-5g-aka  <--  old name mobile-5g-aka. |
+| | | New test case name crypto-mobile-snow-v  <--  old name mobile-snow-v. |
 | 2025-12-15 | 5.4 | Added long-array checker to HELPERS. |
 | | | New test case name crypto-desi-reduced  <--  old name desi-reduced. |
 | | | New test case name crypto-desi  <--  old name desi. |

@@ -27,15 +27,26 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | checkcast | Exercise JVM CHECKCAST |
 | cmath-in-java-source | Complex variables |
 | crc | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
-| crypto-* | 3fish, salsa, and speck cryptography |
+| crypto-3fish | 3fish cryptography |
+| crypto-desi | DES algorithm in Java |
+| crypto-desi-reduced | Call functions of an object from outside and inside the object |
+| crypto-elliptic-* | Elliptic cryptography |
+| crypto-enigma-machine | Alan Turing's Enigma Machine |
+| crypto-mobile-* | Mobile network functions |
+| crypto-password-based | Password-based cryptography using AES/CBC/PKCS5Padding |
+| crypto-playfair | Playfair-Wheatstone cipher algorithm |
+| crypto-rsa-mini | RSA Public and Private Key simple cryptography |
+| crypto-rsa-unrandom | Like rsa-mini but without random key generation |
+| crypto-salsa | salsa cryptography |
+| crypto-sha3 | SHA-3 calculator |
+| crypto-speck | speck cryptography |
+| crypto-solitairgraphy | Cryptography with a deck of cards (Bruce Schneier) |
+| crypto-tls-one-way | One-way TLS |
+| crypto-two-fish | Two-fish cryptography |
 | db-sqlite | SQLITE with a JDBC |
 | dedupe-hacked | "Looks for duplicate files based on CRC-32 file sizes and checksums" from @platypusguy |
-| desi | DES algorithm in Java |
-| desi-reduced | Call functions of an object from outside and inside the object |
-| elliptic-* | Elliptic cryptography |
 | emission-line-spectra | Emission line spectra from an element table |
 | emission-line-spectra-nofuncs | Less complex emission-line-spectra |
-| enigma-machine | Alan Turing's Enigma Machine |
 | enum-* | Enumerated types |
 | ex-catch-assertion-error | Cause and catch an assertion error |
 | ex-catch-big-integer | Same as ex-catch-assertion-error but using java.math.BigInteger |
@@ -82,7 +93,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | invoke-dynamic-methref-high-arity | Tri-, Quad-, Penta-argument lambdas and method references with custom functional interfaces |
 | JACOBIN-0161-0229-classes | Class methods inside and outside the main class |
 | JACOBIN-0161-instantiate-class | Class methods in a file separate from the main class |
-| JACOBIN-0211-pbcrypto | Password-based cryptography using AES/CBC/PKCS5Padding |
 | JACOBIN-0217-multidim-2d | 2D matrices |
 | JACOBIN-0217-multidim-3d | 3D matrices |
 | JACOBIN-0227-string-array | Simple array of Strings |
@@ -138,7 +148,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | math-in-java-source | Math functions in Java language |
 | merkletrees | Merkle tree |
 | miller-rabin-test | Miller-Rabin primality test |
-| mobile-* | Mobile network functions |
 | natives-double | Double to long to double conversions |
 | natives-float | Float to int to float conversions |
 | nbody | N-body simulation execution |
@@ -152,7 +161,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | parse-int | Integer parsing |
 | perf-base-instantiate | Stress test of various object instantiations |
 | pi-digits-bbp | Pi calculated with the Bailey-Borwein-Plouffe algorithm |
-| playfair | Playfair-Wheatstone cipher algorithm |
 | print-objects-linked-lists | LinkedList, BigInteger |
 | process-handle | ProcessHandle interface |
 | properties | java.util.Properties |
@@ -160,16 +168,12 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | rational-polynomial | java.math.BigInteger, user RationalPolynomial, user BigRational |
 | recursion | Fibonacci sequence using recursion |
 | rounding-mode* | BigDecimal, RoundingMode |
-| rsa-mini | RSA Public and Private Key simple cryptography |
-| rsa-unrandom | Like rsa-mini but without random key generation |
 | salesman | The traveling salesman problem |
 | scimark2 | Scimark v2 |
 | scimark2-LU-only | Scimark v2 - abbreviated significantly |
 | secure-random | java.security.SecureRandom, Provider, SecureRandomSpi, and java.util.HexFormat |
-| sha3 | SHA-3 calculator |
 | sieve | Sieve of Eratosthenes |
 | sockets | Client and server socket pair |
-| solitairgraphy | Cryptography with a deck of cards (Bruce Schneier) |
 | specrel | Special Relativity calculations |
 | stack-walk | Walk and verify a Java stack |
 | stat-distros | generate pseudo-random numbers from some statistical distributions |
@@ -187,8 +191,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | threading-16 | 16 simultaneous threads |
 | threading-nested-locks | 8 simultaneous threads, nested locks 5 deep each |
 | threading-runnable | Use Interface Runnable |
-| tls-one-way | One-way TLS |
-| two-fish | Two-fish cryptography |
 | two-pass | Two-pass Assembler |
 | tx-student-topzips | File reading, subclass with 2 init functions, bubble sort with 3 keys |
 | vector* | Vector functions |
