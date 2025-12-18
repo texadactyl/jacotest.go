@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2025-12-18 | 5.4.2 | Two new test cases: crypto-digest-1, crypto-digest-2. |
+| 2025-12-18 | 5.4.2 | 3 new test cases: crypto-digest-1, crypto-digest-2, file-path-1. |
 | 2025-12-16 | 5.4.1 | Update test catalogue. |
 | | | New test case name crypto-elliptic-1  <--  old name elliptic-1. |
 | | | New test case name crypto-elliptic-2  <--  old name elliptic-2. |
