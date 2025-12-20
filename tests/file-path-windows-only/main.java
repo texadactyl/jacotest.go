@@ -43,6 +43,7 @@ public class main {
         // ------------------------------------------------------------
         // Drive-rooted but drive-unspecified (\foo)
         // ------------------------------------------------------------
+        // HotSpot semantics: not absolute, getRoot = null
         Path p4 = Paths.get("\\foo");
         errorCount += Checkers.checker("\\foo isAbsolute", false, p4.isAbsolute());
         errorCount += Checkers.checker("\\foo getRoot", "<null>", rootToString(p4));
