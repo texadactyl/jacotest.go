@@ -1,0 +1,85 @@
+# Only on demand, this workflow will run the OpenJDK JVM against a single test case.
+# See line: ### Which test case?
+
+name: Narrow Testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  run_jacobin:
+    strategy:
+      fail-fast: false
+      matrix:
+        
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.24.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Setup PATH
+      shell: bash
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+
+    - name: Setup Jacobin
+      shell: bash
+      run: |
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        go get
+        go build -o . -v ./...
+        # Believe it or not, the output jacobin executable has a file name of 'src'!
+        mv ./src $HOME/go/bin/jacobin
+        jacobin --version
+        
+    - name: Setup Jacotest
+      shell: bash
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup JDK
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
+    - name: Run Test Cases POSIX
+      shell: bash
+      if: runner.os != 'Windows'
+      run: |
+        java --version
+        javac --version
+        set -x
+        cd tests/HELPERS
+        javac *.java
+        ### Which test case?
+        cd ../file-path-2
+        javac -cp .:../HELPERS main.java
+        jacobin -cp .:../HELPERS main.class || true
+   
+    - name: Run Test Cases Windows
+      shell: bash
+      if: runner.os == 'Windows'
+      run: |
+        java --version
+        javac --version
+        set -x
+        cd tests/HELPERS
+        javac *.java
+        ### Which test case?
+        cd ../file-path-2
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class || true
