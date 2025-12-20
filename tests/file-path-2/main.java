@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 
 public class main {
 
-    private static String os = System.getProperty("os.name").toLowerCase();
+    private static String os;
 
     private static String mapsep(String arg) {       
         if (os.contains("windows")) {
@@ -14,6 +14,7 @@ public class main {
     
     public static void main(String[] args) {
         int errorCount = 0;
+        os = System.getProperty("os.name").toLowerCase();
 
         // Paths.get tests
         Path p1A = Paths.get(mapsep("/a/b/c"));
@@ -38,6 +39,7 @@ public class main {
         errorCount += Checkers.checker("isAbsolute", true, path.isAbsolute());
 
         if (! os.contains("windows")) {
+            System.out.println("Not running on Windows; isAbsolute() test is next .....");
             Path relative = Paths.get(mapsep("docs/file.txt"));
             errorCount += Checkers.checker("isAbsolute relative", false, relative.isAbsolute());
         }
