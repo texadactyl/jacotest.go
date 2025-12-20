@@ -8,7 +8,7 @@ This repository contains a set of test programs for **Jacobin** (Java NIO emulat
 
 | File | Description | OS Coverage | Notes |
 |------|------------|-------------|-------|
-| `file-path-windows-only.java` | Tests Windows-specific paths, including drive letters, drive-relative paths (`C:`), drive-rooted paths without a drive (`\foo`), UNC paths, and mixed separators. | Windows only | Exits immediately on non-Windows OS. HotSpot-faithful semantics. |
+| `file-path-windows-only.java` | Tests Windows-specific paths, including drive letters, drive-relative paths (`C:`), drive-rooted paths without a drive (`\foo`), UNC paths, and mixed separators. | Windows only | Exits immediately on non-Windows OS. Fully HotSpot-faithful semantics. |
 | `file-path-posix.java` | Tests POSIX-style paths, including absolute paths (`/a/b/c`), relative paths (`foo/bar`), current/parent directory (`.` and `..`), normalization, and mixed concatenation. | POSIX (Linux/macOS) and Windows | Works on any OS; uses POSIX-style paths. |
 
 ---
@@ -31,6 +31,8 @@ This repository contains a set of test programs for **Jacobin** (Java NIO emulat
 | `C:foo` | false | `C:` |
 | `\foo` | false | `<null>` |
 | `\\server\share\dir\file.txt` | true | `\\server\share\` |
+
+> Note: `\foo` is **not absolute** and its root is `<null>` on HotSpot. It is considered **relative to the current drive**.
 
 ---
 
@@ -55,11 +57,8 @@ This repository contains a set of test programs for **Jacobin** (Java NIO emulat
 
 ---
 
-## Running the Tests
+## Test Cases
 
-See folders:
-file-path-1
-file-path-2
-file-path-posix-only
 file-path-windows-only
+file-path-posix
 
