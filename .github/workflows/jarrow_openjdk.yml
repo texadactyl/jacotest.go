@@ -62,4 +62,4 @@ jobs:
         ### Which test case?
         cd ../file-path-2
         javac -cp ".;../HELPERS" main.java
-        java -cp ".;../HELPERS" main || true
+        java -cp ".;../HELPERS" main
