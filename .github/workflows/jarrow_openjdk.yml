@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  run_jacobin:
+  run_hotspot:
     strategy:
       fail-fast: false
       matrix:
@@ -34,7 +34,7 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-windows-only
+        cd ../file-path-3
         javac -cp .:../HELPERS main.java
         java -cp .:../HELPERS main || true
    
@@ -48,6 +48,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-windows-only
+        cd ../file-path-3
         javac -cp ".;../HELPERS" main.java
         java -cp ".;../HELPERS" main
