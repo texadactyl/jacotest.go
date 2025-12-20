@@ -32,6 +32,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | crypto-desi-reduced | Call functions of an object from outside and inside the object |
 | crypto-elliptic-* | Elliptic cryptography |
 | crypto-enigma-machine | Alan Turing's Enigma Machine |
+| crypto-digest-* | MessageDigest tests |
 | crypto-mobile-* | Mobile network functions |
 | crypto-password-based | Password-based cryptography using AES/CBC/PKCS5Padding |
 | crypto-playfair | Playfair-Wheatstone cipher algorithm |
@@ -60,6 +61,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | ex-finally | Cause and catch a NumberFormatException + finally processing |
 | ex-finally-2 | Loop stability of causing and catching a NumberFormatException + finally processing |
 | ex-multilevel | Causing and catching a NumberFormatException + finally processing at multiple try-catch levels |
+| file-path-* | java/nio/file/{Path, Paths} |
 | fits | Read and process a FITS file |
 | floor-div-mod-mix | For int and long: floor, div, mod using try-catch |
 | guitar-string | Simulate the plucking of a guitar string (Physics) |
