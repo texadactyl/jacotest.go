@@ -48,7 +48,7 @@ jobs:
         ### Which test case?
         cd ../file-path-2
         javac -cp .:../HELPERS main.java
-        java -cp .:../HELPERS main.class || true
+        java -cp .:../HELPERS main || true
    
     - name: Run Test Cases Windows
       shell: bash
@@ -62,4 +62,4 @@ jobs:
         ### Which test case?
         cd ../file-path-2
         javac -cp ".;../HELPERS" main.java
-        java -cp ".;../HELPERS" main.class || true
+        java -cp ".;../HELPERS" main || true
