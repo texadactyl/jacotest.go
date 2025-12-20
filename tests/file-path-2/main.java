@@ -5,11 +5,12 @@ public class main {
 
     private static String mapsep(String arg) {
         String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("windows"))
-            return arg.replaceAll("/", "\\");
+        if (os.contains("windows")) {
+            return arg.replace('/', '\\');
+        }
         return arg;
     }
-
+    
     public static void main(String[] args) {
         int errorCount = 0;
 
