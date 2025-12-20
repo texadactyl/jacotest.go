@@ -36,10 +36,10 @@ public class main {
         errorCount += Checkers.checker("getFileName", "file.txt", path.getFileName().toString());
         errorCount += Checkers.checker("getParent", mapsep("/home/user/docs"), path.getParent().toString());
         errorCount += Checkers.checker("getRoot", mapsep("/"), path.getRoot().toString());
-        errorCount += Checkers.checker("isAbsolute", true, path.isAbsolute());
 
         if (! os.contains("windows")) {
-            System.out.println("Not running on Windows; isAbsolute() test is next .....");
+            System.out.println("Not running on Windows; two isAbsolute() tests are next .....");
+            errorCount += Checkers.checker("isAbsolute", true, path.isAbsolute());
             Path relative = Paths.get(mapsep("docs/file.txt"));
             errorCount += Checkers.checker("isAbsolute relative", false, relative.isAbsolute());
         }
