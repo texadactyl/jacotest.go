@@ -46,7 +46,7 @@ public class main {
         // HotSpot semantics: not absolute, getRoot = null
         Path p4 = Paths.get("\\foo");
         errorCount += Checkers.checker("\\foo isAbsolute", false, p4.isAbsolute());
-        errorCount += Checkers.checker("\\foo getRoot", "<null>", rootToString(p4));
+        errorCount += Checkers.checker("\\foo getRoot", "\\", rootToString(p4));
         errorCount += Checkers.checker("\\foo getNameCount", 1, p4.getNameCount());
         errorCount += Checkers.checker("\\foo getName(0)", "foo", p4.getName(0).toString());
 
