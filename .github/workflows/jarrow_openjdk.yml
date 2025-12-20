@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@main
@@ -46,7 +46,7 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../file-path-windows-only
         javac -cp .:../HELPERS main.java
         java -cp .:../HELPERS main || true
    
@@ -60,6 +60,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../file-path-windows-only
         javac -cp ".;../HELPERS" main.java
         java -cp ".;../HELPERS" main
