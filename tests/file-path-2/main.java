@@ -4,7 +4,10 @@ import java.nio.file.Paths;
 public class main {
 
     private static String mapsep(String arg) {
-        return arg.replaceAll("/", System.getProperty("file.separator"));
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows"))
+            return arg.replaceAll("/", "\\");
+        return arg;
     }
 
     public static void main(String[] args) {
