@@ -65,8 +65,8 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        # Which test case?
-        cd ../threading-1
+        ### Which test case?
+        cd ../file-path-2
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class || true
    
@@ -79,7 +79,7 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        # Which test case?
-        cd ../threading-1
+        ### Which test case?
+        cd ../file-path-2
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" main.class || true
