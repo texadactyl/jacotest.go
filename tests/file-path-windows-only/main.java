@@ -7,7 +7,7 @@ public class main {
 
     private static void requireWindows() {
         if (!onWindows) {
-            System.out.println("Skipping Windows root semantics tests");
+            System.out.println("Not on Windows so skipping Windows root semantics tests");
             System.exit(0);
         }
     }

@@ -3,9 +3,13 @@ import java.nio.file.Paths;
 
 public class main {
 
-    private static boolean onPosix() {
-        String os = System.getProperty("os.name").toLowerCase();
-        return !(os.contains("windows"));
+    private static boolean onWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+
+    private static void requirePosix() {
+        if (onWindows) {
+            System.out.println("On Windows so skipping Posix root semantics tests");
+            System.exit(0);
+        }
     }
 
     private static String rootToString(Path p) {
@@ -14,6 +18,7 @@ public class main {
 
     public static void main(String[] args) {
         int errorCount = 0;
+        requirePosix();
 
         // ------------------------------------------------------------
         // Absolute POSIX paths
