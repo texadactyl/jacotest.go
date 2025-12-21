@@ -69,7 +69,7 @@ jobs:
         ### Which test case?
         cd ../file-path-posix-only
         javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS main.class || true
+        jacobin -cp .:../HELPERS main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -83,4 +83,4 @@ jobs:
         ### Which test case?
         cd ../file-path-windows-only
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" main.class || true
+        jacobin -cp ".;../HELPERS" main.class
