@@ -3,10 +3,10 @@ import java.nio.file.Paths;
 
 public class main {
 
-    private static String os;
+    private static boolean onWindows = System.getProperty("os.name").toLowerCase().contains("windows");
 
     private static String mapsep(String arg) {       
-        if (os.contains("windows")) {
+        if (onWindows) {
             return arg.replace('/', '\\');
         }
         return arg;
@@ -38,7 +38,10 @@ public class main {
         errorCount += Checkers.checker("getRoot", mapsep("/"), path.getRoot().toString());
 
         // toAbsolute()
-        errorCount += Checkers.checker("isAbsolute", true, path.isAbsolute());
+        if (onWindows)
+            errorCount += Checkers.checker("isAbsolute", false, path.isAbsolute());
+        else
+            errorCount += Checkers.checker("isAbsolute", true, path.isAbsolute());
         Path relative = Paths.get(mapsep("docs/file.txt"));
         errorCount += Checkers.checker("isAbsolute relative", false, relative.isAbsolute());
 
