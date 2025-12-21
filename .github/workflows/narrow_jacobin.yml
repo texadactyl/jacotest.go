@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@main
@@ -35,10 +35,11 @@ jobs:
       run: |
         git clone https://github.com/texadactyl/jacobin
         cd jacobin/src
-        go get
-        go build -o . -v ./...
-        # Believe it or not, the output jacobin executable has a file name of 'src'!
-        mv ./src $HOME/go/bin/jacobin
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
         jacobin --version
         
     - name: Setup Jacotest
@@ -66,9 +67,9 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../file-path-posix-only
         javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS main.class || true
+        jacobin -cp .:../HELPERS main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -80,6 +81,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../file-path-windows-only
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" main.class || true
+        jacobin -cp ".;../HELPERS" main.class
