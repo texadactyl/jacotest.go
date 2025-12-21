@@ -17,18 +17,20 @@ const (
 // Logger - Time-stamp log function.
 func Logger(msg string) {
 	now := time.Now()
-	fmt.Printf("%s %s\n", now.Format("15:04:05"), msg)
+	fmt.Fprintf(os.Stdout, "%s %s\n", now.Format("15:04:05"), msg)
+	os.Stdout.Sync()
 }
 
 // LoggerSkip - Time-stamp log function with a preceding newline for readability.
 func LoggerSkip(msg string) {
 	now := time.Now()
-	fmt.Printf("\n%s %s\n", now.Format("15:04:05"), msg)
+	fmt.Fprintf(os.Stdout, "\n%s %s\n", now.Format("15:04:05"), msg)
+	os.Stdout.Sync()
 }
 
 // LogWarning - Log a warning.
 func LogWarning(msg string) {
-	Logger(fmt.Sprintf("*** Warning :: %s", msg))
+	Logger(fmt.Sprintf("*** WARNING :: %s", msg))
 }
 
 // LogError - Log an error.
@@ -43,7 +45,7 @@ func LogTimeout(msg string) {
 
 // LogSkip - Skip a line for report readability.
 func LogSkip() {
-	fmt.Println()
+	Logger("")
 }
 
 // FatalText - Log a fatal error message and exit.
