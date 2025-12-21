@@ -14,7 +14,6 @@ public class main {
     
     public static void main(String[] args) {
         int errorCount = 0;
-        os = System.getProperty("os.name").toLowerCase();
 
         // Paths.get tests
         Path p1A = Paths.get(mapsep("/a/b/c"));
