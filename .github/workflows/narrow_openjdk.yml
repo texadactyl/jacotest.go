@@ -34,7 +34,7 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-windows-only
+        cd ../file-path-windows-only-simple
         javac -cp .:../HELPERS main.java
         java -cp .:../HELPERS main || true
    
@@ -48,6 +48,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-windows-only
+        cd ../file-path-windows-only-simple
         javac -cp ".;../HELPERS" main.java
         java -cp ".;../HELPERS" main
