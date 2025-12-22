@@ -26,7 +26,7 @@ func showHelp() {
 	fmt.Printf("\t-c : Compile all the test cases.\n")
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
-	fmt.Printf("\t     * openjdk : OpenJDK (aka Hotspot) JVM\n")
+	fmt.Printf("\t     * hotspot, openjdk : Hotspot JVM (aka Open JDK JVM)\n")
 	fmt.Printf("\t     * galt : Run jacobin in G-alternate mode\n")
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
@@ -142,8 +142,8 @@ func main() {
 			jvmName = Args[ii]
 			// Validate JVM
 			switch jvmName {
-			case "openjdk":
-				jvmExe = "java" // openjdk JVM executable name
+			case "hotspot", "openjdk":
+				jvmExe = "java" // Hotspot JVM executable name
 			case "jacobin":
 				jvmExe = "jacobin" // jacobin JVM executable name
 			case "galt":
