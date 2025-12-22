@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-22 | 5.4.6 | New test cases: threading-jacobin-831-1, time-dilation. |
 | 2025-12-21 | 5.4.5 | Amended test case file-path-windows-only to handle path \foo correctly. |
 | 2025-12-20 | 5.4.4 | Amended test case file-path-2 to avoid Windows-related cross-purpose of backslash (JACOBIN-837). |
 | | | New test cases: file-path-posix-only, file-path-windows-only. |
