@@ -55,12 +55,12 @@ jobs:
       run: |
         java --version
         javac --version
-        ./src/jacotest -c -x -M -t 60 -j openjdk 
+        ./src/jacotest -c -x -M -t 60 -j hotspot 
         ls -l ./reports
 
     - name: Run Options
       run: |
-        ./src/jacotest -r 1 -j openjdk
-        ./src/jacotest -r 2 -j openjdk
-        ./src/jacotest -z -v -j openjdk
+        ./src/jacotest -r 1 -j hotspot
+        ./src/jacotest -r 2 -j hotspot
+        ./src/jacotest -z -v -j hotspot
 
