@@ -3,7 +3,7 @@
 # Only runs on demand.
 # Only runs on ubuntu-latest.
 
-name: Jacotest using Jacobin in galt mode on Ubuntu
+name: Jacotest Jacobin in galt mode on Ubuntu
 
 on:
   workflow_dispatch:
