@@ -54,16 +54,17 @@ class TwoPassAssembler {
 	static LinkedList<SymTuple> symtable;
 	static LinkedList<LitTuple> littable;
 	static ArrayList<Integer> lclist;
-	static HashMap<Integer, Integer> basetable;
-	static PrintWriter output_pass2;
-	static PrintWriter output_pass1;
+	static AltHashMap basetable;
+	static FileOutputStream output_pass2;
+	static FileOutputStream output_pass1;
 	static int line_no;
+	static byte[] NL = System.lineSeparator().getBytes();
 	
 	static void pass1() throws Exception {
 		BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream("input_source_code.txt")));
-		output_pass1 = new PrintWriter(new FileWriter("output_pass1.txt"), true);
-		PrintWriter output_symtable = new PrintWriter(new FileWriter("output_symtable.txt"), true);
-		PrintWriter output_littable = new PrintWriter(new FileWriter("output_littable.txt"), true);
+		output_pass1 = new FileOutputStream("output_pass1.txt");
+		FileOutputStream output_symtable = new FileOutputStream("output_symtable.txt");
+		FileOutputStream output_littable = new FileOutputStream("output_littable.txt");
 		String s;
 		while((s = input.readLine()) != null) {
 			StringTokenizer st = new StringTokenizer(s, " ", false);
@@ -71,9 +72,10 @@ class TwoPassAssembler {
 			for(int i=0 ; i < s_arr.length ; i++) {
 				s_arr[i] = st.nextToken();
 			}
-			if(searchPot1(s_arr) == false) {
+			if(!searchPot1(s_arr)) {
 				searchMot1(s_arr);
-				output_pass1.println(s);
+				output_pass1.write(s.getBytes());
+				output_pass1.write(NL);
 			}
 			lclist.add(lc);
 		}
@@ -84,36 +86,41 @@ class TwoPassAssembler {
 		for(SymTuple i : symtable) {
 			output = i.symbol;
 			for(j=i.symbol.length() ; j < 10 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
-			output += i.value;
+			output = output.concat(String.format("%d", i.value));
 			for(j = String.valueOf(i.value).length() ; j < 7 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
-			output += i.length + "        " + i.ra;
+			String wstr = String.format("%d        %s", i.length, i.ra);
+			output = output.concat(wstr);
+
 			System.out.println(output);
-			output_symtable.println(output);
+			output_symtable.write(output.getBytes());
+			output_symtable.write(NL);
 		}
 		System.out.println("\nLiteral Table:");
 		System.out.println("Literal   Value  Length   R/A");
 		for(LitTuple i : littable) {
 			output = i.literal;
 			for(j=i.literal.length() ; j < 10 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
-			output += i.value;
+			output = output.concat(String.format("%d", i.value));
 			for(j = String.valueOf(i.value).length() ; j < 7 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
-			output += i.length + "        " + i.ra;
+			String wstr = String.format("%d        %s", i.length, i.ra);
+			output = output.concat(wstr);
 			System.out.println(output);
-			output_littable.println(output);
+			output_littable.write(output.getBytes());
+			output_littable.write(NL);
 		}
 	}
 	
 	static void pass2() throws Exception {
 		line_no = 0;
-		output_pass2 = new PrintWriter(new FileWriter("output_pass2.txt"), true);
+		output_pass2 = new FileOutputStream("output_pass2.txt");
 		BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream("output_pass1.txt")));
 		String s;
 		System.out.println("Pass 2 input:");
@@ -124,7 +131,7 @@ class TwoPassAssembler {
 			for(int i=0 ; i < s_arr.length ; i++) {
 				s_arr[i] = st.nextToken();
 			}
-			if(searchPot2(s_arr) == false) {
+			if(!searchPot2(s_arr)) {
 				searchMot2(s_arr);
 			}
 			line_no++;
@@ -262,26 +269,47 @@ class TwoPassAssembler {
 		}
 	}
 	
+    // Binary search a linked list.
+    static int binarySearch(LinkedList<String> list, String key) {
+        int low = 0;
+        int high = list.size() - 1;
+        
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            String midVal = list.get(mid);
+            int cmp = midVal.compareTo(key);
+            
+            if (cmp < 0)
+                low = mid + 1;
+            else if (cmp > 0)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+        return -(low + 1); // key not found
+    }
+
 	static boolean searchPot2(String[] s) {
 		int i = 0;
 		
 		if(s.length == 3) {
 			i = 1;
 		}
-		if(Collections.binarySearch(pot, s[i]) >= 0) {
+		if(binarySearch(pot, s[i]) >= 0) {
 			if(s[i].equalsIgnoreCase("USING")) {
 				s = tokenizeOperands(s);
 				
 				if(s[i+1].equals("*")) {
-					s[i+1] = lclist.get(line_no) + "";
+					s[i+1] = String.format("%d", lclist.get(line_no));
 				} else {
 					for(int j=i+1 ; j<s.length ; j++) {
 						int value = getSymbolValue(s[j]);
 						if(value != -1) {
-							s[j] = value + "";
+							s[j] = String.format("%d", value);
 						}
 					}
 				}
+				//System.out.printf("DEBUG searchPot2 i: %d, s[i]: %s, s[i+1]: %s, s[i+2]: %s\n", i, s[i], s[i+1], s[i+2]);
 				basetable.put(Integer.parseInt(s[i+2].trim()), Integer.parseInt(s[i+1].trim()));
 			}
 			return true;
@@ -289,7 +317,7 @@ class TwoPassAssembler {
 		return false;
 	}
 	
-	static void searchMot2(String[] s) {
+	static void searchMot2(String[] s) throws IOException {
 		Tuple t = new Tuple();
 		int i = 0;
 		int j;
@@ -326,46 +354,47 @@ class TwoPassAssembler {
 				temp.add(x);
 			}
 			temp.add(i+1, mask);
-			s = temp.toArray(new String[0]);
+			s = temp.toArray(new String[temp.size()]);
 		}
 		if(t.type.equals("RR")) {
 			output = s[i];
 			for(j=s[i].length() ; j<6 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
 			for(j=i+1 ; j<s.length ; j++) {
 				int value = getSymbolValue(s[j]);
 				if(value != -1) {
-					s[j] = value + "";
+					s[j] = String.format("%d", value);
 				}
 			}
-			output += s[i+1];
+			output = output.concat(s[i+1]);
 			for(j=i+2 ; j<s.length ; j++) {
-				output += ", " + s[j];
+				output = String.format("%s, %s", output, s[j]);
 			}
 		} else {
 			output = s[i];
 			for(j=s[i].length() ; j<6 ; j++) {
-				output += " ";
+				output = output.concat(" ");
 			}
 			for(j=i+1 ; j<s.length-1 ; j++) {
 				int value = getSymbolValue(s[j]);
 				if(value != -1) {
-					s[j] = value + "";
+					s[j] = String.format("%d", value);
 				}
 			}
 			s[j] = createOffset(s[j]);
-			output += s[i+1];
+			output = output.concat(s[i+1]);
 			for(j=i+2 ; j<s.length ; j++) {
-				output += ", " + s[j];
+				output = String.format("%s, %s", output, s[j]);
 			}
 		}
-		output_pass2.println(output);
+		output_pass2.write(output.getBytes());
+		output_pass2.write(NL);
 	}
 	
 	static String createOffset(String s) {
 		String original = s;
-		Integer[] key = basetable.keySet().toArray(new Integer[0]);
+		Integer[] key = basetable.getKeys();
 		int offset, new_offset;
 		int index = 0;
 		int value = -1;
@@ -373,9 +402,9 @@ class TwoPassAssembler {
 		if(s.startsWith("=")) {
 			value = getLiteralValue(s);
 		} else {
-			int paranthesis = s.indexOf("(");
+			int parenthesis = s.indexOf("(");
 			String index_string = new String();
-			if(paranthesis != -1) {
+			if(parenthesis != -1) {
 				s = s.substring(0, s.indexOf("("));
 				index_string = original.substring(original.indexOf("(")+1, original.indexOf(")"));
 				index_reg = getSymbolValue(index_string);
@@ -390,7 +419,7 @@ class TwoPassAssembler {
 				index = i;
 			}
 		}
-		String result = offset + "(" + index_reg + ", " + key[index] + ")";
+		String result = String.format("%d(%d, %d)", offset, index_reg, key[index]);
 		return result;
 	}
 	
@@ -430,7 +459,7 @@ class TwoPassAssembler {
 		symtable = new LinkedList<>();
 		littable = new LinkedList<>();
 		lclist = new ArrayList<>();
-		basetable = new HashMap<>();
+		basetable = new AltHashMap();
 		mot = new LinkedList<>();
 		pot = new LinkedList<>();
 		String s;
@@ -446,6 +475,45 @@ class TwoPassAssembler {
 		while((s = br.readLine()) != null) {
 			pot.add(s);
 		}
-		//Collections.sort(pot);
+		
 	}
+}
+
+class AltHashMap {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    Integer[] keys = new Integer[100];
+    int keyCount = 0;
+    
+    void put(Integer k, Integer v) {
+        if (!map.containsKey(k)) {
+            // Expand array if needed
+            if (keyCount >= keys.length) {
+                Integer[] newKeys = new Integer[keys.length * 2];
+                System.arraycopy(keys, 0, newKeys, 0, keys.length);
+                keys = newKeys;
+            }
+            keys[keyCount] = k;
+            keyCount++;
+        }
+        map.put(k, v);
+    }
+    
+    Integer get(Integer k) {
+        return map.get(k);
+    }
+    
+    boolean containsKey(Integer k) {
+        return map.containsKey(k);
+    }
+    
+    int size() {
+        return keyCount;
+    }
+    
+    Integer[] getKeys() {
+        Integer[] giveKeys = new Integer[keyCount];
+        for (int ii = 0; ii < keyCount; ii++)
+            giveKeys[ii] = keys[ii];
+        return giveKeys;
+    }
 }

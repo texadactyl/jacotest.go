@@ -6,8 +6,12 @@ public class main {
     private static final int[] CONSTANTS = {
         0x61707865, 0x3320646e, 0x79622d32, 0x6b206574 // "expand 32-byte k"
     };
+    private static final boolean debugging = true;
+    private static String textOriginal = 
+        "Mary had a little lamb whose fleece was white as snow. And, everywhere that Mary went the lamb was sure to go.";
 
-    public static String byteArrayToString(byte[] array) {
+
+    private static String byteArrayToString(byte[] array) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < array.length; i++) {
@@ -20,7 +24,7 @@ public class main {
         return sb.toString();
     }
     
-    public static void copyIntArray(int[] source, int[] destination) {
+    private static void copyIntArray(int[] source, int[] destination) {
         if (destination.length < source.length) {
             throw new IllegalArgumentException("Destination array is too small.");
         }
@@ -29,7 +33,7 @@ public class main {
         }
     }
     
-    public static void salsa20Core(int[] output, int[] input) {
+    private static void salsa20Core(int[] output, int[] input) {
         int[] x = new int[input.length];
         copyIntArray(input, x);
         
@@ -48,29 +52,38 @@ public class main {
             output[i] = x[i] + input[i];
         }
     }
+    
+    static int rounds = 0;
 
     private static void quarterRound(int[] x, int a, int b, int c, int d) {
         x[b] ^= Integer.rotateLeft(x[a] + x[d], 7);
         x[c] ^= Integer.rotateLeft(x[b] + x[a], 9);
         x[d] ^= Integer.rotateLeft(x[c] + x[b], 13);
         x[a] ^= Integer.rotateLeft(x[d] + x[c], 18);
+        if (debugging && d == 14) {
+            System.out.printf("DEBUG quarterRound a=%d, b=%d, c=%d, d=%d", a, b, c, d);
+            for (int jj = 0; jj < x.length; jj++)
+                System.out.printf(" %d", x[jj]);
+            System.out.println();
+        }
+        rounds++;
     }
 
-    public static int bytesToInt(byte[] bytes, int offset) {
+    private static int bytesToInt(byte[] bytes, int offset) {
         return (bytes[offset] & 0xFF) |
                ((bytes[offset + 1] & 0xFF) << 8) |
                ((bytes[offset + 2] & 0xFF) << 16) |
                ((bytes[offset + 3] & 0xFF) << 24);
     }
 
-    public static void intToBytes(int value, byte[] bytes, int offset) {
+    private static void intToBytes(int value, byte[] bytes, int offset) {
         bytes[offset] = (byte) (value & 0xFF);
         bytes[offset + 1] = (byte) ((value >> 8) & 0xFF);
         bytes[offset + 2] = (byte) ((value >> 16) & 0xFF);
         bytes[offset + 3] = (byte) ((value >> 24) & 0xFF);
     }
 
-    public static void salsa20Encrypt(byte[] output, byte[] input, byte[] nonce, byte[] key) {
+    private static void salsa20Encrypt(byte[] output, byte[] input, byte[] nonce, byte[] key) {
         if (input.length != output.length) {
             throw new IllegalArgumentException("Input and output lengths must match.");
         }
@@ -113,10 +126,11 @@ public class main {
         int errorCount = 0;
         
         try {
-            // Example textOriginal
-            String textOriginal = "Mary had a little lamb whose fleece was white as snow. And, everywhere that Mary went the lamb was sure to go.";
-            byte[] textOriginalBytes = textOriginal.getBytes();
+            // Original text.
+            if (debugging)
+                textOriginal = "Mary had a little lamb";
             System.out.printf("Original textOriginal: %s\n", textOriginal);
+            byte[] textOriginalBytes = textOriginal.getBytes();
 
             // Generate random key and nonce
             SecureRandom random = new SecureRandom();
@@ -124,11 +138,21 @@ public class main {
             byte[] nonce = new byte[8];
             random.nextBytes(key);
             random.nextBytes(nonce);
+            
+            // DEBUG
+            if (debugging) {
+                key = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8 };
+                nonce = new byte[] {1, 2, 3, 4, 5, 6, 7, 8};
+            }
 
             // Encrypt the textOriginal
             byte[] ciphertext = new byte[textOriginalBytes.length];
             salsa20Encrypt(ciphertext, textOriginalBytes, nonce, key);            
             System.out.printf("Ciphertext: %s\n", byteArrayToString(ciphertext));
+            if (debugging) {
+                String str = HexDump.dumpBytes("DEBUG Ciphertext", ciphertext, ciphertext.length, 16);
+                System.out.print(str);
+            }
 
             // Decrypt the ciphertext
             byte[] decrypted = new byte[ciphertext.length];

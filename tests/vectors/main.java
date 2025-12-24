@@ -13,7 +13,7 @@ public class main {
 
         // Vector of 6 integer values
         Integer[] vintIntegers = {1, 2, 3, 4, 5, 6};
-        Vector<Integer> vint = new Vector<Integer>();
+        Vector<Integer> vint = new Vector<Integer>(10, 1);
         for (Integer II : vintIntegers) 
             vint.add(II);
         System.out.printf("Vector vint(6) as a String: %s\n", vint.toString());

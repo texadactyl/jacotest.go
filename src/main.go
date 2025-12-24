@@ -47,6 +47,25 @@ func showHelp() {
 	os.Exit(0)
 }
 
+// createLatest creates "latest" in the same directory as path,
+// pointing to the file. Works on macOS, Linux, and Windows.
+func createLatest(path string) error {
+	dir := filepath.Dir(path)
+	link := filepath.Join(dir, "latest.txt")
+	target := filepath.Base(path)
+
+	// Remove existing link/file if present
+	_ = os.Remove(link)
+
+	// Prefer a relative symlink (best semantics)
+	if err := os.Symlink(target, link); err == nil {
+		return nil
+	}
+
+	// Fallback: hard link (works on Windows without admin)
+	return os.Link(path, link)
+}
+
 // Show results
 func showResults(category string, arrayNames []string, outHandle *os.File, showList bool) {
 	var msg string
@@ -484,6 +503,7 @@ func main() {
 		if err != nil {
 			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
 		}
+		createLatest(global.SumFilePath)
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
 	} // if global.FlagExecute || global.FlagCompile
