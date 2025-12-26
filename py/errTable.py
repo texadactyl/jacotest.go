@@ -20,7 +20,8 @@ def show_help():
     Show help and eit to the O/S with an error status code.
     '''
     arg0 = Path(sys.argv[0]).name
-    print(f"\nUsage:  {arg0}  [-h]  {{Input summary report}}  {{output CSV file}}\n")
+    print(f"\nUsage:  {
+          arg0}  [-h]  {{Input summary report}}  {{output CSV file}}\n")
     print("where\n")
     print("\nExit codes:")
     print("\t0\tNormal completion.")
@@ -99,21 +100,14 @@ def parse_args():
     parser.add_argument("-h", action="store_true")
     parser.add_argument("-in", dest="input", default="reports/latest.txt")
     parser.add_argument("-out", dest="output", default="reports/errTable.csv")
-
     args = parser.parse_args()
 
     # Replicate original Go semantics
     if args.h:
         show_help()
 
-    if args.input is None or args.output is None:
-        print(
-            f"*** ERROR: Wrong number of command line arguments "
-            f"({len(sys.argv) - 1}), should be exactly 2"
-        )
-        show_help()
-
     return args.input, args.output
+
 
 def mainFunc():
     '''
