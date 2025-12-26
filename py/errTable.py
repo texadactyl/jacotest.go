@@ -98,7 +98,7 @@ def parse_args():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-h", action="store_true")
     parser.add_argument("-in", dest="input", default="reports/latest.txt")
-    parser.add_argument("-out", dest="output", default="reports/errSummary.csv")
+    parser.add_argument("-out", dest="output", default="reports/errTable.csv")
 
     args = parser.parse_args()
 
