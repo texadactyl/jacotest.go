@@ -81,8 +81,9 @@ for os_name in oses:
 writer.writerow(summary)
 
 # ---- Write discrepancies to stderr ----
+winPct = float(passed) *100.0 / (float(passed + failed))
 print(f"Number of discrepancies: {len(discrepancies)}", file=sys.stderr)
-print(f"Passed-Failed = {passed}-{failed}", file=sys.stderr)
+print(f"Passed-Failed = {passed}-{failed} ({winPct:.1f})", file=sys.stderr)
 if discrepancies:
     print("Discrepant test cases:", file=sys.stderr)
     for t in discrepancies:
