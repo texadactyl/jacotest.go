@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-26 | 5.4.8 | New Python script: py/errTable.py. |
 | 2025-12-24 | 5.4.7 | Fixes to test cases crypto-salsa, JACOBIN-0310-vector-survivor, TwoPassAssembler, and vectors. |
 | 2025-12-22 | 5.4.6 | New test cases: threading-jacobin-831-1, time-dilation. |
 | | | JVM openjdk name --> hotspot but "openjdk" is still accepted on command line. |
