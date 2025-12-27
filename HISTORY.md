@@ -13,6 +13,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | NEW test cases: linked-list-2, hash-map-2, integer-short, integer-long-1, integer-long-2. |
 | 2025-12-26 | 5.4.8 | New Python script: py/errTable.py. |
 | | | Test case vector-survivor-2 does much more and passes. |
+| | | New test case: linked-list-2. |
 | 2025-12-24 | 5.4.7 | Fixes to test cases crypto-salsa, JACOBIN-0310-vector-survivor, TwoPassAssembler, and vectors. |
 | 2025-12-22 | 5.4.6 | New test cases: threading-jacobin-831-1, time-dilation. |
 | | | JVM openjdk name --> hotspot but "openjdk" is still accepted on command line. |
