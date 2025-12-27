@@ -4,6 +4,13 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-27 | 5.4.9 | Renamed test cases: |
+| | | New test case name hash-simply  <--  hashed-simply. |
+| | | New test case name hash-map  <--  hashed-map. |
+| | | New test case name crypto-paillier  <-- paillier-cryptosystem. |
+| | | New test case name linked-list-1  <--  linked-list. |
+| | | New test case name hash-set  <--  hashed-set. |
+| | | NEW test cases: linked-list-2, hash-map-2, integer-short, integer-long-1, integer-long-2. |
 | 2025-12-26 | 5.4.8 | New Python script: py/errTable.py. |
 | | | Test case vector-survivor-2 does much more and passes. |
 | 2025-12-24 | 5.4.7 | Fixes to test cases crypto-salsa, JACOBIN-0310-vector-survivor, TwoPassAssembler, and vectors. |

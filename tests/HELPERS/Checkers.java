@@ -95,6 +95,15 @@ public class Checkers {
         return 1;
     }
 
+    public static int checker(String label, short expected, short observed) {
+        if (expected == observed) {
+            System.out.printf("ok %s ::: expected = observed = %d\n", label, observed);
+            return 0;
+        }
+        System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %d, observed = %d\n", label, expected, observed);
+        return 1;
+    }
+
     public static int checker(String label, int expected, int observed) {
         if (expected == observed) {
             System.out.printf("ok %s ::: expected = observed = %d\n", label, observed);
@@ -208,6 +217,16 @@ public class Checkers {
         return 1;
     }
     
+    public static int checker(String label, Object expected, Object observed) {
+        if (expected == observed || (expected != null && expected.equals(observed))) {
+            System.out.printf("ok %s ::: expected = observed = %s\n", label, observed);
+            return 0;
+        } else {
+            System.out.printf("*** DISCREPANCY detected in checker(%s) ::: expected = %s, observed = %s\n", label, expected, observed);
+            return 1;
+        }
+    }
+
     public static void theEnd(int errorCount) {
         if (errorCount == 0) {
             System.out.println("\n========");

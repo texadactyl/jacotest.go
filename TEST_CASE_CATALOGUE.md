@@ -34,6 +34,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | crypto-enigma-machine | Alan Turing's Enigma Machine |
 | crypto-digest-* | MessageDigest tests |
 | crypto-mobile-* | Mobile network functions |
+| crypto-paillier | Pascal Paillier cryptosystem |
 | crypto-password-based | Password-based cryptography using AES/CBC/PKCS5Padding |
 | crypto-playfair | Playfair-Wheatstone cipher algorithm |
 | crypto-rsa-mini | RSA Public and Private Key simple cryptography |
@@ -66,7 +67,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | floor-div-mod-mix | For int and long: floor, div, mod using try-catch |
 | guitar-string | Simulate the plucking of a guitar string (Physics) |
 | harshad-niven | Compute the first 100 Harshad (Niven) numbers |
-| hashed-* | java.util.HashMap & HashSet |
+| hash-* | java.util.HashMap & HashSet |
 | hex-decode-numeric | Loop stability of decoding numeric values |
 | hexxed | java.util.HexMap |
 | http-client-server | Simple non-secure web client and server |
@@ -159,7 +160,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | nth-root | Nth root, where N=13 |
 | numbers-chars-strings | Functions associated with char, double, int, and String |
 | packaging-* | Import packages |
-| paillier-cryptosystem | Pascal Paillier cryptosystem |
 | parse-int | Integer parsing |
 | perf-base-instantiate | Stress test of various object instantiations |
 | pi-digits-bbp | Pi calculated with the Bailey-Borwein-Plouffe algorithm |
