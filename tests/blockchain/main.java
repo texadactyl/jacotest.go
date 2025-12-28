@@ -23,7 +23,7 @@ public class main {
 	}
 
     // Check validity of the blockchain
-    public static Boolean isChainValid() {
+    public static boolean isChainValid() {
         Block currentBlock;
         Block previousBlock;
 
