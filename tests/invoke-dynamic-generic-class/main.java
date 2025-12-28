@@ -31,7 +31,7 @@ public class main {
 
         BoxMaker<Integer> intBoxMaker = Box<Integer>::new;
         Box<Integer> intBox = intBoxMaker.make(42);
-        errorCount += Checkers.checker("Box<Integer>::new", 42, intBox.value);
+        errorCount += Checkers.checker("Box<Integer>::new", 42, (long)intBox.value);
 
         /* ============================================================
            2. Two-parameter generic class constructor reference

@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-28 | 5.4.10 | Fixed compilation error in test case invoke-dynamic-generic-class. |
 | 2025-12-27 | 5.4.9 | Renamed test cases: |
 | | | New test case name hash-simply  <--  hashed-simply. |
 | | | New test case name hash-map  <--  hashed-map. |
