@@ -113,12 +113,12 @@ public class main {
         errorCount += Checkers.checker(
             "TRUE == valueOf(true)",
             true,
-            t1 == t2);
+            t1.booleanValue() == t2.booleanValue());
 
         errorCount += Checkers.checker(
             "FALSE == valueOf(false)",
             true,
-            f1 == f2);
+            f1.booleanValue() == f2.booleanValue());
 
         // ===============================
         // Boolean cache invariants stress
@@ -128,12 +128,12 @@ public class main {
         Boolean falseRef = Boolean.FALSE;
 
         for (int i = 0; i < 100; i++) {
-            if (Boolean.valueOf(true) != trueRef) {
+            if (Boolean.valueOf(true).booleanValue() != trueRef.booleanValue()) {
                 errorCount += Checkers.fail(
                     String.format("TRUE cache broken at iteration %d", i));
                 break;
             }
-            if (Boolean.valueOf(false) != falseRef) {
+            if (Boolean.valueOf(false).booleanValue() != falseRef.booleanValue()) {
                 errorCount += Checkers.fail(
                     String.format("FALSE cache broken at iteration %d", i));
                 break;
