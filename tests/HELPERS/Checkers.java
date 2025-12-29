@@ -226,6 +226,11 @@ public class Checkers {
             return 1;
         }
     }
+    
+    public static int fail(String label) {
+        System.out.printf("*** DISCREPANCY ::: %s\n", label);
+        return 1;
+    }
 
     public static void theEnd(int errorCount) {
         if (errorCount == 0) {

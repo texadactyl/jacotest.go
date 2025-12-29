@@ -4,13 +4,15 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2025-12-29 | 5.4.11 | New test cases: byte-1, boolean-2 |
+| | | boolean-1  <--  boolean. |
 | 2025-12-28 | 5.4.10 | Fixed compilation error in test case invoke-dynamic-generic-class. |
 | 2025-12-27 | 5.4.9 | Renamed test cases: |
-| | | New test case name hash-simply  <--  hashed-simply. |
-| | | New test case name hash-map  <--  hashed-map. |
-| | | New test case name crypto-paillier  <-- paillier-cryptosystem. |
-| | | New test case name linked-list-1  <--  linked-list. |
-| | | New test case name hash-set  <--  hashed-set. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash-simply  <--  hashed-simply. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash-map  <--  hashed-map. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-paillier  <-- paillier-cryptosystem. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linked-list-1  <--  linked-list. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash-set  <--  hashed-set. |
 | | | NEW test cases: linked-list-2, hash-map-2, integer-short, integer-long-1, integer-long-2. |
 | 2025-12-26 | 5.4.8 | New Python script: py/errTable.py. |
 | | | Test case vector-survivor-2 does much more and passes. |
@@ -23,23 +25,24 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | New test cases: file-path-posix-only, file-path-windows-only. |
 | 2025-12-19 | 5.4.3 | New test case: file-path-2. |
 | 2025-12-18 | 5.4.2 | 3 new test cases: crypto-digest-1, crypto-digest-2, file-path-1. |
-| 2025-12-16 | 5.4.1 | Update test catalogue. |
-| | | New test case name crypto-elliptic-1  <--  old name elliptic-1. |
-| | | New test case name crypto-elliptic-2  <--  old name elliptic-2. |
-| | | New test case name crypto-enigma-machine  <--  old name enigma-machine. |
-| | | New test case name crypto-password-based  <--  old name JACOBIN-0211-pbcrypto. |
-| | | New test case name crypto-mobile-5g-aka  <--  old name mobile-5g-aka. |
-| | | New test case name crypto-mobile-snow-v  <--  old name mobile-snow-v. |
+| 2025-12-16 | 5.4.1 | Renamed test cases: |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-1  <--  old name elliptic-1. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-2  <--  old name elliptic-2. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-enigma-machine  <--  old name enigma-machine. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-password-based  <--  old name JACOBIN-0211-pbcrypto. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-5g-aka  <--  old name mobile-5g-aka. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-snow-v  <--  old name mobile-snow-v. |
 | 2025-12-15 | 5.4 | Added long-array checker to HELPERS. |
-| | | New test case name crypto-desi-reduced  <--  old name desi-reduced. |
-| | | New test case name crypto-desi  <--  old name desi. |
-| | | New test case name crypto-playfair  <--  old name playfair. |
-| | | New test case name crypto-rsa-mini  <--  old name rsa-mini. |
-| | | New test case name crypto-rsa-unrandom  <--  old name rsa-unrandom. |
-| | | New test case name crypto-sha3  <--  old name sha3. |
-| | | New test case name crypto-solitairgraphy  <--  old name solitairgraphy. |
-| | | New test case name crypto-tls-one-way  <--  old name tls-one-way. |
-| | | New test case name crypto-two-fish  <--  old name two-fish. |
+| | | Renamed test cases: |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi-reduced  <--  old name desi-reduced. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi  <--  old name desi. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-playfair  <--  old name playfair. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-mini  <--  old name rsa-mini. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-unrandom  <--  old name rsa-unrandom. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-sha3  <--  old name sha3. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-solitairgraphy  <--  old name solitairgraphy. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-tls-one-way  <--  old name tls-one-way. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-two-fish  <--  old name two-fish. |
 | | | Tool to convert names in database history records: bash/change_tc_names.sh |
 | | | Test cases updated to use HELPERS: |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JACOBIN-0227-string-array, blockchain, |
@@ -82,7 +85,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | Renamed rounding-mode to rounding-mode-1
 | 2025-11-10 | 5.1.5 | Modified test case threading-2 to not take an early exit
 | 2025-11-07 | 5.1.4 | New test case: threading-3
-| | | Renamed test case "threading" to "threading-1"
+| | | "threading" to "threading-1"
 | 2025-11-04 | 5.1.3 | New test case: tx-student-topzips
 | 2025-10-27 | 5.1.2 | Test case jarring was split into 3 separate test cases - see TEST_CASE_CATALOGUE.md
 | 2025-10-25 | 5.1.1 | Test case threading-2, added an earlyExit boolean
@@ -226,7 +229,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2024-12-06 | 3.4.30 | Fixed calculations in test case bohr-atom
 | 2024-12-04 | 3.4.29 | Updated test case jj-field-static to include more static variable types
 | 2024-12-03 | 3.4.28 | Updated test case jj-field-static
-| 2024-12-01 | 3.4.27 | Updated and renamed test case JACOBIN-0626-DumpObject-DumpStatics to jj-field-static
+| 2024-12-01 | 3.4.27 | Updated and JACOBIN-0626-DumpObject-DumpStatics to jj-field-static
 | 2024-11-28 | 3.4.26 | Updated test case: JACOBIN-0626-DumpObject-DumpStatics
 | 2024-11-27 | 3.4.25 | New test case: JACOBIN-0626-DumpObject-DumpStatics
 | 2024-11-23 | 3.4.24 | New test case: ex-catch-plus-jj
@@ -301,7 +304,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | Amend io_* test cases to delete temp file created during execution
 | 2024-04-10 | 3.1.11 | New io_* tests
 | 2024-04-05 | 3.1.10 | New io_* tests
-| 2024-04-03 | 3.1.9 | Renamed test case JACOBIN-0296-new-fileinputstream to fileinputstream
+| 2024-04-03 | 3.1.9 | JACOBIN-0296-new-fileinputstream to fileinputstream
 | 2024-03-31 | 3.1.8 | ERROR_CATEGORIES.txt updated: "Native method requested"
 | | | New test case: wide
 | 2024-03-27 | 3.1.7 | Updated test case: switcheroo
@@ -316,10 +319,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2024-03-10 | 3.1.0 | If database repeated insert fails, report and carry on
 | 2024-03-06 | 3.0.15 | New test case: switcheroo (compact and lookup switches)
 | | | New test cases: enum-inside and enum-outside
-| | | Renamed test case JACOBIN-0206 to nbody
+| | | JACOBIN-0206 to nbody
 | | | New test case: nbody-lite
 | 2024-02-29 | 3.0.14 | Fixed test cases: JACOBIN-0322-default-locale, JACOBIN-0325-super-1, stringer-2
-| 2024-02-28 | 3.0.13 | Renamed test case: JACOBIN-0435-format-neg-int-as-hex --> JACOBIN-0435-format-int-as-hex
+| 2024-02-28 | 3.0.13 | Renamed test case:: JACOBIN-0435-format-neg-int-as-hex --> JACOBIN-0435-format-int-as-hex
 | | | Split interface conversion errors in the report
 | | | Stop testing type char in numbers-chars-strings
 | | | Stop testing type char in JACOBIN-0393-pot-pourri
@@ -361,7 +364,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2023-12-15 | 2.8.1 | New test cases: https-client-getter, http-client-server, and walker
 | 2023-12-14 | 2.8.0 | Changed database toolset from mattn (cgo required) to modernc (no cgo)
 | 2023-12-13 | 2.7.6 | Code clean-up. No functional changes
-| 2023-12-09 | 2.7.5 | Renamed test case JACOBIN-0294-system-exit to parent-child-process
+| 2023-12-09 | 2.7.5 | JACOBIN-0294-system-exit to parent-child-process
 | 2023-11-25 | 2.7.4 | Made utility cleansrc more generic
 | | | Cleansed Java source files of non-printables
 | 2023-11-24 | 2.7.3 | New utility: cleansrc
@@ -438,7 +441,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus, leveraging Jacobin classloader/javaLangMath.go.
 | | | Deleted test case: trig-simple because it is a subset of math-in-java-source
 | 2023-07-10 | 2.3.3 | Amended test case: JACOBIN-0311-for-loop-G-pop
-| | | Renamed test case: java-math --> math-in-java-source
+| | | Renamed test case:: java-math --> math-in-java-source
 | 2023-07-08 | 2.3.2 | New test case: JACOBIN-0310-vector-survivor
 | | | New test case: vector-survivor-2
 | | | New test case: JACOBIN-0311-for-loop-G-pop
@@ -469,10 +472,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2023-06-25 | 2.1.1 | Generate `javap -v` logs for all test case main.class files
 | 2023-06-25 | 2.0.22 | Fixed logging to be clearer in a few tests
 | 2023-06-23 | 2.0.21 | Added test case: JACOBIN-0296-new-fileinputstream
-| | | Renamed test case JACOBIN-0235-system-exit to JACOBIN-0294-system-exit
+| | | JACOBIN-0235-system-exit to JACOBIN-0294-system-exit
 | | | Added test case: JACOBIN-0293-drem
 | 2023-06-22 | 2.0.20 | Added test case: stringer-valueof
-| | | Renamed test case JACOBIN-0234-string-length to JACOBIN-0290-string-length
+| | | JACOBIN-0234-string-length to JACOBIN-0290-string-length
 | 2023-06-21 | 2.0.19 | Added test case: JACOBIN-0288-aastore-field-type
 | | | Added test case: try-throw-catch
 | | | Added test case: finally
@@ -480,7 +483,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | | | Amended test case JACOBIN-0281-get-property
 | | | Prefixed test case names with JACOBIN-n
 | 2023-06-20 | 2.0.18 | Added test case: stringer-2
-| | | Renamed test case stringer --> stringer-1
+| | | stringer --> stringer-1
 | 2023-06-19 | 2.0.18 | printf, begone! |
 | 2023-06-19 | 2.0.17 | Added test case: imageio-output
 | 2023-06-16 | 2.0.16 | Added test case: perf-base-instantiate
@@ -525,7 +528,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 |  |  | Using ```go install``` instead of ```go build```
 |  |  | Cleaned up go source files by running ```gofmt -w```
 |  |  | Split test case JACOBIN-0217-multidim into 2 cases: 2d and 3d
-|  |  | Renamed test case: negtest-runner-throw-exception to catch-exception
+|  |  | Renamed test case:: negtest-runner-throw-exception to catch-exception
 |  |  | Added test case: elliptic (public key cryptography)
 |  |  | Added test case: java17-enhancements
 |  |  | Added test cases: vectors, lambdas-maps, hashed-set, and threading

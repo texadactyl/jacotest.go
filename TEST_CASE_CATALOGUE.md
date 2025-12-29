@@ -15,11 +15,12 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | big-integer* | java.math.BigInteger tests |
 | big-rational | BigRational tests |
 | bit-shifting* | Shifting bits of integers |
-| blockchain | Create a blockchain, amend it, and validate it |
+| bit-shifting* | Shifting bits of integers |
+| byte-1 | Class Byte manipulation and conversions |
 | blocking-queues-2-3-5 | Solve the 2,3,5 problem; blocking queues |
 | blum-blum-shub | Blum-Blum-Shub (BBS) Algorithm for PseudoRandom Number Generation |
 | bohr-atom | Compute properties of the Bohr model of the atom |
-| boolean | Boolean primitive tests |
+| boolean-* | Boolean manipulation and conversions |
 | cached-thread-pool | Thread pool that scales dynamically, maximizes parallelism |
 | casting | Casting between primitive variable types |
 | catch-8-survivor | try-catch 8 levels deep |
@@ -75,7 +76,9 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | iface-lorentz | Lorentz transform using a Java interface (Physics) |
 | iface-* | Java interface |
 | iinc-iadd-isub | Exercise IINC, IADD, and ISUB |
-| integer* | java.lang.Integer |
+| integer* | java.lang.Integer manipulation and conversions |
+| integer-long | java.lang.Long manipulation and conversions |
+| integer-short | java.lang.Short manipulation and conversions |
 | interface-01_DirectInterfaceDefault | interface call via irect interface default method |
 | interface-02_ObjectMethod | interface call via java.lang.Object method via interface reference |
 | interface-03_MaximallySpecificSuperinterface | interface call via maximally-specific superinterface default method |
@@ -86,7 +89,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | interface-08_PrivateStaticMethods | interface call involving private and static methods |
 | interface-09_DiamondHierarchy | interface call test of diamond hierarchy of interfaces with a shared default method |
 | interface-10-Invokeinterface | like interface-09_DiamondHierarchy but contains code that generates INVOKEDYNAMIC |
-| io_file* | java.io file operations |
+| io-file* | java.io file operations |
 | invoke-dynamic-concats | "+" operator, mixed primitives/objects, multi-argument, loops |
 | invoke-dynamic-generic-class | Box<T>::new, Pair<A,B>::new; demonstrates type parameter constructor references |
 | invoke-dynamic-lambdas | Basic lambdas |

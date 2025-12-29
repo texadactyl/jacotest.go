@@ -25,6 +25,7 @@ CREATE TEMP TABLE test_case_map (
 
 INSERT INTO test_case_map VALUES
     ('JACOBIN-0211-pbcrypto',   'crypto-password-based'),
+    ('boolean',        'boolean-1'),
     ('desi-reduced',   'crypto-desi-reduced'),
     ('desi',           'crypto-desi'),
     ('elliptic-1',     'crypto-elliptic-1'),
@@ -33,6 +34,11 @@ INSERT INTO test_case_map VALUES
     ('hashed-map',     'hash-map-1'),
     ('hashed-set',     'hash-set'),
     ('hashed-simply',  'hash-simply'),
+    ('io_file_create_delete', 'io-file-create-delete'),
+    ('io_fileinputstream',    'io-fileinputstream'),
+    ('io_fileoutputstream',   'io-fileoutputstream'),
+    ('io_filewriter',         'io-filewriter'),
+    ('io_outputstreamwriter', 'io-outputstreamwriter'),
     ('linked-list',    'linked-list-1'),
     ('mobile-5g-aka',  'crypto-mobile-5g-aka'),
     ('mobile-snow-v',  'crypto-mobile-snow-v'),
