@@ -26,23 +26,23 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | 2025-12-19 | 5.4.3 | New test case: file-path-2. |
 | 2025-12-18 | 5.4.2 | 3 new test cases: crypto-digest-1, crypto-digest-2, file-path-1. |
 | 2025-12-16 | 5.4.1 | Renamed test cases: |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-1  <--  old name elliptic-1. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-2  <--  old name elliptic-2. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-enigma-machine  <--  old name enigma-machine. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-password-based  <--  old name JACOBIN-0211-pbcrypto. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-5g-aka  <--  old name mobile-5g-aka. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-snow-v  <--  old name mobile-snow-v. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-1  <--  elliptic-1. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-elliptic-2  <--  elliptic-2. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-enigma-machine  <--  enigma-machine. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-password-based  <--  JACOBIN-0211-pbcrypto. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-5g-aka  <--  mobile-5g-aka. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-mobile-snow-v  <--  mobile-snow-v. |
 | 2025-12-15 | 5.4 | Added long-array checker to HELPERS. |
 | | | Renamed test cases: |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi-reduced  <--  old name desi-reduced. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi  <--  old name desi. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-playfair  <--  old name playfair. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-mini  <--  old name rsa-mini. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-unrandom  <--  old name rsa-unrandom. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-sha3  <--  old name sha3. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-solitairgraphy  <--  old name solitairgraphy. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-tls-one-way  <--  old name tls-one-way. |
-| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-two-fish  <--  old name two-fish. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi-reduced  <--  desi-reduced. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-desi  <--  desi. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-playfair  <--  playfair. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-mini  <--  rsa-mini. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-rsa-unrandom  <--  rsa-unrandom. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-sha3  <--  sha3. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-solitairgraphy  <--  solitairgraphy. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-tls-one-way  <--  tls-one-way. |
+| | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto-two-fish  <--  two-fish. |
 | | | Tool to convert names in database history records: bash/change_tc_names.sh |
 | | | Test cases updated to use HELPERS: |
 | | | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JACOBIN-0227-string-array, blockchain, |
