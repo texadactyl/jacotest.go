@@ -321,6 +321,28 @@ public class Checkers {
         return 1;
     }
 
+    public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
+        if (expected == 0) {
+            if (observed == 0) {
+                System.out.printf("ok withinTolerance(%e) %s, expected = observed = 0\n", maxPercent, label);
+                return 0;
+            } else {
+                System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = 0, observed = %d\n", maxPercent, label, observed);
+                return 1;
+            }
+        }
+        long diff = Math.abs(expected - observed);
+        double diffPct = Math.abs(100.0 * diff / expected);
+        double tolerance = Math.abs(expected) * (maxPercent / 100.0);
+        if (diff <= tolerance) {
+            System.out.printf("ok withinTolerance(%e) %s, expected = %d, observed = %d\n", maxPercent, label, expected, observed);
+            return 0;
+        } else {
+            System.out.printf("*** DISCREPANCY detected in withinTolerance(%e) %s ::: expected = %d, observed = %d, diffPct = %e\n", maxPercent, label, expected, observed, diffPct);
+            return 1;
+        }
+    }
+
     public static int withinTolerance(String label,
                                       BigDecimal expected,
                                       BigDecimal observed,
