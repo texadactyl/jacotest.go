@@ -25,6 +25,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | casting | Casting between primitive variable types |
 | catch-8-survivor | try-catch 8 levels deep |
 | charset-encoding | java.nio.charset.Charset, InputStreamReader.getEncoding() |
+| cast-to-number | Numeric cast to java/lang/Number (abstract) |
 | checkcast | Exercise JVM CHECKCAST |
 | cmath-in-java-source | Complex variables |
 | crc | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
