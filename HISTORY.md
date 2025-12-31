@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2025-12-31 | 5.4.12 | New test case: cast-to-number. |
+| | | Update test case to use HELPERS: stack-walk. |
 | 2025-12-29 | 5.4.11 | New test cases: byte-1, boolean-2. |
 | | | Renamed test case: boolean-1  <--  boolean. |
 | 2025-12-28 | 5.4.10 | Fixed compilation error in test case invoke-dynamic-generic-class. |

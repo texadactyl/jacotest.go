@@ -5,11 +5,12 @@ import java.lang.Exception;
 
 public class main {
 
+    static int errorCount = 0;
+
     public static void main(String args[]) throws Exception {
         System.out.println("main (level1) .....");
-        level2(Thread.currentThread().getStackTrace()[1].getLineNumber());
-        
-        Checkers.theEnd(0);
+        level2(Thread.currentThread().getStackTrace()[1].getLineNumber());       
+        Checkers.theEnd(errorCount);
     }
 
     private static void level2(int level1Line) throws Exception {
@@ -39,34 +40,34 @@ public class main {
             // Walk the stack.
             int counter = 0;
             for (StackWalker.StackFrame sf : stack) {
+            
                 counter += 1;
                 className = sf.getClassName();
                 methodName = sf.getMethodName();
                 lineNumber = sf.getLineNumber();
-                msg = String.format("\t%d %s::%s:%d", counter, className, methodName, lineNumber);
-                System.out.println(msg);
+                
                 switch(counter) {
 
                     case 1:
-                        assert className.equals("main$Level3");
-                        assert methodName.equals("level3");
-                        assert lineNumber == level3Line;
+                        errorCount += Checkers.checker("case 1 class", className, "main$Level3");
+                        errorCount += Checkers.checker("case 1 method", methodName, "level3");
+                        errorCount += Checkers.checker("case 1 line", lineNumber, level3Line);
                         break;
 
                     case 2:
-                        assert className.equals("main");
-                        assert methodName.equals("level2");
-                        assert lineNumber == level2Line;
+                        errorCount += Checkers.checker("case 2 class", className, "main");
+                        errorCount += Checkers.checker("case 2 method", methodName, "level2");
+                        errorCount += Checkers.checker("case 2 line", lineNumber, level2Line);
                         break;
 
                     case 3:
-                        assert className.equals("main");
-                        assert methodName.equals("main");
-                        assert lineNumber == level1Line;
+                        errorCount += Checkers.checker("case 3 class", className, "main");
+                        errorCount += Checkers.checker("case 3 method", methodName, "main");
+                        errorCount += Checkers.checker("case 3 line", lineNumber, level1Line);
                         break;
 
                     default:
-                        throw new Exception("stack size exceeds 3!!");
+                        Checkers.fail("stack size exceeds 3!!");
 
                 } // switch
 
