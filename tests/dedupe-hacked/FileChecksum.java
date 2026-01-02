@@ -40,14 +40,14 @@ public class FileChecksum {
      * it need not be reported to the user later.
      * @throws IOException in event of a problem reading the file
      */
-    long calculate() throws IOException {
+    long calculate(boolean debugging) throws IOException {
         FileInputStream file;
 
         try {
             file = new FileInputStream( filename );
-        } catch( FileNotFoundException e ) {
-            System.err.println( "Error: File " + filename + " not found." );
-            throw( new IOException( e.toString() ));
+        } catch( IOException e ) {
+            System.out.printf( "Error %s\nreading file: %s\n", e.getMessage(), filename );
+            return 0;
         }
 
         CheckedInputStream check = new CheckedInputStream( file, new CRC32() );
@@ -58,12 +58,12 @@ public class FileChecksum {
                 // Read file in completely
             }
             in.close();
-        } catch( IOException e ) {
-            System.err.println( "Error reading file: " + filename );
+        } catch( Exception e ) {
+            System.err.printf( "Error %s\nreading file: %s\n", e.getMessage(), filename );
             check.close();
             in.close();
             file.close();
-            throw( new IOException( e.toString() ));
+            return 0;
         }
 
         return(check.getChecksum().getValue());

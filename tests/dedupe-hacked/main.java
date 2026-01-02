@@ -22,6 +22,9 @@ public class main {
      *    * -quiet which says don't show files that are not duplicates
      *    * -help/-h which prints usage instructions
      */
+     
+    static boolean debugging = true;
+     
     public static void main( final String[] args )
     {
         // default is to visit subdirectories
@@ -72,6 +75,7 @@ public class main {
 
         // Create the sizes table, where the file sizes are stored
         LongStringListTable sizesTable = new LongStringListTable();
+        if (debugging) System.out.println("DEBUG Created the sizesTable");
 
         // Create the filesize retrieval engine
         FileSizer fileSizer = new FileSizer();
@@ -84,26 +88,25 @@ public class main {
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting" );
         }
+        if (debugging) System.out.println("DEBUG Got the file sizes for all files in each specified directory");
 
         // Create the dupe table, where file checksums are stored
         LongStringListTable dupesTable = new LongStringListTable();
 
         // sizesTable now holds all the filenames and the corresponding file sizes
-        /*sizesTable.values().stream() // get the lists of files for each size
-            .filter( s -> s.size() > 1 )   // filter for lists of more than 1 file for a given size
-            .forEach( s -> new FilesChecksum( s, dupesTable ).go() );  // checksum those files
-        */
         String[][] allFileArrays = sizesTable.getValuesArray();  // get all arrays of filenames
-
+        if (debugging) System.out.printf("DEBUG Got the allFileArrays, length=%d\n", allFileArrays.length);
+        
         for (int i = 0; i < allFileArrays.length; i++) {
             String[] filesForSize = allFileArrays[i];
 
             if (filesForSize != null && filesForSize.length > 1) {
                 // Compute checksums for files with the same size
                 FilesChecksum fc = new FilesChecksum(filesForSize, dupesTable);
-                fc.go();
+                fc.go(debugging);
             }
-        }        
+        }  
+        if (debugging) System.out.println("DEBUG Computed all the checksums");      
                 
         // Scan the dupesTable and print out all duplicates to stdout
         DupesOutput dupesList = new DupesOutput();

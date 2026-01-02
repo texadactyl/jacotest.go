@@ -29,7 +29,8 @@ public class main {
                     String errMsg = String.format("*** Worker Thread %d-%s exception, errMsg: %s\n", index, name, e.getMessage());
                     throw new AssertionError(errMsg);
                 }
-                System.out.printf("Worker Thread %d-%s ended\n", index, name);
+                StringBuffer sb = new StringBuffer(String.format("Worker Thread %d-%s ended\n", index, name));
+                System.out.println(sb.toString());
             }
         }
     }

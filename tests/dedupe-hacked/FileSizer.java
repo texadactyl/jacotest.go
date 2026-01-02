@@ -22,7 +22,9 @@ public class FileSizer {
 
     public FileSizer() {}
 
-   public static String[] getAllSubPaths(String dirPath) {
+    private static final boolean debugging = false;
+
+    public static String[] getAllSubPaths(String dirPath) {
         File root = new File(dirPath);
 
         if (!root.exists() || !root.isDirectory()) {
@@ -36,29 +38,33 @@ public class FileSizer {
         return paths;
     }
 
+    // Recursively count all the simple files in the directory tree.
     private static int countFiles(File dir) {
         int count = 0;
         File[] children = dir.listFiles();
         if (children == null) return 0;
 
         for (File child : children) {
-            count++; // count this file or directory
             if (child.isDirectory()) {
                 count += countFiles(child);
-            }
+            } else
+                // simple file
+                count++;
         }
         return count;
     }
 
+   // Accumulate absolute paths for all the simple files in the directory tree.
     private static void populatePaths(File dir, String[] paths, int[] index) {
         File[] children = dir.listFiles();
         if (children == null) return;
 
         for (File child : children) {
-            paths[index[0]++] = child.getAbsolutePath();
             if (child.isDirectory()) {
                 populatePaths(child, paths, index);
-            }
+            } else
+                // simple file
+                paths[index[0]++] = child.getAbsolutePath();
         }
     }
 
@@ -76,7 +82,10 @@ public class FileSizer {
         for (String fpath : allPaths) {  //for each file get the file length and add it to sizesTable
             File file = new File(fpath);
             if (file.isFile())
-                sizesTable.insertEntry( fpath, file.length() );
+                // How did this even compile????? sizesTable.insertEntry( fpath, file.length() );
+                // ............................................................. ^^^^^^^^^^^^^
+                if (debugging) System.out.printf("DEBUG loadFileSizes dirPath=%s, fpath=%s, sizesTable.insertEntry is next .....\n", dirPath, fpath);
+                sizesTable.insertEntry( fpath, Long.valueOf(file.length()) );
         }
         //note: we don't worry about an empty directory here.
     }

@@ -37,11 +37,15 @@ public class FilesChecksum {
      * Calls the checksum calculation routine for each file in the array of filenames
      * and inserts the checksum and the filename into the checksumTable.
      */
-    public void go() {
+    public void go(boolean debugging) {
         for (int i = 0; i < filenames.length; i++) {
             String file = filenames[i];
+            if (debugging) System.out.printf("\tDEBUG go %d (max:%d) %s\n", i, filenames.length, file);
             try {
-                checksumTable.insertEntry(file, new FileChecksum(file).calculate());
+                long cksum = new FileChecksum(file).calculate(debugging);
+                if (debugging) System.out.printf("\tDEBUG go %d ckdum %d %s\n", i, cksum, file);
+                if (cksum > 0L)
+                    checksumTable.insertEntry(file, cksum);
             } catch (IOException ioe) {
                 // error messages have already been shown to the user; continue with the loop
             }

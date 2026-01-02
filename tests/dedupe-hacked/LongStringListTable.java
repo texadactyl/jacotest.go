@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class LongStringListTable {
 
-    private static final boolean debugging = true;
+    private static final boolean debugging = false;
 
     /** Main data structure: key → array of filenames */
     private final HashMap<Long, String[]> table;
