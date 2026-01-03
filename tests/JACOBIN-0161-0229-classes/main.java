@@ -26,6 +26,9 @@ public class main {
         System.out.println("Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.");
         System.out.println("Testing polymorphism, abstract classes, abstract methods, and interfaces.");
 
+        AbstractMultiMedia myMyRed = new MyRed();
+        errorCount += Checkers.checker("myMyRed.getColor() == \"reddish\"", "reddish", myMyRed.getColor());
+
         System.out.println("\nInsider class will now be instantiated .....");
         Insider insider = new Insider();
         System.out.println("Insider class was instantiated");
@@ -54,13 +57,10 @@ public class main {
         errorCount += Checkers.checker("outsider.is_this_a_7() != insider.is_this_a_7()", false, outsider.is_this_a_7() == insider.is_this_a_7());
         errorCount += Checkers.checker("outsider.is_this_a_7() == insider.is_this_a_7() - 1", outsider.is_this_a_7(), insider.is_this_a_7() - 1);
 
-        MultiMedia myRed = new Red();
-        MultiMedia myOrange = new Orange();
-
-        errorCount += Checkers.checker("myRed.getColor() == \"red\"", "red", myRed.getColor());
-        errorCount += Checkers.checker("myRed.getColor() != orange", false, myRed.getColor().equals("orange"));
-        errorCount += Checkers.checker("myRed.getSound() == \"loud\"", "loud", myRed.getSound());
-        errorCount += Checkers.checker("myRed.getNumber() == 42", 42, myRed.getNumber());
+        AbstractMultiMedia myMyOrange = new MyOrange();
+        errorCount += Checkers.checker("myMyRed.getColor() != orange", false, myMyRed.getColor().equals("orange"));
+        errorCount += Checkers.checker("myMyRed.getSound() == \"loud\"", "loud", myMyRed.getSound());
+        errorCount += Checkers.checker("myMyRed.getNumber() == 42", 42, myMyRed.getNumber());
 
         Pig myPig = new Pig();  // Create a Pig object implemented from Animal
         errorCount += Checkers.checker("myPig.getSound() == oink", "oink", myPig.getSound());
@@ -71,7 +71,7 @@ public class main {
 
 }
 
-abstract class MultiMedia {
+abstract class AbstractMultiMedia {
     public String getColor() {
         return ("rainbow");
     }
@@ -83,9 +83,9 @@ abstract class MultiMedia {
     }
 }
 
-class Red extends MultiMedia {
+class MyRed extends AbstractMultiMedia {
     public String getColor() {
-        return ("red");
+        return ("reddish");
     }
 
     public String getSound() {
@@ -93,7 +93,7 @@ class Red extends MultiMedia {
     }
 }
 
-class Orange extends MultiMedia {
+class MyOrange extends AbstractMultiMedia {
     public String getColor() {
         return ("orange");
     }
