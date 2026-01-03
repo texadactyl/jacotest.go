@@ -9,9 +9,11 @@
 *.dylib
 .idea
 
-# Test binary, built with `go test -c`
+# Test binary files
 *.test
 *.txt
+*.data
+*.bin
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out

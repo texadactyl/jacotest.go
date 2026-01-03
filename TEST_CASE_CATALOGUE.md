@@ -27,6 +27,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | charset-encoding | java.nio.charset.Charset, InputStreamReader.getEncoding() |
 | cast-to-number | Numeric cast to java/lang/Number (abstract) |
 | checkcast | Exercise JVM CHECKCAST |
+| checkedinputstream-1 | Use class CheckedInputStream to compute the checksum of a file |
 | cmath-in-java-source | Complex variables |
 | crc | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
 | crypto-3fish | 3fish cryptography |

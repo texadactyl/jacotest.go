@@ -1,0 +1,334 @@
+[  0.204s] Starting execution with: main.main([Ljava/lang/String;)V
+[  0.204s] threadRun: class=main, meth=main([Ljava/lang/String;)V, maxStack=7, maxLocals=4, code size=37
+[  0.204s] th: 1, class: main                   meth:main       PC:   0, LDC           TOS:  -  
+[  0.204s]                                                         PUSH          TOS:  -
+[  0.204s]                                                         main.main TOS   [0] java/lang/String
+[  0.204s] th: 1, class: main                   meth:main       PC:   2, ASTORE_1      TOS:  0 String: ./main.java 
+[  0.204s]                                                          POP          TOS:  0, class: java/lang/String
+[  0.204s]                                                                           field: hashIsZero B 0
+[  0.204s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.204s]                                                                           field: coder B 0
+[  0.204s]                                                                           field: hash I 0
+[  0.204s]                                                         main.main stack <empty>
+[  0.204s] th: 1, class: main                   meth:main       PC:   3, ALOAD_1       TOS:  -  
+[  0.204s]                                                         PUSH          TOS:  -
+[  0.204s]                                                         main.main TOS   [0] java/lang/String
+[  0.204s] th: 1, class: main                   meth:main       PC:   4, INVOKESTATIC  TOS:  0 String: ./main.java 
+[  0.204s] createAndInitNewFrame: class=main, meth=getCheckSum(Ljava/lang/String;)J, includeObjectRef=false, maxStack=6, maxLocals=5
+[  0.204s]                                                          POP          TOS:  0, class: java/lang/String
+[  0.204s]                                                                           field: coder B 0
+[  0.204s]                                                                           field: hash I 0
+[  0.204s]                                                                           field: hashIsZero B 0
+[  0.204s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.204s]                                                         main.main stack <empty>
+[  0.204s] 	createAndInitNewFrame: lenArgList=1, lenLocals=5, stackSize=8
+[  0.204s] th: 1, class: main                   meth:getCheckSum PC:   0, NEW           TOS:  -  
+[  0.204s]                                                         PUSH          TOS:  -
+[  0.204s]                                                         main.getCheckSum TOS   [0] java/util/zip/CRC32
+[  0.204s] th: 1, class: main                   meth:getCheckSum PC:   3, DUP           TOS:  0 java/util/zip/CRC32 
+[  0.204s]                                                         PEEK          TOS:  0, class: java/util/zip/CRC32
+[  0.204s]                                                                           field: crc I 0
+[  0.204s]                                                                           field: $assertionsDisabled XZ 0
+[  0.204s]                                                         main.getCheckSum TOS   [0] java/util/zip/CRC32
+[  0.204s]                                                         PUSH          TOS:  0, class: java/util/zip/CRC32
+[  0.204s]                                                                           field: crc I 0
+[  0.204s]                                                                           field: $assertionsDisabled XZ 0
+[  0.204s]                                                         main.getCheckSum stack [0] java/util/zip/CRC32
+[  0.204s]                                                         main.getCheckSum TOS   [1] java/util/zip/CRC32
+[  0.204s] th: 1, class: main                   meth:getCheckSum PC:   4, INVOKESPECIAL TOS:  1 java/util/zip/CRC32 
+[  0.204s]                                                          POP          TOS:  1, class: java/util/zip/CRC32
+[  0.204s]                                                                           field: crc I 0
+[  0.204s]                                                                           field: $assertionsDisabled XZ 0
+[  0.204s]                                                         main.getCheckSum TOS   [0] java/util/zip/CRC32
+[  0.204s] G-function: class=java/util/zip/CRC32, meth=<init>()V
+[  0.204s] RunGfunction: java/util/zip/CRC32.<init>()V, objectRef: true, paramSlots: 1
+[  0.204s] th: 1, class: main                   meth:getCheckSum PC:   7, ASTORE_1      TOS:  0 java/util/zip/CRC32 
+[  0.204s]                                                          POP          TOS:  0, class: java/util/zip/CRC32
+[  0.204s]                                                                           field: crc I 0
+[  0.204s]                                                                           field: $assertionsDisabled XZ 0
+[  0.204s]                                                                           field: value J 0
+[  0.204s]                                                                           field: resetValue J 0
+[  0.204s]                                                                           field: polynomial I 3988292384
+[  0.204s]                                                         main.getCheckSum stack <empty>
+[  0.204s] th: 1, class: main                   meth:getCheckSum PC:   8, NEW           TOS:  -  
+[  0.220s]                                                         PUSH          TOS:  -
+[  0.220s]                                                         main.getCheckSum TOS   [0] java/util/zip/CheckedInputStream
+[  0.220s] th: 1, class: main                   meth:getCheckSum PC:  11, DUP           TOS:  0 java/util/zip/CheckedInputStream 
+[  0.220s]                                                         PEEK          TOS:  0, class: java/util/zip/CheckedInputStream
+[  0.220s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.220s]                                                                           field: DEFAULT_BUFFER_SIZE XI 16384
+[  0.220s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.220s]                                                                           field: in Ljava/io/InputStream; <nil>
+[  0.220s]                                                                           field: cksum Ljava/util/zip/Checksum; <nil>
+[  0.220s]                                                         main.getCheckSum TOS   [0] java/util/zip/CheckedInputStream
+[  0.220s]                                                         PUSH          TOS:  0, class: java/util/zip/CheckedInputStream
+[  0.220s]                                                                           field: cksum Ljava/util/zip/Checksum; <nil>
+[  0.220s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.220s]                                                                           field: DEFAULT_BUFFER_SIZE XI 16384
+[  0.220s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.220s]                                                                           field: in Ljava/io/InputStream; <nil>
+[  0.220s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.220s]                                                         main.getCheckSum TOS   [1] java/util/zip/CheckedInputStream
+[  0.220s] th: 1, class: main                   meth:getCheckSum PC:  12, NEW           TOS:  1 java/util/zip/CheckedInputStream 
+[  0.220s]                                                         PUSH          TOS:  1, class: java/io/FileInputStream
+[  0.220s]                                                                           field: path Ljava/lang/String; <nil>
+[  0.220s]                                                                           field: channel Ljava/nio/channels/FileChannel; <nil>
+[  0.220s]                                                                           field: closeLock Ljava/lang/Object; <nil>
+[  0.220s]                                                                           field: closed Z 0
+[  0.220s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.220s]                                                                           field: DEFAULT_BUFFER_SIZE XI 8192
+[  0.220s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                                           field: fd Ljava/io/FileDescriptor; <nil>
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [2] java/io/FileInputStream
+[  0.221s] th: 1, class: main                   meth:getCheckSum PC:  15, DUP           TOS:  2 java/io/FileInputStream 
+[  0.221s]                                                         PEEK          TOS:  2, class: java/io/FileInputStream
+[  0.221s]                                                                           field: path Ljava/lang/String; <nil>
+[  0.221s]                                                                           field: channel Ljava/nio/channels/FileChannel; <nil>
+[  0.221s]                                                                           field: closeLock Ljava/lang/Object; <nil>
+[  0.221s]                                                                           field: closed Z 0
+[  0.221s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.221s]                                                                           field: DEFAULT_BUFFER_SIZE XI 8192
+[  0.221s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                                           field: fd Ljava/io/FileDescriptor; <nil>
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [2] java/io/FileInputStream
+[  0.221s]                                                         PUSH          TOS:  2, class: java/io/FileInputStream
+[  0.221s]                                                                           field: fd Ljava/io/FileDescriptor; <nil>
+[  0.221s]                                                                           field: path Ljava/lang/String; <nil>
+[  0.221s]                                                                           field: channel Ljava/nio/channels/FileChannel; <nil>
+[  0.221s]                                                                           field: closeLock Ljava/lang/Object; <nil>
+[  0.221s]                                                                           field: closed Z 0
+[  0.221s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.221s]                                                                           field: DEFAULT_BUFFER_SIZE XI 8192
+[  0.221s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [2] java/io/FileInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [3] java/io/FileInputStream
+[  0.221s] th: 1, class: main                   meth:getCheckSum PC:  16, ALOAD_0       TOS:  3 java/io/FileInputStream 
+[  0.221s]                                                         PUSH          TOS:  3, class: java/lang/String
+[  0.221s]                                                                           field: hashIsZero B 0
+[  0.221s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.221s]                                                                           field: coder B 0
+[  0.221s]                                                                           field: hash I 0
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [2] java/io/FileInputStream
+[  0.221s]                                                         main.getCheckSum stack [3] java/io/FileInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [4] java/lang/String
+[  0.221s] th: 1, class: main                   meth:getCheckSum PC:  17, INVOKESPECIAL TOS:  4 String: ./main.java 
+[  0.221s]                                                          POP          TOS:  4, class: java/lang/String
+[  0.221s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.221s]                                                                           field: coder B 0
+[  0.221s]                                                                           field: hash I 0
+[  0.221s]                                                                           field: hashIsZero B 0
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [2] java/io/FileInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [3] java/io/FileInputStream
+[  0.221s]                                                          POP          TOS:  3, class: java/io/FileInputStream
+[  0.221s]                                                                           field: fd Ljava/io/FileDescriptor; <nil>
+[  0.221s]                                                                           field: path Ljava/lang/String; <nil>
+[  0.221s]                                                                           field: channel Ljava/nio/channels/FileChannel; <nil>
+[  0.221s]                                                                           field: closeLock Ljava/lang/Object; <nil>
+[  0.221s]                                                                           field: closed Z 0
+[  0.221s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.221s]                                                                           field: DEFAULT_BUFFER_SIZE XI 8192
+[  0.221s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [2] java/io/FileInputStream
+[  0.221s] G-function: class=java/io/FileInputStream, meth=<init>(Ljava/lang/String;)V
+[  0.221s] RunGfunction: java/io/FileInputStream.<init>(Ljava/lang/String;)V, objectRef: true, paramSlots: 2
+[  0.221s] th: 1, class: main                   meth:getCheckSum PC:  20, ALOAD_1       TOS:  2 java/io/FileInputStream 
+[  0.221s]                                                         PUSH          TOS:  2, class: java/util/zip/CRC32
+[  0.221s]                                                                           field: crc I 0
+[  0.221s]                                                                           field: $assertionsDisabled XZ 0
+[  0.221s]                                                                           field: value J 0
+[  0.221s]                                                                           field: resetValue J 0
+[  0.221s]                                                                           field: polynomial I 3988292384
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [2] java/io/FileInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [3] java/util/zip/CRC32
+[  0.221s] th: 1, class: main                   meth:getCheckSum PC:  21, INVOKESPECIAL TOS:  3 java/util/zip/CRC32 
+[  0.221s]                                                          POP          TOS:  3, class: java/util/zip/CRC32
+[  0.221s]                                                                           field: crc I 0
+[  0.221s]                                                                           field: $assertionsDisabled XZ 0
+[  0.221s]                                                                           field: value J 0
+[  0.221s]                                                                           field: resetValue J 0
+[  0.221s]                                                                           field: polynomial I 3988292384
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum stack [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [2] java/io/FileInputStream
+[  0.221s]                                                          POP          TOS:  2, class: java/io/FileInputStream
+[  0.221s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.221s]                                                                           field: fd Ljava/io/FileDescriptor; <nil>
+[  0.221s]                                                                           field: channel Ljava/nio/channels/FileChannel; <nil>
+[  0.221s]                                                                           field: closed Z 0
+[  0.221s]                                                                           field: FilePath [B [46 47 109 97 105 110 46 106 97 118 97]
+[  0.221s]                                                                           field: DEFAULT_BUFFER_SIZE XI 8192
+[  0.221s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                                           field: path Ljava/lang/String; <nil>
+[  0.221s]                                                                           field: closeLock Ljava/lang/Object; <nil>
+[  0.221s]                                                                           field: FileHandle *FH &{0xc0046c12c0}
+[  0.221s]                                                         main.getCheckSum stack [0] java/util/zip/CheckedInputStream
+[  0.221s]                                                         main.getCheckSum TOS   [1] java/util/zip/CheckedInputStream
+[  0.221s]                                                          POP          TOS:  1, class: java/util/zip/CheckedInputStream
+[  0.221s]                                                                           field: MAX_SKIP_BUFFER_SIZE XI 2048
+[  0.221s]                                                                           field: DEFAULT_BUFFER_SIZE XI 16384
+[  0.221s]                                                                           field: MAX_BUFFER_SIZE XI 2147483639
+[  0.221s]                                                                           field: in Ljava/io/InputStream; <nil>
+[  0.221s]                                                                           field: cksum Ljava/util/zip/Checksum; <nil>
+[  0.221s]                                                         main.getCheckSum TOS   [0] java/util/zip/CheckedInputStream
+[  0.221s] G-function: class=java/util/zip/CheckedInputStream, meth=<init>(Ljava/io/InputStream;Ljava/util/zip/Checksum;)V
+[  0.221s] RunGfunction: java/util/zip/CheckedInputStream.<init>(Ljava/io/InputStream;Ljava/util/zip/Checksum;)V, objectRef: true, paramSlots: 3
+[  0.221s] [ThrowEx] java.lang.UnsupportedOperationException, msg: TRAP: The requested class is not yet supported in thread: main, G-function: java/util/zip/CheckedInputStream.<init>(Ljava/io/InputStream;Ljava/util/zip/Checksum;)V
+[  0.221s] [ThrowEx] caught java/lang/UnsupportedOperationException, FQN: main.getCheckSum(Ljava/lang/String;)J, msg: TRAP: The requested class is not yet supported in thread: main, G-function: java/util/zip/CheckedInputStream.<init>(Ljava/io/InputStream;Ljava/util/zip/Checksum;)V
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  60, LDC           TOS:  0 java/lang/UnsupportedOperationException 
+[  0.238s]                                                         PUSH          TOS:  0, class: java/lang/String
+[  0.238s]                                                                           field: value [B [67 104 101 99 107 101 100 73 110 112 117 116 83 116 114 101 97 109 40 37 115 41 32 101 114 114 111 114 44 32 101 114 114 77 115 103 58 10 37 115] "CheckedInputStream(%s) error, errMsg:
+%s"
+[  0.238s]                                                                           field: coder B 0
+[  0.238s]                                                                           field: hash I 0
+[  0.238s]                                                                           field: hashIsZero B 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum TOS   [1] java/lang/String
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  62, ICONST_2      TOS:  1 String: CheckedInputStream(%s) error, errMsg:
+%s 
+[  0.238s]                                                         PUSH          TOS:  1 int64 2
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum TOS   [2] int64 2 
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  63, ANEWARRAY     TOS:  2 int64 2  
+[  0.238s]                                                         POP           TOS:  2 int64 2
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum TOS   [1] java/lang/String
+[  0.238s]                                                         PUSH          TOS:  1, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [<nil> <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum TOS   [2] [Ljava/lang/Object
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  66, DUP           TOS:  2 [Ljava/lang/Object 
+[  0.238s]                                                         PEEK          TOS:  2, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [<nil> <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum TOS   [2] [Ljava/lang/Object
+[  0.238s]                                                         PUSH          TOS:  2, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [<nil> <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [3] [Ljava/lang/Object
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  67, ICONST_0      TOS:  3 [Ljava/lang/Object 
+[  0.238s]                                                         PUSH          TOS:  3 int64 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [4] int64 0 
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  68, ALOAD_0       TOS:  4 int64 0  
+[  0.238s]                                                         PUSH          TOS:  4, class: java/lang/String
+[  0.238s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.238s]                                                                           field: coder B 0
+[  0.238s]                                                                           field: hash I 0
+[  0.238s]                                                                           field: hashIsZero B 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [4] int64 0 
+[  0.238s]                                                         main.getCheckSum TOS   [5] java/lang/String
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  69, AASTORE       TOS:  5 String: ./main.java 
+[  0.238s]                                                          POP          TOS:  5, class: java/lang/String
+[  0.238s]                                                                           field: hashIsZero B 0
+[  0.238s]                                                                           field: value [B [46 47 109 97 105 110 46 106 97 118 97] "./main.java"
+[  0.238s]                                                                           field: coder B 0
+[  0.238s]                                                                           field: hash I 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [4] int64 0 
+[  0.238s]                                                         POP           TOS:  4 int64 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [3] [Ljava/lang/Object
+[  0.238s]                                                          POP          TOS:  3, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [<nil> <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum TOS   [2] [Ljava/lang/Object
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  70, DUP           TOS:  2 [Ljava/lang/Object 
+[  0.238s]                                                         PEEK          TOS:  2, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [0xc003699cc0 <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum TOS   [2] [Ljava/lang/Object
+[  0.238s]                                                         PUSH          TOS:  2, class: [Ljava/lang/Object
+[  0.238s]                                                                           field: value [Ljava/lang/Object [0xc003699cc0 <nil>]
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [3] [Ljava/lang/Object
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  71, ICONST_1      TOS:  3 [Ljava/lang/Object 
+[  0.238s]                                                         PUSH          TOS:  3 int64 1
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [4] int64 1 
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  72, ALOAD_3       TOS:  4 int64 1  
+[  0.238s]                                                         PUSH          TOS:  4 int64 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [4] int64 1 
+[  0.238s]                                                         main.getCheckSum TOS   [5] int64 0 
+[  0.238s] th: 1, class: main                   meth:getCheckSum PC:  73, INVOKEVIRTUAL TOS:  5 int64 0  
+[  0.238s]                                                         POP           TOS:  5 int64 0
+[  0.238s]                                                         main.getCheckSum stack [0] java/lang/UnsupportedOperationException
+[  0.238s]                                                         main.getCheckSum stack [1] java/lang/String
+[  0.238s]                                                         main.getCheckSum stack [2] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum stack [3] [Ljava/lang/Object
+[  0.238s]                                                         main.getCheckSum TOS   [4] int64 1 
+[  0.238s] G-function: class=java/lang/Exception, meth=getMessage()Ljava/lang/String;
+[  0.238s] RunGfunction: java/lang/Exception.getMessage()Ljava/lang/String;, objectRef: true, paramSlots: 1
+ERROR: go panic because of: interface conversion: interface {} is int64, not *object.Object
+[  0.238s] Method: main.getCheckSum                         PC: 073
+[  0.238s] Method: main.main                                PC: 007
+[  0.239s]    
+[  0.239s] goroutine 1 [running]:
+[  0.239s] jacobin/src/jvm.interpret.func1()
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/interpreter.go:304 +0x3d
+[  0.239s] panic({0x6ddba0?, 0xc003843aa0?})
+[  0.239s] 	/opt/go/src/runtime/panic.go:787 +0x132
+[  0.239s] jacobin/src/gfunction.exceptionGetMessage({0xc0036c7210?, 0x60?, 0xc00002ece0?})
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/gfunction/javaLangException.go:134 +0xec
+[  0.239s] jacobin/src/gfunction.RunGfunction({{0x6f2c00?, 0xc003febda0?}, 0x0?}, 0x32?, {0xc00249af18?, 0x50?}, {0xc002719a70, 0xa}, {0xc0005793b0, 0x14}, ...)
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/gfunction/gfunctionExec.go:82 +0x39c
+[  0.239s] jacobin/src/jvm.invokeVirtualGfunction(0xc00437f200, {{0x6f2c00?, 0xc003febda0?}, 0x70?}, {0xc00249af18, 0x13}, {0xc002719a70, 0xa}, {0xc0005793b0, 0x14})
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/interpreter.go:2537 +0x392
+[  0.239s] jacobin/src/jvm.doInvokeVirtual(0xc00437f200, 0x5e?)
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/interpreter.go:2430 +0xa5d
+[  0.239s] jacobin/src/jvm.interpret(0xc003842240)
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/interpreter.go:324 +0x23f
+[  0.239s] jacobin/src/jvm.RunJavaThread({0xc0036c88c0?, 0x16?, 0xc00002feb8?})
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/run.go:149 +0xdf6
+[  0.239s] jacobin/src/jvm.JVMrun()
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/jvm/jvmStart.go:229 +0x10fd
+[  0.239s] main.main()
+[  0.239s] 	/home/elkins/BASIS/jacobin/src/main.go:20 +0x2f
+[  0.239s] 
+[  0.239s] shutdown.Exit(2) requested
+
+===== DumpStatics BEGIN, from="exit.Exit", selection=3, className=""
+main.$assertionsDisabled                   I 0
+===== DumpStatics END
+Version: 0.8.108 Build 4195, OS: linux
