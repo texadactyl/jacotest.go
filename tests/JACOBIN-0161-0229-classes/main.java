@@ -26,8 +26,8 @@ public class main {
         System.out.println("Testing subclasses that are embedded in the main class, parallel to main, and resident in a separate file.");
         System.out.println("Testing polymorphism, abstract classes, abstract methods, and interfaces.");
 
-        AbstractMultiMedia myMyRed = new MyRed();
-        errorCount += Checkers.checker("myMyRed.getColor() == \"reddish\"", "reddish", myMyRed.getColor());
+        AbstractMultiMedia myRed = new MyRed();
+        errorCount += Checkers.checker("myRed.getColor() == \"reddish\"", "reddish", myRed.getColor());
 
         System.out.println("\nInsider class will now be instantiated .....");
         Insider insider = new Insider();
@@ -57,10 +57,10 @@ public class main {
         errorCount += Checkers.checker("outsider.is_this_a_7() != insider.is_this_a_7()", false, outsider.is_this_a_7() == insider.is_this_a_7());
         errorCount += Checkers.checker("outsider.is_this_a_7() == insider.is_this_a_7() - 1", outsider.is_this_a_7(), insider.is_this_a_7() - 1);
 
-        AbstractMultiMedia myMyOrange = new MyOrange();
-        errorCount += Checkers.checker("myMyRed.getColor() != orange", false, myMyRed.getColor().equals("orange"));
-        errorCount += Checkers.checker("myMyRed.getSound() == \"loud\"", "loud", myMyRed.getSound());
-        errorCount += Checkers.checker("myMyRed.getNumber() == 42", 42, myMyRed.getNumber());
+        AbstractMultiMedia myOrange = new MyOrange();
+        errorCount += Checkers.checker("myRed.getColor() != orange", false, myRed.getColor().equals("orange"));
+        errorCount += Checkers.checker("myRed.getSound() == \"loud\"", "loud", myRed.getSound());
+        errorCount += Checkers.checker("myRed.getNumber() == 42", 42, myRed.getNumber());
 
         Pig myPig = new Pig();  // Create a Pig object implemented from Animal
         errorCount += Checkers.checker("myPig.getSound() == oink", "oink", myPig.getSound());
