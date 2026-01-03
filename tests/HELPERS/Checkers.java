@@ -400,6 +400,13 @@ public class Checkers {
         
     }
 
+
+    // ===== Windows? =====
+    public boolean IsWindows() {
+        String os = System.getProperty("os.name").toLowerCase();
+        return os.contains("windows");
+    }
+
     // ===== That's all, folks! =====
 
     public static void theEnd(int errorCount) {
