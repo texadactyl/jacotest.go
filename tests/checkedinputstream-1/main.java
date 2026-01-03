@@ -9,12 +9,18 @@ public class main {
     public static void main(String[] args) {
         System.out.println("Use class CheckedInputStream to compute the checksum of a file");
         String fpath = "./data.txt";
-        long cksum = getCheckSum(fpath);
-        errorCount += Checkers.checker("checksum", 1469659264, cksum);
+        long observedCksum = getChecksum(fpath);
+        long expectedCksum;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows"))
+            expectedCksum = 2444578021L;
+        else
+            expectedCksum = 1469659264L;
+        errorCount += Checkers.checker("Checksum", expectedCksum, observedCksum);
         Checkers.theEnd(errorCount);
     }
     
-    private static long getCheckSum(String fpath) {
+    private static long getChecksum(String fpath) {
     
         CRC32 checksum = new CRC32();
         int bytesRead;
