@@ -402,7 +402,7 @@ public class Checkers {
 
 
     // ===== Windows? =====
-    public boolean IsWindows() {
+    public boolean isWindows() {
         String os = System.getProperty("os.name").toLowerCase();
         return os.contains("windows");
     }
