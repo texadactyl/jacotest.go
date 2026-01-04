@@ -28,6 +28,7 @@ public class main {
 
         AbstractMultiMedia myRed = new MyRed();
         errorCount += Checkers.checker("myRed.getColor() == \"reddish\"", "reddish", myRed.getColor());
+        errorCount += Checkers.checker("myRed.getNumber() == 42 from abstract superclass", 42, myRed.getNumber());
 
         System.out.println("\nInsider class will now be instantiated .....");
         Insider insider = new Insider();
@@ -72,9 +73,7 @@ public class main {
 }
 
 abstract class AbstractMultiMedia {
-    public String getColor() {
-        return ("rainbow");
-    }
+    public abstract String getColor();
 
     public abstract String getSound();
 
@@ -84,6 +83,8 @@ abstract class AbstractMultiMedia {
 }
 
 class MyRed extends AbstractMultiMedia {
+
+    @Override
     public String getColor() {
         return ("reddish");
     }
