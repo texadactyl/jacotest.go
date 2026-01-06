@@ -7,7 +7,6 @@ GETFIELD: Invalid type
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
 fatal error
-abstract
 getClass
 getCallerClass
 java/lang/Thread
