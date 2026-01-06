@@ -5,7 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2026-01-04 | 5.4.15 | New test case: abstract-1. |
-| | | remove "abstract" as an error category. |
+| | | Remove "abstract" as an error category. |
 | 2026-01-03 | 5.4.14 | New test case: checkedinputstream-1. |
 | | | Added to HELPERS Checkers.isWindows() which returns a boolean. |
 | 2026-01-02 | 5.4.13 | threading-16 uses StringBuffer; dedupe-hacked has moved on! |
