@@ -91,7 +91,8 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | interface-07_ConflictingDefaults | interface call in which there are conflicting default methods between interfaces |
 | interface-08_PrivateStaticMethods | interface call involving private and static methods |
 | interface-09_DiamondHierarchy | interface call test of diamond hierarchy of interfaces with a shared default method |
-| interface-10-Invokeinterface | like interface-09_DiamondHierarchy but contains code that generates INVOKEDYNAMIC |
+| interface-10-Invokeinterface | The interface has a default nmethod that calls a private method |
+| interface-11-Invokeinterface | like interface-10-Invokeinterface plus try-catch in the interface private method |
 | io-file* | java.io file operations |
 | invoke-dynamic-concats | "+" operator, mixed primitives/objects, multi-argument, loops |
 | invoke-dynamic-generic-class | Box<T>::new, Pair<A,B>::new; demonstrates type parameter constructor references |
