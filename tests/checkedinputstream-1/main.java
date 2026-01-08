@@ -10,6 +10,8 @@ public class main {
         System.out.println("Use class CheckedInputStream to compute the checksum of a file");
         String fpath = "./data.txt";
         long observedCksum = getChecksum(fpath);
+        if (observedCksum < 0L)
+            Checkers.theEnd(1);
         long expectedCksum;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("windows"))
@@ -31,10 +33,10 @@ public class main {
             while ((bytesRead = cis.read(buffer)) != -1) {
             }
             return cis.getChecksum().getValue();
-        } catch (Exception ex) {
-            System.out.printf("CheckedInputStream(%s) error, errMsg:\n%s", fpath, ex.getMessage());
+        } catch (Throwable ex) {
+            System.out.printf("getChecksum(%s) throwable, errMsg:\n%s", fpath, ex.getMessage());
         }
-        return 1;       
+        return -1L;       
     }
 }
 

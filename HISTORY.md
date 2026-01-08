@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-01-08 | 5.4.17 | Fix test case checkedinputstream-1. |
 | 2026-01-06 | 5.4.16 | New test case: interface-11-private-try-catch. |
 | 2026-01-04 | 5.4.15 | New test case: abstract-1. |
 | | | Remove "abstract" as an error category. |

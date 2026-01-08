@@ -416,7 +416,7 @@ public class Checkers {
             System.out.println("========");
             System.exit(0);
         }
-        String errMsg = String.format("*** Test case diagnosed %d error(s)", errorCount);
+        String errMsg = String.format("\n*** Test case diagnosed %d error(s)", errorCount);
         throw new AssertionError(errMsg);
     }
 
