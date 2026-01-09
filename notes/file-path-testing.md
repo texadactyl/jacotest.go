@@ -1,6 +1,6 @@
 # Jacobin Path Test Suite
 
-This repository contains a set of test programs for **Jacobin** (Java NIO emulator) that validate **Windows and POSIX path semantics**. The tests are designed to check HotSpot-faithful behavior, including edge cases for absolute paths, drive-relative paths, UNC paths, and path normalization.
+This repository contains a set of test programs for **Jacobin** that validate **Windows and POSIX path semantics**. The tests are designed to check HotSpot-faithful behavior, including edge cases for absolute paths, drive-relative paths, UNC paths, and path normalization.
 
 ---
 
