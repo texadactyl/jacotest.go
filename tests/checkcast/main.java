@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class main {
     public static void main(String[] args) {
         int errorCount = 0;
@@ -5,7 +7,7 @@ public class main {
         MyClass objSimple = new MyClass();
         MyClass objArray[] = { objSimple };
         String strSimple = "ABC";
-        String strArray[] = { "ABC" };
+        String strArray[] = {"ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VXYZ"};
 
         // Upcast to Object first, then downcast  --->  CHECKCAST
         try {
@@ -44,11 +46,24 @@ public class main {
             errorCount++;
         }
 
+        try {
+            ArrayList<String> arrList = new ArrayList<>();
+            for (String str : strArray) {
+                arrList.add(str);
+            }        
+            String[] outArray = arrList.toArray(new String[arrList.size()]); // <-------------- Potential CHECKCAST issue
+            System.out.println("ok Cast ArrayList.toArray(new String[arrList.size()]) ---> String[]");
+        } catch (ClassCastException e) {
+            System.out.printf("*** ERROR, Cast arrList.toArray(new String[arrList.size()]) ---> String[] caught:\n\t%s\n", e.getMessage());
+            errorCount++;
+        }
+
         // Force a failure
         try {
             Object tmp = strSimple;
             MyClass badCast = (MyClass) tmp;  // CHECKCAST MyClass, throws
             System.out.println("*** ERROR, Cast Object(String) ---> MyClass: failed to throw ClassCastException");
+            ++errorCount;
         } catch (ClassCastException e) {
             System.out.println("ok Cast Object(String) ---> MyClass caught ClassCastException as expected");
         }

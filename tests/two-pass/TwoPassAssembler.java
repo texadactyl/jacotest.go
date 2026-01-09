@@ -354,7 +354,11 @@ class TwoPassAssembler {
 				temp.add(x);
 			}
 			temp.add(i+1, mask);
-			s = temp.toArray(new String[temp.size()]);
+			//s = temp.toArray(new String[temp.size()]); // <------------- CHECKCAST issue
+			s = new String[temp.size()];
+            for (int ii = 0; ii < temp.size(); ii++) {
+                s[ii] = temp.get(ii);
+            }
 		}
 		if(t.type.equals("RR")) {
 			output = s[i];
