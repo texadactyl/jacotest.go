@@ -4,7 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2026-01-09 | 5.4.17 | Fix test case two-pass to avoid CHECKCAST exception. |
+| 2026-01-09 | 5.4.19 | Fix test case stack-walk. |
+| 2026-01-09 | 5.4.18 | Fix test case two-pass to avoid CHECKCAST exception. |
 | | | Updated test case checkcast to contain a test to cover JACOBIN-852. |
 | 2026-01-08 | 5.4.17 | Fix test case checkedinputstream-1. |
 | 2026-01-06 | 5.4.16 | New test case: interface-11-private-try-catch. |
