@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2026-01-13 | 5.4.19 | Amend ERROR-CATEGORIES.txt to include "class method not found". |
+| 2026-01-13 | 5.4.20 | Amend ERROR-CATEGORIES.txt to include "class method not found". |
 | 2026-01-10 | 5.4.19 | Fix test case stack-walk. |
 | 2026-01-09 | 5.4.18 | Fix test case two-pass to avoid CHECKCAST exception. |
 | | | Updated test case checkcast to contain a test to cover JACOBIN-852. |
