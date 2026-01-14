@@ -151,6 +151,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | java-logging | java.util.logging |
 | jj-* | Special non-Java utility Jacobin gfunctions |
 | kalman-filtering | Kalman Filter |
+| lagrange-points | Compute L1, L2, and r_Hill for Earth and Mars using the Brent root algorithm |
 | lambdas-maps | Lambdas, maps, interfaces |
 | linked-list* | Lists and linked lists |
 | magic-square | Magic Square 13x13 |
