@@ -67,9 +67,24 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
+        cd ../threading-1
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        cd ../threading-2
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        cd ../threading-3
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        cd ../threading-16
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        cd ../threading-nested-locks
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
         cd ../threading-runnable
-        javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS -trace:inst main.class
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -81,6 +96,21 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
+        cd ../threading-1
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        cd ../threading-2
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        cd ../threading-3
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        cd ../threading-16
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        cd ../threading-nested-locks
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
         cd ../threading-runnable
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" -trace:inst main.class
