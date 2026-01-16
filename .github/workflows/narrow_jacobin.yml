@@ -69,7 +69,7 @@ jobs:
         ### Which test case?
         cd ../threading-runnable
         javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS -trace:verbose main.class
+        jacobin -cp .:../HELPERS -trace:inst main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -83,4 +83,4 @@ jobs:
         ### Which test case?
         cd ../threading-runnable
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:verbose main.class
+        jacobin -cp ".;../HELPERS" -trace:inst main.class
