@@ -68,22 +68,22 @@ jobs:
         javac *.java
         cd ../threading-1
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
         cd ../threading-2
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
         cd ../threading-3
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
         cd ../threading-16
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
         cd ../threading-nested-locks
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
         cd ../threading-runnable
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -96,19 +96,19 @@ jobs:
         javac *.java
         cd ../threading-1
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
         cd ../threading-2
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
         cd ../threading-3
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
         cd ../threading-16
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
         cd ../threading-nested-locks
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
         cd ../threading-runnable
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
