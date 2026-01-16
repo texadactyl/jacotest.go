@@ -67,7 +67,7 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../threading-runner
         javac -cp .:../HELPERS main.java
         jacobin -cp .:../HELPERS main.class
    
@@ -81,6 +81,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../file-path-2
+        cd ../threading-runner
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" main.class
