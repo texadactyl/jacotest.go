@@ -186,11 +186,6 @@ public class main {
     public static void main(String[] args) {
     
     	System.out.println("Simulation of the Enigma Engine circa WWII. This program uses abstract classes and functions.");
-    	String jvmPgmName = jj._getProgramName();
-    	if (!jvmPgmName.equals("java")) {
-    	    System.out.println("Jacobin is not yet supported");
-    	    System.exit(0);
-    	}
 
     	fitnessTests();
     	encryptTest();
@@ -202,11 +197,3 @@ public class main {
 		   	
 }
 
-class jj {
-
-    public static String _getProgramName() {
-        System.out.println("J-class function _getProgramName (not Jacobin)");
-        return "java";
-    }
-
-}
