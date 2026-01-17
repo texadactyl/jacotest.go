@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2026-01-17 | 5.4.22 | Deferred fixed test case: enigma-machine. Either in a loop or just extremely slow. |
+| | | Deferred test cases: leibniz-double, leibniz-big-decimal |
 | 2026-01-14 | 5.4.21 | New test case: lagrange-points. |
 | 2026-01-13 | 5.4.20 | Amend ERROR-CATEGORIES.txt to include "class method not found". |
 | 2026-01-10 | 5.4.19 | Fix test case stack-walk. |
