@@ -67,9 +67,9 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../threading-runnable
-        javac -cp .:../HELPERS main.java
-        jacobin -cp .:../HELPERS -trace:inst main.class
+        cd ../threading-1
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" -trace:inst main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -81,6 +81,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../threading-runnable
+        cd ../threading-1
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" -trace:inst main.class

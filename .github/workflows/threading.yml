@@ -1,0 +1,123 @@
+# Only on demand, this workflow will run the OpenJDK JVM against a single test case.
+# See line: ### Which test case?
+
+name: Threading - Jacobin
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  run_jacobin:
+    strategy:
+      fail-fast: false
+      matrix:
+        
+        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.24.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Setup PATH
+      shell: bash
+      run: |
+        echo "$HOME/go/bin" >> $GITHUB_PATH
+
+    - name: Setup Jacobin
+      shell: bash
+      run: |
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
+        jacobin --version
+        
+    - name: Setup Jacotest
+      shell: bash
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup JDK, not Windows ARM64
+      if: matrix.os != 'windows-11-arm'
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
+
+    - name: Set up JDK on Windows ARM64
+      if: matrix.os == 'windows-11-arm'
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'           # or 'adopt', 'microsoft', depending
+        java-version: '21'                # or whichever you choose
+        architecture: 'arm64'             # key: choose arm64
+
+    - name: Run Test Cases POSIX
+      shell: bash
+      if: runner.os != 'Windows'
+      run: |
+        java --version
+        javac --version
+        set -x
+        cd tests/HELPERS
+        javac *.java
+        cd ../threading-1
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+        cd ../threading-2
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+        cd ../threading-3
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+        cd ../threading-16
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+        cd ../threading-nested-locks
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+        cd ../threading-runnable
+        javac -cp ".:../HELPERS" main.java
+        jacobin -cp ".:../HELPERS" main.class
+   
+    - name: Run Test Cases Windows
+      shell: bash
+      if: runner.os == 'Windows'
+      run: |
+        java --version
+        javac --version
+        set -x
+        cd tests/HELPERS
+        javac *.java
+        cd ../threading-1
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
+        cd ../threading-2
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
+        cd ../threading-3
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
+        cd ../threading-16
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
+        cd ../threading-nested-locks
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
+        cd ../threading-runnable
+        javac -cp ".;../HELPERS" main.java
+        jacobin -cp ".;../HELPERS" main.class
