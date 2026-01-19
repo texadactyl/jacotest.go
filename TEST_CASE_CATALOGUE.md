@@ -69,6 +69,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | file-path-* | java/nio/file/{Path, Paths} |
 | fits | Read and process a FITS file |
 | floor-div-mod-mix | For int and long: floor, div, mod using try-catch |
+| function-parameters | Pass functions as parameters |
 | guitar-string | Simulate the plucking of a guitar string (Physics) |
 | harshad-niven | Compute the first 100 Harshad (Niven) numbers |
 | hash-* | java.util.HashMap & HashSet |
