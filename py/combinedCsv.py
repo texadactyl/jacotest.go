@@ -88,3 +88,4 @@ if discrepancies:
     print("Discrepant test cases:", file=sys.stderr)
     for t in discrepancies:
         print(f" - {t}", file=sys.stderr)
+    sys.exit(86)
