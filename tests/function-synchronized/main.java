@@ -9,40 +9,26 @@ public class main {
     private static final int YIELD_CONTROL = 0xF;
 
     public static void main(String[] args) throws InterruptedException {
+        int errorCount = 0;
+        
         Counter counter = new Counter();
-
         Worker[] workers = new Worker[THREAD_COUNT];
-
+        
         long start = System.currentTimeMillis();
-
         for (int i = 0; i < THREAD_COUNT; i++) {
             workers[i] = new Worker(counter, i, ITERATIONS, YIELD_CONTROL);
             workers[i].start();
         }
-
         for (Worker w : workers) {
             w.join();
         }
-
         long elapsed = System.currentTimeMillis() - start;
+        System.out.printf("Elapsed time (ms): %d\n", elapsed);
 
-        System.out.println("=== Test Results ===");
-        System.out.println("Expected instance count: " +
-                (long) THREAD_COUNT * ITERATIONS);
-        System.out.println("Actual instance count:   " + counter.get());
+        errorCount += Checkers.checker("Expected instance count", (long) (THREAD_COUNT * ITERATIONS), counter.get());
+        errorCount += Checkers.checker("Expected value2 count", (long) (THREAD_COUNT * ITERATIONS), Counter.getStatic());
 
-        System.out.println("Expected static count:   " +
-                (long) THREAD_COUNT * ITERATIONS);
-        System.out.println("Actual static count:     " + Counter.getStatic());
-
-        System.out.println("Elapsed time (ms):       " + elapsed);
-
-        if (counter.get() != (long) THREAD_COUNT * ITERATIONS ||
-            Counter.getStatic() != (long) THREAD_COUNT * ITERATIONS) {
-            throw new AssertionError("Synchronization failure detected!");
-        }
-
-        System.out.println("Synchronization OK");
+        Checkers.theEnd(errorCount);
     }
 }
 
