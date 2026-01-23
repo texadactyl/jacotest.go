@@ -48,6 +48,7 @@ class LitTuple {
 }
 
 class TwoPassAssembler {
+    static final boolean debugging = true;
 	static int lc;
 	static LinkedList<Tuple> mot;
 	static LinkedList<String> pot;
@@ -144,6 +145,13 @@ class TwoPassAssembler {
 	}
 	
 	static boolean searchPot1(String[] s) {
+		if (debugging) {
+		    System.out.printf("DEBUG 1 searchPot1 :: s.length: %d\n\t", s.length);
+		    for (int ix = 0; ix < s.length; ix++)
+		        System.out.printf("[%s] ", s[ix]);
+		    System.out.println();
+		}
+
 		int i = 0;
 		int l = 0;
 		int potval = 0;
@@ -152,6 +160,12 @@ class TwoPassAssembler {
 			i = 1;
 		}
 		s = tokenizeOperands(s);
+		if (debugging) {
+		    System.out.printf("DEBUG 2 searchPot1 :: s.length: %d\n\t", s.length);
+		    for (int ix = 0; ix < s.length; ix++)
+		        System.out.printf("[%s] ", s[ix]);
+		    System.out.println();
+		}
 		
 		if(s[i].equalsIgnoreCase("DS") || s[i].equalsIgnoreCase("DC")) {
 			potval = 1;
@@ -447,6 +461,12 @@ class TwoPassAssembler {
 	}
 	
 	static String[] tokenizeOperands(String[] s) {
+		if (debugging) {
+		    System.out.printf("DEBUG 1 tokenizeOperands :: s.length: %d\n\t", s.length);
+		    for (int ix = 0; ix < s.length; ix++)
+		        System.out.printf("[%s] ", s[ix]);
+		    System.out.println();
+		}
 		LinkedList<String> temp = new LinkedList<>();
 		for(int j=0 ; j<s.length-1 ; j++) {
 			temp.add(s[j]);
@@ -456,6 +476,12 @@ class TwoPassAssembler {
 			temp.add(st.nextToken());
 		}
 		s = temp.toArray(new String[0]);
+		if (debugging) {
+		    System.out.printf("DEBUG 2 tokenizeOperands :: s.length: %d\n\t", s.length);
+		    for (int ix = 0; ix < s.length; ix++)
+		        System.out.printf("[%s] ", s[ix]);
+		    System.out.println();
+		}
 		return s;
 	}
 	
