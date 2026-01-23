@@ -70,10 +70,10 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | fits | Read and process a FITS file |
 | floor-div-mod-mix | For int and long: floor, div, mod using try-catch |
 | function-parameters | Pass functions as parameters |
-| function-synchronized-1 | Threading use of synchronized method functions: invokespecial, invokevirtual |
-| function-synchronized-2 | Threading use of synchronized method functions: invokestatic |
-| function-synchronized-3 | function-synchronized-1 + invokeinterface |
-| function-synchronized-caught | function-synchronized-3 + caught exceptions |
+| function-synchronized-basic | Threading use of synchronized method functions: invokespecial, invokevirtual |
+| function-synchronized-caught | Threading use of synchronized method functions: static + caught exceptions |
+| function-synchronized-static | Threading use of synchronized method functions: invokestatic |
+| function-synchronized-iface | function-synchronized-1 + invokeinterface |
 | guitar-string | Simulate the plucking of a guitar string (Physics) |
 | harshad-niven | Compute the first 100 Harshad (Niven) numbers |
 | hash-* | java.util.HashMap & HashSet |

@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2026-01-23 | 5.4.24 | New test cases: function-synchronized-1, function-synchronized-2, function-synchronized-3, function-synchronized-caught. |
+| 2026-01-23 | 5.4.24 | New test cases: function-synchronized-basic, function-synchronized-static, function-synchronized-iface, function-synchronized-caught. |
 | 2026-01-19 | 5.4.23 | New test case: function-parameters. |
 | 2026-01-17 | 5.4.22 | Deferred fixed test case: enigma-machine. Either in a loop or just extremely slow. |
 | | | Deferred test cases: leibniz-double, leibniz-big-decimal |
