@@ -207,6 +207,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | threading-nested-locks | 8 simultaneous threads, nested locks 5 deep each |
 | threading-runnable | Use Interface Runnable |
 | two-pass | Two-pass Assembler |
+| two-pass-tokenize | Just the tokenizer of two-pass |
 | tx-student-topzips | File reading, subclass with 2 init functions, bubble sort with 3 keys |
 | vector* | Vector functions |
 | walker | java.nio.file.Files, Path, and Paths |
