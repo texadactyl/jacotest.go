@@ -5,8 +5,8 @@ Synchronized Stress Test
 
 public class main {
 
-    private static final int THREAD_COUNT = 8;
-    private static final int ITERATIONS = 100;
+    private static final int THREAD_COUNT = 64;
+    private static final int ITERATIONS = 1000;
     private static final int YIELD_CONTROL = 0xF;
 
     public static void main(String[] args) throws InterruptedException {
