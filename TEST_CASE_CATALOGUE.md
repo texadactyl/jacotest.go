@@ -72,8 +72,9 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | function-parameters | Pass functions as parameters |
 | function-synchronized-basic | Threading use of synchronized method functions: invokespecial, invokevirtual |
 | function-synchronized-caught | Threading use of synchronized method functions: static + caught exceptions |
-| function-synchronized-static | Threading use of synchronized method functions: invokestatic |
 | function-synchronized-iface | function-synchronized-1 + invokeinterface |
+| function-synchronized-multiframe | exceptions at multiple call-stack levels |
+| function-synchronized-static | Threading use of synchronized method functions: invokestatic |
 | guitar-string | Simulate the plucking of a guitar string (Physics) |
 | harshad-niven | Compute the first 100 Harshad (Niven) numbers |
 | hash-* | java.util.HashMap & HashSet |
