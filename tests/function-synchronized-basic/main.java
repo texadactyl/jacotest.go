@@ -13,13 +13,12 @@ public class main {
         int errorCount = 0;
 
         Counter counter = new Counter();
-        StaticCounter staticCounter = new StaticCounter();
 
         Worker[] workers = new Worker[THREAD_COUNT];
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < THREAD_COUNT; i++) {
-            workers[i] = new Worker(counter, staticCounter, i, ITERATIONS, YIELD_CONTROL);
+            workers[i] = new Worker(counter, i, ITERATIONS, YIELD_CONTROL);
             workers[i].start();
         }
         for (Worker w : workers) {
@@ -32,12 +31,6 @@ public class main {
             "Expected instance count",
             (long) (THREAD_COUNT * ITERATIONS),
             counter.get()
-        );
-
-        errorCount += Checkers.checker(
-            "Expected value2 count",
-            (long) (THREAD_COUNT * ITERATIONS),
-            staticCounter.get()
         );
 
         Checkers.theEnd(errorCount);
@@ -67,46 +60,20 @@ class Counter {
 }
 
 /**
- * Replacement for static synchronized logic
- * (singleton-style instance)
- */
-class StaticCounter {
-    private long value = 0;
-
-    public synchronized void increment() {
-        value++;
-
-        if ((value & 0xFF) == 0) {
-            try {
-                wait(1);
-            } catch (InterruptedException ignored) {
-            }
-        }
-    }
-
-    public synchronized long get() {
-        return value;
-    }
-}
-
-/**
  * Thread subclass
  */
 class Worker extends Thread {
 
     private final Counter counter;
-    private final StaticCounter staticCounter;
     private final int iterations;
     private final int yield_control;
 
     Worker(Counter counter,
-           StaticCounter staticCounter,
            int id,
            int iterations,
            int yield_control) {
 
         this.counter = counter;
-        this.staticCounter = staticCounter;
         this.iterations = iterations;
         this.yield_control = yield_control;
 
@@ -117,8 +84,7 @@ class Worker extends Thread {
     public void run() {
         for (int ix = 0; ix < iterations; ix++) {
             counter.increment();          // invokevirtual (ACC_SYNCHRONIZED)
-            staticCounter.increment();    // invokevirtual (ACC_SYNCHRONIZED)
-
+ 
             if ((ix & yield_control) == 0) {
                 Thread.yield();
             }

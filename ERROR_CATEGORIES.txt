@@ -21,6 +21,7 @@ TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
 Native method requested
+IllegalMonitorStateException
 UnsupportedOperationException
 stack underflow
 stack overflow
