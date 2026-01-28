@@ -69,6 +69,8 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | file-path-* | java/nio/file/{Path, Paths} |
 | fits | Read and process a FITS file |
 | floor-div-mod-mix | For int and long: floor, div, mod using try-catch |
+| function-monitor-mix | Comprehensive synchronization and threading involving invokestatic, invokeinterface, invokespecial, invokevirtual, |
+| | monitorenter, monitorexit, Object.wait, Object.notify, Object.notifyAll, and Thread.interrupt |
 | function-parameters | Pass functions as parameters |
 | function-synchronized-basic | Threading use of synchronized method functions: invokespecial, invokevirtual |
 | function-synchronized-caught | Threading use of synchronized method functions: static + caught exceptions |
