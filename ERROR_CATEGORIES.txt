@@ -3,10 +3,11 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+NoSuchAlgorithmException
+fatal error
 GETFIELD: Invalid type
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
-fatal error
 getClass
 getCallerClass
 class method not found
