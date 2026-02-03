@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-02-02 | 5.4.28 | New test case: crypto-digest-3. |
 | 2026-01-28 | 5.4.27 | New test case: function-monitor-mix-2, renamed function-monitor-mix to function-monitor-mix-1. |
 | 2026-01-28 | 5.4.26 | New test case: function-monitor-mix. |
 | 2026-01-24 | 5.4.25 | New test case: function-synchronized-multiframe. |
