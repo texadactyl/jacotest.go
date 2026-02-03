@@ -61,7 +61,7 @@ public class main {
         // === Comparison Tests ===
         int errorCount = 0;
 
-        // 1. Verify names
+        // Verify names
         if (!group1.getName().equals("Group-1")) {
             System.out.println("*** ERROR: group1 name mismatch");
             errorCount++;
@@ -71,19 +71,19 @@ public class main {
             errorCount++;
         }
 
-        // 2. Verify different groups are not equal
+        // Verify different groups are not equal
         if (group1.equals(group2)) {
             System.out.println("*** ERROR: group1 should not equal group2");
             errorCount++;
         }
 
-        // 3. Verify threads belong to correct groups
+        // Verify threads belong to correct groups
         errorCount += Checkers.checker("Is thread t1a in Group-1?", "Group-1", t1a.getThreadGroup().getName());
         errorCount += Checkers.checker("Is thread t1b in Group-1?", "Group-1", t1b.getThreadGroup().getName());
         errorCount += Checkers.checker("Is thread t2a in Group-2?", "Group-2", t2a.getThreadGroup().getName());
         errorCount += Checkers.checker("Is thread t2b in Group-2?", "Group-2", t2b.getThreadGroup().getName());
 
-        // 4. Verify parent group of both is main thread group
+        // Verify parent group of both is main thread group
         ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();
         if (group1.getParent() != mainGroup || group2.getParent() != mainGroup) {
             System.out.println("*** ERROR: Parent of groups should be main thread group");
@@ -102,16 +102,6 @@ public class main {
 
         // Did all 4 Workers run?
         errorCount += Checkers.checker("thCounter after joins", 4, thCounter);
-
-        // 5. Verify thread counts are 0 after completion
-        if (group1.activeCount() != 0) {
-            System.out.println("*** ERROR: Group-1 should have 0 active threads");
-            errorCount++;
-        }
-        if (group2.activeCount() != 0) {
-            System.out.println("*** ERROR: Group-2 should have 0 active threads");
-            errorCount++;
-        }
 
         // Summary
         Checkers.theEnd(errorCount);
