@@ -91,6 +91,10 @@ public class main {
         }
         
         // Wait for threads to complete
+        Thread.yield();
+        Thread.yield();
+        Thread.yield();
+        Thread.yield();
         t1a.join(5000);
         t1b.join(5000);
         t2a.join(5000);
