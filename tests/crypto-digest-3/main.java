@@ -32,11 +32,11 @@ public class main {
             System.out.printf("ClassName: %s\n", className);
 
             String type = sha256Service.getType();
-            Checkers.checker("Type", "MessageDigest", type);
+            errorCount += Checkers.checker("Type", "MessageDigest", type);
             String algorithm = sha256Service.getAlgorithm();
-            Checkers.checker("Algorithm", "SHA-256", algorithm);
+            errorCount += Checkers.checker("Algorithm", "SHA-256", algorithm);
             String implementedIn = sha256Service.getAttribute("ImplementedIn");
-            Checkers.checker("ImplementedIn", "Software", implementedIn);
+            errorCount += Checkers.checker("ImplementedIn", "Software", implementedIn);
 
             // Now, create a MessageDigest instance via the service
             MessageDigest md = MessageDigest.getInstance(sha256Service.getAlgorithm(), defaultProvider);
@@ -50,7 +50,7 @@ public class main {
             for (byte b : digest) {
                 hex.append(String.format("%02x", b & 0xff));
             }
-            Checkers.checker("SHA-256 digest", "dfc025fe1a8329c15ed6f362f49c0db009dc82d64363e21125b4f3773c145dc4", hex.toString());
+            errorCount += Checkers.checker("SHA-256 digest", "dfc025fe1a8329c15ed6f362f49c0db009dc82d64363e21125b4f3773c145dc4", hex.toString());
             
         } catch (NoSuchAlgorithmException ex) {
             throw new AssertionError("*** ERROR, NoSuchAlgorithmException thrown");
