@@ -4,7 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2026-02-06 | 5.4.30 | New test case: crypto-rsa-basic. |
+| 2026-02-06 | 5.4.30 | New test case: crypto-G-rsa-basic. |
 | 2026-02-03 | 5.4.29 | Updated crypto-digest-3, crypto-elliptic-1, and crypto-elliptic-2 with commentary, especially parameters. |
 | | | threading-3: abandon the use of ThreadGroup.activeCount() because its unreliable under Hotspot. |
 | 2026-02-02 | 5.4.28 | New test case: crypto-digest-3. |
