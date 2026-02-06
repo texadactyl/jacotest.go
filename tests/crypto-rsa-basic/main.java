@@ -41,13 +41,17 @@ public class main {
         // getProvider
         System.out.println(String.format("Provider info: %s", kpg.getProvider().getName()));
 
-        // Derive the key size.
+        // Derive the Public key size.
         RSAPublicKey pub = (RSAPublicKey)kp.getPublic();
         BigInteger modulus = pub.getModulus();
-        int derivedKeySize = modulus.bitLength();
-        
-        Checkers.checker("Key Size", keySize, derivedKeySize);
+        int derivedKeySize = modulus.bitLength();       
+        Checkers.checker("Public Key Size", keySize, derivedKeySize);
 
+        // Derive the Private key size.
+        RSAPrivateKey prv = (RSAPrivateKey)kp.getPrivate();
+        BigInteger exponent = prv.getPrivateExponent();
+        System.out.print("Private key exponent: ");
+        System.out.println(exponent);
 
         // Final summary
         Checkers.theEnd(errorCount);
