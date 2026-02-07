@@ -31,15 +31,17 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | checkedinputstream-1 | Use class CheckedInputStream to compute the checksum of a file |
 | cmath-in-java-source | Complex variables |
 | crc | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
+| crypto-G-elliptic-* | Elliptic cryptography using G functions |
+| crypto-G-digest-* | MessageDigest tests using G functions |
+| crypto-G-password-based | Password-based cryptography with AES/CBC/PKCS5Padding using G functions |
+| crypto-G-rsa-basic | RSA jey generation and verify using G functions |
+| crypto-G-tls-one-way | One-way TLS using G functions |
 | crypto-3fish | 3fish cryptography |
 | crypto-desi | DES algorithm in Java |
 | crypto-desi-reduced | Call functions of an object from outside and inside the object |
-| crypto-elliptic-* | Elliptic cryptography |
 | crypto-enigma-machine | Alan Turing's Enigma Machine |
-| crypto-digest-* | MessageDigest tests |
 | crypto-mobile-* | Mobile network functions |
 | crypto-paillier | Pascal Paillier cryptosystem |
-| crypto-password-based | Password-based cryptography using AES/CBC/PKCS5Padding |
 | crypto-playfair | Playfair-Wheatstone cipher algorithm |
 | crypto-rsa-mini | RSA Public and Private Key simple cryptography |
 | crypto-rsa-unrandom | Like rsa-mini but without random key generation |
@@ -47,7 +49,6 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | crypto-sha3 | SHA-3 calculator |
 | crypto-speck | speck cryptography |
 | crypto-solitairgraphy | Cryptography with a deck of cards (Bruce Schneier) |
-| crypto-tls-one-way | One-way TLS |
 | crypto-two-fish | Two-fish cryptography |
 | db-sqlite | SQLITE with a JDBC |
 | dedupe-hacked | "Looks for duplicate files based on CRC-32 file sizes and checksums" from @platypusguy |
