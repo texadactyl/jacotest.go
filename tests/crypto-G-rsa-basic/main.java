@@ -12,6 +12,7 @@ public class main {
         int keySize = 2048;
 
         System.out.println(String.format("Testing algorithm: %s", alg));
+        System.out.println("Note that the public and private keys are subject to the SecureRandom effects in key generation");
 
         // Create KeyPairGenerator
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(alg);
@@ -41,13 +42,13 @@ public class main {
         // getProvider
         System.out.println(String.format("Provider info: %s", kpg.getProvider().getName()));
 
-        // Derive the Public key size.
+        // Derive the Public key size in bits.
         RSAPublicKey pub = (RSAPublicKey)kp.getPublic();
         BigInteger modulus = pub.getModulus();
         int derivedKeySize = modulus.bitLength();       
-        Checkers.checker("Public Key Size", keySize, derivedKeySize);
+        Checkers.checker("Public key size in bits", keySize, derivedKeySize);
 
-        // Derive the Private key size.
+        // Derive the Private key exponent.
         RSAPrivateKey prv = (RSAPrivateKey)kp.getPrivate();
         BigInteger exponent = prv.getPrivateExponent();
         System.out.print("Private key exponent: ");

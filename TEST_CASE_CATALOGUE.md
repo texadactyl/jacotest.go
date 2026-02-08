@@ -34,7 +34,7 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | crypto-G-elliptic-* | Elliptic cryptography using G functions |
 | crypto-G-digest-* | MessageDigest tests using G functions |
 | crypto-G-password-based | Password-based cryptography with AES/CBC/PKCS5Padding using G functions |
-| crypto-G-rsa-basic | RSA jey generation and verify using G functions |
+| crypto-G-rsa-basic | RSA key generation and verify using G functions |
 | crypto-G-tls-one-way | One-way TLS using G functions |
 | crypto-3fish | 3fish cryptography |
 | crypto-desi | DES algorithm in Java |

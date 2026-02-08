@@ -1,80 +1,159 @@
 import java.security.*;
 import java.security.interfaces.*;
-import java.security.spec.*;
 
 public class main {
 
-    public static void main(String[] args) {
-        String[] algoArray = { "RSA", "DSA", "EC", "Ed25519", "Ed448", "X25519", "X448" };
-        int[] keySizeArray = { 2048,  1024,  256,      0,       0,        0,        0   };
+    public static void main(String[] args) throws Exception {
+        String[] algoArray = {
+            "RSA", "DH", "EC", "DSA", "Ed25519", "Ed448", "X25519", "X448"
+        };
+
+        int[] keySizeArray = {
+            2048, 0, 256, 1024, 0, 0, 0, 0
+        };
+
         int errorCount = 0;
+
+        byte[] message =
+            "The quick brown fox jumps over the lazy dog".getBytes();
 
         for (int i = 0; i < algoArray.length; i++) {
             String alg = algoArray[i];
             int keySize = keySizeArray[i];
 
-            System.out.println(String.format("=== Testing algorithm: %s ===", alg));
+            System.out.println(
+                String.format("=== Testing algorithm: %s ===", alg));
 
-            try {
-                // Create KeyPairGenerator
-                KeyPairGenerator kpg = KeyPairGenerator.getInstance(alg);
-                System.out.println(String.format("getInstance(String) OK"));
+            // Create KeyPairGenerator
+            KeyPairGenerator kpg =
+                KeyPairGenerator.getInstance(alg);
+            System.out.println(
+                String.format("getInstance(String) OK"));
 
-                if (keySize > 0) {
-                    kpg.initialize(keySize);
-                    System.out.println(String.format("initialize(int) OK"));
+            if (keySize > 0) {
+                kpg.initialize(keySize);
+                System.out.println(
+                    String.format("initialize(int) OK"));
 
-                    SecureRandom random = new SecureRandom();
-                    kpg.initialize(keySize, random);
-                    System.out.println(String.format("initialize(int, SecureRandom) OK"));
-                }
+                SecureRandom random = new SecureRandom();
+                kpg.initialize(keySize, random);
+                System.out.println(
+                    String.format("initialize(int, SecureRandom) OK"));
+            }
 
-                // generateKeyPair
-                KeyPair kp = kpg.generateKeyPair();
-                if (kp == null) {
-                    System.out.println(String.format("*** ERROR: generateKeyPair returned null"));
+            // generateKeyPair
+            KeyPair kp = kpg.generateKeyPair();
+            if (kp == null) {
+                System.out.println(
+                    String.format("*** ERROR: generateKeyPair returned null"));
+                errorCount++;
+                continue;
+            }
+            System.out.println(
+                String.format("generateKeyPair() OK"));
+
+            // getAlgorithm
+            System.out.println(
+                String.format("getAlgorithm() = %s", kpg.getAlgorithm()));
+
+            // getProvider
+            System.out.println(
+                String.format("getProvider() = %s",
+                    kpg.getProvider().getName()));
+
+            // Derived key size if possible
+            PublicKey pub = kp.getPublic();
+
+            switch (alg) {
+                case "RSA":
+                    System.out.println(
+                        String.format("Derived key size = %d",
+                            ((RSAPublicKey) pub)
+                                .getModulus()
+                                .bitLength()));
+                    break;
+
+                case "EC":
+                    System.out.println(
+                        String.format("Derived key size = %d",
+                            ((ECPublicKey) pub)
+                                .getParams()
+                                .getOrder()
+                                .bitLength()));
+                    break;
+
+                case "DSA":
+                    System.out.println(
+                        String.format("Derived key size = %d",
+                            ((DSAPublicKey) pub)
+                                .getParams()
+                                .getP()
+                                .bitLength()));
+                    break;
+
+                case "DH":
+                case "Ed25519":
+                case "Ed448":
+                case "X25519":
+                case "X448":
+                    System.out.println(
+                        String.format(
+                            "Key size cannot be derived for %s keys",
+                            alg));
+                    break;
+
+                default:
+                    System.out.println(
+                        String.format(
+                            "*** ERROR: Unknown key type (%s)", alg));
                     errorCount++;
-                } else {
-                    System.out.println(String.format("generateKeyPair() OK"));
+                    continue;
+            }
+
+            /* ===============================
+             * Signature tests (where valid)
+             * =============================== */
+            try {
+                Signature sig = null;
+
+                if (alg.equals("RSA")) {
+                    sig = Signature.getInstance("SHA256withRSA");
+                } else if (alg.equals("DSA")) {
+                    sig = Signature.getInstance("SHA256withDSA");
+                } else if (alg.equals("EC")) {
+                    sig = Signature.getInstance("SHA256withECDSA");
+                } else if (alg.equals("Ed25519")) {
+                    sig = Signature.getInstance("Ed25519");
                 }
 
-                // getAlgorithm
-                System.out.println(String.format("getAlgorithm() = %s", kpg.getAlgorithm()));
+                if (sig != null) {
+                    // Sign
+                    sig.initSign(kp.getPrivate());
+                    sig.update(message);
+                    byte[] signature = sig.sign();
 
-                // getProvider
-                System.out.println(String.format("getProvider() = %s", kpg.getProvider().getName()));
+                    System.out.println(
+                        String.format(
+                            "sign() OK, signature length = %d",
+                            signature.length));
 
-                // Derived key size if possible
-                PublicKey pub = kp.getPublic();
-                int derivedSize = 0;
+                    // Verify
+                    sig.initVerify(kp.getPublic());
+                    sig.update(message);
+                    boolean ok = sig.verify(signature);
+                    Checkers.checker(String.format("%s Signature Verify", alg), true, ok);
 
-                if (pub instanceof RSAKey) {
-                    derivedSize = ((RSAKey) pub).getModulus().bitLength();
-                    System.out.println(String.format("Derived key size = %d", derivedSize));
-                } else if (pub instanceof ECKey) {
-                    derivedSize = ((ECKey) pub).getParams().getOrder().bitLength();
-                    System.out.println(String.format("Derived key size = %d", derivedSize));
-                } else if (pub instanceof DSAKey) {
-                    derivedSize = ((DSAKey) pub).getParams().getP().bitLength();
-                    System.out.println(String.format("Derived key size = %d", derivedSize));
-                } else if (pub instanceof EdECKey) {
-                    System.out.println("Key size cannot be derived for EdEC key");
-                } else if (alg.startsWith("X")) {
-                    System.out.println("Key size cannot be derived for XDH key");
-                } else {
-                    System.out.printf("*** ERROR, Unknown key type (%s), cannot derive key size\n", alg);
-                    errorCount += 1;
+                 } else {
+                    System.out.println(
+                        String.format(
+                            "Signature not applicable for %s", alg));
                 }
 
             } catch (NoSuchAlgorithmException e) {
-                System.out.println(String.format("*** ERROR: NoSuchAlgorithmException for %s", alg));
-                errorCount++;
-            } catch (InvalidParameterException e) {
-                System.out.println(String.format("*** ERROR: InvalidParameterException for %s", alg));
-                errorCount++;
-            } catch (Exception e) {
-                System.out.println(String.format("*** ERROR: Unexpected exception for %s: %s", alg, e));
-                errorCount++;
+                System.out.println(
+                    String.format(
+                        "Signature algorithm not supported: %s",
+                        e.getMessage()));
             }
 
             System.out.println();
