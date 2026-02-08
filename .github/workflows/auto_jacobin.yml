@@ -30,8 +30,26 @@ jobs:
       matrix:        
         os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash
+
     steps:
     - uses: actions/checkout@v4
+
+    - name: Set TEMP and TMP
+      run: |
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            export TEMP="C:/actions_temp"
+            export TMP="C:/actions_temp"
+          else
+            export TEMP="/tmp/actions_temp"
+            export TMP="/tmp/actions_temp"
+          fi
+          mkdir -p "$TEMP"
+          echo "TEMP=$TEMP"
+          echo "TMP=$TMP"
 
     - name: Setup Go
       uses: actions/setup-go@main
@@ -41,7 +59,6 @@ jobs:
           cache-dependency-path: "**/go.sum"
           
     - name: Add Go to PATH
-      shell: bash
       run: echo "$HOME/go/bin" >> $GITHUB_PATH
 
     - name: Setup JDK, not Windows ARM64
@@ -60,7 +77,6 @@ jobs:
         architecture: 'arm64'             # key: choose arm64
 
     - name: Setup Jacotest
-      shell: bash
       run: |
         cd src
         go get
@@ -69,7 +85,6 @@ jobs:
         jacotest -h
 
     - name: Setup Jacobin
-      shell: bash
       run: |
         set -x
         git clone https://github.com/texadactyl/jacobin
@@ -81,7 +96,6 @@ jobs:
         fi
         
     - name: Run Test Cases
-      shell: bash
       run: |
         java --version
         javac --version
@@ -89,13 +103,11 @@ jobs:
         jacotest -c -x -t 120 || true
 
     - name: Summary of Results
-      shell: bash
       run: |
         jacotest -r 3
         cp logs/passfail.txt passfail-${{ matrix.os }}.txt
 
     - name: Create Output Env Names
-      shell: bash
       run: |
         echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
         echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
@@ -135,13 +147,11 @@ jobs:
           path: collected-results/
       
       - name: List downloaded files
-        shell: bash
         run: |
           echo "Downloaded files:"
           find collected-results -type f
       
       - name: Concatenate combined passfail results
-        shell: bash
         run: |
           export LIST_ALL="results_list.txt"
           touch $LIST_ALL
@@ -153,7 +163,6 @@ jobs:
           
       - name: Produce combined CSV
         continue-on-error: true
-        shell: bash
         run: |
           export LIST_ALL="results_list.txt"
           export CSV="combined.csv"
