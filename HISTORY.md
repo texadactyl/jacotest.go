@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-02-10 | 5.4.33 | New test case: crypto-G-peek. |
 | 2026-02-08 | 5.4.32 | Extended test case crypto-G-kpg-basic to include signature verification. |
 | 2026-02-07 | 5.4.31 | For crypto test cases using G libray functions, the prefix changed to "crypto-G-". |
 | 2026-02-06 | 5.4.30 | New test case: crypto-G-rsa-basic. |

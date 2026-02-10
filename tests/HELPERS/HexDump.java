@@ -67,5 +67,20 @@ public class HexDump {
         return hexString;
     }
 
+    /*
+        Simple output of hex representation of a byte array for a maximum length.
+    */
+    public static String bytesToHex(byte[] bytes, int maxLen) {
+        StringBuilder sb = new StringBuilder();
+        int len = Math.min(bytes.length, maxLen);
+        for (int i = 0; i < len; i++) {
+            sb.append(String.format("%02x", bytes[i]));
+        }
+        if (bytes.length > maxLen) {
+            sb.append("...");
+        }
+        return sb.toString();
+    }
+
 }
 
