@@ -100,7 +100,7 @@ public class main {
         byte[] encoded = key.getEncoded();
         System.out.printf("Algorithm: %s\n",  key.getAlgorithm());
         System.out.printf("Format: %s\n",  key.getFormat());
-        System.out.printf("Length: %s\n",  encoded.length + " bytes");
+        System.out.printf("Length: %d bytes\n",  encoded.length);
         System.out.printf("Hex (first 64 bytes): %s\n",  HexDump.bytesToHex(encoded, 64));
         System.out.printf("Base64: %s\n",  Base64.getEncoder().encodeToString(encoded));
     }
