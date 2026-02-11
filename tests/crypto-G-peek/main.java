@@ -26,13 +26,17 @@ public class main {
             aesKey = aesGen.generateKey();
         }
         
-        KeyPairGenerator dhGen = KeyPairGenerator.getInstance("DiffieHellman");
-        dhGen.initialize(1024);
-        KeyPair dhKeys = dhGen.generateKeyPair();
+        // Bit-size required
         
         KeyPairGenerator dsaGen = KeyPairGenerator.getInstance("DSA");
         dsaGen.initialize(2048);
         KeyPair dsaKeys = dsaGen.generateKeyPair();
+        
+        KeyPairGenerator rsaGen = KeyPairGenerator.getInstance("RSA");
+        rsaGen.initialize(4096);
+        KeyPair rsaKeys = rsaGen.generateKeyPair();
+        
+        // Parameter specification required
         
         KeyPairGenerator ecGen = KeyPairGenerator.getInstance("EC");
         ECGenParameterSpec ecGps = new ECGenParameterSpec("secp521r1");
@@ -44,12 +48,22 @@ public class main {
         eddsaGen.initialize(paramSpec);
         KeyPair eddsaKeys = eddsaGen.generateKeyPair();
         
-        KeyPairGenerator rsaGen = KeyPairGenerator.getInstance("RSA");
-        rsaGen.initialize(4096);
-        KeyPair rsaKeys = rsaGen.generateKeyPair();
+        // No parameters required
         
+        KeyPairGenerator dhGen = KeyPairGenerator.getInstance("DiffieHellman");
+        KeyPair dhKeys = dhGen.generateKeyPair();
+        
+        KeyPairGenerator ed25519Gen = KeyPairGenerator.getInstance("Ed25519");
+        KeyPair ed25519Keys = ed25519Gen.generateKeyPair();
+
+        KeyPairGenerator ed448Gen = KeyPairGenerator.getInstance("Ed448");
+        KeyPair ed448Keys = ed448Gen.generateKeyPair();
+
         KeyPairGenerator x25519Gen = KeyPairGenerator.getInstance("X25519");
         KeyPair x25519Keys = x25519Gen.generateKeyPair();
+
+        KeyPairGenerator x448Gen = KeyPairGenerator.getInstance("X448");
+        KeyPair x448Keys = x448Gen.generateKeyPair();
 
         // ===== View all keys =====
         
@@ -82,18 +96,23 @@ public class main {
         System.out.println("\n=== EdDSA Private Key ===");
         printKeyInfo(eddsaKeys.getPrivate());
 
-        System.out.println("=== RSA Public Key ===");
+        System.out.println("\n=== RSA Public Key ===");
         printKeyInfo(rsaKeys.getPublic());
         
         System.out.println("\n=== RSA Private Key ===");
         printKeyInfo(rsaKeys.getPrivate());
         
-        System.out.println("\n=== X26619 Public Key ===");
+        System.out.println("\n=== X25519 Public Key ===");
         printKeyInfo(x25519Keys.getPublic());
         
-        System.out.println("\n=== X26619 Private Key ===");
+        System.out.println("\n=== X25519 Private Key ===");
         printKeyInfo(x25519Keys.getPrivate());
 
+        System.out.println("\n=== X448 Public Key ===");
+        printKeyInfo(x448Keys.getPublic());
+        
+        System.out.println("\n=== X448 Private Key ===");
+        printKeyInfo(x448Keys.getPrivate());
     }
     
     private static void printKeyInfo(Key key) {
