@@ -55,7 +55,7 @@ public class main {
         byte[] rxSharedSecret = deriveSharedSecret(rxKeyPair.getPrivate(), kptx.getPublic());
 
         // Verify both parties derived the same shared secret.
-        errorCount += Checkers.checker("Shared Secret", bytesToHex(txSharedSecret), bytesToHex(rxSharedSecret));
+        errorCount += Checkers.checker("Shared Secret", HexDump.bytesToHex(txSharedSecret), HexDump.bytesToHex(rxSharedSecret));
 
         // Derive a symmetric key from the TX (RX) shared secret.
         byte[] symmetricKeyBytes = Arrays.copyOf(txSharedSecret, SECRET_KEY_BITSIZE / 8);
@@ -63,21 +63,21 @@ public class main {
 
         // Original message to encrypt.
         String cleartext_1 = "Well! This is a fine mess you've gotten us into!";
-        System.out.println("Original cleartext message: " + cleartext_1);
+        System.out.printf("Original cleartext message: %s\n", cleartext_1);
 
         // Generate a random IV.
         byte[] iv = generateIV(); 
 
         // Encrypt the original message.
         byte[] encryptedMessage = encryptMessage(symmetricKey, cleartext_1.getBytes(), iv);
-        System.out.println("Encrypted message: " + bytesToHex(encryptedMessage));
+        System.out.printf("Encrypted message: %s\n", HexDump.bytesToHex(encryptedMessage));
 
         // Decrypt the message.
         String cleartext_2 = decryptMessage(symmetricKey, encryptedMessage, iv);
-        System.out.println("Decrypted cleartext message: " + cleartext_2);
+        System.out.printf("Decrypted cleartext message: %s\n", cleartext_2);
         
         // How did we do?
-        errorCount += Checkers.checker("TX/RX Message", cleartext_1, cleartext_2);
+        errorCount += Checkers.checker("TX msg = RX msg?", cleartext_1, cleartext_2);
         
         Checkers.theEnd(errorCount);
     }
@@ -124,19 +124,6 @@ public class main {
         byte[] iv = new byte[GCM_IV_SIZE];
         new SecureRandom().nextBytes(iv);
         return iv;
-    }
-
-    // Utility method to convert byte array to hex string
-    public static String bytesToHex(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xFF & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
     }
 }
 
