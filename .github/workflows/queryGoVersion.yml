@@ -66,19 +66,12 @@ jobs:
           echo "Downloaded files:"
           find collected-results -type f
       
-      - name: Concatenate combined version results
+      - name: Print Results
         run: |
           export LIST_ALL="results_list.txt"
           touch $LIST_ALL
           for os_dir in collected-results/version-*; do
-            os_name=$(basename "$os_dir")
-            os_name=${os_name#version-}
-            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $LIST_ALL
+             cat "$os_dir"/*.txt  >> $LIST_ALL
           done
-          
-      - name: Produce combined CSV
-        continue-on-error: true
-        run: |
-          export LIST_ALL="results_list.txt"
           cat $LIST_ALL | python3 py/goVersion.py
 

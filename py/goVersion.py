@@ -34,7 +34,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 # Rows
 pad_char = "."
-len = 20
+len = 25
 for oh_es in sorted(results.keys()):
     go_version = results[oh_es]
     print(f"{oh_es:{pad_char}<{len}}{go_version}")
