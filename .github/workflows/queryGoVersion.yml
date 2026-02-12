@@ -37,3 +37,56 @@ jobs:
       with:
         go-version: 'stable'
 
+    - name: Announce Go Version
+      run: |
+          go version | tee version-${{ matrix.os }}.txt
+
+    - name: Upload OS-specific version file
+      uses: actions/upload-artifact@v4
+      with:
+        name: version-${{ matrix.os }}
+        path: version-${{ matrix.os }}.txt
+        retention-days: 1
+
+  process-collection:
+    needs: run-on-oses
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all version artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: version-*
+          path: collected-results/
+      
+      - name: List downloaded files
+        run: |
+          echo "Downloaded files:"
+          find collected-results -type f
+      
+      - name: Concatenate combined version results
+        run: |
+          export LIST_ALL="results_list.txt"
+          touch $LIST_ALL
+          for os_dir in collected-results/version-*; do
+            os_name=$(basename "$os_dir")
+            os_name=${os_name#version-}
+            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $LIST_ALL
+          done
+          
+      - name: Produce combined CSV
+        continue-on-error: true
+        run: |
+          export LIST_ALL="results_list.txt"
+          export CSV="combined.csv"
+          cat $LIST_ALL | python3 py/combinedCsv.py > $CSV
+      
+      - name: Upload combined CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-csv
+          path: combined.csv
+          retention-days: 7
+
