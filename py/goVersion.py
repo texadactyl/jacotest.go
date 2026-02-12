@@ -21,7 +21,7 @@ for line in sys.stdin:
     line = line.strip()
     if not line:
         continue
-    _, _, go_version, os_name = line.split(None, 4)
+    os_name, _, _, go_version, _ = line.split(None, 5)
     oses.add(os_name)
     results[os_name] = go_version
 
@@ -34,7 +34,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 # Rows
 pad_char = "."
-len = 25
+length = 20
 for oh_es in sorted(results.keys()):
     go_version = results[oh_es]
-    print(f"{oh_es:{pad_char}<{len}}{go_version}")
+    print(f"{oh_es:{pad_char}<{length}}{go_version}")
