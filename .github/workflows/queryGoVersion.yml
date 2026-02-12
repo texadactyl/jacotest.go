@@ -1,0 +1,39 @@
+name: Query Go version on all O/Ses
+
+on:
+    
+  workflow_dispatch:
+
+jobs:
+
+  run-on-oses:
+    strategy:
+      matrix:        
+        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set TEMP and TMP
+      run: |
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            export TEMP="C:/actions_temp"
+            export TMP="C:/actions_temp"
+          else
+            export TEMP="/tmp/actions_temp"
+            export TMP="/tmp/actions_temp"
+          fi
+          mkdir -p "$TEMP"
+          echo "TEMP=$TEMP"
+          echo "TMP=$TMP"
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+
