@@ -39,7 +39,7 @@ jobs:
 
     - name: Announce Go Version
       run: |
-          go version | tee version-${{ matrix.os }}.txt
+          echo ${{ matrix.os }} `go version` | tee version-${{ matrix.os }}.txt
 
     - name: Upload OS-specific version file
       uses: actions/upload-artifact@v4
