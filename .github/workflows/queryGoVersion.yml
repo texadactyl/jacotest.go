@@ -80,13 +80,5 @@ jobs:
         continue-on-error: true
         run: |
           export LIST_ALL="results_list.txt"
-          export CSV="combined.csv"
-          cat $LIST_ALL | python3 py/combinedCsv.py > $CSV
-      
-      - name: Upload combined CSV
-        uses: actions/upload-artifact@v4
-        with:
-          name: combined-csv
-          path: combined.csv
-          retention-days: 7
+          cat $LIST_ALL | python3 py/goVersion.py
 
