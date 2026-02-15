@@ -4,6 +4,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.GCMParameterSpec;
 import java.security.*;
+import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.ECGenParameterSpec;
 import java.util.Arrays;
 
@@ -104,7 +105,7 @@ public class main {
     // Encrypt a message using AES-GCM
     public static byte[] encryptMessage(SecretKey key, byte[] message, byte[] iv) throws Exception {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+        AlgorithmParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.ENCRYPT_MODE, key, spec);
         return cipher.doFinal(message);
     }
@@ -112,7 +113,7 @@ public class main {
     // Decrypt a message using AES-GCM
     public static String decryptMessage(SecretKey key, byte[] encryptedMessage, byte[] iv) throws Exception {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+        AlgorithmParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.DECRYPT_MODE, key, spec);
         return new String(cipher.doFinal(encryptedMessage));
     }

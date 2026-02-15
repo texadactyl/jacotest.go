@@ -5,11 +5,11 @@ public class main {
 
     public static void main(String[] args) throws Exception {
         String[] algoArray = {
-            "RSA", "DH", "EC", "DSA", "Ed25519", "Ed448", "X25519", "X448"
+            "RSA", "EC", "DSA", "Ed25519", "Ed448", "X25519", "X448"
         };
 
         int[] keySizeArray = {
-            2048, 0, 256, 1024, 0, 0, 0, 0
+            2048, 256, 1024, 0, 0, 0, 0
         };
 
         int errorCount = 0;

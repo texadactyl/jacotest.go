@@ -31,8 +31,10 @@ This file is a catalogue of jacotest cases. Entries appear in UTF-8 order.
 | checkedinputstream-1 | Use class CheckedInputStream to compute the checksum of a file |
 | cmath-in-java-source | Complex variables |
 | crc | java.util.zip.Adler32, java.util.zip.CRC32, java.util.zip.CRC32C |
-| crypto-G-elliptic-* | Elliptic cryptography using G functions |
+| crypto-G-dh-1 | DiffieHellman cryptography using G functions |
 | crypto-G-digest-* | MessageDigest tests using G functions |
+| crypto-G-elliptic-* | Elliptic cryptography using G functions |
+| crypto-G-kpg-1 | Key pair generation for RSA, EC, DSA, Ed25519, Ed448, X25519, and X448 using G functions |
 | crypto-G-password-based | Password-based cryptography with AES/CBC/PKCS5Padding using G functions |
 | crypto-G-rsa-basic | RSA key generation and verify using G functions |
 | crypto-G-tls-one-way | One-way TLS using G functions |

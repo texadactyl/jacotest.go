@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-02-15 | 5.4.35 | New test case: crypto-G-dh-1. |
 | 2026-02-12 | 5.4.34 | New test cases: big-integer-hash, string-hasher. |
 | 2026-02-10 | 5.4.33 | New test case: crypto-G-peek. |
 | 2026-02-08 | 5.4.32 | Extended test case crypto-G-kpg-basic to include signature verification. |
