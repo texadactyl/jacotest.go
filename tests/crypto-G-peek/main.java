@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -6,11 +7,22 @@ import java.security.spec.ECGenParameterSpec;
 import java.security.spec.NamedParameterSpec;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.DHParameterSpec;
 import java.util.Base64;
 
 public class main {
     
     final static boolean FLAG_AES = false;
+    final static BigInteger DH_P = new BigInteger(
+    "FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD1" +
+    "29024E088A67CC74020BBEA63B139B22514A08798E3404DD" +
+    "EF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245" +
+    "E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7ED" +
+    "EE386BFB5A899FA5AE9F24117C4B1FE649286651ECE65381" +
+    "FFFFFFFFFFFFFFFF",
+    16 );
+    final static BigInteger DH_G = BigInteger.valueOf(2);
+    final static int DH_L = 256;
         
     public static void main(String[] args) throws Exception {
     
@@ -50,8 +62,10 @@ public class main {
         
         // No parameters required
         
-        KeyPairGenerator dhGen = KeyPairGenerator.getInstance("DiffieHellman");
-        KeyPair dhKeys = dhGen.generateKeyPair();
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("DiffieHellman");
+        DHParameterSpec dhps = new DHParameterSpec(DH_P, DH_G, DH_L);
+        kpg.initialize(dhps);
+        KeyPair dhKeys = kpg.generateKeyPair();
         
         KeyPairGenerator ed25519Gen = KeyPairGenerator.getInstance("Ed25519");
         KeyPair ed25519Keys = ed25519Gen.generateKeyPair();
