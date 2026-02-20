@@ -40,7 +40,7 @@ jobs:
 
     - name: Set up TEMP and TMP
       run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             choco install imdisk -y
             imdisk -a -s 2G -m R: -p "/fs:ntfs /q /y"
             mkdir R:\tmp
