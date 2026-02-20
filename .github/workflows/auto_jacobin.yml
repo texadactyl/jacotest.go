@@ -38,14 +38,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set TEMP and TMP
+    - name: Set up TEMP and TMP
       run: |
           if [[ "$RUNNER_OS" == "Windows" ]]; then
-            export TEMP="C:/actions_temp"
-            export TMP="C:/actions_temp"
-          else
-            export TEMP="/tmp/actions_temp"
-            export TMP="/tmp/actions_temp"
+            choco install imdisk -y
+            imdisk -a -s 2G -m R: -p "/fs:ntfs /q /y"
+            mkdir R:\tmp
+            echo "TEMP=R:\tmp" >> $env:GITHUB_ENV
+            echo "TMP=R:\tmp" >> $env:GITHUB_ENV
           fi
           mkdir -p "$TEMP"
           echo "TEMP=$TEMP"
