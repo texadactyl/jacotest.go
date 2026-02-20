@@ -47,9 +47,6 @@ jobs:
             echo "TEMP=R:\tmp" >> $env:GITHUB_ENV
             echo "TMP=R:\tmp" >> $env:GITHUB_ENV
           fi
-          mkdir -p "$TEMP"
-          echo "TEMP=$TEMP"
-          echo "TMP=$TMP"
 
     - name: Setup Go
       uses: actions/setup-go@main
