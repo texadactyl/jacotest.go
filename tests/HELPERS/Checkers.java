@@ -1,3 +1,4 @@
+import java.util.Optional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -185,12 +186,14 @@ public class Checkers {
         System.out.printf("ok %s\n", label);
     }
 
-    // ===== withinTolerance =====
+    // ===== withinTolerance set =====
 
+    // long, within tolerance, with no maximum percent tolerance specified
     public static int withinTolerance(String label, long expected, long observed) {
         return withinTolerance(label, expected, observed, MAX_PERCENT);
     }
     
+    // long, within tolerance, with a maximum percent tolerance specified as a long
     public static int withinTolerance(String label, long expected, long observed, long tol) {
         long diff = Math.abs(expected - observed);
         if (diff <= tol) {
@@ -208,119 +211,7 @@ public class Checkers {
         return 1;
     }
 
-    public static int withinTolerance(String label, double expected, double observed) {
-        return withinTolerance(label, expected, observed, MAX_PERCENT);
-    }
-    
-    public static int withinTolerance(String label,
-                                      double expected,
-                                      double observed,
-                                      double tol) {
-
-        if (tol < 0.0) {
-            System.out.printf(
-                "*** ERROR, test label %s passed a negative tolerance (%g)%n",
-                label, tol
-            );
-            return 1;
-        }
-
-        // Handle NaN exactly like Java comparisons
-        if (Double.isNaN(expected) || Double.isNaN(observed)) {
-            if (Double.isNaN(expected) && Double.isNaN(observed)) {
-                System.out.printf("ok %s ::: both values are NaN%n", label);
-                return 0;
-            }
-            System.out.printf(
-                "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = %s, observed = %s%n",
-                label, expected, observed
-            );
-            return 1;
-        }
-
-        // Handle infinities
-        if (Double.isInfinite(expected) || Double.isInfinite(observed)) {
-            if (expected == observed) {
-                System.out.printf("ok %s ::: both values are %s%n", label, expected);
-                return 0;
-            }
-            System.out.printf(
-                "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = %s, observed = %s%n",
-                label, expected, observed
-            );
-            return 1;
-        }
-
-        double diff = Math.abs(expected - observed);
-
-        // Absolute tolerance for near-zero values
-        if (Math.abs(expected) < tol) {
-            if (diff <= tol) {
-                System.out.printf("ok %s ::: within absolute tolerance%n", label);
-                return 0;
-            }
-        } else {
-            // Relative tolerance otherwise
-            if (diff <= tol * Math.abs(expected)) {
-                System.out.printf("ok %s ::: within relative tolerance%n", label);
-                return 0;
-            }
-        }
-
-        // Diagnostics (truthful and readable)
-        int sig = Math.max(6, (int) Math.ceil(-Math.log10(tol)) + 1);
-        String fmt = "%." + sig + "g";
-
-        double relDiff = diff / Math.abs(expected);
-
-        System.out.printf(
-            "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = " + fmt +
-            ", observed = " + fmt +
-            ", absDiff = " + fmt +
-            ", relDiff = " + fmt + "%n",
-            label,
-            expected,
-            observed,
-            diff,
-            relDiff
-        );
-
-        return 1;
-    }
-
-    public static int withinTolerance(String label, float expected, float observed) {
-        return withinTolerance(label, expected, observed, MAX_PERCENT_F);
-    }
-    
-    public static int withinTolerance(String label, float expected, float observed, float tol) {
-
-        if (tol < 0.0f) {
-            System.out.printf("*** ERROR, test label %s passed a negative error tolerance (%f)\n", label, tol);
-            return 1;
-        }
-        
-        float diff = Math.abs(expected - observed);
-        if (diff <= tol) {
-            System.out.printf("ok %s within tolerance%n", label);
-            return 0;
-        }
-
-        // Compute number of decimal digits based on tolerance
-        int digits = (int) Math.ceil(-Math.log10(tol)) + 1;
-        if (digits < 6) digits = 6;  // minimum digits for clarity
-        String format = "%." + digits + "e";
-
-        float diffPct = expected != 0 ? diff / Math.abs(expected) : 0;
-
-        System.out.printf(
-            "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = " + format +
-            ", observed = " + format + ", diffPct = " + format + "%n",
-            label, expected, observed, diffPct
-        );
-
-        return 1;
-    }
-
+    // long, within tolerance, with a maximum percent tolerance specified as a double
     public static int withinTolerance(String label, long expected, long observed, double maxPercent) {
         if (expected == 0) {
             if (observed == 0) {
@@ -343,6 +234,124 @@ public class Checkers {
         }
     }
 
+    // double, within tolerance, with no maximum percent tolerance specified
+    public static int withinTolerance(String label, double expected, double observed) {
+        return withinTolerance(label, expected, observed, MAX_PERCENT);
+    }
+    
+    // double, within tolerance, with a maximum percent tolerance specified
+    public static int withinTolerance(String label,
+                                      double expected,
+                                      double observed,
+                                      double tol) {
+        if (tol < 0.0) {
+            System.out.printf(
+                "*** ERROR, test label %s passed a negative tolerance (%g)%n",
+                label, tol
+            );
+            return 1;
+        }
+        // Handle NaN exactly like Java comparisons
+        if (Double.isNaN(expected) || Double.isNaN(observed)) {
+            if (Double.isNaN(expected) && Double.isNaN(observed)) {
+                System.out.printf("ok %s ::: both values are NaN%n", label);
+                return 0;
+            }
+            System.out.printf(
+                "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = %s, observed = %s%n",
+                label, expected, observed
+            );
+            return 1;
+        }
+        // Handle infinities
+        if (Double.isInfinite(expected) || Double.isInfinite(observed)) {
+            if (expected == observed) {
+                System.out.printf("ok %s ::: both values are %s%n", label, expected);
+                return 0;
+            }
+            System.out.printf(
+                "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = %s, observed = %s%n",
+                label, expected, observed
+            );
+            return 1;
+        }
+        double diff = Math.abs(expected - observed);
+        // Absolute tolerance for near-zero values
+        if (Math.abs(expected) < tol) {
+            if (diff <= tol) {
+                System.out.printf("ok %s ::: within absolute tolerance%n", label);
+                return 0;
+            }
+        } else {
+            // Relative tolerance otherwise
+            if (diff <= tol * Math.abs(expected)) {
+                System.out.printf("ok %s ::: within relative tolerance%n", label);
+                return 0;
+            }
+        }
+        // Diagnostics (truthful and readable)
+        int sig = Math.max(6, (int) Math.ceil(-Math.log10(tol)) + 1);
+
+        String fmt = new StringBuilder("%.").append(sig).append("g").toString();
+
+        String formatString = new StringBuilder(
+            "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = ")
+            .append(fmt)
+            .append(", observed = ")
+            .append(fmt)
+            .append(", absDiff = ")
+            .append(fmt)
+            .append(", relDiff = ")
+            .append(fmt)
+            .append("%n")
+            .toString();
+
+        double relDiff = diff / Math.abs(expected);
+        System.out.printf(formatString, label, expected, observed, diff, relDiff);
+        return 1;
+    }
+
+    // float, within tolerance, with no maximum percent tolerance specified
+    public static int withinTolerance(String label, float expected, float observed) {
+        return withinTolerance(label, expected, observed, MAX_PERCENT_F);
+    }
+    
+    // float, within tolerance, with a maximum percent tolerance specified
+    public static int withinTolerance(String label, float expected, float observed, float tol) {
+        if (tol < 0.0f) {
+            System.out.printf("*** ERROR, test label %s passed a negative error tolerance (%f)\n", label, tol);
+            return 1;
+        }
+
+        float diff = Math.abs(expected - observed);
+        if (diff <= tol) {
+            System.out.printf("ok %s within tolerance%n", label);
+            return 0;
+        }
+
+        // Compute number of decimal digits based on tolerance
+        int digits = (int) Math.ceil(-Math.log10(tol)) + 1;
+        if (digits < 6) digits = 6;  // minimum digits for clarity
+
+        String format = new StringBuilder("%.").append(digits).append("e").toString();
+
+        float diffPct = expected != 0 ? diff / Math.abs(expected) : 0;
+
+        String formatString = new StringBuilder(
+            "*** DISCREPANCY detected in withinTolerance(%s) ::: expected = ")
+            .append(format)
+            .append(", observed = ")
+            .append(format)
+            .append(", diffPct = ")
+            .append(format)
+            .append("%n")
+            .toString();
+
+        System.out.printf(formatString, label, expected, observed, diffPct);
+        return 1;
+    }
+
+    // BigDecimal, within tolerance, with a maximum percent tolerance specified as a double
     public static int withinTolerance(String label,
                                       BigDecimal expected,
                                       BigDecimal observed,
@@ -352,6 +361,7 @@ public class Checkers {
         return withinTolerance(label, expected, observed, maxPercent);
     }
 
+    // BigDecimal, within tolerance, with a maximum percent tolerance specified as a BigDecimal
     public static int withinTolerance(String label,
                                       BigDecimal expected,
                                       BigDecimal observed,
@@ -389,26 +399,47 @@ public class Checkers {
         }
     }
 
-    // ===== Report the contents of a BigDecimal =====
-
-    private static String rptBigDecimal(BigDecimal arg) {
-        int prec = arg.precision();
-        int scale = arg.scale();
-        BigInteger bi = arg.unscaledValue();
-        long bigInt = bi.longValue();
-        return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
-        
+    // ===== class =====
+    public static int checker(String fieldName, Class<?> expected, Class<?> actual) {
+        if (!expected.equals(actual)) {
+            System.err.printf("FAIL [%s] Expected: %s | Actual: %s\n", fieldName, expected.getName(), actual.getName());
+            return 1;
+        }
+        System.out.printf("ok [%s]", fieldName);
+        return 0;
     }
 
-
     // ===== Windows? =====
-    public boolean isWindows() {
+    public static boolean isWindows() {
         String os = System.getProperty("os.name").toLowerCase();
         return os.contains("windows");
     }
 
+    // ===== Hotspot? =====
+    public static boolean isJvmHotspot() {
+        // Get full path of current command.
+        ProcessHandle ph = ProcessHandle.current();
+        ProcessHandle.Info info = ph.info();
+		String cmdPath = info.command().orElse("?");
+		if (cmdPath.equals("?")) {
+			throw new AssertionError(String.format("*** ERROR, isJvmHotspot: ProcessHandle.Info.command() failed, cmdPath: %s", cmdPath));
+		}
+		
+		// Get just the executable file name.
+		String separator = System.getProperty("file.separator");
+		int lix = cmdPath.lastIndexOf(separator);
+		if (lix < 0)
+		    throw new AssertionError(String.format("*** ERROR, isJvmHotspot: Failed to find a path separator, cmdPath: %s", cmdPath));
+		String exeName = cmdPath.substring(lix + 1);
+		
+		// If prefix is "java" then Hotspot else Jacobin.
+        //System.out.printf("DEBUG exeName: %s\n", exeName);
+        if (exeName.startsWith("java"))
+            return true;
+        return false;
+    }
+    
     // ===== That's all, folks! =====
-
     public static void theEnd(int errorCount) {
         if (errorCount == 0) {
             System.out.println("\n========");
@@ -418,6 +449,18 @@ public class Checkers {
         }
         String errMsg = String.format("\n*** Test case diagnosed %d error(s)", errorCount);
         throw new AssertionError(errMsg);
+    }
+
+    // ===== Helpers of the helper Functions ================================================================================================
+
+    // Report the contents of a BigDecimal.
+    private static String rptBigDecimal(BigDecimal arg) {
+        int prec = arg.precision();
+        int scale = arg.scale();
+        BigInteger bi = arg.unscaledValue();
+        long bigInt = bi.longValue();
+        return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
+        
     }
 
 }

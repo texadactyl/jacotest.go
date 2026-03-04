@@ -63,7 +63,7 @@ class main {
 		}
 		ArrayList<Integer> primes = sieveOfEratosthenes(upperBound);
 		int numPrimes = primes.size();
-		System.out.printf("Following are the %d prime numbers <= %d\n", numPrimes, upperBound);
+		System.out.printf("The following are the %d prime numbers <= %d\n", numPrimes, upperBound);
 		for (int ii = 0; ii < numPrimes; ++ii) {
 			System.out.printf("%d\n", primes.get(ii));
 		}
