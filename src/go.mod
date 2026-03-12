@@ -1,6 +1,6 @@
 module jacotest
 
-go 1.25 // as of 2026-02-05
+go 1.26.1 // as of 2026-03-12
 
 require modernc.org/sqlite v1.29.1
 
