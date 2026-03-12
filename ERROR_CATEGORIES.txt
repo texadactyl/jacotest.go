@@ -5,6 +5,7 @@
 # ---------------------------------------
 NoSuchAlgorithmException
 fatal error
+implementation pending
 GETFIELD: Invalid type
 PUTFIELD: invalid attempt
 PUTSTATIC: field 
