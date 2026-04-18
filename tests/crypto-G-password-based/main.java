@@ -3,7 +3,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -13,98 +12,90 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class main {
 
-    public static class EncryptionOutput {
+    private static final String PBE_ALGO   = "PBKDF2WithHmacSHA256";   // key derivation
+    private static final String CIPHER_ALGO = "AES/CBC/PKCS5Padding"; // encryption
+
+    private static class EncryptionOutput {
         byte[] ivBytes;
         byte[] cipherText;
     }
 
-    public static SecretKeySpec makeSecretKeySpec(char[] password, byte[] salt, int keySize, int iterations) throws Exception {
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    private static SecretKeySpec makeSecretKeySpec(char[] password, byte[] salt,
+                                                   int keySize, int iterations) throws Exception {
+        SecretKeyFactory skf = SecretKeyFactory.getInstance(PBE_ALGO);
         PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keySize);
         SecretKey secretKey = skf.generateSecret(spec);
-
-        return new SecretKeySpec(secretKey.getEncoded(), "AES");
+        spec.clearPassword();
+        return new SecretKeySpec(secretKey.getEncoded(), "AES"); // wrap as AES key
     }
 
-    public static EncryptionOutput encrypt(SecretKeySpec secretKeySpec, byte[] clearText) throws Exception {
+    private static EncryptionOutput encrypt(SecretKeySpec secretKeySpec,
+                                            byte[] clearText) throws Exception {
         EncryptionOutput encryptionOutput = new EncryptionOutput();
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        AlgorithmParameters params = cipher.getParameters();
-        encryptionOutput.ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec); // JVM generates a fresh IV
+        encryptionOutput.ivBytes  = cipher.getIV();      // grab it directly
         encryptionOutput.cipherText = cipher.doFinal(clearText);
-
         return encryptionOutput;
     }
 
-    public static byte[] decrypt(SecretKeySpec secretKeySpec, byte[] ivBytes, byte[] cipherText) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    private static byte[] decrypt(SecretKeySpec secretKeySpec,
+                                  byte[] ivBytes, byte[] cipherText) throws Exception {
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(ivBytes));
-        byte[] clearText = cipher.doFinal(cipherText);
-
-        return clearText;
-
+        return cipher.doFinal(cipherText);
     }
 
-    public static byte[] getSalt() throws Exception {
-
+    private static byte[] getSalt() throws Exception {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[20];
         sr.nextBytes(salt);
-
         return salt;
     }
 
-    public static void showBytes(String label, byte[] argBytes) {
-        String b64 = Base64.getEncoder().encodeToString(argBytes);
+    private static void showBytes(String label, byte[] argBytes) {
         System.out.print(label);
         System.out.print(":\t");
-        System.out.println(b64);
+        System.out.println(Base64.getEncoder().encodeToString(argBytes));
     }
 
-	public static void noPrintf(String label, String string) {
-		System.out.print(label);
-		int sz = string.length();
-		System.out.print("[");
-		System.out.print(sz);
-		System.out.print(" bytes]:\t");
-		System.out.println(string);
-	}
+    private static void labeledPrint(String label, String string) {
+        System.out.print(label);
+        System.out.printf("[%d bytes]:\t", string.length());
+        System.out.println(string);
+    }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Exercise Password-based Encryption/Decryption");
 
-        String msg = "Exercise Password-based Encryption/Decryption";
-        System.out.println(msg);
-
-        int keySize = 256;
+        int keySize    = 256;
         int iterations = 65536;
-        char[] password = "This is a huge secret!".toCharArray();
+        char[] password      = "This is a huge secret!".toCharArray();
         String originalString = "Mary had a little lamb.";
-        noPrintf("Cleartext (string)", originalString);
+
+        labeledPrint("Cleartext (string)", originalString);
         byte[] msgBytes = originalString.getBytes();
         showBytes("Cleartext (base 64)", msgBytes);
 
-        // Make the key.
         byte[] salt = getSalt();
         System.out.println("getSalt() ok");
+
         SecretKeySpec secretKeySpec = makeSecretKeySpec(password, salt, keySize, iterations);
         System.out.println("SecretKeySpec instantiation ok");
 
-        // Perform encryption.
         EncryptionOutput eo = encrypt(secretKeySpec, msgBytes);
         showBytes("Ciphertext (base 64)", eo.cipherText);
 
-        // Perform decryption.
         byte[] clearText = decrypt(secretKeySpec, eo.ivBytes, eo.cipherText);
         showBytes("Cleartext (base 64)", clearText);
+
         String decryptedString = new String(clearText, StandardCharsets.UTF_8);
+        labeledPrint("Cleartext (string)", decryptedString);
 
-        // Show that we got back the original message cleartext.
-        noPrintf("Cleartext (string)", decryptedString);
         if (decryptedString.equals(originalString)) {
-            Checkers.theEnd(0);
+            System.out.println("SUCCESS: round-trip matches.");
+        } else {
+            throw new AssertionError("*** ERROR, decryptedString != originalString");
         }
-        throw new AssertionError("*** ERROR, decryptedString != originalString");
     }
-
 }
