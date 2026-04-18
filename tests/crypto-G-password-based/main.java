@@ -12,8 +12,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class main {
 
-    private static final String PBE_ALGO   = "PBKDF2WithHmacSHA256";   // key derivation
-    private static final String CIPHER_ALGO = "AES/CBC/PKCS5Padding"; // encryption
+    private static final String PBE_ALGO = "PBKDF2WithHmacSHA256";    // key derivation
+    private static final String KEY_ALGO = "AES";                     // for SecretKeySpec
+    private static final String CIPHER_ALGO = "AES/CBC/PKCS5Padding"; // for Cipher.getInstance()
 
     private static class EncryptionOutput {
         byte[] ivBytes;
@@ -26,7 +27,7 @@ public class main {
         PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keySize);
         SecretKey secretKey = skf.generateSecret(spec);
         spec.clearPassword();
-        return new SecretKeySpec(secretKey.getEncoded(), "AES"); // wrap as AES key
+        return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGO);
     }
 
     private static EncryptionOutput encrypt(SecretKeySpec secretKeySpec,
@@ -40,14 +41,14 @@ public class main {
     }
 
     private static byte[] decrypt(SecretKeySpec secretKeySpec,
-                                  byte[] ivBytes, byte[] cipherText) throws Exception {
+        byte[] ivBytes, byte[] cipherText) throws Exception {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(ivBytes));
         return cipher.doFinal(cipherText);
     }
 
     private static byte[] getSalt() throws Exception {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        SecureRandom sr = new SecureRandom();
         byte[] salt = new byte[20];
         sr.nextBytes(salt);
         return salt;
@@ -89,7 +90,7 @@ public class main {
         byte[] clearText = decrypt(secretKeySpec, eo.ivBytes, eo.cipherText);
         showBytes("Cleartext (base 64)", clearText);
 
-        String decryptedString = new String(clearText, StandardCharsets.UTF_8);
+        String decryptedString = new String(clearText);
         labeledPrint("Cleartext (string)", decryptedString);
 
         if (decryptedString.equals(originalString)) {
