@@ -16,7 +16,7 @@ jobs:
         os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v5
           
     - name: Setup JDK
       uses: actions/setup-java@main

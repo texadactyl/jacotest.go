@@ -16,7 +16,7 @@ jobs:
         os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v5
 
     - name: Setup Go
       uses: actions/setup-go@main
