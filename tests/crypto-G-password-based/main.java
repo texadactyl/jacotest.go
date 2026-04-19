@@ -16,37 +16,40 @@ public class main {
     private static final String KEY_ALGO = "AES";                     // for SecretKeySpec
     private static final String CIPHER_ALGO = "AES/CBC/PKCS5Padding"; // for Cipher.getInstance()
 
-    private static class EncryptionOutput {
+    private static class MyEncryptionOutput {
         byte[] ivBytes;
         byte[] cipherText;
     }
 
-    private static SecretKeySpec makeSecretKeySpec(char[] password, byte[] salt,
-                                                   int keySize, int iterations) throws Exception {
-        SecretKeyFactory skf = SecretKeyFactory.getInstance(PBE_ALGO);
+    // Make a secret key specification.
+    private static SecretKeySpec makeSecretKeySpec(char[] password, byte[] salt, int iterations, int keySize) throws Exception {
+        // Instantiate a PBE spec using the input parameters.
         PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keySize);
+        // Generate a secret key based on the PBE spec.
+        SecretKeyFactory skf = SecretKeyFactory.getInstance(PBE_ALGO);
         SecretKey secretKey = skf.generateSecret(spec);
-        spec.clearPassword();
+        // Return a secret key spec based on the secret key and chosen key algorithm.
         return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGO);
     }
 
-    private static EncryptionOutput encrypt(SecretKeySpec secretKeySpec,
-                                            byte[] clearText) throws Exception {
-        EncryptionOutput encryptionOutput = new EncryptionOutput();
+    // Perform encryption.
+    private static MyEncryptionOutput encrypt(SecretKeySpec secretKeySpec, byte[] clearText) throws Exception {
+        MyEncryptionOutput myEncryptionOutput = new MyEncryptionOutput();
         Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec); // JVM generates a fresh IV
-        encryptionOutput.ivBytes  = cipher.getIV();      // grab it directly
-        encryptionOutput.cipherText = cipher.doFinal(clearText);
-        return encryptionOutput;
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+        myEncryptionOutput.ivBytes  = cipher.getIV();
+        myEncryptionOutput.cipherText = cipher.doFinal(clearText);
+        return myEncryptionOutput;
     }
 
-    private static byte[] decrypt(SecretKeySpec secretKeySpec,
-        byte[] ivBytes, byte[] cipherText) throws Exception {
+    // Perform decryption.
+    private static byte[] decrypt(SecretKeySpec secretKeySpec, byte[] ivBytes, byte[] cipherText) throws Exception {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(ivBytes));
         return cipher.doFinal(cipherText);
     }
 
+    // Generate and return secure random salt.
     private static byte[] getSalt() throws Exception {
         SecureRandom sr = new SecureRandom();
         byte[] salt = new byte[20];
@@ -54,18 +57,21 @@ public class main {
         return salt;
     }
 
+    // Show a labeled byte array.
     private static void showBytes(String label, byte[] argBytes) {
         System.out.print(label);
         System.out.print(":\t");
         System.out.println(Base64.getEncoder().encodeToString(argBytes));
     }
 
+    // Labeled printing.
     private static void labeledPrint(String label, String string) {
         System.out.print(label);
         System.out.printf("[%d bytes]:\t", string.length());
         System.out.println(string);
     }
 
+    // MAIN
     public static void main(String[] args) throws Exception {
         System.out.println("Exercise Password-based Encryption/Decryption");
 
@@ -81,11 +87,12 @@ public class main {
         byte[] salt = getSalt();
         System.out.println("getSalt() ok");
 
-        SecretKeySpec secretKeySpec = makeSecretKeySpec(password, salt, keySize, iterations);
-        System.out.println("SecretKeySpec instantiation ok");
+        SecretKeySpec secretKeySpec = makeSecretKeySpec(password, salt, iterations, keySize);
+        System.out.printf("SecretKeySpec algo: %s, encoded: %s, encfmt: %s\n", secretKeySpec.getAlgorithm(), HexDump.bytesToHex(secretKeySpec.getEncoded()), secretKeySpec.getFormat());
 
-        EncryptionOutput eo = encrypt(secretKeySpec, msgBytes);
+        MyEncryptionOutput eo = encrypt(secretKeySpec, msgBytes);
         showBytes("Ciphertext (base 64)", eo.cipherText);
+        showBytes("\tAccompanying IV", eo.ivBytes);
 
         byte[] clearText = decrypt(secretKeySpec, eo.ivBytes, eo.cipherText);
         showBytes("Cleartext (base 64)", clearText);
