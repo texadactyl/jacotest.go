@@ -63,14 +63,14 @@ jobs:
       uses: actions/setup-java@main
       with:
         distribution: 'oracle'
-        java-version: '26'
+        java-version: '21'
 
     - name: Set up JDK on Windows ARM64
       if: matrix.os == 'windows-11-arm'
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'           # or 'adopt', 'microsoft', depending
-        java-version: '26'                # or whichever you choose
+        java-version: '21'                # or whichever you choose
         architecture: 'arm64'             # key: choose arm64
 
     - name: Setup Jacotest
