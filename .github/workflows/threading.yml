@@ -60,7 +60,7 @@ jobs:
 
     - name: Set up JDK on Windows ARM64
       if: matrix.os == 'windows-11-arm'
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@main
       with:
         distribution: 'temurin'           # or 'adopt', 'microsoft', depending
         java-version: '21'                # or whichever you choose
