@@ -4,6 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-04-20 | 5.4.39 | Test case crypto-G-password-based renamed crypto-G-pbe-1. |
+| | | New test case: crypto-G-pbe-2. |
 | 2026-04-18 | 5.4.38 | Remove invokedynamic string concatenation expressions from crypto-G-password-based. |
 | 2026-03-12 | 5.4.37 | Go 1.26.1. |
 | 2026-03-03 | 5.4.36 | Remove invokedynamic string concatenation expressions from HELPERS/Checkers.java. |
