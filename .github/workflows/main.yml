@@ -69,7 +69,7 @@ jobs:
       if: matrix.os == 'windows-11-arm'
       uses: actions/setup-java@main
       with:
-        distribution: 'temurin'           # or 'adopt', 'microsoft', depending
+        distribution: 'microsoft'         # or 'adopt', 'microsoft', depending
         java-version: '25'                # or whichever you choose
         architecture: 'arm64'             # key: choose arm64
 
