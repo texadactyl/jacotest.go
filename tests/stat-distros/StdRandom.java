@@ -1,6 +1,6 @@
 import java.util.Random;
 
-/**
+/*
  *  The {@code StdRandom} class provides static methods for generating
  *  random number from various discrete and continuous distributions,
  *  including uniform, Bernoulli, geometric, Gaussian, exponential, Pareto,
@@ -149,10 +149,10 @@ public final class StdRandom {
         return r;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    //
     //  STATIC METHODS BELOW RELY ON JAVA.UTIL.RANDOM ONLY INDIRECTLY VIA
     //  THE STATIC METHODS ABOVE.
-    ///////////////////////////////////////////////////////////////////////////
+    //
 
     /**
      * Returns a random real number uniformly in [0, 1).

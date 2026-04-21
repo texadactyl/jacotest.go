@@ -1,6 +1,6 @@
 // hacked from https://github.com/wernerd/Skein3Fish/tree/master/java
 
-public class ThreefishCipher /**implements BlockCipher**/ {
+public class ThreefishCipher {
 
     static final long KEY_SCHEDULE_CONST = 0x1BD11BDAA9FC1A22L;
 

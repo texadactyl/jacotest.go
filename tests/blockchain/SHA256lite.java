@@ -1,6 +1,6 @@
 // Hacked from chatGPT
 
-/***
+/*
 
 Padding: The message is padded so that its length is a multiple of 512 bits.
 
@@ -12,7 +12,7 @@ Compression Function: For each block, the algorithm applies a series of bitwise 
 
 Final Hash: After processing all blocks, the final hash value is obtained by concatenating the updated hash values.
 
-***/
+*/
 
 import java.util.Arrays;
 

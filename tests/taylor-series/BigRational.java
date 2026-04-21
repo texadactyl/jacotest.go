@@ -1,6 +1,6 @@
 // hacked from https://introcs.cs.princeton.edu/java/92symbolic/BigRational.java.html
 
-/******************************************************************************
+/*
  *  Compilation:  javac BigRational.java
  *  Execution:    java BigRational
  *
@@ -24,7 +24,7 @@
  *  true
  *  Exception in thread "main" java.lang.ArithmeticException: Denominator is zero
  *
- ******************************************************************************/
+ */
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

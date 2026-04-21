@@ -4,6 +4,15 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-04-21 | 5.5.0 | Java source comments updated to satisfy Java 25: |
+| | | tests/blockchain/SHA256lite.java | 
+| | | tests/crypto-3fish/ThreefishCipher.java | 
+| | | tests/crypto-playfair/main.java | 
+| | | tests/crypto-rsa-mini/main.java | 
+| | | tests/crypto-rsa-unrandom/main.java | 
+| | | tests/stat-distros/StdRandom.java | 
+| | | tests/taylor-series/BigRational.java | 
+| | | tests/taylor-series/main.java | 
 | 2026-04-20 | 5.4.39 | Test case crypto-G-password-based renamed crypto-G-pbe-1. |
 | | | New test case: crypto-G-pbe-2. |
 | 2026-04-18 | 5.4.38 | Remove invokedynamic string concatenation expressions from crypto-G-password-based. |

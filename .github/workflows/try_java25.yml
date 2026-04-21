@@ -1,4 +1,4 @@
-name: Try Java 25
+name: Jacotest Jacobin on all O/Ses
 
 # O/Ses supported by Github Actions: 
 # https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
@@ -67,9 +67,9 @@ jobs:
 
     - name: Set up JDK on Windows ARM64
       if: matrix.os == 'windows-11-arm'
-      uses: actions/setup-java@main
+      uses: actions/setup-java@v4
       with:
-        distribution: 'microsoft'         # or 'adopt', 'microsoft', depending
+        distribution: 'temurin'           # or 'adopt', 'microsoft', depending
         java-version: '25'                # or whichever you choose
         architecture: 'arm64'             # key: choose arm64
 

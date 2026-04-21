@@ -1,13 +1,13 @@
 // https://en.wikipedia.org/wiki/Playfair_cipher
 // hacked from https://github.com/Elena-Marin/PlayfairJava/blob/master/src/Playfair.java
 
-/***
+/*
 
 The Playfair-Wheatstone algorithm was initially rejected by the British Foreign Office when it was developed because of its perceived complexity. 
 Wheatstone offered to demonstrate that three out of four boys in a nearby school could learn to use it in 15 minutes, 
 but the Under Secretary of the Foreign Office responded, "That is very possible, but you could never teach it to attachés.
 
-***/
+*/
 
 import java.io.*;
 import java.util.*;

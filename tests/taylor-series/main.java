@@ -1,6 +1,6 @@
 // hacked from https://introcs.cs.princeton.edu/java/92symbolic/Taylor.java
 
-/******************************************************************************
+/*
  *  Compilation:  javac Taylor.java
  *  Execution:    java Taylor N
  *  Dependencies: RationalPolynomial.java, BigRational
@@ -16,7 +16,7 @@
  *  sin(x) = -1/6 x^3 + 1 x
  *  e^x sin(x) = -1/24 x^5 + 1/3 x^3 + 1 x^2 + 1 x
  *
- ******************************************************************************/
+ */
 
 public class main {
 

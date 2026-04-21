@@ -1,7 +1,7 @@
 // Java Program to Implement the RSA Algorithm
 // Hacked from https://www.geeksforgeeks.org/java-program-to-implement-the-rsa-algorithm/
 
-/***
+/*
 
     Public and Private Key simple cryptography
     ==========================================
@@ -37,7 +37,7 @@
 
 The source code is working with long scalars. In a more realistic case it would be working with long arrays. But, the principle is the same.
     
-***/
+*/
 
 import java.math.BigInteger;
 
