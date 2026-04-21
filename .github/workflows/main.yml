@@ -1,0 +1,173 @@
+name: Try Java 25
+
+# O/Ses supported by Github Actions: 
+# https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
+
+on:
+
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.py'
+      - '**.txt'
+      - '**.yml'
+    branches: [ "main" ]
+    
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**.py'
+      - '**.txt'
+      - '**.yml'
+    branches: [ "main" ]
+    
+  workflow_dispatch:
+
+jobs:
+
+  run-on-oses:
+    strategy:
+      matrix:        
+        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Set up TEMP and TMP
+      run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            choco install imdisk -y
+            imdisk -a -s 2G -m R: -p "/fs:ntfs /q /y"
+            mkdir R:\tmp
+            echo "TEMP=R:\tmp" >> $env:GITHUB_ENV
+            echo "TMP=R:\tmp" >> $env:GITHUB_ENV
+          fi
+
+    - name: Setup Go
+      uses: actions/setup-go@main
+      with:
+          go-version: '1.26.x'
+          cache: true
+          cache-dependency-path: "**/go.sum"
+          
+    - name: Add Go to PATH
+      run: echo "$HOME/go/bin" >> $GITHUB_PATH
+
+    - name: Setup JDK, not Windows ARM64
+      if: matrix.os != 'windows-11-arm'
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '25'
+
+    - name: Set up JDK on Windows ARM64
+      if: matrix.os == 'windows-11-arm'
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'           # or 'adopt', 'microsoft', depending
+        java-version: '25'                # or whichever you choose
+        architecture: 'arm64'             # key: choose arm64
+
+    - name: Setup Jacotest
+      run: |
+        cd src
+        go get
+        go install -v .
+        cd ..
+        jacotest -h
+
+    - name: Setup Jacobin
+      run: |
+        set -x
+        git clone https://github.com/texadactyl/jacobin
+        cd jacobin/src
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go build -o "$HOME/go/bin/jacobin.exe" .
+        else
+            go build -o "$HOME/go/bin/jacobin" .
+        fi
+        
+    - name: Run Test Cases
+      run: |
+        java --version
+        javac --version
+        jacobin --version
+        jacotest -c -x -t 120 || true
+
+    - name: Summary of Results
+      run: |
+        jacotest -r 3
+        cp logs/passfail.txt passfail-${{ matrix.os }}.txt
+
+    - name: Create Output Env Names
+      run: |
+        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+      
+    - name: Create Summary Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.REPORT_NAME }}
+        path: reports
+        retention-days: 7  # can be 1 to 90
+
+    - name: Create Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.LOGS_NAME }}
+        path: logs
+        retention-days: 7  # can be 1 to 90
+
+    - name: Upload OS-specific passfail file
+      uses: actions/upload-artifact@v4
+      with:
+        name: passfail-${{ matrix.os }}
+        path: passfail-${{ matrix.os }}.txt
+        retention-days: 1
+
+  process-collection:
+    needs: run-on-oses
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v5
+      
+      - name: Download all passfail artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: passfail-*
+          path: collected-results/
+      
+      - name: List downloaded files
+        run: |
+          echo "Downloaded files:"
+          find collected-results -type f
+      
+      - name: Concatenate combined passfail results
+        run: |
+          export LIST_ALL="results_list.txt"
+          touch $LIST_ALL
+          for os_dir in collected-results/passfail-*; do
+            os_name=$(basename "$os_dir")
+            os_name=${os_name#passfail-}
+            cat "$os_dir"/*.txt  | sed 's/^/'$os_name' /' >> $LIST_ALL
+          done
+          
+      - name: Produce combined CSV
+        continue-on-error: true
+        run: |
+          export LIST_ALL="results_list.txt"
+          export CSV="combined.csv"
+          cat $LIST_ALL | python3 py/combinedCsv.py > $CSV
+      
+      - name: Upload combined CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-csv
+          path: combined.csv
+          retention-days: 7
