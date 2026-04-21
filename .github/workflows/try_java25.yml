@@ -1,26 +1,10 @@
-name: Jacotest Jacobin on all O/Ses
+name: Try Java 25
 
 # O/Ses supported by Github Actions: 
 # https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
 
 on:
 
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-    
-  pull_request:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-    
   workflow_dispatch:
 
 jobs:
@@ -63,14 +47,14 @@ jobs:
       uses: actions/setup-java@main
       with:
         distribution: 'oracle'
-        java-version: '21'
+        java-version: '25'
 
     - name: Set up JDK on Windows ARM64
       if: matrix.os == 'windows-11-arm'
       uses: actions/setup-java@main
       with:
         distribution: 'microsoft'
-        java-version: '21'
+        java-version: '25'
         architecture: 'arm64'
     - name: Setup Jacotest
       run: |
