@@ -24,6 +24,7 @@ CREATE TEMP TABLE test_case_map (
 );
 
 INSERT INTO test_case_map VALUES
+    ('crypto-G-password-based',   'crypto-G-pbe-1'),
     ('JACOBIN-0211-pbcrypto',   'crypto-password-based'),
     ('boolean',        'boolean-1'),
     ('desi-reduced',   'crypto-desi-reduced'),
