@@ -4,6 +4,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-04-27 | 5.5.1 | New test cases: |
+| | | JACOBIN-0900-treegen |
+| | | JACOBIN-0901-spectralnorm |
+| | | JACOBIN-0903-fannkuch |
 | 2026-04-21 | 5.5.0 | Java source comments updated to satisfy Java 25: |
 | | | tests/blockchain/SHA256lite.java | 
 | | | tests/crypto-3fish/ThreefishCipher.java | 
