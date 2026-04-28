@@ -1,5 +1,3 @@
-import java.util.concurrent.CountDownLatch;
-
 public class main {
     private final static int threadCount = 64;
     private final static MyThread[] threads = new MyThread[threadCount];
@@ -38,21 +36,23 @@ public class main {
 
         MyThread(int id) { this.id = id; }
 
-        public synchronized void run() {
-            while (!terminate) {
-                while (!pendingWork) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        return;
+        public void run() {
+            synchronized (this) {
+                while (!terminate) {
+                    while (!pendingWork) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            return;
+                        }
                     }
-                }
-                if (!terminate) {
-                    //System.out.printf("Thread-%d: doing work\n", id);
-                    terminate = true;  // Done after one unit of work
-                    pendingWork = false;
-                    notifyAll();
+                    if (!terminate) {
+                        //System.out.printf("Thread-%d: doing work\n", id);
+                        terminate = true;  // Done after one unit of work
+                        pendingWork = false;
+                        notifyAll();
+                    }
                 }
             }
         }
