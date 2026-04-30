@@ -4,8 +4,16 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
-| 2026-04-28 | 5.5.2 | Test case JACOBIN-0900-treegen renamed JACOBIN-0900-treegen-no-threads |
-| | | New test cases: JACOBIN-0900-sync-run & JACOBIN-0900-nosync-run (threading) |
+| 2026-04-30 | 5.5.3 | Renamed the Benchmark Game test cases to be prefixed by "benchmark-game-": |
+| | | renamed: JACOBIN-0900-treegen-no-threads -> benchmark-game-binary-trees. | 
+| | | renamed: JACOBIN-0903-fannkuch -> benchmark-game-fannkuch-redux. | 
+| | | renamed: nbody -> benchmark-game-nbody. | 
+| | | renamed: nbody-lite-labels -> benchmark-game-nbody-lite-labels. | 
+| | | renamed: nbody-lite-nolabels -> benchmark-game-nbody-lite-nolabels. | 
+| | | renamed: JACOBIN-0901-spectralnorm -> benchmark-game-spectralnorm. | 
+| | | new test cases: benchmark-game-fasta, benchmark-game-mandelbrot. | 
+| 2026-04-28 | 5.5.2 | Test case JACOBIN-0900-treegen renamed JACOBIN-0900-treegen-no-threads. |
+| | | New test cases: JACOBIN-0900-sync-run & JACOBIN-0900-nosync-run (threading). |
 | 2026-04-27 | 5.5.1 | New test cases: |
 | | | JACOBIN-0900-treegen |
 | | | JACOBIN-0901-spectralnorm |

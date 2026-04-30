@@ -4,7 +4,7 @@ Model the orbits of the Jovian planets, using the same simple symplectic-integra
 Symplectic-integrator URL: https://janus.astro.umd.edu/HNBody/
 
 The Computer Language Benchmarks Game
-https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 
 contributed by Mark C. Lewis
 modifications by Chad Whipkey, Stefan Feldbinder, Tagir Valeev, and Han Kai

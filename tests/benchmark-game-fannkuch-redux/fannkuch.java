@@ -1,6 +1,6 @@
 /*
 * The Computer Language Benchmarks Game
-* http://shootout.alioth.debian.org/
+* https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 *
 * Based on contribution of Eckehard Berns
 * Based on code by Heiner Marxen
