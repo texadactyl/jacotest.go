@@ -279,13 +279,13 @@ public class Checkers {
         // Absolute tolerance for near-zero values
         if (Math.abs(expected) < tol) {
             if (diff <= tol) {
-                System.out.printf("ok %s ::: within absolute tolerance%n", label);
+                System.out.printf("ok %s ::: within absolute tolerance ::: %f%n", label, observed);
                 return 0;
             }
         } else {
             // Relative tolerance otherwise
             if (diff <= tol * Math.abs(expected)) {
-                System.out.printf("ok %s ::: within relative tolerance%n", label);
+                System.out.printf("ok %s ::: within relative tolerance ::: %f%n", label, observed);
                 return 0;
             }
         }

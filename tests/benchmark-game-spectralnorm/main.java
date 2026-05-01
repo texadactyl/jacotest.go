@@ -7,20 +7,22 @@ contributed by Jarkko Miettinen
 Parallel by The Anh Tran
  */
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+//import java.text.DecimalFormat;
+//import java.text.NumberFormat;
 import java.util.concurrent.CyclicBarrier;
 
 public class main
 {
-    private static final NumberFormat formatter = new DecimalFormat ("#.000000000");
+    //private static final NumberFormat formatter = new DecimalFormat ("#.000000000");
     
     public static void main (String[] args)
     {
         int n = 1000;
-        if (args.length > 0) n = Integer.parseInt (args[0]);
+        //if (args.length > 0) n = Integer.parseInt (args[0]);
         
-        System.out.println (formatter.format (spectralnormGame (n)) );
+        // System.out.println (formatter.format (spectralnormGame (n)) );
+        double answer = spectralnormGame (n);
+        int errorCount = Checkers.withinTolerance("spectralnormGame output", 1.274224, answer);
     }
     
     
