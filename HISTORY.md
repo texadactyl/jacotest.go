@@ -6,6 +6,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2026-05-01 | 5.5.4 | Updated test case benchmark-game-spectralnorm to stop using DecimalFormat and NumberFormat (unnecessary). |
 | | | Updated HELPERS/Checkers.java to print observed values for withinTolerance functions when passing. | 
+| | | Deferred test case cached-thread-pool. |
 | 2026-04-30 | 5.5.3 | Renamed the Benchmark Game test cases to be prefixed by "benchmark-game-": |
 | | | renamed: JACOBIN-0900-treegen-no-threads -> benchmark-game-binary-trees. | 
 | | | renamed: JACOBIN-0903-fannkuch -> benchmark-game-fannkuch-redux. | 
