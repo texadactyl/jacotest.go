@@ -39,15 +39,16 @@ jobs:
     - uses: actions/checkout@v5
 
     - name: Set up TEMP and TMP
+      shell: bash
       run: |
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            choco install imdisk -y
-            imdisk -a -s 2G -m R: -p "/fs:ntfs /q /y"
-            mkdir R:\tmp
-            echo "TEMP=R:\tmp" >> $env:GITHUB_ENV
-            echo "TMP=R:\tmp" >> $env:GITHUB_ENV
-          fi
-
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          mkdir -p "D:\\ramdisk_tmp"
+          subst R: "D:\\ramdisk_tmp"
+          mkdir -p "R:\\tmp"
+          echo "TEMP=R:\\tmp" >> "$GITHUB_ENV"
+          echo "TMP=R:\\tmp" >> "$GITHUB_ENV"
+        fi
+        
     - name: Setup Go
       uses: actions/setup-go@main
       with:
