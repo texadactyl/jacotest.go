@@ -23,6 +23,7 @@ public class main
         // System.out.println (formatter.format (spectralnormGame (n)) );
         double answer = spectralnormGame (n);
         int errorCount = Checkers.withinTolerance("spectralnormGame output", 1.274224, answer);
+        Checkers.theEnd(errorCount);
     }
     
     
