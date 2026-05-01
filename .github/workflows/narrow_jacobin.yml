@@ -69,7 +69,7 @@ jobs:
         ### Which test case?
         cd ../benchmark-game-spectralnorm
         javac -cp ".:../HELPERS" main.java
-        jacobin -cp ".:../HELPERS" -trace:inst main.class
+        jacobin -cp ".:../HELPERS" main.class
    
     - name: Run Test Cases Windows
       shell: bash
@@ -83,4 +83,4 @@ jobs:
         ### Which test case?
         cd ../benchmark-game-spectralnorm
         javac -cp ".;../HELPERS" main.java
-        jacobin -cp ".;../HELPERS" -trace:inst main.class
+        jacobin -cp ".;../HELPERS" main.class
