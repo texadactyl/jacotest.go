@@ -51,21 +51,19 @@ public class FileChecksum {
         }
 
         CheckedInputStream check = new CheckedInputStream( file, new CRC32() );
-        BufferedInputStream in = new BufferedInputStream( check );
+        //BufferedInputStream in = new BufferedInputStream( check );
 
         try {
-            while( in.read() != -1 ) {
+            while( check.read() != -1 ) {
                 // Read file in completely
             }
-            in.close();
         } catch( Exception e ) {
-            System.err.printf( "Error %s\nreading file: %s\n", e.getMessage(), filename );
+            System.err.printf( "*** ERROR: %s\nreading file: %s\n", e.getMessage(), filename );
             check.close();
-            in.close();
-            file.close();
             return 0;
         }
 
+        check.close();
         return(check.getChecksum().getValue());
     }
 }

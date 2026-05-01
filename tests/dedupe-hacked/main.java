@@ -23,7 +23,7 @@ public class main {
      *    * -help/-h which prints usage instructions
      */
      
-    static boolean debugging = true;
+    static boolean debugging = false;
      
     public static void main( final String[] args )
     {
@@ -112,7 +112,7 @@ public class main {
         DupesOutput dupesList = new DupesOutput();
         int dupesCount = dupesList.showDupes( dupesTable );
 
-        System.out.println( "Number of duplicates found: " + dupesCount );
+        System.out.printf( "Number of duplicates found: %d\n", dupesCount );
         
         Checkers.theEnd(0);
     }
