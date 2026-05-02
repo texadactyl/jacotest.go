@@ -83,9 +83,9 @@ public class main {
 			oc |= c4;
 			rs.append((char)oc);
 			++olen;
-			System.out.printf("decode_base64[%d]: c1=%02x, c2=%02x, c3=%02x, c4=%02x, oa=%02x, ob=%02x, oc=%02x, ", ix, c1, c2, c3, c4, oa, ob, oc);
+			System.out.printf("decode_base64[%d]: olen=%d, c1=%02x, c2=%02x, c3=%02x, c4=%02x, oa=%02x, ob=%02x, oc=%02x, ", ix, olen, c1, c2, c3, c4, oa, ob, oc);
 			String rsstr = rs.toString();
-			String rshex = HexDump.bytesToHex(rsstr.getBytes("UTF-8"), rsstr.length()); 
+			String rshex = HexDump.bytesToHex(rsstr.getBytes("UTF-8")); 
 			System.out.printf("rshex: %s\n", rshex);
 		}
 
