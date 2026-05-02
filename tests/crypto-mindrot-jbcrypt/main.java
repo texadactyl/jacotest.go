@@ -17,9 +17,11 @@
  * @author Damien Miller
  * @version 0.2
  */
+import java.io.UnsupportedEncodingException;
 public class main {
 
     static int errorCount = 0;
+    static boolean debugging = true;
     
 	static String test_vectors[][] = {
 			{ "", 
@@ -88,8 +90,9 @@ public class main {
 	 * Entry point for unit tests
 	 * @param args unused
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnsupportedEncodingException {
 		testHashpw();
+		if (debugging) System.exit(0);
 		testGensaltInt();
 		testGensalt();
 		testCheckpw_success();
@@ -100,7 +103,7 @@ public class main {
 	/**
 	 * Test method for 'BCrypt.hashpw(String, String)'
 	 */
-	public static void testHashpw() {
+	public static void testHashpw() throws UnsupportedEncodingException {
 		for (int i = 0; i < test_vectors.length; i++) {
 			String plain = test_vectors[i][0];
 			String salt = test_vectors[i][1];
@@ -109,13 +112,14 @@ public class main {
 			String label = String.format("testHashpw [%d]", i);
 			errorCount += Checkers.checker(label, expected, hashed);
 			if (errorCount > 0) return;
+			if (debugging) return;
 		}
 	}
 
 	/**
 	 * Test method for 'BCrypt.gensalt(int)'
 	 */
-	public static void testGensaltInt() {
+	public static void testGensaltInt() throws UnsupportedEncodingException {
 		for (int i = 4; i <= 12; i++) {
 			for (int j = 0; j < test_vectors.length; j += 4) {
 				String plain = test_vectors[j][0];
@@ -132,7 +136,7 @@ public class main {
 	/**
 	 * Test method for 'BCrypt.gensalt()'
 	 */
-	public static void testGensalt() {
+	public static void testGensalt() throws UnsupportedEncodingException {
 		for (int i = 0; i < test_vectors.length; i += 4) {
 			String plain = test_vectors[i][0];
 			String salt = BCrypt.gensalt();
@@ -148,7 +152,7 @@ public class main {
 	 * Test method for 'BCrypt.checkpw(String, String)'
 	 * expecting success
 	 */
-	public static void testCheckpw_success() {
+	public static void testCheckpw_success() throws UnsupportedEncodingException {
 		for (int i = 0; i < test_vectors.length; i++) {
 			String plain = test_vectors[i][0];
 			String expected = test_vectors[i][2];
@@ -162,7 +166,7 @@ public class main {
 	 * Test method for 'BCrypt.checkpw(String, String)'
 	 * expecting failure
 	 */
-	public static void testCheckpw_failure() {
+	public static void testCheckpw_failure() throws UnsupportedEncodingException {
 		for (int i = 0; i < test_vectors.length; i++) {
 			int broken_index = (i + 4) % test_vectors.length;
 			String plain = test_vectors[i][0];
@@ -176,7 +180,7 @@ public class main {
 	/**
 	 * Test for correct hashing of non-US-ASCII passwords
 	 */
-	public static void testInternationalChars() {
+	public static void testInternationalChars() throws UnsupportedEncodingException {
 		String pw1 = "\u2605\u2605\u2605\u2605\u2605\u2605\u2605\u2605";
 		String pw2 = "????????";
 

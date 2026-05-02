@@ -60,6 +60,7 @@ import java.util.Arrays;
  * @version 0.2
  */
 public class BCrypt {
+    static boolean debugging = true;
 	// BCrypt parameters
 	private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
 	private static final int BCRYPT_SALT_LEN = 16;
@@ -370,8 +371,8 @@ public class BCrypt {
 	};
 
 	// Expanded Blowfish key
-	private int P[];
-	private int S[];
+	private static int P[];
+	private static int S[];
 
 	/**
 	 * Encode a byte array using bcrypt's slightly-modified base64
@@ -484,7 +485,7 @@ public class BCrypt {
 	 * @param lr	an array containing the two 32-bit half blocks
 	 * @param off	the position in the array of the blocks
 	 */
-	private final void encipher(int lr[], int off) {
+	private static final void encipher(int lr[], int off) {
 		int i, n, l = lr[off], r = lr[off + 1];
 
 		l ^= P[0];
@@ -531,10 +532,8 @@ public class BCrypt {
 	/**
 	 * Initialise the Blowfish key schedule
 	 */
-	private void init_key() {
-		////P = P_orig.clone();
+	private static void init_key() {
 		P = Arrays.copyOf(P_orig, P_orig.length);
-		////S = S_orig.clone();
 		S = Arrays.copyOf(S_orig, S_orig.length);
 	}
 
@@ -542,7 +541,7 @@ public class BCrypt {
 	 * Key the Blowfish cipher
 	 * @param key	an array containing the key
 	 */
-	private void key(byte key[]) {
+	private static void key(byte key[]) {
 		int i;
 		int koffp[] = { 0 };
 		int lr[] = { 0, 0 };
@@ -571,7 +570,7 @@ public class BCrypt {
 	 * @param data	salt information
 	 * @param key	password information
 	 */
-	private void ekskey(byte data[], byte key[]) {
+	private static void ekskey(byte data[], byte key[]) {
 		int i;
 		int koffp[] = { 0 }, doffp[] = { 0 };
 		int lr[] = { 0, 0 };
@@ -607,7 +606,7 @@ public class BCrypt {
 	 * @param cdata         the plaintext to encrypt
 	 * @return	an array containing the binary hashed password
 	 */
-	public byte[] crypt_raw(byte password[], byte salt[], int log_rounds,
+	public static byte[] crypt_raw(byte password[], byte salt[], int log_rounds,
 	    int cdata[]) {
 		int rounds, i, j;
 		int clen = cdata.length;
@@ -648,8 +647,8 @@ public class BCrypt {
 	 * using BCrypt.gensalt)
 	 * @return	the hashed password
 	 */
-	public static String hashpw(String password, String salt) {
-		BCrypt B;
+	public static String hashpw(String password, String salt) throws UnsupportedEncodingException {
+        if (debugging) System.out.println(HexDump.dumpBytes("DEBUG hashpw password", password.getBytes("UTF-8"), password.length(), HexDump.COLUMN_SIZE));
 		String real_salt;
 		byte passwordb[], saltb[], hashed[];
 		char minor = (char)0;
@@ -673,27 +672,25 @@ public class BCrypt {
 		rounds = Integer.parseInt(salt.substring(off, off + 2));
 
 		real_salt = salt.substring(off + 3, off + 25);
-		////try {
-			////passwordb = (password + (minor >= 'a' ? "\000" : "")).getBytes("UTF-8");
-			StringBuilder sb = new StringBuilder();
-            sb.append(password);
-            if (minor >= 'a') {
-                sb.append("\000");
-            }
-            ////passwordb = sb.toString().getBytes("UTF-8");
-            passwordb = sb.toString().getBytes();
-		////} catch (UnsupportedEncodingException uee) {
-		////	throw new AssertionError("UTF-8 is not supported");
-		////}
-
+		System.out.print(HexDump.dumpBytes("DEBUG hashpw real_salt", real_salt.getBytes("UTF-8"), real_salt.length(), HexDump.COLUMN_SIZE));
 		saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
+        if (debugging) System.out.print(HexDump.dumpBytes("DEBUG hashpw saltb", saltb, saltb.length, HexDump.COLUMN_SIZE));
+		
+		StringBuilder sb = new StringBuilder();
+        sb.append(password);
+        if (debugging) System.out.printf("DEBUG hashpw minor: %c (0x%02x)\n", minor, (int)minor);
+        if (minor >= 'a') {
+            sb.append("\000");
+        }
+        passwordb = sb.toString().getBytes("UTF-8");
+	    if (debugging) {
+	        System.out.printf("DEBUG hashpw: sb.toString(): |%s|\n", sb.toString());
+            System.out.print(HexDump.dumpBytes("DEBUG hashpw passwordb", passwordb, passwordb.length, HexDump.COLUMN_SIZE));
+        }
 
-		B = new BCrypt();
-		////hashed = B.crypt_raw(passwordb, saltb, rounds,
-		////    bf_crypt_ciphertext.clone());
 		int cloned[] = new int[bf_crypt_ciphertext.length];
 		System.arraycopy(bf_crypt_ciphertext, 0, cloned, 0, bf_crypt_ciphertext.length);
-		hashed = B.crypt_raw(passwordb, saltb, rounds, cloned);
+		hashed = crypt_raw(passwordb, saltb, rounds, cloned);
 
 		rs.append("$2");
 		if (minor >= 'a')
