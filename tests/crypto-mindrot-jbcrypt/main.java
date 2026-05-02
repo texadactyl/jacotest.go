@@ -92,12 +92,14 @@ public class main {
 	 */
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		testHashpw();
-		if (debugging) System.exit(0);
-		testGensaltInt();
-		testGensalt();
-		testCheckpw_success();
-		testCheckpw_failure();
-		testInternationalChars();
+		if (!debugging) {
+		    testGensaltInt();
+		    testGensalt();
+		    testCheckpw_success();
+		    testCheckpw_failure();
+		    testInternationalChars();
+		}
+		Checkers.theEnd(errorCount);
 	}
 
 	/**
