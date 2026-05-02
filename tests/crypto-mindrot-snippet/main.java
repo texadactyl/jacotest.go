@@ -86,12 +86,16 @@ public class main {
 			System.out.printf("decode_base64[%d]: olen=%d, c1=%02x, c2=%02x, c3=%02x, c4=%02x, oa=%02x, ob=%02x, oc=%02x, ", ix, olen, c1, c2, c3, c4, oa, ob, oc);
 			String rsstr = rs.toString();
 			String rshex = HexDump.bytesToHex(rsstr.getBytes("UTF-8")); 
-			System.out.printf("rshex: %s\n", rshex);
+			System.out.printf("decode_base64: rshex: %s\n", rshex);
 		}
 
 		ret = new byte[olen];
-		for (off = 0; off < olen; off++)
+		for (off = 0; off < olen; off++) {
 			ret[off] = (byte)rs.charAt(off);
+			System.out.printf("decode_base64: loop: off=%d, charAt=%d, byte=%02x\n", off, (int)rs.charAt(off), ret[off]);
+		}
+	    String rethex = HexDump.bytesToHex(ret);
+	    System.out.printf("decode_base64: rethex: %s\n", rethex); 
 		return ret;
 	}
 }
