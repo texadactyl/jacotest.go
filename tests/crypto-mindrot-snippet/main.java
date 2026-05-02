@@ -53,7 +53,7 @@ public class main {
 		StringBuffer rs = new StringBuffer();
 		int off = 0, slen = s.length(), olen = 0;
 		byte ret[];
-		byte c1, c2, c3, c4, o;
+		byte c1, c2, c3, c4, oa, ob, oc;
 
 		if (maxolen <= 0)
 			throw new IllegalArgumentException ("Invalid maxolen");
@@ -65,27 +65,28 @@ public class main {
 			c2 = char64(s.charAt(off++));
 			if (c1 == -1 || c2 == -1)
 				break;
-			o = (byte)(c1 << 2);
-			o |= (byte)((c2 & 0x30) >> 4);
-			rs.append((char)o);
+			oa = (byte)(c1 << 2);
+			oa |= (byte)((c2 & 0x30) >> 4);
+			rs.append((char)oa);
 			if (++olen >= maxolen || off >= slen)
 				break;
 			c3 = char64(s.charAt(off++));
 			if (c3 == -1)
 				break;
-			o = (byte)((c2 & 0x0f) << 4);
-			o |= (byte)((c3 & 0x3c) >> 2);
-			rs.append((char)o);
+			ob = (byte)((c2 & 0x0f) << 4);
+			ob |= (byte)((c3 & 0x3c) >> 2);
+			rs.append((char)ob);
 			if (++olen >= maxolen || off >= slen)
 				break;
 			c4 = char64(s.charAt(off++));
-			o = (byte)((c3 & 0x03) << 6);
-			o |= c4;
-			rs.append((char)o);
+			oc = (byte)((c3 & 0x03) << 6);
+			oc |= c4;
+			rs.append((char)oc);
 			++olen;
+			System.out.printf("decode_base64[%d]: c1=%02x, c2=%02x, c3=%02x, c4=%02x, oa=%02x, ob=%02x, oc=%02x, ", ix, c1, c2, c3, c4, oa, ob, oc);
 			String rsstr = rs.toString();
 			String rshex = HexDump.bytesToHex(rsstr.getBytes("UTF-8"), rsstr.length()); 
-			System.out.printf("decode_base64[%d]: rshex: %s\n", ix, rshex);
+			System.out.printf("rshex: %s\n", rshex);
 		}
 
 		ret = new byte[olen];
