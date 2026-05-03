@@ -60,7 +60,7 @@ import java.util.Arrays;
  * @version 0.2
  */
 public class BCrypt {
-    static boolean debugging = true;
+    static boolean debugging = false;
 	// BCrypt parameters
 	private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
 	private static final int BCRYPT_SALT_LEN = 16;
@@ -672,7 +672,8 @@ public class BCrypt {
 		rounds = Integer.parseInt(salt.substring(off, off + 2));
 
 		real_salt = salt.substring(off + 3, off + 25);
-		System.out.print(HexDump.dumpBytes("DEBUG hashpw real_salt", real_salt.getBytes("UTF-8"), real_salt.length(), HexDump.COLUMN_SIZE));
+		if (debugging)
+		    System.out.print(HexDump.dumpBytes("DEBUG hashpw real_salt", real_salt.getBytes("UTF-8"), real_salt.length(), HexDump.COLUMN_SIZE));
 		saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
         if (debugging) System.out.print(HexDump.dumpBytes("DEBUG hashpw saltb", saltb, saltb.length, HexDump.COLUMN_SIZE));
 		

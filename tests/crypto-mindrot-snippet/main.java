@@ -33,12 +33,12 @@ public class main {
 	};
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        String real_salt = "DCq7YPn5Rq63x1Lad4cll.";
-        System.out.print(HexDump.dumpBytes("main: real_salt", real_salt.getBytes("UTF-8"), real_salt.length(), HexDump.COLUMN_SIZE));
-        byte saltb[] = decode_base64(real_salt, BCRYPT_SALT_LEN);
-        System.out.print(HexDump.dumpBytes("main: saltb", saltb, saltb.length, HexDump.COLUMN_SIZE));
-		String salthex = HexDump.bytesToHex(saltb, saltb.length); 
-		int errorCount = Checkers.checker("Salt in hex", "144b3d691a7b4ecf39cf735c7fa7a79c", salthex);
+        String encoded = "DCq7YPn5Rq63x1Lad4cll.";
+        System.out.print(HexDump.dumpBytes("main: encoded", encoded.getBytes("UTF-8"), encoded.length(), HexDump.COLUMN_SIZE));
+        byte decodedBytes[] = decode_base64(encoded, BCRYPT_SALT_LEN);
+        System.out.print(HexDump.dumpBytes("main: decodedBytes", decodedBytes, decodedBytes.length, HexDump.COLUMN_SIZE));
+		String decodedHex = HexDump.bytesToHex(decodedBytes, decodedBytes.length); 
+		int errorCount = Checkers.checker("Decoded bytes in hex", "144b3d691a7b4ecf39cf735c7fa7a79c", decodedHex);
 		Checkers.theEnd(errorCount);
     }
     
@@ -50,7 +50,7 @@ public class main {
     
 	private static byte[] decode_base64(String s, int maxolen) throws IllegalArgumentException, UnsupportedEncodingException {
 	
-		StringBuffer rs = new StringBuffer();
+		StringBuffer sbuf = new StringBuffer();
 		int off = 0, slen = s.length(), olen = 0;
 		byte ret[];
 		byte c1, c2, c3, c4, oa, ob, oc;
@@ -67,7 +67,7 @@ public class main {
 				break;
 			oa = (byte)(c1 << 2);
 			oa |= (byte)((c2 & 0x30) >> 4);
-			rs.append((char)oa);
+			sbuf.append((char)oa);
 			if (++olen >= maxolen || off >= slen)
 				break;
 			c3 = char64(s.charAt(off++));
@@ -75,24 +75,24 @@ public class main {
 				break;
 			ob = (byte)((c2 & 0x0f) << 4);
 			ob |= (byte)((c3 & 0x3c) >> 2);
-			rs.append((char)ob);
+			sbuf.append((char)ob);
 			if (++olen >= maxolen || off >= slen)
 				break;
 			c4 = char64(s.charAt(off++));
 			oc = (byte)((c3 & 0x03) << 6);
 			oc |= c4;
-			rs.append((char)oc);
+			sbuf.append((char)oc);
 			++olen;
 			System.out.printf("decode_base64[%d]: olen=%d, c1=%02x, c2=%02x, c3=%02x, c4=%02x, oa=%02x, ob=%02x, oc=%02x, ", ix, olen, c1, c2, c3, c4, oa, ob, oc);
-			String rsstr = rs.toString();
-			String rshex = HexDump.bytesToHex(rsstr.getBytes("UTF-8")); 
-			System.out.printf("decode_base64: rshex: %s\n", rshex);
+			String sbufstr = sbuf.toString();
+			String sbufhex = HexDump.bytesToHex(sbufstr.getBytes("UTF-8")); 
+			System.out.printf("decode_base64: sbufhex: %s\n", sbufhex);
 		}
 
 		ret = new byte[olen];
 		for (off = 0; off < olen; off++) {
-			ret[off] = (byte)rs.charAt(off);
-			System.out.printf("decode_base64: loop: off=%d, charAt=%d, byte=%02x\n", off, (int)rs.charAt(off), ret[off]);
+			ret[off] = (byte)sbuf.charAt(off);
+			System.out.printf("decode_base64: loop: off=%d, charAt=%d, byte=%02x\n", off, (int)sbuf.charAt(off), ret[off]);
 		}
 	    String rethex = HexDump.bytesToHex(ret);
 	    System.out.printf("decode_base64: rethex: %s\n", rethex); 
