@@ -1,4 +1,4 @@
-name: Query Go version on all O/Ses
+name: Query Go version on 5 O/Ses
 
 on:
     
