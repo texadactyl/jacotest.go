@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-05-04 | 5.5.7 | New test cases: benchmark-game-k-nucleotide, benchmark-game-pidigits, benchmark-game-regex-redux, benchmark-game-reverse-complement, cached-thread-pool. |
 | 2026-05-03 | 5.5.6 | New test case: crypto-mindrot-subset. |
 | | | Deferred test case crypto-mindrot-jbcrypt. |
 | 2026-05-02 | 5.5.5 | New test cases: leibniz-double, leibniz-big-double, crypto-mindrot-jbcrypto, crypto-mindrot-snippet. |
