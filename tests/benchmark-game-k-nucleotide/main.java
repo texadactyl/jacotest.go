@@ -1,170 +1,145 @@
-/* The Computer Language Benchmarks Game
- https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+/* k-nucleotide
+   The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+   
+   Naive transliteration from bearophile's program 
+   contributed by Isaac Gouy
+*/
 
- contributed by James McIlree
- ByteString code thanks to Matthieu Bentot and The Anh Tran
- modified by Andy Fingerhut 
- */
-
-import java.util.*;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
-import java.util.concurrent.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class main {
+public final class main {
 
     final static String FILE_INPUT = "sample.fasta";
-    
-    public static void main(String[] args) throws Exception {
+
+    static ArrayList<String> seqLines() throws IOException {
+        final var in = new BufferedReader(new FileReader(FILE_INPUT));
         String line;
-        BufferedReader in = new BufferedReader(new FileReader(FILE_INPUT));
         while ((line = in.readLine()) != null) {
             if (line.startsWith(">THREE")) break;
         }
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte bytes[] = new byte[100];
+        final var lines = new ArrayList<String>();
         while ((line = in.readLine()) != null) {
-            if (line.length() > bytes.length)
-                bytes = new byte[line.length()];
-
-            int i;
-            for (i = 0; i < line.length(); i++)
-                bytes[i] = (byte) line.charAt(i);
-            baos.write(bytes, 0, i);
+            if (line.startsWith(">")) break;
+            lines.add(line);
         }
-
-        byte[] sequence = baos.toByteArray();
-
-        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        int[] fragmentLengths = {1, 2, 3, 4, 6, 12, 18};
-        List<Future<Map<ByteString, ByteString>>> futures = pool.invokeAll(createFragmentTasks(sequence, fragmentLengths));
-        pool.shutdown();
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
-        sb.append(writeFrequencies(sequence.length - 1, sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
-
-        String[] nucleotideFragments = {"ggt", "ggta", "ggtatt", "ggtattttaatt", "ggtattttaatttatagt"};
-        for (String nucleotideFragment : nucleotideFragments) {
-            sb.append(writeCount(futures, nucleotideFragment));
-        }
-
-        System.out.print(sb.toString());
+        return lines;
     }
 
-    static ArrayList<Callable<Map<ByteString, ByteString>>> createFragmentTasks(final byte[] sequence, int[] fragmentLengths) {
-        ArrayList<Callable<Map<ByteString, ByteString>>> tasks = new ArrayList<Callable<Map<ByteString, ByteString>>>();
-        for (int fragmentLength : fragmentLengths) {
-            for (int index = 0; index < fragmentLength; index++) {
-                final int offset = index;
-                final int finalFragmentLength = fragmentLength;
-                tasks.add(new Callable<Map<ByteString, ByteString>>() {
-                    public Map<ByteString, ByteString> call() {
-                        return createFragmentMap(sequence, offset, finalFragmentLength);
-                    }
-                });
-            }
-        }
-        return tasks;
-    }
-
-    static Map<ByteString, ByteString> createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
-        HashMap<ByteString, ByteString> map = new HashMap<ByteString, ByteString>();
-        int lastIndex = sequence.length - fragmentLength + 1;
-        ByteString key = new ByteString(fragmentLength);
-        for (int index = offset; index < lastIndex; index += fragmentLength) {
-            key.calculateHash(sequence, index);
-            ByteString fragment = map.get(key);
-            if (fragment != null) {
-                fragment.count++;
+    static HashMap<String, Integer> baseCounts(int bases, String seq) {
+        var counts = new HashMap<String, Integer>();
+        final int size = seq.length() + 1 - bases;
+        for (int i = 0; i < size; i++) {
+            var nucleo = seq.substring(i, i + bases);
+            Integer v;
+            if ((v = counts.get(nucleo)) != null) {
+                counts.put(nucleo, v + 1);
             } else {
-                map.put(key, key);
-                key = new ByteString(fragmentLength);
+                counts.put(nucleo, 1);
             }
         }
-
-        return map;
+        return counts;
     }
 
-    // Destructive!
-    static Map<ByteString, ByteString> sumTwoMaps(Map<ByteString, ByteString> map1, Map<ByteString, ByteString> map2) {
-        for (Map.Entry<ByteString, ByteString> entry : map2.entrySet()) {
-            ByteString sum = map1.get(entry.getKey());
-            if (sum != null)
-                sum.count += entry.getValue().count;
-            else
-                map1.put(entry.getKey(), entry.getValue());
-        }
-        return map1;
-    }
+    static List<String> sortedFreq(int bases, String seq) {
+        final int size = seq.length() + 1 - bases;
 
-    static String writeFrequencies(float totalCount, Map<ByteString, ByteString> frequencies) {
-        SortedSet<ByteString> list = new TreeSet<ByteString>(frequencies.values());
-        StringBuilder sb = new StringBuilder();
-        for (ByteString k : list)
-            sb.append(String.format("%s %.3f\n", k.toString().toUpperCase(), (float) (k.count) * 100.0f / totalCount));
+        // Count directly into parallel arrays, no Map iteration needed
+        String[] keys = new String[size];
+        int[] vals = new int[size];
+        int uniqueCount = 0;
 
-        return sb.append('\n').toString();
-    }
-
-    static String writeCount(List<Future<Map<ByteString, ByteString>>> futures, String nucleotideFragment) throws Exception {
-        ByteString key = new ByteString(nucleotideFragment.length());
-        key.calculateHash(nucleotideFragment.getBytes(), 0);
-
-        int count = 0;
-        for (Future<Map<ByteString, ByteString>> future : futures) {
-            ByteString temp = future.get().get(key);
-            if (temp != null) count += temp.count;
-        }
-
-        return count + "\t" + nucleotideFragment.toUpperCase() + '\n';
-    }
-
-    static final class ByteString implements Comparable<ByteString> {
-        public int hash, count = 1;
-        public final byte bytes[];
-
-        public ByteString(int size) {
-            bytes = new byte[size];
-        }
-
-        public void calculateHash(byte k[], int offset) {
-            int temp = 0;
-            for (int i = 0; i < bytes.length; i++) {
-                byte b = k[offset + i];
-                bytes[i] = b;
-                temp = temp * 31 + b;
+        for (int i = 0; i < size; i++) {
+            String sub = seq.substring(i, i + bases);
+            // Linear search for existing key
+            int found = -1;
+            for (int k = 0; k < uniqueCount; k++) {
+                if (keys[k].equals(sub)) {
+                    found = k;
+                    break;
+                }
             }
-            hash = temp;
-        }
-
-        public int hashCode() {
-            return hash;
-        }
-
-        public boolean equals(Object obj) {
-            return Arrays.equals(bytes, ((ByteString) obj).bytes);
-        }
-
-        public int compareTo(ByteString other) {
-            if (other.count != count) {
-                return other.count - count;
+            if (found >= 0) {
+                vals[found]++;
             } else {
-                // Without this case, if there are two or more strings
-                // with exactly the same count in a Map, then the
-                // TreeSet constructor called in writeFrequencies will
-                // only add the first one, and the rest will not
-                // appear in the output.  Also this is required to
-                // satisfy the rules of the k-nucleotide problem.
-                return toString().compareTo(other.toString());
+                keys[uniqueCount] = sub;
+                vals[uniqueCount] = 1;
+                uniqueCount++;
             }
         }
 
-        public String toString() {
-            return new String(bytes);
+        // Insertion sort descending by value
+        for (int i = 1; i < uniqueCount; i++) {
+            String curKey = keys[i];
+            int curVal = vals[i];
+            int j = i - 1;
+            while (j >= 0 && vals[j] < curVal) {
+                keys[j + 1] = keys[j];
+                vals[j + 1] = vals[j];
+                j--;
+            }
+            keys[j + 1] = curKey;
+            vals[j + 1] = curVal;
         }
+
+        // Build output list
+        List<String> output = new ArrayList<>(uniqueCount);
+        for (int i = 0; i < uniqueCount; i++) {
+            output.add(String.format("%s %.3f", keys[i], 100.0 * vals[i] / size));
+        }
+        return output;
+    }
+
+    static int specificCount(String code, String seq) {
+        return baseCounts(code.length(), seq).getOrDefault(code, 0);
+    }
+
+    public static void main(String[] args) throws Exception {
+        int errorCount = 0;
+        
+        StringBuilder sb = new StringBuilder();
+        for (String line : seqLines()) {
+            sb.append(line.toUpperCase());
+        }
+        final String seq = sb.toString();
+
+        for (int i = 1; i <= 2; i++) {
+            for (String s : sortedFreq(i, seq)) {
+                System.out.println(s);
+            }
+            System.out.println();
+        }
+
+        // jj._traceVerbose(true);
+        
+        String[] codes = {
+            "GGT", "GGTA", "GGTATT",
+            "GGTATTTTAATT", "GGTATTTTAATTTATAGT"
+        };
+        
+        int expected[] = {54, 24, 4, 0, 0};
+        
+        int ix = 0;
+        int sc = -1;
+        for (String code : codes) {
+            sc = specificCount(code, seq);
+            //System.out.printf("%d\t%s\n", sc, code);
+            errorCount += Checkers.checker(code, expected[ix++], sc);
+        }
+        
+        Checkers.theEnd(errorCount);
+    }
+
+}
+
+class jj {
+    public static void _traceVerbose(boolean flag) { // Hotspot
+        System.out.println("Hotspot execution of jj._traceVerbose(flag)");
     }
 }
+
