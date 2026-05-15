@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-05-15 | 5.5.9 | New test case crypto-G-pbe-files. |
 | 2026-05-06 | 5.5.8 | New test case benchmark-game-k-nucleotide: avoid classes not yet supported. |
 | 2026-05-04 | 5.5.7 | New test cases: benchmark-game-k-nucleotide, benchmark-game-pidigits, benchmark-game-regex-redux, benchmark-game-reverse-complement, cached-thread-pool. |
 | 2026-05-03 | 5.5.6 | New test case: crypto-mindrot-subset. |
