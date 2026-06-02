@@ -1,7 +1,5 @@
 // hacked from https://www.codeproject.com/Tips/1040097/Create-a-Simple-Web-Server-in-Java-HTTP-Server
 
-import com.sun.net.httpserver.HttpServer;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.io.IOException;
 

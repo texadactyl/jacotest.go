@@ -1,8 +1,4 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import org.jacotest.dbclient; // Force compilation of dbclient.java.
 
 public class main {

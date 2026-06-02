@@ -1,12 +1,6 @@
 // Hacked from https://www.digitalocean.com/community/tutorials/java-socket-programming-server-client (unrealistic, IMO)
 
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.net.ConnectException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;

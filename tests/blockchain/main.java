@@ -1,6 +1,5 @@
 // Hacked from https://www.geeksforgeeks.org/implementation-of-blockchain-in-java/
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class main {

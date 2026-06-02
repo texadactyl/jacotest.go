@@ -1,9 +1,6 @@
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
 import javax.crypto.KeyAgreement;
 import javax.crypto.spec.DHParameterSpec;
 

@@ -1,8 +1,5 @@
-import java.security.AlgorithmParameters;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.nio.charset.StandardCharsets;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;

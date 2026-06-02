@@ -1,7 +1,5 @@
 // Ideas lifted from from https://cr.openjdk.org/~iris/se/17/latestSpec/api/java.base/java/util/Vector.html
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 public class main {

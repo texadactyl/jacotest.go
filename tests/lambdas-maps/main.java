@@ -1,6 +1,5 @@
 // Hacked from https://hevodata.com/learn/java-lambda-expressions/
 
-import java.util.ArrayList;
 import java.util.*;
 
 interface Sayable {

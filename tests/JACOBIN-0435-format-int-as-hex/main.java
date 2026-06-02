@@ -1,4 +1,3 @@
-import java.lang.Integer;
 import java.lang.Long;
 
 public class main {

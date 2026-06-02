@@ -7,8 +7,6 @@
  */
  
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Engine that runs through a directory (and optionally subdirectories),

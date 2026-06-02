@@ -8,7 +8,6 @@
  */
 
 import java.io.File;
-import java.security.InvalidParameterException;
 
 /**
  * Accepts a path and walks the entire path (including subdirectories)
