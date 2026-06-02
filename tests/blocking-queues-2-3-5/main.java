@@ -4,7 +4,6 @@
 // Multithreaded.
 // Instead of Golang channels, we'll use Java blocking queues.
 
-import java.util.PriorityQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 

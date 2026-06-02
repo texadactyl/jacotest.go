@@ -104,6 +104,11 @@ public class main {
         encryptFile(fileA, fileB);
 
         decryptFile(fileB, fileC);
+        
+        File B = new File(fileB);
+        B.delete();
+        File C = new File(fileC);
+        C.delete();
 
         Checkers.theEnd(errorCount);
     }
