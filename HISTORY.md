@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-06-14 | 5.6.2 | Updated test case: walker. |
 | 2026-06-08 | 5.6.1 | New test case: shannon-entropy. |
 | 2026-06-02 | 5.6.0 | Miscellaneous cleanup. |
 | 2026-05-15 | 5.5.9 | New test case: crypto-G-pbe-files. |

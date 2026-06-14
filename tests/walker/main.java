@@ -8,7 +8,7 @@ public class main {
     // TODO: needs qualitative tests
     
     public static void main(String[] args) throws IOException {
-        Path treetop = Paths.get("../..");
+        Path treetop = Paths.get("../packaging-1");
         treetop = treetop.toAbsolutePath().normalize();
         Files.walkFileTree(treetop, new SFV());
         

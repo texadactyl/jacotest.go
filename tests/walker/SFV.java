@@ -10,7 +10,9 @@ public class SFV implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
             throws IOException
     {
-        System.out.println(file.toString());
+        // Currently, we are not using attrs.
+        String fname = file.toString();
+        System.out.println(fname);
         return FileVisitResult.CONTINUE;
     }
 
@@ -18,7 +20,10 @@ public class SFV implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        return FileVisitResult.CONTINUE;
+        String dname = dir.toString();
+         if (dname.startsWith("."))
+             return FileVisitResult.SKIP_SUBTREE;
+       return FileVisitResult.CONTINUE;
     }
 
     @Override
