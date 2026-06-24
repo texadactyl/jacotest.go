@@ -1,20 +1,13 @@
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.CharArrayReader;
-import java.io.StreamTokenizer;
+import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.CollationKey;
-import java.text.Collator;
+import java.security.SecureRandom;
 import java.util.BitSet;
-import java.text.CharacterIterator;
-import java.text.DateFormat;
 import java.util.Locale;
-import java.text.NumberFormat;
-import java.util.Random;
-import java.time.Month;
-import java.time.ZonedDateTime;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 
@@ -26,30 +19,26 @@ public class main {
    		ByteArrayInputStream a1 = new  ByteArrayInputStream(bbuf);
         BufferedInputStream a2 = new BufferedInputStream(a1);
         String a3 = "abc";
-        StringWriter a4 = new StringWriter();
-        CharArrayReader a5 = new CharArrayReader(cbuf);
-        StreamTokenizer a6 = new StreamTokenizer(a5);
-        //BigDecimal a7 = new BigDecimal(42.0);
+  		ByteArrayOutputStream b1 = new  ByteArrayOutputStream();
+        BufferedOutputStream b2 = new BufferedOutputStream(b1);
+        b2.write(a3.getBytes(), 0, a3.length());
         BigInteger a8 = new BigInteger("42");
         BigDecimal a7 = new BigDecimal(a8);
-        DateFormat a9 = DateFormat.getDateInstance();
-        char a10 = CharacterIterator.DONE;
-        Collator a11 = Collator.getInstance();
-        CollationKey[] a12 = new CollationKey[42];
-        Locale a13 = Locale.ENGLISH;
-        NumberFormat a14 = NumberFormat.getInstance(a13);
-        Month a15 = Month.APRIL;
-        ZonedDateTime a16 = ZonedDateTime.now();
+        Locale a13 = Locale.getDefault();
         Cipher a17 = Cipher.getInstance("AES/CBC/PKCS5Padding");
         CipherInputStream a18 = new CipherInputStream(a2, a17);
-        BitSet a19 = new BitSet();
-        Random a20 = new Random();
+        BitSet a19 = new BitSet(64);
+        for (int ndx = 0; ndx < 64; ++ndx) {
+        	a19.set(ndx);
+        }
+        byte[] bb = SecureRandom.getSeed(16);
+        SecureRandom a20 = new SecureRandom(bb);
         
     }
     
     public static void main(String args[]) throws Exception {
 
-        System.out.println("Import and instantiate performance test");
+        System.out.println("Instantiate performance test");
     	System.out.print("Loop count: ");
     	System.out.println(MAX_LOOPS);
 

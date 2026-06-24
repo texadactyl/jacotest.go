@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-06-24 | 5.6.3 | Updated test case: perf-base-instantiate, new test case: date-time. |
 | 2026-06-14 | 5.6.2 | Updated test case: walker. |
 | 2026-06-08 | 5.6.1 | New test case: shannon-entropy. |
 | 2026-06-02 | 5.6.0 | Miscellaneous cleanup. |
