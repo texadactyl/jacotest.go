@@ -7,11 +7,13 @@ import java.util.List;
 // javap written in Java
 public class main {
 
+    private static int errorCount = 0;
+
     // Control writing of analysis updates to stdout
     private static final boolean LOGGING = true;
     
     // Debug output control
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // Class file magic number
     private static final int CLASS_MAGIC = 0xCAFEBABE;
@@ -52,6 +54,8 @@ public class main {
 
         byte[] classBytes = read(classfile);
         analyze(classBytes);
+        
+        Checkers.theEnd(errorCount);
     }
 
     private static String parseArgs(String[] args) {
@@ -281,7 +285,11 @@ public class main {
             if (entry == null) {
                 continue; // unused slot following a Long or Double entry
             }
-            System.out.printf("  #%-4d= %s%n", i, formatConstantPoolEntry(pool, entry));
+            String fpe = formatConstantPoolEntry(pool, entry);
+            System.out.printf("  #%-4d= %s%n", i, fpe);
+            if (i == 1) {
+                errorCount += Checkers.checker("CP entry #1", "Methodref          #2.#3 // java/lang/Object.<init>:()V", fpe);
+            }
         }
     }
 
@@ -395,7 +403,11 @@ public class main {
         if ((flags & 0x8000) != 0) {
             names.add("module");
         }
-        return String.join(" ", names);
+        String retValue = "";
+        for (String name : names) {
+            retValue.concat(name);
+        }
+        return retValue;
     }
 
     // ---- field_info / method_info / attribute_info traversal ----
