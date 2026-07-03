@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-07-03 | 5.6.4 | New test case: java-javap. |
 | 2026-06-24 | 5.6.3 | Updated test case: perf-base-instantiate. |
 | | | new test cases: bitset, date-time, io-buffer-bytearray. |
 | 2026-06-14 | 5.6.2 | Updated test case: walker. |
