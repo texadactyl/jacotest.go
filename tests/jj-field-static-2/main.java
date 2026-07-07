@@ -10,47 +10,61 @@ public class main {
     public static void main(String[] args) {
     
         int errorCount = 0;
-        String subbie = "Ljava/lang/String; [49 48 51]";
-        int index;
+        int index = -1;
+        String kkiEquals101 = "kki=101";
+        String kkdEquals102 = "kkd=102";
+        String kksEquals103 = "Ljava/lang/String; [49 48 51]";
     
-        // --------------------- statics
+        // --------------------- statics: bite, ba, ia
 
         String str = jj._getStaticString("main", "bite");
         errorCount += Checkers.checker("jj._getStaticString(\"main\", \"bite\")", "0x13", str);
         if (str.equals("openjdk")) { System.exit(0); }
         
         str = jj._getStaticString("main", "ba");
-        errorCount += Checkers.checker("jj._getStaticString(\"main\", \"ba\")", "1,2,3", str);
+        errorCount += Checkers.checker("jj._getStaticString(\"main\", \"ba\")", "0x010203", str);
         
         str = jj._getStaticString("main", "ia");
-        errorCount += Checkers.checker("jj._getStaticString(\"main\", \"ia\")", "1,2,3", str);
+        errorCount += Checkers.checker("jj._getStaticString(\"main\", \"ia\")", "[1, 2, 3]", str);
         
-        str = jj._getStaticString("main", "skkvec");
-        System.out.printf("static main skkvec: %s\n", str);
-        index = str.indexOf(subbie);
-        if (index < 0) {
-            errorCount += 1;
-            System.out.printf("*** ERROR, static main skkvec did not include \"%s\"\n", subbie);
-        }
-        
+        // --------------------- statics: skkscalar
+
         str = jj._getStaticString("main", "skkscalar");
         System.out.printf("static main skkscalar: %s\n", str);
-        index = str.indexOf(subbie);
-        if (index < 0) {
+        if (str.indexOf(kkiEquals101) < 0) {
             errorCount += 1;
-            System.out.printf("*** ERROR, static main skkscalar did not include \"%s\"\n", subbie);
+            System.out.printf("*** ERROR, static main skkscalar did not include %s\n", kkiEquals101);
+        }
+        if (str.indexOf(kkdEquals102) < 0) {
+            errorCount += 1;
+            System.out.printf("*** ERROR, static main skkscalar did not include %s\n", kkdEquals102);
+        }
+        if (str.indexOf(kksEquals103) < 0) {
+            errorCount += 1;
+            System.out.printf("*** ERROR, static main skkscalar did not include %s\n", kksEquals103);
+        }
+        
+        // --------------------- statics: skkvec
+
+        str = jj._getStaticString("main", "skkvec");
+        System.out.printf("static main skkvec: %s\n", str);
+        if (str.indexOf(kkiEquals101) < 0) {
+            errorCount += 1;
+            System.out.printf("*** ERROR, static main skkvec did not include %s\n", kkiEquals101);
+        }
+        if (str.indexOf(kkdEquals102) < 0) {
+            errorCount += 1;
+            System.out.printf("*** ERROR, static main skkvec did not include %s\n", kkdEquals102);
+        }
+        if (str.indexOf(kksEquals103) < 0) {
+            errorCount += 1;
+            System.out.printf("*** ERROR, static main skkvec did not include %s\n", kksEquals103);
         }
         
         // --------------------- fields
         
         KlassKambing fkkvec[] = { new KlassKambing(101, 102.0, "103"), new KlassKambing(2001, 2002.0, "2003"), new KlassKambing(3001, 3002.0, "3003") }; 
         str = jj._getFieldString(fkkvec, "value");
-        index = str.indexOf(subbie);
-        if (index < 0) {
-            errorCount += 1;
-            System.out.printf("*** ERROR, field main skkvec did not include \"%s\"\n", subbie);
-        }
-        
         KlassKambing fkkscalar = new KlassKambing(4001, 4002.0, "4003"); 
         str = jj._getFieldString(fkkscalar, "kki");
         errorCount += Checkers.checker("jj._getFieldString(fkkscalar, \"kki\")", "4001", str);
