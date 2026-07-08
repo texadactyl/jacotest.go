@@ -1,7 +1,5 @@
 public class main {
 
-    // TODO: needs qualitative tests
-    
 	enum Color {
 		RED,
 		GREEN,
@@ -10,11 +8,11 @@ public class main {
 	
     public static void main(String[] args)
     {
+        int errorCount = 0;
         Color red = Color.RED;
         String str = String.valueOf(red);
-        assert ( str.equals("RED") );
-        System.out.println(str);
+        errorCount += Checkers.checker("RED", "RED", str);
         
-        Checkers.theEnd(0);
+        Checkers.theEnd(errorCount);
     }
 }

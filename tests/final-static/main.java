@@ -24,8 +24,8 @@ public class main {
 
         errorCount += Checkers.checker("static main.b1", "0x41", jj._getStaticString("main", "b1"));
         errorCount += Checkers.checker("static main.b2", "0x42", jj._getStaticString("main", "b2"));
-        errorCount += Checkers.checker("static main.c1", "65", jj._getStaticString("main", "c1"));
-        errorCount += Checkers.checker("static main.c2", "66", jj._getStaticString("main", "c2"));
+        errorCount += Checkers.checker("static main.c1", "A", jj._getStaticString("main", "c1"));
+        errorCount += Checkers.checker("static main.c2", "B", jj._getStaticString("main", "c2"));
         errorCount += Checkers.checker("static main.d1", "1", jj._getStaticString("main", "d1"));
         errorCount += Checkers.checker("static main.d2", "2", jj._getStaticString("main", "d2"));
         errorCount += Checkers.checker("static main.f1", "1", jj._getStaticString("main", "f1"));

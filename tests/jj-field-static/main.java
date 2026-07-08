@@ -42,7 +42,7 @@ public class main {
         System.out.println("\n=========================== jj._getStaticString begin");
         errorCount += Checkers.checker("static main.mainStaticBoolean", "true", jj._getStaticString("main", "mainStaticBoolean"));
         errorCount += Checkers.checker("static main.mainStaticByte", "0x07", jj._getStaticString("main", "mainStaticByte"));
-        errorCount += Checkers.checker("static main.mainStaticChar", "56", jj._getStaticString("main", "mainStaticChar"));
+        errorCount += Checkers.checker("static main.mainStaticChar", "8", jj._getStaticString("main", "mainStaticChar"));
         errorCount += Checkers.checker("static main.mainStaticDouble", "2", jj._getStaticString("main", "mainStaticDouble"));
         errorCount += Checkers.checker("static main.mainStaticFloat", "4", jj._getStaticString("main", "mainStaticFloat"));
         errorCount += Checkers.checker("static main.mainStaticInt", "1", jj._getStaticString("main", "mainStaticInt"));
