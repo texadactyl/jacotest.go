@@ -13,7 +13,7 @@ public class main {
         int index = -1;
         String kkiEquals101 = "kki=101";
         String kkdEquals102 = "kkd=102";
-        String kksEquals103 = "Ljava/lang/String; [49 48 51]";
+        String kksEquals103 = "kks=103";
     
         // --------------------- statics: bite, ba, ia
 
