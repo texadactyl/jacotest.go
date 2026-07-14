@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-07-14 | 5.6.6 | New test case: time-duration. |
 | 2026-07-08 | 5.6.5 | Updated test cases: enum-simple, final-static, jj-field-static, jj-field-static-2. |
 | 2026-07-03 | 5.6.4 | New test case: java-javap. |
 | 2026-06-24 | 5.6.3 | Updated test case: perf-base-instantiate. |
