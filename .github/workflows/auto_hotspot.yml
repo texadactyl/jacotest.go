@@ -58,9 +58,19 @@ jobs:
         ./src/jacotest -c -x -M -t 60 -j hotspot 
         ls -l ./reports
 
-    - name: Run Options
+    - name: Run jacotest -r 1 -j hotspot
       run: |
         ./src/jacotest -r 1 -j hotspot
+
+    - name: Run jacotest -r 2 -j hotspot
+      run: |
         ./src/jacotest -r 2 -j hotspot
+        
+    - name: Run jacotest -r 3 -j hotspot
+      run: |
+        ./src/jacotest -r 3 -j hotspot
+        
+    - name: Run jacotest -z -v -j hotspot
+      run: |
         ./src/jacotest -z -v -j hotspot
 
