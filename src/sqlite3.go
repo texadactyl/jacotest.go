@@ -488,14 +488,18 @@ Note that history rows are ordered by test case name, date descending, and time 
 */
 func DBPrtLastPass() {
 
-	// Query descending test case, date, and time.
-	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colETmsecs + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
+	// Construct Query.
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Previous result record w.r.t. case, date, and time
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
+	var prvETmsecs int
 
 	// Most current result record w.r.t. date and time
 	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
+	var curETmsecs int
 
 	// Get all the history table rows.
 	var msg string
@@ -505,15 +509,15 @@ func DBPrtLastPass() {
 	if !ok {
 		return
 	}
-	Logger("Looking for test cases that currently fail but passed sometime previously .....")
+	Logger("DBPrtLastPass: Looking for test cases that currently fail but passed sometime previously .....")
 
 	// High level scan.
 	for rows.Next() {
 
 		// Get next history row by test case and going back in time.
-		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETmsecs)
 		if err != nil {
-			FatalErr("DBPrtChanges: rows.Scan failed", err)
+			FatalErr("DDBPrtLastPass: rows.Scan failed", err)
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
@@ -527,6 +531,7 @@ func DBPrtLastPass() {
 			curTimeUTC = prvTimeUTC
 			curResult = prvResult
 			curFailText = prvFailText
+			curETmsecs = prvETmsecs
 			continue
 		}
 
@@ -536,8 +541,10 @@ func DBPrtLastPass() {
 			if prvResult == "passed" {
 				// Show the changes.
 				counter += 1
-				fmt.Printf("\tfailed  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
-				fmt.Printf("\tpassed  >>  %-s  %-8s  %-10s  %-8s  %-6s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult)
+				fmt.Printf("\tfailed  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n",
+					curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curETmsecs, curFailText)
+				fmt.Printf("\tpassed  >>  %-s  %-8s  %-10s  %-8s  %-6s\n",
+					prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult)
 				// Will skip to the next test case.
 			} else { // prevResult is a fail
 				continue // So, keep scanning within the current test case.
@@ -547,9 +554,9 @@ func DBPrtLastPass() {
 		// Skip to a new test case.
 		for rows.Next() {
 			// Get next history row back in time.
-			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETmsecs)
 			if err != nil {
-				FatalErr("DBPrtChanges: rows.Scan/skipping failed", err)
+				FatalErr("DBPrtLastPass: rows.Scan/skipping failed", err)
 			}
 
 			// Same as last test case?
@@ -564,6 +571,7 @@ func DBPrtLastPass() {
 				curTimeUTC = prvTimeUTC
 				curResult = prvResult
 				curFailText = prvFailText
+				curETmsecs = prvETmsecs
 				break // Escape from skipping. Resume high-level scan.
 			}
 		}
@@ -653,7 +661,7 @@ func DBPrintMostRecent() {
 	var err error
 	var ok bool
 	var rows *sql.Rows
-	defer rows.Close()
+	//defer rows.Close()
 
 	// Open the passfail file for output/replace.
 	global := GetGlobalRef()
@@ -664,13 +672,15 @@ func DBPrintMostRecent() {
 	defer file.Close()
 
 	// Query descending test case, date, and time.
-	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colFailText + ", " + colETmsecs + " FROM " +
-		tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Most current result record w.r.t. date and time
 	var prvTestCase = ""
 	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult string
 	var curFailText any
+	var curEtMsecs int
 
 	// Get all the history table rows.
 	rows, ok = sqlQuery(sqlSelect)
@@ -688,7 +698,7 @@ func DBPrintMostRecent() {
 	for rows.Next() {
 
 		// Get next history row by test case and going back in time.
-		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC, &curResult, &curFailText)
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC, &curResult, &curFailText, &curEtMsecs)
 		if err != nil {
 			FatalErr("DBPrintMostRecent: rows.Scan failed", err)
 		}
