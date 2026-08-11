@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-07-14 | 5.7.0 | New database column for table history: "elapsed_msecs". |
 | 2026-07-14 | 5.6.7 | New test case: satellite-gps. |
 | 2026-07-14 | 5.6.6 | New test case: time-duration. |
 | 2026-07-08 | 5.6.5 | Updated test cases: enum-simple, final-static, jj-field-static, jj-field-static-2. |

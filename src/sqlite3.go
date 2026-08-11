@@ -10,8 +10,10 @@ Downloads + installs:
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -31,6 +33,7 @@ const colDate = "date_utc"
 const colTime = "time_utc"
 const colResult = "result"
 const colFailText = "fail_text" // similar to jacotest failure report categories
+const colETmsecs = "elapsed_msecs"
 
 // Secondary indexes
 const ixTestCaseName = "ix_test_case"
@@ -50,70 +53,67 @@ Internal function to run an SQL statement and handle any errors.
 */
 func sqlFunc(text string, commit bool) error {
 
+	var err error
+	var statement *sql.Stmt
+
 	if sqlTracing {
 		msg := fmt.Sprintf("sqlFunc: SQL: %s", text)
 		Logger(msg)
 	}
 
 	// Begin transaction if commit true.
-	textBegin := "BEGIN TRANSACTION;"
 	if commit {
-		_, err := dbHandle.Begin()
+		textBegin := "BEGIN TRANSACTION;"
+		_, err = dbHandle.Begin()
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Begin (%s) (%s) failed, err: \n%s", text, textBegin, err.Error())
-			LogError(msg)
-			return err
+			FatalErr(msg, err)
 		}
-		statement, err := dbHandle.Prepare(textBegin) // Prepare COMMIT SQL Statement
+		statement, err = dbHandle.Prepare(textBegin) // Prepare COMMIT SQL Statement
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Prepare (%s) (%s) failed, err: \n%s", text, textBegin, err.Error())
-			LogError(msg)
-			return err
+			FatalErr(msg, err)
 		}
 
 		_, err = statement.Exec()
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n", text, textBegin, err.Error())
-			LogError(msg)
-			return err
+			FatalErr(msg, err)
 		}
 	}
 
 	// Prepare SQL statement.
-	statement, err := dbHandle.Prepare(text)
+	statement, err = dbHandle.Prepare(text)
 	if err != nil {
 		msg := fmt.Sprintf("sqlFunc: Prepare (%s) failed, err: \n%s", text, err.Error())
-		LogError(msg)
-		return err
+		FatalErr(msg, err)
 	}
 
 	// Execute SQL statement.
 	_, err = statement.Exec()
 	if err != nil {
 		msg := fmt.Sprintf("sqlFunc: Exec (%s) failed, err: %s\n", text, err.Error())
-		LogError(msg)
-		return err
+		FatalErr(msg, err)
 	}
 
 	// End transaction if commit true.
 	if commit {
 		textCommit := "COMMIT;"
-		statement, err := dbHandle.Prepare(textCommit) // Prepare COMMIT SQL Statement
+		statement, err = dbHandle.Prepare(textCommit) // Prepare COMMIT SQL Statement
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Prepare (%s) (%s) failed, err: \n%s", text, textCommit, err.Error())
-			LogError(msg)
-			return err
+			FatalErr(msg, err)
 		}
 
 		_, err = statement.Exec() // Execute SQL Statements
 		if err != nil {
 			msg := fmt.Sprintf("sqlFunc: Exec (%s) (%s) failed, err: %s\n", text, textCommit, err.Error())
-			LogError(msg)
-			return err
+			FatalErr(msg, err)
 		}
 	}
 
 	// No errors
+	statement.Close()
 	return nil
 
 }
@@ -159,6 +159,7 @@ func initDB() {
 	sqlText += colTime + " VARCHAR NOT NULL, "
 	sqlText += colResult + " VARCHAR NOT NULL, "
 	sqlText += colFailText + " VARCHAR, "
+	sqlText += colETmsecs + " INTEGER, "
 	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
 	err := sqlFunc(sqlText, true)
 	if err != nil {
@@ -210,15 +211,20 @@ func DBOpen() {
 	pathDatabase = dirDatabase + "/" + fileDatabase
 	_, err = os.Stat(pathDatabase)
 	if err != nil {
+		// O/S error while trying to stat the database file.
 		if sqlTracing {
 			infoMsg := fmt.Sprintf("DBOpen: database file(%s) inaccessible", pathDatabase)
 			Logger(infoMsg)
 		}
+
+		// Try to create the database file.
 		dbHandle, err = sql.Open(driverDatabase, pathDatabase)
 		if err != nil {
 			errMsg := fmt.Sprintf("DBOpen: sql.Open(new database %s) failed", pathDatabase)
 			FatalErr(errMsg, err)
 		}
+
+		// Database successfully opened - now, initialize the tabled and column metadata.
 		initDB()
 
 		if sqlTracing {
@@ -236,8 +242,45 @@ func DBOpen() {
 		FatalErr(fmt.Sprintf("DBOpen: sql.Open(existing database %s) failed", pathDatabase), err)
 	}
 
+	// The database is open and ready for business.
 	dbIsOpen = true
 
+	// If column "elapsed_msecs" does not yet exist, populate it.
+	query := fmt.Sprintf("SELECT COUNT(1) FROM pragma_table_info('%s') WHERE name = '%s'", tableHistory, colETmsecs)
+	rows, success := sqlQuery(query)
+	if !success {
+		FatalErr("DBOpen: sqlQuery failed", errors.New("cannot continue"))
+	}
+	var count int
+	if rows.Next() {
+		if err := rows.Scan(&count); err != nil {
+			FatalErr("DBOpen: failed to scan count", err)
+		}
+	}
+	if err := rows.Err(); err != nil {
+		FatalErr("DBOpen: rows iteration error", err)
+	}
+	rows.Close()
+
+	// If the row-count < 1, alter the history table.
+	// The default value for the new column is NULL.
+	if count < 1 {
+		updater := fmt.Sprintf("ALTER TABLE '%s' ADD COLUMN '%s' INTEGER DEFAULT -1", tableHistory, colETmsecs)
+		err := sqlFunc(updater, true)
+		if err != nil {
+			errMsg := fmt.Sprintf("DBOpen: '%s' failed", updater)
+			FatalErr(errMsg, err)
+		}
+		backfill := fmt.Sprintf("UPDATE '%s' SET '%s' = -1", tableHistory, colETmsecs)
+		err = sqlFunc(backfill, true)
+		if err != nil {
+			errMsg := fmt.Sprintf("DBOpen: '%s' failed", backfill)
+			FatalErr(errMsg, err)
+		}
+		if sqlTracing {
+			Logger("DBOpen: alter table and backfill succeeded")
+		}
+	}
 	if sqlTracing {
 		Logger("DBOpen: End")
 	}
@@ -274,7 +317,7 @@ func DBClose() {
 /*
 DBStorePassed - Store a PASSED jacotest test case result.
 */
-func DBStorePassed(testCaseName string) {
+func DBStorePassed(testCaseName string, etMsecs int) {
 
 	global := GetGlobalRef()
 	if global.FlagGalt {
@@ -285,21 +328,17 @@ func DBStorePassed(testCaseName string) {
 	tcn := "'" + testCaseName + "'"
 	dateUTC := "'" + GetUtcDate() + "'"
 	timeUTC := "'" + GetUtcTime() + "'"
+	etMsecsStr := strconv.Itoa(etMsecs)
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
-	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', 'n/a', " + etMsecsStr + ")"
 
 	err := sqlFunc(sqlText, true)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
-		dateUTC = "'" + GetUtcDate() + "'"
-		timeUTC = "'" + GetUtcTime() + "'"
-		sqlText = "INSERT INTO " + tableHistory + " VALUES("
-		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', NULL)"
 		err := sqlFunc(sqlText, true)
 		if err != nil {
 			errMsg := fmt.Sprintf("DBStorePassed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
-			LogError(errMsg)
-			return
+			FatalErr(errMsg, err)
 		}
 		msg := fmt.Sprintf("DBStorePassed: 2nd try is a success: %s", sqlText)
 		Logger(msg)
@@ -332,20 +371,15 @@ func DBStoreFailed(testCaseName, failText string) {
 	dateUTC := "'" + GetUtcDate() + "'"
 	timeUTC := "'" + GetUtcTime() + "'"
 	sqlText := "INSERT INTO " + tableHistory + " VALUES("
-	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ", -1)"
 
 	err := sqlFunc(sqlText, true)
 	if err != nil {
 		time.Sleep(msecsSleep * time.Millisecond)
-		dateUTC = "'" + GetUtcDate() + "'"
-		timeUTC = "'" + GetUtcTime() + "'"
-		sqlText = "INSERT INTO " + tableHistory + " VALUES("
-		sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ")"
 		err := sqlFunc(sqlText, true)
 		if err != nil {
 			errMsg := fmt.Sprintf("DBStoreFailed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
-			LogError(errMsg)
-			return
+			FatalErr(errMsg, err)
 		}
 		msg := fmt.Sprintf("DBStoreFailed: 2nd try is a success: %s", sqlText)
 		Logger(msg)
@@ -360,13 +394,17 @@ Note that history rows are ordered by test case name, date descending, and time 
 func DBPrtChanges() {
 
 	// Query descending test case, date, and time.
-	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Previous result record w.r.t. case, date, and time
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
+	var prvEtMsecs int
 
 	// Most current result record w.r.t. date and time
 	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
+	var curEtMsecs int
 
 	// Get all the history table rows.
 	var msg string
@@ -380,22 +418,22 @@ func DBPrtChanges() {
 	// High level scan.
 	for rows.Next() {
 		// Get next history row by test case and going back in time.
-		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvEtMsecs)
 		if err != nil {
 			FatalErr("DBPrtChanges: rows.Scan failed", err)
 		}
 
 		// Same test case as last test case? The first time, the current fields are spaces.
-		// So, the next test always fails on the very first row.
+		// So, force a match.
 		if curTestCase != prvTestCase {
-			// No, this is a new one.
-			// Make it current and continue.
+			// Make the previous version the current version and continue.
 			curTestCase = prvTestCase
 			curJvm = prvJvm
 			curDateUTC = prvDateUTC
 			curTimeUTC = prvTimeUTC
 			curResult = prvResult
 			curFailText = prvFailText
+			curEtMsecs = prvEtMsecs
 			continue
 		}
 
@@ -404,14 +442,14 @@ func DBPrtChanges() {
 		if prvResult != curResult || prvFailText != curFailText {
 			// Not the same result. Show the changes.
 			counter += 1
-			fmt.Printf("\n\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText)
-			fmt.Printf("\tprv  >>  %-s  %-8s  %-10s  %-8s  %-6s  %-s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText)
+			fmt.Printf("\n\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curEtMsecs, curFailText)
+			fmt.Printf("\tprv  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvEtMsecs, prvFailText)
 		}
 
 		// Skip to a new test case.
 		for rows.Next() {
 			// Get next history row back in time.
-			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText)
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvEtMsecs)
 			if err != nil {
 				FatalErr("DBPrtChanges: rows.Scan/skipping failed", err)
 			}
@@ -428,6 +466,7 @@ func DBPrtChanges() {
 				curTimeUTC = prvTimeUTC
 				curResult = prvResult
 				curFailText = prvFailText
+				curEtMsecs = prvEtMsecs
 				break // Escape from skipping. Resume high-level scan.
 			}
 		}
@@ -450,7 +489,7 @@ Note that history rows are ordered by test case name, date descending, and time 
 func DBPrtLastPass() {
 
 	// Query descending test case, date, and time.
-	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colETmsecs + ", COALESCE(" + colFailText + ", 'n/a') FROM " + tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Previous result record w.r.t. case, date, and time
 	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
@@ -462,6 +501,7 @@ func DBPrtLastPass() {
 	var msg string
 	counter := 0
 	rows, ok := sqlQuery(sqlText)
+	defer rows.Close()
 	if !ok {
 		return
 	}
@@ -556,6 +596,7 @@ func DBDeleteMostRecent() {
 
 	// Get all the history table rows.
 	rows, ok := sqlQuery(sqlSelect)
+	defer rows.Close()
 	if !ok {
 		return
 	}
@@ -612,6 +653,7 @@ func DBPrintMostRecent() {
 	var err error
 	var ok bool
 	var rows *sql.Rows
+	defer rows.Close()
 
 	// Open the passfail file for output/replace.
 	global := GetGlobalRef()
@@ -622,7 +664,7 @@ func DBPrintMostRecent() {
 	defer file.Close()
 
 	// Query descending test case, date, and time.
-	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colFailText + " FROM " +
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + ", " + colResult + ", " + colFailText + ", " + colETmsecs + " FROM " +
 		tableHistory + " ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
 	// Most current result record w.r.t. date and time
@@ -703,6 +745,7 @@ func DBReportOrDeleteObsolete(flagDelete bool) {
 	var err error
 	var ok bool
 	var rows *sql.Rows
+	defer rows.Close()
 	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
 	var deleteList []string
 	counter := 0
@@ -790,6 +833,7 @@ func DBUpdateTestCaseName(oldName, newName string) {
 
 	sqlSelect = fmt.Sprintf("SELECT "+colTestCase+" FROM "+tableHistory+" WHERE "+colTestCase+" = '%s'", newName)
 	rows, ok := sqlQuery(sqlSelect)
+	defer rows.Close()
 	if !ok {
 		FatalText(fmt.Sprintf("DBUpdateTestCaseName: sqlQuery(%s) failed", sqlSelect))
 	}

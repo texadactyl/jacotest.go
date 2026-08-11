@@ -370,7 +370,7 @@ func main() {
 		WriteOutputText(outHandle, "Using this JVM:")
 		WriteOutputText(outHandle, string(outLines))
 
-		// Get all the subdirectories (test cases) under tests
+		// Get all the subdirectories (test cases) under directory tests,
 		entries, err := os.ReadDir(global.DirTests)
 		if err != nil {
 			FatalErr(fmt.Sprintf("os.ReadDir(%s) failed", global.DirTests), err)
@@ -383,61 +383,90 @@ func main() {
 		entryCount := 0
 		for _, entry := range entries {
 
-			if entry.IsDir() {
-				entryCount += 1
-				if numTestCases != 0 && numTestCases < entryCount {
-					break
+			// If not an O/S directory, skip it.
+			if !entry.IsDir() {
+				continue
+			}
+
+			// It is (hopefully) a test case directory.
+			entryCount += 1
+
+			// TODO: True? Check if we have reached the number of test cases to run.
+			if numTestCases != 0 && numTestCases < entryCount {
+				break
+			}
+
+			// Get the test case name and the full path of the test case directory.
+			testCaseName := entry.Name()
+			fullPath := filepath.Join(global.DirTests, testCaseName)
+
+			// Get the full path of the "main.java" file within the test case directory.
+			mainJavaFile := fullPath + string(os.PathSeparator) + "main.java"
+
+			// Check for the existence of main.java.
+			_, err := os.Stat(mainJavaFile)
+			if err != nil {
+				msg := fmt.Sprintf("File %s does not exist - skipping directory", mainJavaFile)
+				LogWarning(msg)
+				continue
+			}
+
+			// Take initial time of this test case.
+			// Execute test case.
+			// Take final time of this test case.
+			ti := time.Now()
+			resultCode, outlog := ExecuteOneTest(fullPath)
+			tf := time.Now()
+
+			// Calculate elapsed time in milliseconds.
+			elapsed := tf.Sub(ti)
+			etMsecs := int(elapsed.Milliseconds())
+
+			// Clean test case log file.
+			// Some outlog strings have multiple embedded \n characters.
+			outlog = strings.ReplaceAll(outlog, "\n", "\n|||")
+
+			// Switch on test case result.
+			switch resultCode {
+			case RC_NORMAL:
+				successNames = append(successNames, testCaseName)
+				if global.FlagMdReport {
+					_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 				}
-				testCaseName := entry.Name()
-				fullPath := filepath.Join(global.DirTests, testCaseName)
-				mainFile := fullPath + string(os.PathSeparator) + "main.java"
-				_, err := os.Stat(mainFile)
-				if err != nil {
-					msg := fmt.Sprintf("File %s does not exist - skipping directory", mainFile)
-					LogWarning(msg)
-					continue
+				if global.FlagExecute {
+					DBStorePassed(testCaseName, etMsecs)
 				}
-				resultCode, outlog := ExecuteOneTest(fullPath)
-				outlog = strings.ReplaceAll(outlog, "\n", "\n|||") // some outlog strings have multiple embedded \n characters
-				switch resultCode {
-				case RC_NORMAL:
-					successNames = append(successNames, testCaseName)
-					if global.FlagMdReport {
-						_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
-					}
-					if global.FlagExecute {
-						DBStorePassed(testCaseName)
-					}
-				case RC_COMP_ERROR:
-					exitStatus = 1
-					errCompileNames = append(errCompileNames, testCaseName)
-					if global.FlagMdReport {
-						_, _ = fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
-					}
-					if global.FlagExecute {
-						DBStoreFailed(testCaseName, "Compile error")
-					}
-				case RC_EXEC_ERROR:
-					exitStatus = 1
-					errExecutionNames = append(errExecutionNames, testCaseName)
-					tblErrCases[testCaseName] = 0
-					if global.FlagMdReport {
-						_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
-					}
-					// DBStoreFailed calls will be made in the SQL database source file.
-				case RC_EXEC_TIMEOUT:
-					exitStatus = 1
-					timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
-					if global.FlagMdReport {
-						_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
-					}
-					if global.FlagExecute {
-						DBStoreFailed(testCaseName, "Timeout")
-					}
+			case RC_COMP_ERROR:
+				exitStatus = 1
+				errCompileNames = append(errCompileNames, testCaseName)
+				if global.FlagMdReport {
+					_, _ = fmt.Fprintf(rptHandle, "| %s | COMP-ERROR | compilation error(s)\n | | | See logs/FAILED-*-javac.log files |\n", testCaseName)
+				}
+				if global.FlagExecute {
+					DBStoreFailed(testCaseName, "Compile error")
+				}
+			case RC_EXEC_ERROR:
+				exitStatus = 1
+				errExecutionNames = append(errExecutionNames, testCaseName)
+				tblErrCases[testCaseName] = 0
+				if global.FlagMdReport {
+					_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
+				}
+				// DBStoreFailed calls will be made in the SQL database source file.
+			case RC_EXEC_TIMEOUT:
+				exitStatus = 1
+				timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
+				if global.FlagMdReport {
+					_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+				}
+				if global.FlagExecute {
+					DBStoreFailed(testCaseName, "Timeout")
 				}
 			}
+			// End of result switch
 		}
 		// End test case directory loop.
+		// At this point, we have executed all the requested test cases.
 
 		// Show successes.
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
@@ -491,7 +520,7 @@ func main() {
 			WriteOutputText(outHandle, " ")
 		}
 
-		// Show elapsed time.
+		// Show elapsed time for all test cases executed..
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		etMsg := fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String())
@@ -503,7 +532,7 @@ func main() {
 		if err != nil {
 			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
 		}
-		createLatest(global.SumFilePath)
+		_ = createLatest(global.SumFilePath)
 		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
 
 	} // if global.FlagExecute || global.FlagCompile

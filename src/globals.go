@@ -96,7 +96,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		FatalErr(fmt.Sprintf("InitGlobals: ReadFile(%s) failed", PATH_VERSION), err)
 	}
 
-	versionString := string(versionBytes[:])
+	versionString := string(versionBytes[:len(versionBytes)-1])
 	versionString = strings.Trim(versionString, " ")
 
 	absTests := ckPath(PATH_DIR_TESTS)
