@@ -139,3 +139,30 @@ func isDirectory(path string) (bool, error) {
 	}
 	return info.IsDir(), nil
 }
+
+/*
+ * formatElapsedTime - Given the elapsed time in milliseconds, format as HH:MM:SS.ddd
+
+	Usage:
+
+	fmt.Println(formatElapsed(3723456)) // "01:02:03.456"
+	fmt.Println(formatElapsed(63456))   // "00:01:03.456"
+	fmt.Println(formatElapsed(3456))    // "3.456 sec"
+	fmt.Println(formatElapsed(456))     // "456 msec"
+*/
+
+func formatElapsedTime(etMsecs int) string {
+	hours := etMsecs / 3600000
+	minutes := (etMsecs % 3600000) / 60000
+	seconds := (etMsecs % 60000) / 1000
+	millis := etMsecs % 1000
+
+	switch {
+	case hours == 0 && minutes == 0 && seconds == 0:
+		return fmt.Sprintf("%d msec", millis)
+	case hours == 0 && minutes == 0:
+		return fmt.Sprintf("%d.%03d sec", seconds, millis)
+	default:
+		return fmt.Sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
+	}
+}

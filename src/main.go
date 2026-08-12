@@ -330,6 +330,7 @@ func main() {
 	// Process execute request.
 	if global.FlagExecute || global.FlagCompile {
 		var successNames []string
+		var successETs []int
 		var errCompileNames []string
 		var errExecutionNames []string
 		tblErrCases := make(map[string]int)
@@ -430,6 +431,7 @@ func main() {
 			switch resultCode {
 			case RC_NORMAL:
 				successNames = append(successNames, testCaseName)
+				successETs = append(successETs, etMsecs)
 				if global.FlagMdReport {
 					_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 				}
@@ -472,8 +474,8 @@ func main() {
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
 		Logger(msg)
 		WriteOutputText(outHandle, msg)
-		for _, name := range successNames {
-			msg = fmt.Sprintf("	 %s", name)
+		for ix, _ := range successNames {
+			msg = fmt.Sprintf("	 %s ... %s", successNames[ix], formatElapsedTime(successETs[ix]))
 			WriteOutputText(outHandle, msg)
 		}
 
