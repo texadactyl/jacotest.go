@@ -37,7 +37,7 @@ func showHelp() {
 	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
 	fmt.Printf("\t-s : Delete database records of non-existing test cases (they were deleted).\n")
 	fmt.Printf("\t-t num : This is the timeout value of num seconds in executing each test case.  Default: 60.\n")
-	fmt.Printf("\t-u : User-defined options to pass to the JVM when -x is specified.\n")
+	fmt.Printf("\t-u : JVM options when -x is specified.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
 	fmt.Printf("\t-X num : Execute the first num test cases.\n")
 	fmt.Printf("\t-x : Execute all test cases.\n")

@@ -505,7 +505,6 @@ func DBPrtLastPass() {
 	var msg string
 	counter := 0
 	rows, ok := sqlQuery(sqlText)
-	defer rows.Close()
 	if !ok {
 		return
 	}
@@ -604,7 +603,6 @@ func DBDeleteMostRecent() {
 
 	// Get all the history table rows.
 	rows, ok := sqlQuery(sqlSelect)
-	defer rows.Close()
 	if !ok {
 		return
 	}
@@ -661,7 +659,6 @@ func DBPrintMostRecent() {
 	var err error
 	var ok bool
 	var rows *sql.Rows
-	//defer rows.Close()
 
 	// Open the passfail file for output/replace.
 	global := GetGlobalRef()
@@ -669,7 +666,6 @@ func DBPrintMostRecent() {
 	if err != nil {
 		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.PassfailFilePath), err)
 	}
-	defer file.Close()
 
 	// Query descending test case, date, and time.
 	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
@@ -755,7 +751,6 @@ func DBReportOrDeleteObsolete(flagDelete bool) {
 	var err error
 	var ok bool
 	var rows *sql.Rows
-	defer rows.Close()
 	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
 	var deleteList []string
 	counter := 0
@@ -843,11 +838,9 @@ func DBUpdateTestCaseName(oldName, newName string) {
 
 	sqlSelect = fmt.Sprintf("SELECT "+colTestCase+" FROM "+tableHistory+" WHERE "+colTestCase+" = '%s'", newName)
 	rows, ok := sqlQuery(sqlSelect)
-	defer rows.Close()
 	if !ok {
 		FatalText(fmt.Sprintf("DBUpdateTestCaseName: sqlQuery(%s) failed", sqlSelect))
 	}
-	defer rows.Close()
 	count := 0
 	for rows.Next() {
 		count++

@@ -4,6 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-08-20 | 5.7.2 | Fixed some error conditions in database access related to new elapsed time database column. |
+| | | Updated test case benchmark-game-fannkuch-redux to remove conflation of two unrelated concepts under a single field, "nthreads". |
 | 2026-08-12 | 5.7.1 | Added elapsed time to the report for passed tests. |
 | 2026-08-11 | 5.7.0 | New database column for table history: "elapsed_msecs". |
 | 2026-07-14 | 5.6.7 | New test case: satellite-gps. |
