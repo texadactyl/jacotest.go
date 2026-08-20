@@ -1,7 +1,7 @@
 # Only on demand, this workflow will run the OpenJDK JVM against a single test case
 # that is defined in "env:".
 
-name: Edit me! - Jacobin
+name: One Test Case - Jacobin
 
 env:
   TEST_CASE: benchmark-game-fannkuch-redux
