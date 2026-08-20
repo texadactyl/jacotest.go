@@ -53,21 +53,21 @@ jobs:
         cd ..
         jacotest -h
 
-      - name: Setup JDK
-        if: >-
-          !(runner.arch == 'ARM64' && runner.os == 'Windows')
-        uses: actions/setup-java@main
-        with:
-          distribution: 'oracle'
-          java-version: '21'
+    - name: Setup JDK (NOT Windows on ARM64)
+      if: >-
+        !(runner.arch == 'ARM64' && runner.os == 'Windows')
+      uses: actions/setup-java@main
+      with:
+        distribution: 'oracle'
+        java-version: '21'
 
-      - name: Setup JDK (Windows ARM64)
-        if: runner.arch == 'ARM64' && runner.os == 'Windows'
-        uses: actions/setup-java@main
-        with:
-          distribution: 'microsoft'
-          java-version: '21'
-          
+    - name: Setup JDK (Windows on ARM64 only)
+      if: runner.arch == 'ARM64' && runner.os == 'Windows'
+      uses: actions/setup-java@main
+      with:
+        distribution: 'microsoft'
+        java-version: '21'
+        
     - name: Run Test Cases POSIX
       shell: bash
       if: runner.os != 'Windows'
