@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: benchmark-game-fannkuch-redux
+  TEST_CASE: threading-runnable
   
 on:
   workflow_dispatch:
