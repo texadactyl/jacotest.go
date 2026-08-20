@@ -12,8 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v5
@@ -25,6 +24,9 @@ jobs:
           cache: true
           cache-dependency-path: "**/go.sum"
           
+    - name: Set Test Case Name
+      run: echo "TEST_CASE=benchmark-game-fannkuch-redux" >> "$GITHUB_ENV"
+    
     - name: Setup PATH
       shell: bash
       run: |
@@ -67,7 +69,7 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../benchmark-game-spectralnorm
+        cd ../$TEST_CASE
         javac -cp ".:../HELPERS" main.java
         jacobin -cp ".:../HELPERS" main.class
    
@@ -81,6 +83,6 @@ jobs:
         cd tests/HELPERS
         javac *.java
         ### Which test case?
-        cd ../benchmark-game-spectralnorm
+        cd ../$TEST_CASE
         javac -cp ".;../HELPERS" main.java
         jacobin -cp ".;../HELPERS" main.class
