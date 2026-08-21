@@ -107,8 +107,8 @@ jobs:
 
     - name: Create Output Env Names
       run: |
-        echo "REPORT_NAME=jacotest-summary-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
-        echo "LOGS_NAME=jacotest-logs-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "REPORT_NAME=jacotest-summary-${{ matrix.os }}-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+        echo "LOGS_NAME=jacotest-logs-${{ matrix.os }}-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
       
     - name: Create Summary Artifact
       uses: actions/upload-artifact@v4
