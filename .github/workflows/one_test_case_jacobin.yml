@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+        os: [macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v5
