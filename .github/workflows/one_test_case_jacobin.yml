@@ -17,6 +17,7 @@ jobs:
       matrix:
         os: [macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@v5
 
@@ -68,7 +69,7 @@ jobs:
         distribution: 'microsoft'
         java-version: '21'
         
-    - name: Run Test Cases POSIX
+    - name: Run Test Case - Not Windows
       shell: bash
       if: runner.os != 'Windows'
       run: |
@@ -82,7 +83,7 @@ jobs:
         javac -cp ".:../HELPERS" main.java
         jacobin -cp ".:../HELPERS" main.class
    
-    - name: Run Test Cases Windows
+    - name: Run Test Case - Windows
       shell: bash
       if: runner.os == 'Windows'
       run: |

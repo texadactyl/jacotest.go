@@ -1,8 +1,11 @@
 # Only on demand, this workflow will run https://github.com/texadactyl/jacobin against a single test case.
-# See line: ### Which test case?
+# that is defined in "env:".
 
 name: One Test Case - Hotspot JVM
 
+env:
+  TEST_CASE: threading-runnable
+  
 on:
   workflow_dispatch:
 
@@ -12,9 +15,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        
-        os: [windows-latest]
+        os: [macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@v5
           
@@ -24,7 +27,7 @@ jobs:
         distribution: 'oracle'
         java-version: '21'
 
-    - name: Run Test Cases POSIX
+    - name: Run Test Case - Not Window
       shell: bash
       if: runner.os != 'Windows'
       run: |
@@ -33,12 +36,11 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        ### Which test case?
-        cd ../file-path-2
+        cd ../$TEST_CASE
         javac -cp .:../HELPERS main.java
         java -cp .:../HELPERS main || true
    
-    - name: Run Test Cases Windows
+    - name: Run Test Case - Windows
       shell: bash
       if: runner.os == 'Windows'
       run: |
@@ -47,7 +49,6 @@ jobs:
         set -x
         cd tests/HELPERS
         javac *.java
-        ### Which test case?
-        cd ../file-path-2
+        cd ../$TEST_CASE
         javac -cp ".;../HELPERS" main.java
         java -cp ".;../HELPERS" main
