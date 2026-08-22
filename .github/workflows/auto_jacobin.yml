@@ -1,4 +1,4 @@
-name: Jacotest Jacobin on 5 O/Ses
+name: Jacotest Jacobin on 6 O/Ses
 
 # O/Ses supported by Github Actions: 
 # https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
@@ -28,7 +28,7 @@ jobs:
   run-on-oses:
     strategy:
       matrix:        
-        os: [macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+        os: [macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
     runs-on: ${{ matrix.os }}
 
     defaults:
@@ -52,7 +52,7 @@ jobs:
     - name: Setup Go
       uses: actions/setup-go@main
       with:
-          go-version: '1.26.x'
+          go-version: '1.27.x'
           cache: true
           cache-dependency-path: "**/go.sum"
           
