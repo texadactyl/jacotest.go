@@ -1,6 +1,6 @@
 # On push or open pull request events, this workflow will run jacotest against the OpenJDK JVM.
 
-name: Jacotest / Hotspot JVM on 6 O/Ses
+name: Auto Jacotest / Hotspot JVM on 6 O/Ses
 
 on:
   workflow_dispatch:
