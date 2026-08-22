@@ -5,6 +5,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2026-08-22 | 5.7.3 | Updated the github action workfiles to (a) include MacOS on Intel and (b) request go v1.27.x. See workflows/README.md. |
+| | | Subtlety: Make sure that the JDK for Windows on ARM64 is setup for "distribution: 'microsoft'" in github actions workflows. |
 | 2026-08-20 | 5.7.2 | Fixed some error conditions in database access related to new elapsed time database column. |
 | | | Updated test case benchmark-game-fannkuch-redux to remove conflation of two unrelated concepts under a single field, "nthreads". |
 | 2026-08-12 | 5.7.1 | Added elapsed time to the report for passed tests. |
