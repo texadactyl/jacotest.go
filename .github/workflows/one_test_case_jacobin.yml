@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: threading-runnable
+  TEST_CASE: benchmark-game-fannkuch-redux
   
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [windows-11-arm]
     runs-on: ${{ matrix.os }}
     
     steps:
