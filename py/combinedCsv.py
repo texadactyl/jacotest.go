@@ -58,12 +58,11 @@ for test_case in sorted(results.keys()):
     statuses = [per_os.get(os_name, "") for os_name in oses]
     agree = len(set(statuses)) == 1
 
-    display_name = test_case if agree else f"***{test_case}"
+    display_name = test_case if agree else f"{test_case}"
     if not agree:
         discrepancies.append(test_case)
-
-    row = [display_name] + statuses
-    writer.writerow(row)
+        row = [display_name] + statuses
+        writer.writerow(row)
 
 # ---- Summary counts ----
 summary = ["Passed-Failed"]
