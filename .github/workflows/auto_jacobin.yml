@@ -130,6 +130,7 @@ jobs:
         name: passfail-${{ matrix.os }}
         path: passfail-${{ matrix.os }}.txt
         retention-days: 1
+        if-no-files-found: error
 
   process-collection:
     needs: run-on-oses
