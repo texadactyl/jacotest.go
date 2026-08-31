@@ -28,8 +28,9 @@ from collections import defaultdict
 results = defaultdict(dict)
 oses = set()
 
-# Define winPct globally
+# Define some globals
 winPct = -1.0
+passed = failed = 0
 
 # Read from stdin
 for line in sys.stdin:
