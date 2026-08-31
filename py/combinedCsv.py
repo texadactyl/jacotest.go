@@ -28,6 +28,9 @@ from collections import defaultdict
 results = defaultdict(dict)
 oses = set()
 
+# Define winPct globally
+winPct = -1.0
+
 # Read from stdin
 for line in sys.stdin:
     line = line.strip()
@@ -76,11 +79,11 @@ for os_name in oses:
         elif val == "failed":
             failed += 1
     summary.append(f"{passed}-{failed}")
+    winPct = float(passed) * 100.0 / (float(passed + failed))
 
 writer.writerow(summary)
 
 # ---- Write discrepancies to stderr ----
-winPct = float(passed) * 100.0 / (float(passed + failed))
 print(f"Number of discrepancies: {len(discrepancies)}", file=sys.stderr)
 print(f"Passed-Failed = {passed}-{failed} ({winPct:.1f}%)", file=sys.stderr)
 if discrepancies:

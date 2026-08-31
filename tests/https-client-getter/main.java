@@ -14,8 +14,8 @@ public class main {
 
     // TODO: needs qualitative tests
 
-    private static final String GetURLString = "https://www.netcraft.com/";
-    private static final int Timeout = 20000;
+    private static final String GetURLString = "https://www.google.com/";
+    private static final int timeout = 10000;
     private static final int stCodeOk = 200;
 
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class main {
         try {
             HttpClient client = HttpClient
                     .newBuilder()
-                    .connectTimeout(Duration.ofMillis(20000))
+                    .connectTimeout(Duration.ofMillis(timeout))
                     .build();
             HttpRequest request = HttpRequest
                     .newBuilder()
