@@ -3,6 +3,7 @@
 #
 # Highest priority for fragment searching
 # ---------------------------------------
+go panic
 NoSuchAlgorithmException
 fatal error
 implementation pending
@@ -113,6 +114,5 @@ WaitClassStatus
 #
 # Last priority
 # -------------
-go panic
 [ThrowEx]
 
