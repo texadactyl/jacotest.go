@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-09-06 | 5.7.6 | New test case: benchmark-game-fannkuch-mini. |
 | 2026-09-06 | 5.7.5 | Move "go panic" to thee top of everything in ERROR_CATEGORIES.txt. |
 | 2026-08-23 | 5.7.4 | Created folder tests.performance. |
 | | | Placed performance tests cached-uncached-static and cached-uncached-virtual under tests.performance. |
