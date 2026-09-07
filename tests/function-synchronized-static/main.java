@@ -109,7 +109,7 @@ class Worker extends Thread {
             - Yield happens rarely enough to keep the test meaningful
             */
             if ((ix & yield_control) == 0) {
-                // JACOBIN-952 Thread.yield();
+                Thread.yield();
             }
         }
     }
