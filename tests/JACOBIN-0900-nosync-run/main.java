@@ -1,5 +1,5 @@
 public class main {
-    private final static int threadCount = 64;
+    private final static int threadCount = 20;
     private final static MyThread[] threads = new MyThread[threadCount];
 
     public static void main(String[] args) throws InterruptedException {
