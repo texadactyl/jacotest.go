@@ -261,7 +261,7 @@ class Producer extends Thread {
             for (int i = 0; i < itemsToProduce; i++) {
                 int value = id * 1000 + i;
                 queue.put(value); // invokevirtual
-                Thread.yield();
+                // JACOBIN-952 Thread.yield();
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -285,7 +285,7 @@ class Consumer extends Thread {
             while (true) {
                 int value = queue.take();
                 if (value == -1) break; // Done signal
-                Thread.yield();
+                // JACOBIN-952 Thread.yield();
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

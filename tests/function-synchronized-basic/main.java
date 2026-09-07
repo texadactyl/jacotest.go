@@ -86,7 +86,7 @@ class Worker extends Thread {
             counter.increment();          // invokevirtual (ACC_SYNCHRONIZED)
  
             if ((ix & yield_control) == 0) {
-                Thread.yield();
+                // JACOBIN-952 Thread.yield();
             }
         }
     }

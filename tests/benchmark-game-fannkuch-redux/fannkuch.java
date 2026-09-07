@@ -191,7 +191,7 @@ public class fannkuch implements Runnable
     // Return flipping times
     private static int count_flip(int[] perm_flip)
     {
-        Thread.yield();
+        // JACOBIN-952 Thread.yield();
 
         // cache first element, avoid swapping perm[0] and perm[k]
         int v0 = perm_flip[0];
