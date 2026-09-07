@@ -4,7 +4,7 @@ public class main {
 
     public static void main(String[] args) throws InterruptedException {
         for (int i = 0; i < threadCount; i++) {
-            threads[i] = new MyThread(i);
+            threads[i] = new MyThread();
             threads[i].start();
         }
         System.out.printf("main: %d threads started\n", threadCount);
@@ -22,19 +22,17 @@ public class main {
 
         // Wait for each thread to finish.
         for (int i = 0; i < threadCount; i++) {
-            threads[i].join();
-            System.out.printf("main: Thread-%d joined\n", i);
+            Thread th = threads[i];
+            th.join();
+            System.out.printf("main: Thread-%d joined\n", th.threadId());
         }
 
         Checkers.theEnd(0);
     }
 
     private static class MyThread extends Thread {
-        private final int id;
         boolean pendingWork = false;
         boolean terminate = false;
-
-        MyThread(int id) { this.id = id; }
 
         public synchronized void run() {
             while (!terminate) {
@@ -47,7 +45,6 @@ public class main {
                     }
                 }
                 if (!terminate) {
-                    //System.out.printf("Thread-%d: doing work\n", id);
                     terminate = true;  // Done after one unit of work
                     pendingWork = false;
                     notifyAll();
