@@ -98,7 +98,7 @@ jobs:
         java --version
         javac --version
         jacobin --version
-        jacotest -c -x -t 120 || true
+        jacotest -c -x -t 120 -u -XX:-cacheMethods || true
 
     - name: Summary of Results
       run: |
