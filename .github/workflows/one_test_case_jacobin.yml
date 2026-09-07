@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: benchmark-game-spectralnorm
+  TEST_CASE: JACOBIN-0900-sync-run
   
 on:
   workflow_dispatch:
