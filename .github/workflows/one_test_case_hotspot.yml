@@ -24,14 +24,14 @@ jobs:
     - name: Setup JDK (NOT Windows on ARM64)
       if: >-
         !(runner.arch == 'ARM64' && runner.os == 'Windows')
-      uses: actions/setup-java@main
+      uses: actions/setup-java@v6
       with:
         distribution: 'oracle'
         java-version: '21'
 
     - name: Setup JDK (Windows on ARM64 only)
       if: runner.arch == 'ARM64' && runner.os == 'Windows'
-      uses: actions/setup-java@main
+      uses: actions/setup-java@v6
       with:
         distribution: 'microsoft'
         java-version: '21'
