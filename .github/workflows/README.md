@@ -5,7 +5,6 @@ Workflows:
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | auto_hotspot | yes | yes | Run against Hotspot JVM on macos-latest, ubuntu-latest, windows-latest |
 | auto_jacobin | yes | yes | Jacotest against Jacobin on all O/Ses |
-| dependabot.yml | no | no | Runs weekly to check for setup tool version updates |
 | one_test_case_jacobin | no | yes | Run one selected test case against Jacobin (manual edit) |
 | one_test_case_hotspot | no | yes | Run one selected test case against the Hotspot JVM (manual edit) |
 
