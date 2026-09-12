@@ -41,8 +41,13 @@ public class main {
                 logger.log(Level.INFO, msg);
             }
             
+            
         } catch (SecurityException | IOException ee) {
             ee.printStackTrace();
+        } finally {
+            for (Handler handler : logger.getHandlers()) {
+                handler.close();
+            }
         }
         
         Checkers.theEnd(0);
