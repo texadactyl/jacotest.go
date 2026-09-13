@@ -8,11 +8,15 @@ import java.util.logging.Logger;
 
 public class main {
 
-	static int MAX_RECORDS = 10;
-	static String PATH_OUTPUT_FILE = "./logging.log";
+	static int MAX_RECORDS = 3;
     static Logger logger = Logger.getLogger("Fred");
     
     public static void main(String[] args) {
+    
+        String jvmPgmName = jj._getProgramName();
+        String pathOutputFile = String.format("./logging.%s.txt", jvmPgmName);
+        System.out.printf("Output file: %s\n", pathOutputFile);
+        logger.setUseParentHandlers(false);
  
         try {
         
@@ -21,7 +25,7 @@ public class main {
             logger.addHandler(consoleHandler);
 
             // Add off-the-shelf file handler.
-            FileHandler fileHandler = new FileHandler(PATH_OUTPUT_FILE);
+            FileHandler fileHandler = new FileHandler(pathOutputFile);
             logger.addHandler(fileHandler);
             
             // Customize the formatter for the file handler.
@@ -54,3 +58,14 @@ public class main {
     }
 
 }
+
+// Class jj in case we are executed by the OpenJDK JVM.
+class jj {
+
+    public static String _getProgramName() {
+        System.out.println("J-class function _getProgramName (not Jacobin)");
+        return "java";
+    }
+   
+}
+
