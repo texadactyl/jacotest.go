@@ -4,6 +4,7 @@
 # Highest priority for fragment searching
 # ---------------------------------------
 go panic
+ERROR: LoadClass
 NoSuchAlgorithmException
 fatal error
 implementation pending
