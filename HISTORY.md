@@ -4,8 +4,10 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-09-18 | 5.7.12 | Move UnsupportedOperationException close to the top of the error categories, just after "go panic". |
+| 2026-09-16 | 5.7.11 | Move "ERROR: classloader" close to the top of the error categories, just after "go panic". |
 | 2026-09-16 | 5.7.10 | New test case: long-summary-statistics. |
-| | | Shuffle error categories, put invalid class name close to the top, just after "go panic". |
+| | | Move invalid class name close to the top of the error categories, just after "go panic". |
 | 2026-09-12 | 5.7.9 | New test cases: java-21-enhancements, java-logging-basic. |
 | 2026-09-10 | 5.7.8 | Simplified test case: java-logging. |
 | 2026-09-07 | 5.7.7 | Updated test case: benchmark-game-fannkuch-mini. |

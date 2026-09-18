@@ -4,6 +4,7 @@
 # Highest priority for fragment searching
 # ---------------------------------------
 go panic
+UnsupportedOperationException
 ERROR: LoadClass
 NoSuchAlgorithmException
 fatal error
@@ -19,14 +20,12 @@ Native method requested
 Missing field
 deprecated
 I should have been replaced
-ERROR: LoadClass
 not yet supported
 TRAP:
 INVOKEDYNAMIC
 INVOKEINTERFACE
 Native method requested
 IllegalMonitorStateException
-UnsupportedOperationException
 stack underflow
 stack overflow
 GetMethInfoFromCPmethref
