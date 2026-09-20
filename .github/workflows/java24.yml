@@ -53,7 +53,7 @@ jobs:
       if: matrix.os == 'windows-11-arm'
       uses: actions/setup-java@v6
       with:
-        distribution: 'microsoft'           # or 'adopt', 'microsoft', depending
+        distribution: 'oracle'           # or 'adopt', 'microsoft', depending
         java-version: '24'                # or whichever you choose
         architecture: 'arm64'             # key: choose arm64
 
