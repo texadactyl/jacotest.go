@@ -4,23 +4,6 @@ name: Jacobin on 6 O/Ses using Java 24
 # https://docs.github.com/en/actions/reference/runners/github-hosted-runners?utm_source=chatgpt.com
 
 on:
-
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-    
-  pull_request:
-    paths-ignore:
-      - '**.md'
-      - '**.py'
-      - '**.txt'
-      - '**.yml'
-    branches: [ "main" ]
-    
   workflow_dispatch:
 
 jobs:
