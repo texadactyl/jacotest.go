@@ -10,6 +10,7 @@ public class main {
         else
             System.out.println("Started by Jacobin");
         System.out.printf("Classpath: %s\n", System.getProperty("java.class.path"));
+        System.out.printf("JDK version: %s\n", System.getProperty("java.version"));
         
         String mary = "Mary had a little lamb 1234567890!@#$%^&*()";
         String strExpected = "4d617279206861642061206c6974746c65206c616d62203132333435363738393021402324255e262a2829";

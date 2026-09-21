@@ -5,23 +5,21 @@ https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 Based on C# entry by Isaac Gouy
 contributed by Jarkko Miettinen
 Parallel by The Anh Tran
+Hacked by texadactyl
  */
 
-//import java.text.DecimalFormat;
-//import java.text.NumberFormat;
 import java.util.concurrent.CyclicBarrier;
 
 public class main
 {
-    //private static final NumberFormat formatter = new DecimalFormat ("#.000000000");
+    static int vectorLength = 100;
+    //static int numThreads = Runtime.getRuntime ().availableProcessors ();
+    static int numThreads = 8;
     
     public static void main (String[] args)
     {
-        int n = 1000;
-        //if (args.length > 0) n = Integer.parseInt (args[0]);
         
-        // System.out.println (formatter.format (spectralnormGame (n)) );
-        double answer = spectralnormGame (n);
+        double answer = spectralnormGame (vectorLength);
         int errorCount = Checkers.withinTolerance("spectralnormGame output", 1.274224, answer);
         Checkers.theEnd(errorCount);
     }
@@ -38,23 +36,22 @@ public class main
             u[i] = 1.0;
         
         // get available processor, then set up syn object
-        int nthread = Runtime.getRuntime ().availableProcessors ();
-        Approximate.barrier = new CyclicBarrier (nthread);
+        Approximate.barrier = new CyclicBarrier (numThreads);
         
-        int chunk = n / nthread;
-        Approximate[] ap = new Approximate[nthread];
+        int chunk = n / numThreads;
+        Approximate[] ap = new Approximate[numThreads];
         
-        for (int i = 0; i < nthread; i++)
+        for (int i = 0; i < numThreads; i++)
         {
             int r1 = i * chunk;
-            int r2 = (i < (nthread -1)) ? r1 + chunk : n;
+            int r2 = (i < (numThreads -1)) ? r1 + chunk : n;
             
             ap[i] = new Approximate (u, v, tmp, r1, r2);
         }
         
         
         double vBv = 0, vv = 0;
-        for (int i = 0; i < nthread; i++)
+        for (int i = 0; i < numThreads; i++)
         {
             try
             {
