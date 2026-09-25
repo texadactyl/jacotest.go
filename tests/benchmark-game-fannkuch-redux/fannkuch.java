@@ -36,7 +36,7 @@ public class fannkuch implements Runnable
     private final int lenPermutation = 9; // TODO: >9 is a Jacobin performance issue.
 
     // Number of worker threads. Independent of the problem size.
-    private final int numThreads = Runtime.getRuntime().availableProcessors();
+    private final int numThreads = 128;
 
     // Permutation print count.
     private final int ppc = 30;

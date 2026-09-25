@@ -14,7 +14,7 @@ public class main
 {
     static int vectorLength = 100;
     //static int numThreads = Runtime.getRuntime ().availableProcessors ();
-    static int numThreads = 8;
+    static int numThreads = 128;
     
     public static void main (String[] args)
     {

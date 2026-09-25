@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-09-24 | 5.7.14 | Modified test cases benchmark-game-spectralnorm and benchmark-game-fannkuch-redux to run 128 threads. |
 | 2026-09-21 | 5.7.13 | Modified test case benchmark-game-spectralnorm to operate more optimally on GA under load. |
 | 2026-09-18 | 5.7.12 | Move UnsupportedOperationException close to the top of the error categories, just after "go panic". |
 | 2026-09-16 | 5.7.11 | Move "ERROR: classloader" close to the top of the error categories, just after "go panic". |
