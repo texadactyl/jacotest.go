@@ -1,14 +1,14 @@
 public class main {
 
-    static final int NTHREADS = 16;
+    static final int NTHREADS = 64;
     static final long TIMEOUT_MILLIS = 10000L;
     static final long SLEEP_MILLIS = 20L;
     static int upticker = 0;
+    private static final Object lock = new Object();
 
     static class Worker extends Thread {
         private final int index;
         private final String name;
-        private Object lock = new Object();
 
         Worker(int argIndex) {
             index = argIndex;
