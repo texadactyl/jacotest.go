@@ -9,3 +9,5 @@ Workflows:
 | one_test_case_hotspot | no | yes | Run one selected test case against the Hotspot JVM (manual edit) |
 
 Note that "all O/Ses" includes macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, and windows-latest.
+
+2026-09-29  Updated workflows to Go version 1.27.x
