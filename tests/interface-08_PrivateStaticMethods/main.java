@@ -8,5 +8,6 @@ public class main {
 
         // The following would not compile (by design):
         // System.out.println(c.shout("hi"));
+        Checkers.theEnd(0);
     }
 }

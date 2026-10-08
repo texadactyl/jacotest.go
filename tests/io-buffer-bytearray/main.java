@@ -21,7 +21,7 @@ public class main {
             System.out.println("*** ERROR, Test execution failed with an unexpected error.");
             t.printStackTrace();
         }
-        
+        Checkers.theEnd(0);
     }
 
     /**

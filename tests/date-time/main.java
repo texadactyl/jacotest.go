@@ -57,6 +57,7 @@ public final class main {
 
         section("12. ChronoUnit.between for both types");
         demoChronoUnitBetween();
+        Checkers.theEnd(0);
     }
 
     private static void section(String title) {

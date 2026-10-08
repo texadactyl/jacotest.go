@@ -34,6 +34,7 @@ public class  main {
                     .subtract(startingValue)
                     .multiply(answer_2);
         errorCount += Checkers.withinTolerance("divide-subtract-multiply", answer_4, answer, 0.00001);
+        Checkers.theEnd(0);
     }
 
 }

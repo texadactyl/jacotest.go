@@ -135,5 +135,6 @@ public class main {
                     40.0,       // New York-ish latitude
                     1.0,        // days
                     46.572);    // expected clock difference in micorseconds
+        Checkers.theEnd(0);
     }
 }

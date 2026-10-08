@@ -16,5 +16,6 @@ public class main {
         double elapsedSeconds = (double)(t2 - t1) / 1000.0;
         System.out.printf("Elapsed time (seconds): %f.3\n", elapsedSeconds);
         System.out.println(sum * 4.0);
+        Checkers.theEnd(0);
     }
 }

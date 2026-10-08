@@ -7,5 +7,6 @@ public class main {
 
         // Static interface methods are not inherited by implementing classes; call via interface name
         System.out.println(I08.shout("hi there"));
+        Checkers.theEnd(0);
     }
 }

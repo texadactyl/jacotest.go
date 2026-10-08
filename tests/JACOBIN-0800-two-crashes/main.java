@@ -7,6 +7,7 @@ public class main {
         //Subbie2 subbie = new Subbie2(); 
         subbie.initString();
         System.out.println("main: end");
+        Checkers.theEnd(0);
     }
     
 }

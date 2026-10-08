@@ -7,6 +7,7 @@ public class main {
 
     public static void main(String[] args) throws InterruptedException {
         measureFFT(defaultSampleSize);
+        Checkers.theEnd(0);
     }
 
     public static void measureFFT(int N) throws InterruptedException {

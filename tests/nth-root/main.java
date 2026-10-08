@@ -36,5 +36,6 @@ class main {
         double nthRootValue = nthRoot(m, n);
         String label = String.format("n=%d, m=%d, nthRootValue=%e", n, m, nthRootValue);
         int errorCount = Checkers.withinTolerance(label, 2.941562D, nthRootValue, errorTolerance);
+        Checkers.theEnd(0);
     }
 }

@@ -92,5 +92,6 @@ public class main {
         file.delete();
        
         Checkers.theEnd(errorCount);;
+		Checkers.theEnd(0);
     }
 }

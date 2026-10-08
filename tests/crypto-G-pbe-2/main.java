@@ -93,6 +93,7 @@ public class main {
         printFooter(pass, errorCount, skip);
         //Checkers.theEnd(errorCount);
         System.exit(errorCount);
+        Checkers.theEnd(0);
     }
 
     static boolean doSomeCiphering(CipherEntry entry, SecureRandom rng) throws Exception {

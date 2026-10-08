@@ -9,6 +9,7 @@ public class main {
         else {
             Checkers.theEnd(1);
         }
+        Checkers.theEnd(0);
     }    
 
 }

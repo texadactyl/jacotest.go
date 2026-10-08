@@ -126,6 +126,7 @@ public class main {
         
         System.out.println("\n=== X448 Private Key ===");
         printKeyInfo(x448Keys.getPrivate());
+        Checkers.theEnd(0);
     }
     
     private static void printKeyInfo(Key key) {

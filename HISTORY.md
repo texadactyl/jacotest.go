@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-10-08 | 6.0.0 | New database column: allocated_mb = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), converted to MB. |
 | 2026-09-26 | 5.7.15 | New test case: threading-static-ticker. |
 | 2026-09-24 | 5.7.14 | Modified test cases benchmark-game-spectralnorm and benchmark-game-fannkuch-redux to run 128 threads. |
 | 2026-09-21 | 5.7.13 | Modified test case benchmark-game-spectralnorm to operate more optimally on GA under load. |

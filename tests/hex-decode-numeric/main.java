@@ -20,5 +20,6 @@ public class main {
 			
 			Checkers.theEnd(errorCount);
 		}
+	    Checkers.theEnd(0);
 	}
 }

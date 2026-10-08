@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -439,6 +441,23 @@ public class Checkers {
     
     // ===== That's all, folks! =====
     public static void theEnd(int errorCount) {
+        String envVarName = "JACOTEST_ALLOC_FILE";
+        String path = System.getenv(envVarName);
+        if (path != null) {
+            // The environment variable is set.
+            long usedBytes = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            try (FileWriter writer = new FileWriter(path)) {
+                writer.write(Long.toString(usedBytes / (1024L * 1024L)));
+            } catch (IOException e) {
+                // Leave the file empty; jacotest then records the value as unknown.
+            }
+        } else {
+            // The environment variable is NOT set.
+            if (! isJvmHotspot()) {
+                // Testing with Jacobin requires this.
+                throw new AssertionError(String.format("*** ERROR, missing environment variable: %s", envVarName));
+            }
+        }
         if (errorCount == 0) {
             System.out.println("\n========");
             System.out.println("Success!");

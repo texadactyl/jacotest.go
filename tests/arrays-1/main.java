@@ -113,6 +113,6 @@ public class main {
         t2 = System.currentTimeMillis();
         s_elems = null;
         showResult("String", arraySize, t1, t2);
-
+        Checkers.theEnd(0);
     }
 }

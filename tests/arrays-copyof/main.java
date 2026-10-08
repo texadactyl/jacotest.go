@@ -16,6 +16,7 @@ public class main {
 
         System.out.print("Smaller Copy: ");
         smallerCopy.print();
+        Checkers.theEnd(0);
     }
 }
 

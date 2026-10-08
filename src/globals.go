@@ -56,6 +56,8 @@ type GlobalsStruct struct {
 	JvmOptPrefix         string        // JVM execution options prefix
 	JavacOptPrefix       string        // Java compiler options prefix
 	UserXopts            string        // User-defined options when -x is specified
+	TempFile             *os.File      // Temp file for capturing allocated memory
+	EnvTempFile          string        // Environment variable with temp file name
 }
 
 // Here's the singleton
@@ -167,6 +169,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		JvmName:              jvmName,
 		Deadline:             duration,
 		UserXopts:            userXopts,
+		EnvTempFile:          "JACOTEST_ALLOC_FILE",
 	}
 
 	global.JavacOptPrefix = "-Xlint:all -Werror"
@@ -180,6 +183,19 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		global.JvmOptPrefix = "-ea -server"
 	}
 
+	// Create the temp file for capturing memory allocation and then close it.
+	global.TempFile, err = os.CreateTemp("", "jacotest-alloc-*")
+	if err != nil {
+		FatalErr("InitGlobals: cannot create jacotest-alloc file", err)
+	}
+	err = os.Setenv(global.EnvTempFile, global.TempFile.Name())
+	if err != nil {
+		FatalErr("InitGlobals: cannot set environment variable for jacotest-alloc file", err)
+	}
+	err = global.TempFile.Close()
+	if err != nil {
+		FatalErr("InitGlobals: cannot close jacotest-alloc file", err)
+	}
 	return &global
 }
 

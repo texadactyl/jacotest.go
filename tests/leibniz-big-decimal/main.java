@@ -26,5 +26,6 @@ public class main {
         System.out.println("Expected: 3.14159265358979323846");
         System.out.print("Observed: ");
         System.out.println(sum.multiply(four));
+        Checkers.theEnd(0);
     }
 }

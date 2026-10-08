@@ -31,7 +31,8 @@ public class main {
         dividend = BigDecimal.valueOf(0.12345678);
         trial(dividend, BigDecimal.valueOf(1.9), 3, "0.065", "0.06497725");        
         trial(dividend, BigDecimal.valueOf(-2.1), 3, "-0.059", "-0.05878894");        
-        trial(dividend, BigDecimal.valueOf(2.98765), 3, "0.041", "0.04132237");        
+        trial(dividend, BigDecimal.valueOf(2.98765), 3, "0.041", "0.04132237");
+        Checkers.theEnd(0);
     }
 }
 

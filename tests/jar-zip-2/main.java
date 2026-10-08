@@ -106,7 +106,7 @@ public class main {
         // Execute primary jar.
         String text = String.format("%s -jar jarA.jar RUNNER", jvmPgmName);
         execCommand(text);
-
+        Checkers.theEnd(0);
     }
 
 }

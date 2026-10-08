@@ -12,6 +12,7 @@ public class main {
 			ae.printStackTrace();
 			Checkers.theEnd(0);
 		}
+		Checkers.theEnd(0);
 	}
 
 

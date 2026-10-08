@@ -102,5 +102,6 @@ public class main {
         } else {
             throw new AssertionError("*** ERROR, decryptedString != originalString");
         }
+        Checkers.theEnd(0);
     }
 }

@@ -75,5 +75,6 @@ public class main {
     System.out.println(initialLength);
     System.out.println(codeLength);
     System.out.println(buf.length());
+    Checkers.theEnd(0);
   }
 }

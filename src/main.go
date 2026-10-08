@@ -24,6 +24,7 @@ func showHelp() {
 	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", name)
 	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-c : Compile all the test cases.\n")
+	fmt.Printf("\t-f N TC : Create an output CSV file from the last N results for test case TC. N=0 means all results\n")
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
 	fmt.Printf("\t     * hotspot, openjdk : Hotspot JVM (aka Open JDK JVM)\n")
@@ -35,7 +36,7 @@ func showHelp() {
 	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
 	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
 	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
-	fmt.Printf("\t-s : Delete database records of non-existing test cases (they were deleted).\n")
+	fmt.Printf("\t-s : Delete database records of non-existing test cases (test cases that were previously renamed or removed).\n")
 	fmt.Printf("\t-t num : This is the timeout value of num seconds in executing each test case.  Default: 60.\n")
 	fmt.Printf("\t-u : JVM options when -x is specified.\n")
 	fmt.Printf("\t-v : Verbose logging.\n")
@@ -215,6 +216,28 @@ func main() {
 				showHelp()
 			}
 
+		case "-f":
+			ii++
+			if ii >= len(Args) {
+				LogError("Missing -f arguments")
+				showHelp()
+			}
+			stringCount := Args[ii]
+			count, err := strconv.Atoi(stringCount)
+			if err != nil || count < 0 {
+				LogError("Option -f count must be a non-negative integer")
+				showHelp()
+			}
+			ii++
+			if ii >= len(Args) {
+				LogError("Missing -f test case name")
+				showHelp()
+			}
+			testCaseName := Args[ii]
+			DBOpen()
+			DBGenerateTestCaseCsv(count, testCaseName)
+			os.Exit(0)
+
 		case "-s":
 			flagDeleteObsolete = true
 
@@ -262,6 +285,7 @@ func main() {
 
 	// Initialise global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
+	defer os.Remove(global.TempFile.Name())
 	global.FlagVerbose = flagVerbose
 	global.FlagGalt = flagGalt
 	global.FlagCompile = flagCompile
@@ -436,7 +460,15 @@ func main() {
 					_, _ = fmt.Fprintf(rptHandle, "| %s | PASSED | n/a |\n", testCaseName)
 				}
 				if global.FlagExecute {
-					DBStorePassed(testCaseName, etMsecs)
+					allocMB := -1
+					data, err := os.ReadFile(global.TempFile.Name())
+					if err == nil {
+						allocMB, err = strconv.Atoi(strings.TrimSpace(string(data)))
+						if err != nil {
+							FatalErr(fmt.Sprintf("Format error in memory allocation file %s:", global.TempFile.Name()), err)
+						}
+					}
+					DBStorePassed(testCaseName, etMsecs, allocMB)
 				}
 			case RC_COMP_ERROR:
 				exitStatus = 1
@@ -474,7 +506,7 @@ func main() {
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
 		Logger(msg)
 		WriteOutputText(outHandle, msg)
-		for ix, _ := range successNames {
+		for ix := range successNames {
 			msg = fmt.Sprintf("	 %s ... %s", successNames[ix], formatElapsedTime(successETs[ix]))
 			WriteOutputText(outHandle, msg)
 		}

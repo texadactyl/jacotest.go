@@ -19,6 +19,7 @@ public class main {
     public static void main(String args[]) {
         System.out.println("Throw a user-defined exception");
 
+        boolean caught = false;
         try {
             throw new MyException("to MyException: saved for the end!");
         } catch (MyException ex) {
@@ -26,12 +27,15 @@ public class main {
             ex.printStackTrace();
             // Print the message from MyException object
             System.out.println(ex.getMsg());
-            Checkers.theEnd(0);
+            caught = true;
         }
-        
-        System.out.println("*** ERROR *** Expected to catch a MyException !!!");
-        System.out.println("************* No exception was thrown !!!");
-        throw new AssertionError("failed to throw MyException");
+
+        if (!caught) {
+            System.out.println("*** ERROR *** Expected to catch a MyException !!!");
+            System.out.println("************* No exception was thrown !!!");
+            throw new AssertionError("failed to throw MyException");
+        }
+        Checkers.theEnd(0);
     }
 
 }

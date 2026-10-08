@@ -67,6 +67,7 @@ public class main {
         long globalEnd = System.currentTimeMillis();
         System.out.printf("All tasks completed. Executor shut down.\n");
         System.out.printf("Total elapsed time: %d ms%n", (globalEnd - globalStart));
+        Checkers.theEnd(0);
     }
 }
 

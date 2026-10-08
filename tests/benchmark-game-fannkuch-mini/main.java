@@ -4,7 +4,7 @@ public class main {
     
         fannkuchmini fanny = new fannkuchmini();
         fanny.execute();
-        
+        Checkers.theEnd(0);
     }
 
 }

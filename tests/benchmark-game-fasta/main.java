@@ -144,6 +144,7 @@ class main {
         makeRepeatFasta("ONE", "Homo sapiens alu", ALU, n * 2);
         makeRandomFasta("TWO", "IUB ambiguity codes", IUB, n * 3);
         makeRandomFasta("THREE", "Homo sapiens frequency", HOMO_SAPIENS, n * 5);
+        Checkers.theEnd(0);
     }
 
     public static final class FloatProbFreq {
