@@ -2,11 +2,15 @@ import java.util.Locale;
 public class main {
 
 	public static void main(String[] args)	{
-	    int NLOOPS = 1000;
-	    Locale locale1 = Locale.of("en");
+	    int NLOOPS = 3;
+	    Locale locale1 = Locale.of("Elvish", "Middle Earth", "Milkwood");
 	    Locale locale2 = locale1;
 	    Locale locale3 = locale1;
 	    Locale locale4 = locale1;
+		System.out.print("locale1: "); System.out.println(locale1);
+		System.out.print("locale2: "); System.out.println(locale2);
+		System.out.print("locale3: "); System.out.println(locale3);
+		System.out.print("locale4: "); System.out.println(locale4);
 	    
 	    for (int ii = 0; ii < NLOOPS; ii++) {
 		    locale1 = Locale.getDefault();
@@ -15,10 +19,10 @@ public class main {
 		    locale4 = Locale.of("English", "USA", "Texas");
 		}
 		
-		System.out.println(locale1);
-		System.out.println(locale2);
-		System.out.println(locale3);
-		System.out.println(locale4);
+		System.out.print("locale1: "); System.out.println(locale1);
+		System.out.print("locale2: "); System.out.println(locale2);
+		System.out.print("locale3: "); System.out.println(locale3);
+		System.out.print("locale4: "); System.out.println(locale4);
 		
 		Checkers.theEnd(0);
 	}
