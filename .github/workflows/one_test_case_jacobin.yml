@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: JACOBIN-0900-sync-run
+  TEST_CASE: JACOBIN-0322-default-locale
   
 on:
   workflow_dispatch:
