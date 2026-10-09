@@ -1,0 +1,24 @@
+# Only on demand, this workflow will run.
+
+name: Playground
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  run_hotspot:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v7
+          
+    - name: Playground Execution
+      shell: bash
+      run: |
+        env
+
