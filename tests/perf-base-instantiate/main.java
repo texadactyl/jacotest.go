@@ -9,7 +9,6 @@ import java.security.SecureRandom;
 import java.util.BitSet;
 import java.util.Locale;
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
 
 public class main {
 
@@ -26,7 +25,6 @@ public class main {
         BigDecimal a7 = new BigDecimal(a8);
         Locale a13 = Locale.getDefault();
         Cipher a17 = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        CipherInputStream a18 = new CipherInputStream(a2, a17);
         BitSet a19 = new BitSet(64);
         for (int ndx = 0; ndx < 64; ++ndx) {
         	a19.set(ndx);
