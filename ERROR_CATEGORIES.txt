@@ -5,6 +5,7 @@
 # ---------------------------------------
 go panic
 UnsupportedOperationException
+createAndInitNewFrame
 ERROR: LoadClass
 NoSuchAlgorithmException
 fatal error
