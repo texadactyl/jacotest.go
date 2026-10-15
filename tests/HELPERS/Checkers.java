@@ -399,6 +399,34 @@ public class Checkers {
         }
     }
 
+    // Replace an empty String with "null".
+    public static String replaceEmptyString(String arg) {
+        if (arg == null)
+            return "null";
+        String str = arg.trim();
+        if (str.equals(""))
+            return "null";
+        else
+            return str;
+    }
+
+    // Execute the given command in a sub-process.
+    public static int execCommand(String text) {
+        System.out.printf("execCommand: Command line: %s\n", text);
+        jjSubProcessObject obj = new jjSubProcessObject();
+        obj.commandLine = text.split(" ");
+        int exitCode = jj._subProcess(obj);
+        if (exitCode == 0)
+            System.out.printf("execCommand: Exit code zero\n");
+        else {
+            System.out.printf("execCommand: Exit code: %d (***ERROR), changing it to 86\n", exitCode);
+            exitCode = 86;
+        }
+        System.out.printf("execCommand: Stdout: %s\n", Checkers.replaceEmptyString(obj.stdout));
+        System.out.printf("execCommand: Stderr: %s\n", Checkers.replaceEmptyString(obj.stderr));
+        return exitCode;
+    }
+
     // ===== class =====
     public static int checker(String fieldName, Class<?> expected, Class<?> actual) {
         if (!expected.equals(actual)) {
@@ -455,7 +483,7 @@ public class Checkers {
             // The environment variable is NOT set.
             if (! isJvmHotspot()) {
                 // Testing with Jacobin requires this.
-                throw new AssertionError(String.format("*** ERROR, missing environment variable: %s", envVarName));
+                throw new AssertionError(String.format("theEnd: *** ERROR, missing environment variable: %s", envVarName));
             }
         }
         if (errorCount == 0) {
@@ -464,11 +492,9 @@ public class Checkers {
             System.out.println("========");
             System.exit(0);
         }
-        String errMsg = String.format("\n*** Test case diagnosed %d error(s)", errorCount);
+        String errMsg = String.format("\ntheEnd: *** ERROR, test case diagnosed %d error(s)", errorCount);
         throw new AssertionError(errMsg);
     }
-
-    // ===== Helpers of the helper Functions ================================================================================================
 
     // Report the contents of a BigDecimal.
     private static String rptBigDecimal(BigDecimal arg) {
@@ -479,5 +505,5 @@ public class Checkers {
         return String.format("bigInt=%d, prec=%d, scale=%d", bigInt, prec, scale);
         
     }
-
 }
+

@@ -4,6 +4,9 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-10-15 | 6.0.2 | New test case: benchmark-game-edigits. |
+| | | HELPERS/main.java was re-written to provide comprehensive unit tests for the other HELPERS source files. |
+| | | HELPERS/{jj.java, jjSubProcessObject.java} are implemented for use by the test cases. |
 | 2026-10-13 | 6.0.1 | Test case perf-base-instantiate: Stop using CryptoInputStream (it's trapped). |
 | | | New test case: benchmark-game-edigits. |
 | 2026-10-08 | 6.0.0 | New database column: allocated_mb = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), converted to MB. |
