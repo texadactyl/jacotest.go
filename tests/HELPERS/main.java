@@ -1318,7 +1318,7 @@ public class main {
         // The java.vm.name property is a second, independent signal on a real HotSpot.
         String vmName = System.getProperty("java.vm.name", "");
         if (hotspot) {
-            if (vmName.contains("OpenJDK")) {
+            if (vmName.contains("OpenJDK") || vmName.contains("HotSpot")) {
                 expectBool("isJvmHotspot is true when java.vm.name mentions OpenJDK", true, observed);
             } else {
                 reportSkip("isJvmHotspot vs java.vm.name", String.format("java.vm.name = [%s]", vmName));
