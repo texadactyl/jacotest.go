@@ -88,6 +88,29 @@ public class Checkers {
         return 1;
     }
     
+    // ===== byte array =====
+
+    public static int checker(String label, byte expected[], byte observed[]) {
+        if (expected.length == observed.length) {
+            for (int ix = 0; ix < expected.length; ix++) {
+                if (observed[ix] != expected[ix]) {
+                    System.out.printf("*** DISCREPANCY detected in checker(%s), byte value differences\n", label);
+                    System.out.print(HexDump.dumpBytes("expected byte array", expected, expected.length, HexDump.COLUMN_SIZE));
+                    System.out.print(HexDump.dumpBytes("observed byte array", observed, observed.length, HexDump.COLUMN_SIZE));
+                    return 1;
+                }
+            }
+            System.out.printf("ok %s ::: expected byte array = observed byte array\n", label);
+            System.out.print(HexDump.dumpBytes("byte array", expected, expected.length, HexDump.COLUMN_SIZE));
+            return 0;
+        }
+        
+        System.out.printf("*** DISCREPANCY detected in checker(%s), the lengths are not the same\n", label);
+        System.out.print(HexDump.dumpBytes("expected byte array", expected, expected.length, HexDump.COLUMN_SIZE));
+        System.out.print(HexDump.dumpBytes("observed byte array", observed, observed.length, HexDump.COLUMN_SIZE));
+        return 1;
+    }
+    
     // ===== BigInteger =====
 
     public static int checker(String label, BigInteger expected, BigInteger observed) {
