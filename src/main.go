@@ -15,6 +15,8 @@ import (
 )
 
 const MyName = "Jacotest"
+const csvFullPath = "./new.class.checksums.csv"
+const testsTreeTop = "./tests"
 
 // Show help and then exit to the O/S
 func showHelp() {
@@ -28,7 +30,6 @@ func showHelp() {
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
 	fmt.Printf("\t     * hotspot, openjdk : Hotspot JVM (aka Open JDK JVM)\n")
-	fmt.Printf("\t     * galt : Run jacobin in G-alternate mode\n")
 	fmt.Printf("\t     Note that specifying -j implies parameters -x and -r 1.\n")
 	fmt.Printf("\t-M : Generate a run report suitable for viewing on github (normally, not produced).\n")
 	fmt.Printf("\t-N : Report all database history records whose test case name is obsolete (orphans).\n")
@@ -36,6 +37,7 @@ func showHelp() {
 	fmt.Printf("\t-r 1 : For each test case, print the last two results if there was a changed result.\n")
 	fmt.Printf("\t-r 2 : For each failed test case, print this result if it passed sometime previously.\n")
 	fmt.Printf("\t-r 3 : For each test case, print the last result.\n")
+	fmt.Printf("\t-r 4 : Generate a test case class file checksum CSV file.\n")
 	fmt.Printf("\t-s : Delete database records of non-existing test cases (test cases that were previously renamed or removed).\n")
 	fmt.Printf("\t-t num : This is the timeout value of num seconds in executing each test case.  Default: 60.\n")
 	fmt.Printf("\t-u : JVM options when -x is specified.\n")
@@ -48,7 +50,7 @@ func showHelp() {
 	os.Exit(0)
 }
 
-// createLatest creates "latest" in the same directory as path,
+// createLatest creates "latest" in the same directory as specified in the path argument,
 // pointing to the file. Works on macOS, Linux, and Windows.
 func createLatest(path string) error {
 	dir := filepath.Dir(path)
@@ -109,17 +111,18 @@ func main() {
 
 	// Temporary flags before setting them in global.
 	flagVerbose := false          // Verbose logging? true/false
-	flagGalt := false             // JVM Jacobin is run in G-alternate mode
 	flagCompile := false          // -c option
 	flagDeleteObsolete := false   // -s option
 	flagMdReport := false         // -M option
 	flagTwoMostRecent := false    // -r 1 option
 	flagFailedPassed := false     // -r 2 option
 	flagPrintMostRecent := false  // -r 3 option
+	flagClassChecksum := false    // -r 4 option
 	flagExecute := false          // -x option
 	flagDeleteMostRecent := false // -z option
 	flagReportOrphans := false    // -N option
-	flagRenameTestCase := false   // -n oldname newname
+	flagRenameTestCase := false   // -n oldName newName
+
 	oldTestCaseName := ""
 	newTestCaseName := ""
 
@@ -166,9 +169,6 @@ func main() {
 				jvmExe = "java" // Hotspot JVM executable name
 			case "jacobin":
 				jvmExe = "jacobin" // jacobin JVM executable name
-			case "galt":
-				jvmExe = "jacobin" // jacobin JVM executable name
-				flagGalt = true
 			default:
 				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
 				showHelp()
@@ -211,6 +211,8 @@ func main() {
 				flagFailedPassed = true
 			case "3":
 				flagPrintMostRecent = true
+			case "4":
+				flagClassChecksum = true
 			default:
 				LogError(fmt.Sprintf("Unrecognizable -r argument: %s", Args[ii]))
 				showHelp()
@@ -283,17 +285,17 @@ func main() {
 		}
 	}
 
-	// Initialise global flags and get a handle.
+	// Initialize global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
-	defer os.Remove(global.TempFile.Name())
+	defer DeferredRemoveFile(global.TempFile.Name())
 	global.FlagVerbose = flagVerbose
-	global.FlagGalt = flagGalt
 	global.FlagCompile = flagCompile
 	global.FlagDeleteObsolete = flagDeleteObsolete
 	global.FlagMdReport = flagMdReport
 	global.FlagTwoMostRecent = flagTwoMostRecent
 	global.FlagFailedPassed = flagFailedPassed
 	global.FlagPrintMostRecent = flagPrintMostRecent
+	global.FlagClassChecksum = flagClassChecksum
 	global.FlagExecute = flagExecute
 	global.FlagDeleteMostRecent = flagDeleteMostRecent
 	global.FlagReportOrphans = flagReportOrphans
@@ -327,7 +329,7 @@ func main() {
 		Logger(fmt.Sprintf("Found JVM %s", wString))
 	}
 
-	// Open logs directory.
+	// Open the 'logs' directory.
 	fileOpened, err := os.Open(global.DirLogs)
 	if err != nil {
 		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.DirLogs), err)
@@ -336,7 +338,7 @@ func main() {
 	// Get all the file entries in the logs directory.
 	names, err := fileOpened.Readdirnames(0) // get all entries
 	if err != nil {
-		FatalErr(fmt.Sprintf("Readdirnames(%s) failed", global.DirLogs), err)
+		FatalErr(fmt.Sprintf("fileOpened.Readdirnames(%s) failed", global.DirLogs), err)
 	}
 
 	// For each log file entry, remove it.
@@ -363,7 +365,7 @@ func main() {
 		counterErrCases := 0
 
 		if global.FlagMdReport {
-			// Initialise detailed report file
+			// Initialize detailed report file
 			rptHandle, err = os.Create(global.ReportFilePath)
 			if err != nil {
 				FatalErr(fmt.Sprintf("os.Create(%s) failed", global.ReportFilePath), err)
@@ -378,7 +380,7 @@ func main() {
 			_, _ = fmt.Fprintf(rptHandle, "| :--- | :---: | :--- |\n")
 		}
 
-		// Initialise summary report file.
+		// Initialize summary report file.
 		outPath := global.SumFilePath
 		outHandle, err := os.OpenFile(outPath, FlagsOpen, ModeOutputFile)
 		if err != nil {
@@ -436,20 +438,20 @@ func main() {
 				continue
 			}
 
-			// Take initial time of this test case.
-			// Execute test case.
-			// Take final time of this test case.
+			// Take the initial time of this test case.
+			// Execute the test case.
+			// Take the final time of this test case.
 			ti := time.Now()
-			resultCode, outlog := ExecuteOneTest(fullPath)
+			resultCode, outLog := ExecuteOneTest(fullPath)
 			tf := time.Now()
 
 			// Calculate elapsed time in milliseconds.
 			elapsed := tf.Sub(ti)
 			etMsecs := int(elapsed.Milliseconds())
 
-			// Clean test case log file.
-			// Some outlog strings have multiple embedded \n characters.
-			outlog = strings.ReplaceAll(outlog, "\n", "\n|||")
+			// Clean the test case log file.
+			// Some outLog strings have multiple embedded \n characters.
+			outLog = strings.ReplaceAll(outLog, "\n", "\n|||")
 
 			// Switch on test case result.
 			switch resultCode {
@@ -484,14 +486,14 @@ func main() {
 				errExecutionNames = append(errExecutionNames, testCaseName)
 				tblErrCases[testCaseName] = 0
 				if global.FlagMdReport {
-					_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outlog)
+					_, _ = fmt.Fprintf(rptHandle, "| %s | FAILED | %s |\n", testCaseName, outLog)
 				}
 				// DBStoreFailed calls will be made in the SQL database source file.
 			case RC_EXEC_TIMEOUT:
 				exitStatus = 1
 				timeoutExecutionNames = append(timeoutExecutionNames, testCaseName)
 				if global.FlagMdReport {
-					_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outlog)
+					_, _ = fmt.Fprintf(rptHandle, "| %s | TIMEOUT | %s |\n", testCaseName, outLog)
 				}
 				if global.FlagExecute {
 					DBStoreFailed(testCaseName, "Timeout")
@@ -554,7 +556,7 @@ func main() {
 			WriteOutputText(outHandle, " ")
 		}
 
-		// Show elapsed time for all test cases executed..
+		// Show elapsed time for all test cases executed.
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		etMsg := fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String())
@@ -579,6 +581,11 @@ func main() {
 	// Print the last result of every test case?
 	if global.FlagPrintMostRecent {
 		DBPrintMostRecent()
+	}
+
+	// Print the checksums of all the class files?
+	if global.FlagClassChecksum {
+		ClassChecksum(csvFullPath, testsTreeTop)
 	}
 
 	// Delete the most recent test result for each test case?

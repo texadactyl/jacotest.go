@@ -10,13 +10,13 @@ import (
 	"time"
 )
 
-// Test Case Return Codes
+// RC_* - Test Case Return Codes:
 const RC_NORMAL = 0
 const RC_COMP_ERROR = 1
 const RC_EXEC_ERROR = 2
 const RC_EXEC_TIMEOUT = 3
 
-// Path constants
+// The path constants follow:
 const PATH_DIR_REPORTS = "./reports"
 const TEMPLATE_RUN_REPORT = PATH_DIR_REPORTS + "/RUN_REPORT_%s_%s.md"
 const TEMPLATE_SUMMARY_REPORT = PATH_DIR_REPORTS + "/Summary_%s_%s.txt"
@@ -26,27 +26,27 @@ const PATH_DIR_HELPERS = "./tests/HELPERS"
 const PATH_VERSION = "./VERSION.txt"
 const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.txt"
 
-// Definition of the singleton global
+// GlobalsStruct - Definition of the singleton global
 type GlobalsStruct struct {
 	Version              string        // Software version string
 	DirTests             string        // Full path of tests directory
 	DirHelpers           string        // Full path of tests/HELPERS directory
-	DirLogs              string        // Full path of logs directory
+	DirLogs              string        // Full path of the logs directory
 	LogFileExt           string        // .log
-	DirReports           string        // Full path of reports directory
+	DirReports           string        // Full path of the reports directory
 	ReportFilePath       string        // Full path of the detailed report file
 	SumFilePath          string        // Full path of the Summary file
-	DirGA                string        // Full path of the GithubActions directory
-	PassfailFilePath     string        // Full path of the passfail file
+	DirGA                string        // Full path of the Github Actions directory
+	PassFailFilePath     string        // Full path of the pass/fail file
 	ErrCatFilePath       string        // Full path of the error categories file
 	FlagVerbose          bool          // Verbose logging? true/false
-	FlagGalt             bool          // JVM Jacobin is run in G-alternate mode
 	FlagCompile          bool          // -c option
 	FlagDeleteObsolete   bool          // -s option
 	FlagMdReport         bool          // -M option
 	FlagTwoMostRecent    bool          // -r 1 option
 	FlagFailedPassed     bool          // -r 2 option
 	FlagPrintMostRecent  bool          // -r 3 option
+	FlagClassChecksum    bool          // -r 4 option
 	FlagExecute          bool          // -x option
 	FlagDeleteMostRecent bool          // -z option
 	FlagReportOrphans    bool          // -N option (report orphans)
@@ -60,7 +60,7 @@ type GlobalsStruct struct {
 	EnvTempFile          string        // Environment variable with temp file name
 }
 
-// Here's the singleton
+// Here's the GlobalsStruct singleton.
 var global GlobalsStruct
 
 // GetGlobalRef returns a reference to the singleton instance of GlobalsStruct
@@ -90,7 +90,7 @@ func ckPath(argPath string) string {
 	return absPath
 }
 
-// Initialise the singleton global
+// InitGlobals - Initialize the singleton global
 func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *GlobalsStruct {
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
@@ -128,10 +128,10 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
 	}
 
-	global.PassfailFilePath = absLogs + string(os.PathSeparator) + "passfail.txt"
-	absPassfailFile, err := filepath.Abs(global.PassfailFilePath)
+	global.PassFailFilePath = absLogs + string(os.PathSeparator) + "passfail.txt"
+	absPassfailFile, err := filepath.Abs(global.PassFailFilePath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", global.PassfailFilePath), err)
+		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", global.PassFailFilePath), err)
 	}
 
 	absErrCatFile, err := filepath.Abs(PATH_ERROR_CATEGORIES)
@@ -152,13 +152,13 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		DirReports:           absReports,
 		ReportFilePath:       absReportFile,
 		SumFilePath:          absSummaryFile,
-		PassfailFilePath:     absPassfailFile,
+		PassFailFilePath:     absPassfailFile,
 		ErrCatFilePath:       absErrCatFile,
 		FlagVerbose:          false,
-		FlagGalt:             false,
 		FlagExecute:          false,
 		FlagTwoMostRecent:    false,
 		FlagPrintMostRecent:  false,
+		FlagClassChecksum:    false,
 		FlagDeleteMostRecent: false,
 		FlagDeleteObsolete:   false,
 		FlagFailedPassed:     false,
@@ -176,9 +176,6 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 
 	if global.JvmName == "jacobin" {
 		global.JvmOptPrefix = "-ea"
-		if global.FlagGalt {
-			global.JvmOptPrefix += " -JJ:galt"
-		}
 	} else {
 		global.JvmOptPrefix = "-ea -server"
 	}
@@ -199,7 +196,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 	return &global
 }
 
-// Convert a UTC time string into a local one
+// UTCTimeStr2LocalTimeStr - Convert a UTC time string into a local one
 func UTCTimeStr2LocalTimeStr(utcString string) string {
 	timeStamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
 	if err != nil {
@@ -209,7 +206,7 @@ func UTCTimeStr2LocalTimeStr(utcString string) string {
 	return fmt.Sprintf("%s %s", timeStamp.Local().Format("2006-01-02 15:04:05"), zone)
 }
 
-// Show executable binary information relevant to "vcs"
+// ShowExecInfo - Show executable binary information relevant to "vcs"
 func ShowExecInfo(name string) {
 	fmt.Printf("%s version: %s\n", name, global.Version)
 	fmt.Printf("Built with: %s\n", runtime.Version())

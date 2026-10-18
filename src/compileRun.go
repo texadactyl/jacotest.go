@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -10,11 +11,11 @@ import (
 	"strings"
 )
 
-// runner - Run a subprocess and return result + output log as a string.
+// runner - Run a subprocess and return a result plus output log as a string.
 // (internal function)
-// 0 : success
-// 1 : failure
-// 2 : timeout
+// 0: success
+// 1: failure
+// 2: timeout
 func runner(cmdName string, cmdExec string, dirName string, argOpts string, argFile string) (int, string) {
 	globals := GetGlobalRef()
 	if globals.FlagVerbose {
@@ -44,13 +45,13 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	if err != nil { // YES
 
 		// Timeout?
-		if ctx.Err() == context.DeadlineExceeded { // YES
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) { // YES
 			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
 			StoreText(globals.DirLogs, "TIMEOUT."+infix+".log", outString)
 			return RC_EXEC_TIMEOUT, outString
 		}
 
-		// Not a timeout error but something else bad happened
+		// Not a timeout error, but something else bad happened
 		outString = CleanerText(outString, true)
 		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
 		StoreText(globals.DirLogs, "FAILED."+infix+".log", outString)
@@ -62,7 +63,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	}
 
 	// No errors occurred.
-	// If not a compile run, store outString.
+	// If not a compile-run, store outString.
 	if cmdExec != "javac" {
 		StoreText(globals.DirLogs, "PASSED."+infix+".log", outString)
 	}
@@ -76,7 +77,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 func compileOneTree(pathTreeTop string) int {
 	var statusCode int
 
-	// Get all of the directory entries from fullPathDir
+	// Get all the directory entries from fullPathDir
 	entries, err := os.ReadDir(pathTreeTop)
 	if err != nil {
 		FatalErr(fmt.Sprintf("compileOneTree: os.ReadDir(%s) failed", pathTreeTop), err)
@@ -122,11 +123,11 @@ func compileOneTree(pathTreeTop string) int {
 
 	// Compiled every .java file in the tree without errors.
 	// For each .class file produced, generate javap output.
-	err2 := filepath.WalkDir(pathTreeTop, func(absFilePath string, dirent fs.DirEntry, err error) error {
-		if dirent.IsDir() {
+	err2 := filepath.WalkDir(pathTreeTop, func(absFilePath string, dirEntry fs.DirEntry, err error) error {
+		if dirEntry.IsDir() {
 			return nil
 		}
-		if !strings.HasSuffix(dirent.Name(), ".class") {
+		if !strings.HasSuffix(dirEntry.Name(), ".class") {
 			return nil
 		}
 		output, errInner := exec.Command("javap", "-v", absFilePath).Output()
@@ -134,7 +135,7 @@ func compileOneTree(pathTreeTop string) int {
 			FatalErr("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", errInner)
 		}
 		dirPath := filepath.Dir(absFilePath)
-		outFile := "javap_" + dirent.Name() + ".log"
+		outFile := "javap_" + dirEntry.Name() + ".log"
 		StoreText(dirPath, outFile, string(output))
 		return nil
 	})
@@ -153,11 +154,11 @@ func compileOneTree(pathTreeTop string) int {
 // 2. Run the test case.
 //
 // Return:
-// 0 : success
-// 1 : compilation errors
-// 2 : run errors
+// 0: success
+// 1: compilation errors
+// 2: run errors
 func ExecuteOneTest(fullPathDir string) (int, string) {
-	var stcode int
+	var stCode int
 	global := GetGlobalRef()
 
 	// Save the path of the current working dir
@@ -201,9 +202,9 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		options = options + " " + global.UserXopts
 	}
 	if global.JvmName == "jacobin" {
-		stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
+		stCode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
 	} else {
-		stcode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main")
+		stCode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main")
 	}
 
 	// Go back to the original working directory.
@@ -213,5 +214,5 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	}
 
 	// Return runner execution result
-	return stcode, outString // test case success
+	return stCode, outString // test case success
 }

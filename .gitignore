@@ -23,7 +23,12 @@
 *.log
 *.jar
 *.zip
+*.csv
+
+# tests/guitar-string
 bridge_f
+
+# Directories to ignore
 essai
 database
 reports

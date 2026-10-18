@@ -10,14 +10,12 @@ import (
 
 var ph23Tracing = false
 
-// Table tblHitByTC
+// tblHitByTC - hits by test case name
 // key: test case name
 // value: matched fragment
 var tblHitByTC = make(map[string]string)
 
-// Table TblHitByCat
-// key: matched fragment
-// values: test case name, whole text line
+// TblHitByCat - Hits by category
 type TblHitByCat struct {
 	fragment string
 	tcName   string
@@ -95,10 +93,10 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			}
 
 			// Convert bytes into an array of text lines.
-			logTextLines := strings.Split(string(logDataBytes), "\n")
+			logTextLines := strings.SplitSeq(string(logDataBytes), "\n")
 
 			// For each text line in the log file, see if the search argument is present
-			for _, textLine := range logTextLines {
+			for textLine := range logTextLines {
 				textLine = CleanerText(textLine, false)
 				if strings.Contains(textLine, errCatFragment) {
 					// Found the search argument in the current line that matches errCatExpected.
@@ -130,7 +128,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 }
 
-// Phase 3 - Report from tblHitByCat which is already sequentially grouped by error category.
+// Phase 3 - Report from tblHitByCat, which is already sequentially grouped by error category.
 //   - All uncategorized errors must be inserted into the database as such.
 func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	lastCat := ""
@@ -141,7 +139,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	// For each failure category entry, process all the tblHitByCat entries (all the test cases that failed this way).
 	for _, tblEntry := range tblHitByCat {
 
-		// tblEntry holds the current hit by error category. Does it match the last error category?
+		// tblEntry holds the current hit-by-error category. Does it match the last error category?
 		if tblEntry.fragment != lastCat {
 
 			// New error category.
@@ -183,9 +181,9 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 		// Bump error category hits.
 		catCounter += 1
 
-	} // for _, tblEntry := range tblHitByCat
+	}
 
-	// Need to emit total for last group.
+	// Need to emit the total for last group.
 	wstr = fmt.Sprintf("--- Total: %d", catCounter)
 	WriteOutputText(outHandle, wstr)
 
@@ -202,7 +200,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 	return hitCounter
 }
 
-// Phases 2 and 3
+// Phases2And3 - Phases 2 and 3
 func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Table of error categories (string fragments).

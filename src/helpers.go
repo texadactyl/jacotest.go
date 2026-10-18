@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 	"unicode"
 )
@@ -17,15 +19,15 @@ const (
 // Logger - Time-stamp log function.
 func Logger(msg string) {
 	now := time.Now()
-	fmt.Fprintf(os.Stdout, "%s %s\n", now.Format("15:04:05"), msg)
-	os.Stdout.Sync()
+	_, _ = fmt.Fprintf(os.Stdout, "%s %s\n", now.Format("15:04:05"), msg)
+	_ = os.Stdout.Sync()
 }
 
 // LoggerSkip - Time-stamp log function with a preceding newline for readability.
 func LoggerSkip(msg string) {
 	now := time.Now()
-	fmt.Fprintf(os.Stdout, "\n%s %s\n", now.Format("15:04:05"), msg)
-	os.Stdout.Sync()
+	_, _ = fmt.Fprintf(os.Stdout, "\n%s %s\n", now.Format("15:04:05"), msg)
+	_ = os.Stdout.Sync()
 }
 
 // LogWarning - Log a warning.
@@ -98,15 +100,19 @@ func MakeDir(pathDir string) {
 
 // StoreText - Store a text file in the specified directory.
 func StoreText(targetDir, argFile, text string) {
+	var err error
 	fullPath := filepath.Join(targetDir, argFile)
 	outHandle, err := os.Create(fullPath)
 	if err != nil {
 		FatalErr(fmt.Sprintf("StoreText: os.Create(%s) failed", fullPath), err)
 	}
-	defer outHandle.Close()
-
-	if _, err := fmt.Fprintln(outHandle, text); err != nil {
+	_, err = fmt.Fprintln(outHandle, text)
+	if err != nil {
 		FatalErr(fmt.Sprintf("StoreText: fmt.Fprintln(%s) failed", fullPath), err)
+	}
+	err = outHandle.Close()
+	if _, err := fmt.Fprintln(outHandle, text); err != nil {
+		FatalErr(fmt.Sprintf("StoreText: fmt.Close(%s) failed", fullPath), err)
 	}
 }
 
@@ -141,14 +147,14 @@ func isDirectory(path string) (bool, error) {
 }
 
 /*
- * formatElapsedTime - Given the elapsed time in milliseconds, format as HH:MM:SS.ddd
+    formatElapsedTime - Given the elapsed time in milliseconds, format as HH:MM:SS.ddd
 
 	Usage:
 
-	fmt.Println(formatElapsed(3723456)) // "01:02:03.456"
-	fmt.Println(formatElapsed(63456))   // "00:01:03.456"
-	fmt.Println(formatElapsed(3456))    // "3.456 sec"
-	fmt.Println(formatElapsed(456))     // "456 msec"
+	fmt.Println(formatElapsed(3_723_456)) // "01:02:03.456"
+	fmt.Println(formatElapsed(63456)) // "00:01:03.456"
+	fmt.Println(formatElapsed(3456)) // "3.456 sec"
+	fmt.Println(formatElapsed(456)) // "456 msec"
 */
 
 func formatElapsedTime(etMsecs int) string {
@@ -165,4 +171,30 @@ func formatElapsedTime(etMsecs int) string {
 	default:
 		return fmt.Sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
 	}
+}
+
+// DeferredRemoveFile - support deferred file removal
+func DeferredRemoveFile(name string) {
+	err := os.Remove(name)
+	if err == nil {
+		return
+	}
+	_, _ = fmt.Printf("\n*** ERROR, DeferredRemoveFile: os.Remove(%s) failed, err: %v\n", name, err)
+}
+
+// DeferredCloseFile - support deferred file close
+func DeferredCloseFile(file *os.File) {
+	err := file.Close()
+	if err == nil {
+		return
+	}
+	name := file.Name()
+	fmt.Printf("\n*** ERROR, DeferredCloseFile: os.Remove(%s) failed, err: %v\n", name, err)
+}
+
+// SortCaseInsensitive - Case-insensitive sort.
+func SortCaseInsensitive(ptrSlice *[]string) {
+	slices.SortFunc(*ptrSlice, func(a, b string) int {
+		return strings.Compare(strings.ToLower(a), strings.ToLower(b))
+	})
 }

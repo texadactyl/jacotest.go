@@ -4,6 +4,8 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-10-18 | 6.1.0 | New report (-r 4): Emit class checksums to a CSV file. |
+| | | Fixed some not-yet-seen bugs. |
 | 2026-10-16 | 6.0.3 | New test case: io-outputstream-subclassed. |
 | 2026-10-15 | 6.0.2 | New test case: benchmark-game-edigits. |
 | | | HELPERS/main.java was re-written to provide comprehensive unit tests for the other HELPERS source files. |

@@ -14,9 +14,8 @@ func testCaseExists(curDir, name string) bool {
 	if err != nil {
 		if os.IsNotExist(err) {
 			return false
-		} else {
-			FatalErr(fmt.Sprintf("testCaseExists: os.Stat(%s) failed", path), err)
 		}
+		FatalErr(fmt.Sprintf("testCaseExists: os.Stat(%s) failed", path), err)
 	}
 
 	// Is it a directory?
@@ -53,8 +52,8 @@ func renameTestCase(oldName, newName string) {
 			FatalText(fmt.Sprintf("renameTestCase: old test case name (%s) and new test case Name (%s) do not exist",
 				oldName, newName))
 		}
-		// New name does not yet exist.
-		// Old name does exist.
+		// The old name exists.
+		// The new name does not yet exist.
 		// Perform rename.
 		renameTestCaseDir(curDir, oldName, newName)
 	}

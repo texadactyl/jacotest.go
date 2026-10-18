@@ -28,7 +28,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-var sqlTracing = true
+var sqlTracing = false
 
 // Wait before the single retry of a failed INSERT.
 const msecsSleep = 1000
@@ -76,8 +76,8 @@ var dbIsOpen = false
 
 // SQL statements that do not change at run-time.
 var (
-	// Select list for a complete history row, in the order that scanHistoryRow expects.
-	// Nullable columns are given defaults so that Scan never sees NULL.
+	// Select the list for a complete history row, in the order that scanHistoryRow expects.
+	// Nullable columns are given default values so that Scan will never see NULL.
 	sqlSelectColumns = fmt.Sprintf(
 		"%s, %s, %s, %s, %s, COALESCE(%s, '%s') AS %s, COALESCE(%s, %d) AS %s, COALESCE(%s, %d) AS %s",
 		colTestCase, colJvm, colDate, colTime, colResult,
@@ -164,7 +164,7 @@ func execSQL(db execer, text string, args ...any) (int64, error) {
 }
 
 /*
-sqlExec runs one statement outside of an explicit transaction.
+sqlExec runs one statement outside an explicit transaction.
 SQLite makes a single statement atomic by itself.
 */
 func sqlExec(text string, args ...any) (int64, error) {
@@ -279,7 +279,7 @@ func getTestsDir(caller string) string {
 }
 
 /*
-Internal function to initialise a new jacotest database.
+Internal function to initialize a new jacotest database.
 
 * Create the history table. The primary key is (test_case, date_utc, time_utc).
 * Create the secondary index.
@@ -357,9 +357,6 @@ DBOpen - Database Open
 func DBOpen() {
 
 	global := GetGlobalRef()
-	if global.FlagGalt {
-		return
-	}
 
 	sqlTracing = global.FlagVerbose
 	if sqlTracing {
@@ -422,11 +419,6 @@ DBClose - Close the database.
 */
 func DBClose() {
 
-	global := GetGlobalRef()
-	if global.FlagGalt {
-		return
-	}
-
 	// Quick return if database is closed.
 	if !dbIsOpen {
 		return
@@ -436,12 +428,17 @@ func DBClose() {
 	dbIsOpen = false
 
 	// Close the database.
-	fmt.Println("DBClose: Begin")
+	if sqlTracing {
+		Logger("DBClose: Begin")
+	}
 	err := dbHandle.Close()
 	if err != nil {
 		FatalErr("DBClose: sql.Close failed", err)
 	}
-	fmt.Println("DBClose: End")
+	if sqlTracing {
+
+		Logger("DBClose: End")
+	}
 
 }
 
@@ -453,9 +450,6 @@ process may be holding a lock). A second failure is fatal.
 func storeResult(caller, testCaseName, result, failText string, etMsecs, allocMB int) {
 
 	global := GetGlobalRef()
-	if global.FlagGalt {
-		return
-	}
 
 	// The date and time are taken once so that both attempts store the same primary key.
 	// The order must match the column list of sqlInsertHistory.
@@ -508,6 +502,7 @@ test case, the first row is the latest result and the second row is the previous
 func DBPrtChanges() {
 
 	rows, ok := sqlQuery(sqlSelectHistory)
+	defer closeRows(rows, "DBPrtChanges")
 	if !ok {
 		return
 	}
@@ -541,7 +536,6 @@ func DBPrtChanges() {
 				row.testCase, row.jvm, row.dateUTC, row.timeUTC, row.result, row.etMsecs, row.allocMB, row.failText)
 		}
 	}
-	closeRows(rows, "DBPrtChanges")
 
 	if counter == 0 {
 		Logger("No test cases with changed results")
@@ -558,6 +552,8 @@ For each such test case, the most recent passing record is shown.
 func DBPrtLastPass() {
 
 	rows, ok := sqlQuery(sqlSelectHistory)
+	defer closeRows(rows, "DBPrtLastPass")
+
 	if !ok {
 		return
 	}
@@ -589,7 +585,6 @@ func DBPrtLastPass() {
 		fmt.Printf("\tpassed  >>  %s  %-8s  %-10s  %-8s  %-6s  %dms  %dMB\n",
 			row.testCase, row.jvm, row.dateUTC, row.timeUTC, row.result, row.etMsecs, row.allocMB)
 	}
-	closeRows(rows, "DBPrtLastPass")
 
 	if counter == 0 {
 		Logger("No test cases that currently fail but passed previously")
@@ -601,7 +596,7 @@ func DBPrtLastPass() {
 
 /*
 DBDeleteMostRecent - Delete the most recent logged pass/fail record for each test case.
-One statement in one implicit transaction does all of the work.
+One statement in one implicit transaction does all the work.
 */
 func DBDeleteMostRecent() {
 
@@ -623,18 +618,20 @@ func DBPrintMostRecent() {
 	global := GetGlobalRef()
 
 	rows, ok := sqlQuery(sqlSelectHistory)
+	defer closeRows(rows, "DBPrintMostRecent")
+
 	if !ok {
 		return
 	}
 
 	// Open the passfail file for output/replace.
-	file, err := os.Create(global.PassfailFilePath)
+	file, err := os.Create(global.PassFailFilePath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("os.Create(%s) failed", global.PassfailFilePath), err)
+		FatalErr(fmt.Sprintf("os.Create(%s) failed", global.PassFailFilePath), err)
 	}
-	defer file.Close()
-	writer := bufio.NewWriter(file)
+	defer DeferredCloseFile(file)
 
+	writer := bufio.NewWriter(file)
 	testsDir := getTestsDir("DBPrintMostRecent")
 	lastCase := ""
 	counter := 0
@@ -658,7 +655,7 @@ func DBPrintMostRecent() {
 		counter++
 		fmt.Printf("[%d]  %s  %-8s  %-6s  %dms  %dMB  %s\n",
 			counter, row.testCase, row.jvm, row.result, row.etMsecs, row.allocMB, row.failText)
-		fmt.Fprintf(writer, "%s\t%s\n", row.testCase, row.result)
+		_, _ = fmt.Fprintf(writer, "%s\t%s\n", row.testCase, row.result)
 		switch row.result {
 		case resultPassed:
 			passes++
@@ -666,11 +663,10 @@ func DBPrintMostRecent() {
 			fails++
 		}
 	}
-	closeRows(rows, "DBPrintMostRecent")
 
 	err = writer.Flush()
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBPrintMostRecent: writing %s failed", global.PassfailFilePath), err)
+		FatalErr(fmt.Sprintf("DBPrintMostRecent: writing %s failed", global.PassFailFilePath), err)
 	}
 
 	fmt.Printf("Printed %d records\n", counter)
@@ -686,6 +682,8 @@ A test case is obsolete if it no longer has a directory under tests.
 func DBReportOrDeleteObsolete(flagDelete bool) {
 
 	rows, ok := sqlQuery(sqlSelectHistory)
+	defer closeRows(rows, "DBReportOrDeleteObsolete")
+
 	if !ok {
 		return
 	}
@@ -720,8 +718,6 @@ func DBReportOrDeleteObsolete(flagDelete bool) {
 				row.testCase, row.jvm, row.dateUTC, row.timeUTC))
 		}
 	}
-	// The result set must be closed before the DELETE transaction can start (single connection).
-	closeRows(rows, "DBReportOrDeleteObsolete")
 
 	if !flagDelete {
 		fmt.Printf("Found %d orphaned database records\n", counter)
@@ -762,7 +758,7 @@ func DBUpdateTestCaseName(oldName, newName string) {
 
 /*
 DBGenerateTestCaseCsv - Write the last count results of a test case to <testCaseName>.csv in the current directory.
-If count is 0, all recorded results of the test case are written.
+If the count is 0, all recorded results of the test case are written.
 The first line is a header with the history table column names. The data lines are in
 reverse chronological order (newest first): date descending, then time descending.
 An existing file of the same name is replaced.
@@ -780,6 +776,8 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 	}
 
 	rows, ok := sqlQuery(sqlSelectLastN, testCaseName, limit)
+	defer closeRows(rows, "DBGenerateTestCaseCsv")
+
 	if !ok {
 		return
 	}
@@ -788,7 +786,6 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 	for rows.Next() {
 		history = append(history, scanHistoryRow(rows, "DBGenerateTestCaseCsv"))
 	}
-	closeRows(rows, "DBGenerateTestCaseCsv")
 
 	// Do not create an empty file for a test case that has no history.
 	if len(history) == 0 {
@@ -806,6 +803,7 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 	if err != nil {
 		FatalErr(fmt.Sprintf("DBGenerateTestCaseCsv: os.Create(%s) failed", csvPath), err)
 	}
+	DeferredCloseFile(file)
 
 	// encoding/csv quotes fields that contain commas, quotes, or newlines (fail_text may).
 	writer := csv.NewWriter(file)
@@ -816,7 +814,6 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 	}
 	err = writer.WriteAll(records) // includes Flush
 	if err != nil {
-		file.Close()
 		FatalErr(fmt.Sprintf("DBGenerateTestCaseCsv: writing %s failed", csvPath), err)
 	}
 	err = file.Close()
