@@ -111,7 +111,7 @@ func StoreText(targetDir, argFile, text string) {
 		FatalErr(fmt.Sprintf("StoreText: fmt.Fprintln(%s) failed", fullPath), err)
 	}
 	err = outHandle.Close()
-	if _, err := fmt.Fprintln(outHandle, text); err != nil {
+	if err != nil {
 		FatalErr(fmt.Sprintf("StoreText: fmt.Close(%s) failed", fullPath), err)
 	}
 }
