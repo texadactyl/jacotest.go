@@ -6,7 +6,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 |<img width=90/>|<img width=60/>|<img width=600/>|
 | 2026-10-20 | 6.1.1 | Add .gitattributes file. Make sure that an end of line is indicated only by \n. |
 | | | Renamed ERROR_CATEGORIES and VERSION to use extension '.cfg'. |
-| | | Slight re-vampe of test cases benchmark-game-reverse-complement (sample.fasta.datatxt) and checkedinputstream-1 (input.datatxt). |
+| | | Slight re-vamp of test cases benchmark-game-reverse-complement (sample.fasta.datatxt) and checkedinputstream-1 (input.datatxt). |
 | 2026-10-18 | 6.1.0 | New report (-r 4): Emit class checksums to a CSV file. |
 | | | Fixed some not-yet-seen bugs. |
 | 2026-10-16 | 6.0.3 | New test case: io-outputstream-subclassed. |
