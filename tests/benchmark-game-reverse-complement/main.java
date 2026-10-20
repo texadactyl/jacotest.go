@@ -39,10 +39,7 @@ public class main {
         fis = new FileInputStream(FILE_INPUT);
         solve(fis);
         long ckvalue = crc32.getValue();
-        if (Checkers.isWindows())
-            errorCount = Checkers.checker("CRC32 (windows) check value", 792321978L, ckvalue); 
-        else
-            errorCount = Checkers.checker("CRC32 (posix) check value", 585220925L, ckvalue); 
+        errorCount = Checkers.checker("CRC32 (all O/Ses) check value", 585220925L, ckvalue); 
         Checkers.theEnd(errorCount);
     }
 
