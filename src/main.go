@@ -127,7 +127,7 @@ func main() {
 	newTestCaseName := ""
 
 	// Positioned in the tree top directory?
-	_, err = os.Open("VERSION.txt")
+	_, err = os.Open("VERSION.cfg")
 	if err != nil {
 		FatalText("You are not positioned in the jacotest tree top directory")
 	}

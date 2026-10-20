@@ -23,8 +23,8 @@ const TEMPLATE_SUMMARY_REPORT = PATH_DIR_REPORTS + "/Summary_%s_%s.txt"
 const PATH_DIR_LOGS = "./logs"
 const PATH_DIR_TESTS = "./tests"
 const PATH_DIR_HELPERS = "./tests/HELPERS"
-const PATH_VERSION = "./VERSION.txt"
-const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.txt"
+const PATH_VERSION = "./VERSION.cfg"
+const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.cfg"
 
 // GlobalsStruct - Definition of the singleton global
 type GlobalsStruct struct {
