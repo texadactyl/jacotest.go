@@ -8,7 +8,7 @@ public class main {
 
     public static void main(String[] args) {
         System.out.println("Use class CheckedInputStream to compute the checksum of a file");
-        String fpath = "./data.txt";
+        String fpath = "./input.datatxt";
         long observedCksum = getChecksum(fpath);
         if (observedCksum < 0L)
             Checkers.theEnd(1);

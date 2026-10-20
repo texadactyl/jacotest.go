@@ -10,7 +10,7 @@ import java.util.zip.CRC32;
 
 public class main {
 
-    static final String FILE_INPUT = "sample.fasta.txt";
+    static final String FILE_INPUT = "sample.fasta.datatxt";
     static final String transFrom = "ACGTUMRWSYKVHDBN";
     static final String transTo = "TGCAAKYWSRMBDHVN";
     static final byte[] transMap = new byte[128];

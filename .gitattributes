@@ -1,4 +1,4 @@
 # Text data files are checksummed (CRC32) over raw bytes, so every OS must
 # check them out byte-for-byte identical, with LF line endings.
-# Examples: test cases benchmark-game-reverse-complement (sample.fasta.txt) and checkedinputstream-1 (data.txt)
-*.txt text eol=lf
+# Examples: test cases benchmark-game-reverse-complement (sample.fasta.datatxt) and checkedinputstream-1 (data.datatxt)
+*.datatxt text eol=lf
