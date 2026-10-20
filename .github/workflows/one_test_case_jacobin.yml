@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: JACOBIN-0322-default-locale
+  TEST_CASE: benchmark-game-reverse-complement
   
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-26-intel, macos-latest, ubuntu-24.04-arm, ubuntu-latest, windows-11-arm, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     
     steps:
