@@ -1,6 +1,6 @@
 [  0.204s] Starting execution with: main.main([Ljava/lang/String;)V
 [  0.204s] threadRun: class=main, meth=main([Ljava/lang/String;)V, maxStack=7, maxLocals=4, code size=37
-[  0.204s] th: 1, class: main                   meth:main       PC:   0, LDC           TOS:  -  
+[  0.204s] th: 1, class: main                   meth:main       PC:   0, LDC           TOS:  -
 [  0.204s]                                                         PUSH          TOS:  -
 [  0.204s]                                                         main.main TOS   [0] java/lang/String
 [  0.204s] th: 1, class: main                   meth:main       PC:   2, ASTORE_1      TOS:  0 String: ./main.java 

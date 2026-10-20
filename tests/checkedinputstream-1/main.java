@@ -13,11 +13,7 @@ public class main {
         if (observedCksum < 0L)
             Checkers.theEnd(1);
         long expectedCksum;
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("windows"))
-            expectedCksum = 2444578021L;
-        else
-            expectedCksum = 1469659264L;
+        expectedCksum = 3313628986L;
         errorCount += Checkers.checker("Checksum", expectedCksum, observedCksum);
         Checkers.theEnd(errorCount);
     }
