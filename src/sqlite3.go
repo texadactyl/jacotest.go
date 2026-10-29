@@ -302,6 +302,7 @@ func DBOpen() {
 	if !success {
 		fatalErr(errors.New("cannot continue"), "DBOpen: sqlQuery(%s) failed", query)
 	}
+	defer closeRows(rows, "DBOpen")
 	var count int
 	if rows.Next() {
 		if err := rows.Scan(&count); err != nil {
@@ -309,7 +310,6 @@ func DBOpen() {
 		}
 	}
 	if err := rows.Err(); err != nil {
-		_ = rows.Close()
 		fatalErr(err, "%s", "DBOpen: rows iteration error")
 	}
 
