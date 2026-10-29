@@ -1,20 +1,6 @@
 package main
 
-/*
-Database access for jacotest. Every SQLite operation is in this file.
-
-Downloads + installs:
-* go get modernc.org/sqlite (pure Go driver, no cgo)
-* go install -v ./...
-* https://www.sqlite.org/download.html (API for the Browser)
-* https://sqlitebrowser.org/dl/ (Browser)
-
-The history table has one row per test case execution. Its primary key is
-(test_case, date_utc, time_utc). Rows for a test case are read newest first.
-*/
-
 import (
-	"bufio"
 	"database/sql"
 	"encoding/csv"
 	"errors"
@@ -22,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -32,9 +17,6 @@ var sqlTracing = false
 
 // Wait before the single retry of a failed INSERT.
 const msecsSleep = 1000
-
-// How long SQLite waits on a lock held by another process before returning SQLITE_BUSY.
-const busyTimeoutMsecs = 5000
 
 // History table
 const tableHistory = "history"
@@ -51,10 +33,6 @@ const colAllocMB = "allocated_mb"
 
 // Secondary indexes
 const ixTestCaseName = "ix_test_case"
-
-// Values stored in the result column
-const resultPassed = "passed"
-const resultFailed = "failed"
 
 // fail_text value for a test case that passed
 const failTextNone = "n/a"
@@ -74,55 +52,6 @@ var pathDatabase string
 var dbHandle *sql.DB
 var dbIsOpen = false
 
-// SQL statements that do not change at run-time.
-var (
-	// Select the list for a complete history row, in the order that scanHistoryRow expects.
-	// Nullable columns are given default values so that Scan will never see NULL.
-	sqlSelectColumns = fmt.Sprintf(
-		"%s, %s, %s, %s, %s, COALESCE(%s, '%s') AS %s, COALESCE(%s, %d) AS %s, COALESCE(%s, %d) AS %s",
-		colTestCase, colJvm, colDate, colTime, colResult,
-		colFailText, failTextNone, colFailText,
-		colETmsecs, etUnknown, colETmsecs,
-		colAllocMB, allocUnknown, colAllocMB)
-
-	// All history rows, grouped by test case, newest first within each test case.
-	sqlSelectHistory = fmt.Sprintf(
-		"SELECT %s FROM %s ORDER BY %s, %s DESC, %s DESC",
-		sqlSelectColumns, tableHistory, colTestCase, colDate, colTime)
-
-	// The newest N rows of one test case (N < 0 means all), again ordered newest first.
-	// The inner ORDER BY decides which rows survive the LIMIT. The outer ORDER BY
-	// fixes the order of the output, which SQLite does not promise to keep from the inner one.
-	sqlSelectLastN = fmt.Sprintf(
-		"SELECT * FROM (SELECT %s FROM %s WHERE %s = ? ORDER BY %s DESC, %s DESC LIMIT ?) ORDER BY %s DESC, %s DESC",
-		sqlSelectColumns, tableHistory, colTestCase, colDate, colTime, colDate, colTime)
-
-	sqlInsertHistory = fmt.Sprintf(
-		"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-		tableHistory, colTestCase, colJvm, colDate, colTime, colResult, colFailText, colETmsecs, colAllocMB)
-
-	sqlCreateHistory = fmt.Sprintf(
-		"CREATE TABLE %s (%s VARCHAR NOT NULL, %s VARCHAR NOT NULL, %s VARCHAR NOT NULL, %s VARCHAR NOT NULL, "+
-			"%s VARCHAR NOT NULL, %s VARCHAR, %s INTEGER DEFAULT %d, %s INTEGER DEFAULT %d, PRIMARY KEY (%s, %s, %s))",
-		tableHistory, colTestCase, colJvm, colDate, colTime, colResult, colFailText,
-		colETmsecs, etUnknown, colAllocMB, allocUnknown,
-		colTestCase, colDate, colTime)
-
-	sqlCreateIndex = fmt.Sprintf("CREATE INDEX %s ON %s (%s)", ixTestCaseName, tableHistory, colTestCase)
-
-	sqlColumnExists = "SELECT COUNT(1) FROM pragma_table_info(?) WHERE name = ?"
-
-	// Number each test case's rows from newest (1) to oldest, then delete the rows numbered 1.
-	sqlDeleteMostRecent = fmt.Sprintf(
-		"DELETE FROM %s WHERE rowid IN (SELECT rowid FROM (SELECT rowid, ROW_NUMBER() OVER "+
-			"(PARTITION BY %s ORDER BY %s DESC, %s DESC) AS rn FROM %s) WHERE rn = 1)",
-		tableHistory, colTestCase, colDate, colTime, tableHistory)
-
-	sqlDeleteByTestCase = fmt.Sprintf("DELETE FROM %s WHERE %s = ?", tableHistory, colTestCase)
-
-	sqlRenameTestCase = fmt.Sprintf("UPDATE %s SET %s = ? WHERE %s = ?", tableHistory, colTestCase, colTestCase)
-)
-
 // historyRow is one row of the history table.
 type historyRow struct {
 	testCase string
@@ -135,83 +64,71 @@ type historyRow struct {
 	allocMB  int
 }
 
-// execer is satisfied by both *sql.DB and *sql.Tx.
-type execer interface {
-	Exec(query string, args ...any) (sql.Result, error)
-}
+// SQL statements that do not change at run-time.
+var (
+	// Select the list for a complete history row, in the order that scanHistoryRow expects.
+	// Nullable columns are given default values so that Scan will never see NULL.
+	fmtSqlSelectColumns = fmt.Sprintf(
+		"%s, %s, %s, %s, %s, COALESCE(%s, '%s') AS %s, COALESCE(%s, %d) AS %s, COALESCE(%s, %d) AS %s",
+		colTestCase, colJvm, colDate, colTime, colResult,
+		colFailText, failTextNone, colFailText,
+		colETmsecs, etUnknown, colETmsecs,
+		colAllocMB, allocUnknown, colAllocMB)
+
+	// The newest N rows of one test case (N < 0 means all), again ordered newest first.
+	// The inner ORDER BY decides which rows survive the LIMIT. The outer ORDER BY
+	// fixes the order of the output, which SQLite does not promise to keep from the inner one.
+	fmtSqlSelectLastN = fmt.Sprintf(
+		"SELECT * FROM (SELECT %s FROM %s WHERE %s = %%s ORDER BY %s DESC, %s DESC LIMIT %%s) ORDER BY %s DESC, %s DESC",
+		fmtSqlSelectColumns, tableHistory, colTestCase, colDate, colTime, colDate, colTime)
+)
 
 /*
-execSQL runs one statement that returns no rows, using bound parameters.
-It returns the number of rows affected. Errors are returned to the caller, not treated as fatal.
+Internal function to run an SQL statement and handle any errors.
 */
-func execSQL(db execer, text string, args ...any) (int64, error) {
+func sqlFunc(text string) error {
+
+	var err error
+	var statement *sql.Stmt
 
 	if sqlTracing {
-		Logger(fmt.Sprintf("execSQL: SQL: %s", text))
+		logger("sqlFunc: SQL: %s", text)
 	}
 
-	result, err := db.Exec(text, args...)
+	// Prepare SQL statement.
+	statement, err = dbHandle.Prepare(text)
 	if err != nil {
-		return 0, fmt.Errorf("execSQL: Exec(%s) failed: %w", text, err)
+		fatalErr(err, "sqlFunc: statement.Prepare (%s) failed, err: \n%s", text, err.Error())
 	}
 
-	count, err := result.RowsAffected()
+	// Execute SQL statement.
+	_, err = statement.Exec()
 	if err != nil {
-		return 0, fmt.Errorf("execSQL: RowsAffected(%s) failed: %w", text, err)
+		fatalErr(err, "sqlFunc: statement.Exec (%s) failed, err: \n%s", text, err.Error())
 	}
-	return count, nil
 
-}
-
-/*
-sqlExec runs one statement outside an explicit transaction.
-SQLite makes a single statement atomic by itself.
-*/
-func sqlExec(text string, args ...any) (int64, error) {
-	return execSQL(dbHandle, text, args...)
-}
-
-/*
-sqlTx runs fn inside a transaction. If fn returns an error, the transaction is rolled back.
-All statements of the transaction must go through tx. The pool is limited to one connection,
-so any *sql.Rows still open when sqlTx is called would block it forever.
-*/
-func sqlTx(fn func(tx *sql.Tx) error) error {
-
-	tx, err := dbHandle.Begin()
+	// No errors
+	err = statement.Close()
 	if err != nil {
-		return fmt.Errorf("sqlTx: Begin failed: %w", err)
+		fatalErr(err, "sqlFunc: statement.Close() failed, err: \n%s", err.Error())
 	}
 
-	err = fn(tx)
-	if err != nil {
-		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("sqlTx: Rollback failed (%v) after: %w", rbErr, err)
-		}
-		return err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		return fmt.Errorf("sqlTx: Commit failed: %w", err)
-	}
 	return nil
 
 }
 
 /*
-sqlQuery runs a select query. On failure the error is logged and the second return value is false.
-The caller must close the returned rows before issuing any other statement.
+Internal function to run an SQL select query and handle any errors. The output is returned to the caller.
 */
-func sqlQuery(text string, args ...any) (*sql.Rows, bool) {
+func sqlQuery(text string) (*sql.Rows, bool) {
 
 	if sqlTracing {
-		Logger(fmt.Sprintf("sqlQuery: SQL: %s", text))
+		logger("sqlQuery: SQL: %s", text)
 	}
 
-	rows, err := dbHandle.Query(text, args...)
+	rows, err := dbHandle.Query(text)
 	if err != nil {
-		LogError(fmt.Sprintf("sqlQuery: dbHandle.Query(%s) failed, err: %s", text, err.Error()))
+		logError("sqlQuery: dbHandle.Query(%s) failed, err: %s", text, err.Error())
 		return nil, false
 	}
 
@@ -220,7 +137,7 @@ func sqlQuery(text string, args ...any) (*sql.Rows, bool) {
 }
 
 /*
-scanHistoryRow reads the current row of a result set whose select list is sqlSelectColumns.
+scanHistoryRow reads the current row of a result set whose select list is fmtSqlSelectColumns.
 */
 func scanHistoryRow(rows *sql.Rows, caller string) historyRow {
 
@@ -228,7 +145,7 @@ func scanHistoryRow(rows *sql.Rows, caller string) historyRow {
 	err := rows.Scan(&row.testCase, &row.jvm, &row.dateUTC, &row.timeUTC, &row.result,
 		&row.failText, &row.etMsecs, &row.allocMB)
 	if err != nil {
-		FatalErr(fmt.Sprintf("%s: rows.Scan failed", caller), err)
+		fatalErr(err, "%s: rows.Scan failed", caller)
 	}
 	return row
 
@@ -243,10 +160,10 @@ func closeRows(rows *sql.Rows, caller string) {
 	iterErr := rows.Err()
 	closeErr := rows.Close()
 	if iterErr != nil {
-		FatalErr(fmt.Sprintf("%s: rows iteration error", caller), iterErr)
+		fatalErr(iterErr, "%s: rows iteration error", caller)
 	}
 	if closeErr != nil {
-		FatalErr(fmt.Sprintf("%s: rows.Close failed", caller), closeErr)
+		fatalErr(closeErr, "%s: rows.Close failed", caller)
 	}
 
 }
@@ -259,7 +176,7 @@ func historyTestCaseDirExists(testsDir, testCase, caller string) bool {
 	path := filepath.Join(testsDir, testCase)
 	ok, err := isDirectory(path)
 	if err != nil {
-		FatalErr(fmt.Sprintf("%s: isDirectory(%s) failed, err: %v", caller, path, err), err)
+		fatalErr(err, "%s: isDirectory(%s) failed", caller, path)
 	}
 	return ok
 
@@ -272,144 +189,155 @@ func getTestsDir(caller string) string {
 
 	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr(fmt.Sprintf("%s: os.Getwd failed", caller), err)
+		fatalErr(err, "%s: os.Getwd failed", caller)
 	}
 	return filepath.Join(curDir, dirTests)
 
 }
 
 /*
-Internal function to initialize a new jacotest database.
+Internal function to initialize a Jacotest database.
 
-* Create the history table. The primary key is (test_case, date_utc, time_utc).
-* Create the secondary index.
-Both statements are in one transaction so that a failure does not leave a half-built database.
+* Create the database (includes file creation/re-creation).
+* Create the history table and all of its columns, a combination of which is the primary index.
+* Create secondary indexes.
 */
 func initDB() {
 
 	if sqlTracing {
-		Logger("initDB: Begin")
+		logger("initDB: Begin")
 	}
 
-	err := sqlTx(func(tx *sql.Tx) error {
-		for _, text := range []string{sqlCreateHistory, sqlCreateIndex} {
-			if _, err := execSQL(tx, text); err != nil {
-				return err
-			}
-		}
-		return nil
-	})
+	sqlText := "CREATE TABLE " + tableHistory + " ("
+	sqlText += colTestCase + " VARCHAR NOT NULL, "
+	sqlText += colJvm + " VARCHAR NOT NULL, "
+	sqlText += colDate + " VARCHAR NOT NULL, "
+	sqlText += colTime + " VARCHAR NOT NULL, "
+	sqlText += colResult + " VARCHAR NOT NULL, "
+	sqlText += colFailText + " VARCHAR, "
+	sqlText += colETmsecs + " INTEGER, "
+	sqlText += colAllocMB + " INTEGER, "
+	sqlText += "PRIMARY KEY (" + colTestCase + ", " + colDate + ", " + colTime + ") )"
+	err := sqlFunc(sqlText)
 	if err != nil {
-		FatalErr("initDB: unrecoverable SQL error", err)
+		fatalErr(err, "initDB: unrecoverable SQL error: %s", sqlText)
+	}
+
+	sqlText = "CREATE INDEX " + ixTestCaseName + " ON " + tableHistory + " (" + colTestCase + ")"
+	err = sqlFunc(sqlText)
+	if err != nil {
+		fatalErr(err, "initDB: unrecoverable SQL error: %s", sqlText)
 	}
 
 	if sqlTracing {
-		Logger("initDB: End")
+		logger("%s", "initDB: End")
 	}
 
-}
-
-/*
-addIntColumnIfMissing upgrades a database created before the column existed.
-Adding a column with a DEFAULT makes the existing rows read as that default; no UPDATE is needed.
-*/
-func addIntColumnIfMissing(column string, defaultValue int) {
-
-	if sqlTracing {
-		Logger(fmt.Sprintf("addIntColumnIfMissing: column: %s, defaultValue: %d", column, defaultValue))
-	}
-
-	var count int
-	err := dbHandle.QueryRow(sqlColumnExists, tableHistory, column).Scan(&count)
-	if err != nil {
-		FatalErr(fmt.Sprintf("addIntColumnIfMissing: check for column %s failed", column), err)
-	}
-	if count > 0 {
-		return
-	}
-
-	sqlText := fmt.Sprintf("ALTER TABLE %s ADD COLUMN %s INTEGER DEFAULT %d", tableHistory, column, defaultValue)
-	_, err = sqlExec(sqlText)
-	if err != nil {
-		FatalErr(fmt.Sprintf("addIntColumnIfMissing: '%s' failed", sqlText), err)
-	}
-	if sqlTracing {
-		Logger(fmt.Sprintf("addIntColumnIfMissing: column %s added", column))
-	}
-
-}
-
-/*
-upgradeSchema brings a pre-existing database up to date with the current schema.
-*/
-func upgradeSchema() {
-	addIntColumnIfMissing(colETmsecs, etUnknown)
-	addIntColumnIfMissing(colAllocMB, allocUnknown)
 }
 
 /*
 DBOpen - Database Open
 
 * If the database directory is not present, create it.
-* If the database file in the database directory is not present, create it and call initDB.
-* Otherwise, upgrade the schema if it is out of date.
+* If the history.db file in the database directory is not present, call initDB.
+* Connect to DB.
+* Validate DB.
 */
 func DBOpen() {
-
 	global := GetGlobalRef()
 
 	sqlTracing = global.FlagVerbose
 	if sqlTracing {
-		Logger("DBOpen: Begin")
-	}
-
-	// Already open.
-	if dbIsOpen {
-		return
+		logger("DBOpen: Begin")
 	}
 
 	// Database directory
-	err := os.MkdirAll(dirDatabase, 0755)
+	_, err := os.ReadDir(dirDatabase)
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBOpen: MkdirAll(%s) failed", dirDatabase), err)
+		err := os.Mkdir(dirDatabase, 0755)
+		if err != nil {
+			fatalErr(err, "DBOpen: Mkdir(%s) failed", dirDatabase)
+		}
 	}
 
-	// Database file. Only "does not exist" means that a new database is needed.
-	pathDatabase = filepath.Join(dirDatabase, fileDatabase)
+	// Database file
+	pathDatabase = dirDatabase + "/" + fileDatabase
 	_, err = os.Stat(pathDatabase)
-	isNew := errors.Is(err, os.ErrNotExist)
-	if err != nil && !isNew {
-		FatalErr(fmt.Sprintf("DBOpen: Stat(%s) failed", pathDatabase), err)
-	}
-
-	// sql.Open does not touch the file; Ping does (creating it if it is new).
-	dsn := fmt.Sprintf("%s?_pragma=busy_timeout(%d)", pathDatabase, busyTimeoutMsecs)
-	dbHandle, err = sql.Open(driverDatabase, dsn)
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBOpen: sql.Open(%s) failed", pathDatabase), err)
-	}
-
-	// One connection only: avoids SQLITE_BUSY between connections of this process.
-	// Consequently, result sets must be closed before the next statement is issued.
-	dbHandle.SetMaxOpenConns(1)
-
-	err = dbHandle.Ping()
-	if err != nil {
-		FatalErr(fmt.Sprintf("DBOpen: cannot connect to %s", pathDatabase), err)
-	}
-	dbIsOpen = true
-
-	if isNew {
-		initDB()
+		// O/S error while trying to stat the database file.
 		if sqlTracing {
-			Logger("DBOpen: End, database created")
+			logger("DBOpen: database file(%s) inaccessible", pathDatabase)
+		}
+
+		// Try to create the database file.
+		dbHandle, err = sql.Open(driverDatabase, pathDatabase)
+		if err != nil {
+			fatalErr(err, "DBOpen: sql.Open(new database %s) failed", pathDatabase)
+		}
+
+		// Database successfully opened - now, initialize the tabled and column metadata.
+		initDB()
+
+		if sqlTracing {
+			logger("%s", "DBOpen: End, database created")
 		}
 		return
 	}
 
-	upgradeSchema()
+	// Connect to pre-existing database
 	if sqlTracing {
-		Logger("DBOpen: End")
+		logger("%s", "DBOpen database file exists")
+	}
+	dbHandle, err = sql.Open(driverDatabase, pathDatabase)
+	if err != nil {
+		fatalErr(err, "DBOpen: sql.Open(existing database %s) failed", pathDatabase)
+	}
+
+	// The database is open and ready for business.
+	dbIsOpen = true
+
+	// If column "elapsed_msecs" does not yet exist, populate it.
+	query := fmt.Sprintf("SELECT COUNT(1) FROM pragma_table_info('%s') WHERE name = '%s'", tableHistory, colETmsecs)
+	rows, success := sqlQuery(query)
+	if !success {
+		fatalErr(errors.New("cannot continue"), "DBOpen: sqlQuery(%s) failed", query)
+	}
+	var count int
+	if rows.Next() {
+		if err := rows.Scan(&count); err != nil {
+			fatalErr(err, "%s", "DBOpen: failed to scan count")
+		}
+	}
+	if err := rows.Err(); err != nil {
+		_ = rows.Close()
+		fatalErr(err, "%s", "DBOpen: rows iteration error")
+	}
+
+	// If the row-count < 1, alter the history table.
+	// The default value for the new column is NULL.
+	if count < 1 {
+		updater := fmt.Sprintf("ALTER TABLE '%s' ADD COLUMN '%s' INTEGER DEFAULT -1", tableHistory, colETmsecs)
+		err := sqlFunc(updater)
+		if err != nil {
+			fatalErr(err, "DBOpen: '%s' failed", updater)
+		}
+		backfill := fmt.Sprintf("UPDATE '%s' SET '%s' = -1", tableHistory, colETmsecs)
+		err = sqlFunc(backfill)
+		if err != nil {
+			fatalErr(err, "DBOpen: '%s' failed", backfill)
+		}
+		if sqlTracing {
+			logger("%s", "DBOpen: alter table and backfill succeeded")
+		}
+	}
+
+	err = rows.Close()
+	if err != nil {
+		fatalErr(err, "%s", "DBOpen: rows.Close() failed")
+	}
+
+	if sqlTracing {
+		logger("%s", "DBOpen: End")
 	}
 
 }
@@ -428,44 +356,12 @@ func DBClose() {
 	dbIsOpen = false
 
 	// Close the database.
-	if sqlTracing {
-		Logger("DBClose: Begin")
-	}
+	fmt.Println("DBClose: Begin")
 	err := dbHandle.Close()
 	if err != nil {
-		FatalErr("DBClose: sql.Close failed", err)
+		fatalErr(err, "%s", "DBClose: sql.Close failed")
 	}
-	if sqlTracing {
-
-		Logger("DBClose: End")
-	}
-
-}
-
-/*
-storeResult inserts one result record for the current JVM, date, and time.
-If the insert fails, it is tried once more after a pause (for example, another
-process may be holding a lock). A second failure is fatal.
-*/
-func storeResult(caller, testCaseName, result, failText string, etMsecs, allocMB int) {
-
-	global := GetGlobalRef()
-
-	// The date and time are taken once so that both attempts store the same primary key.
-	// The order must match the column list of sqlInsertHistory.
-	args := []any{testCaseName, global.JvmName, GetUtcDate(), GetUtcTime(), result, failText, etMsecs, allocMB}
-
-	_, err := sqlExec(sqlInsertHistory, args...)
-	if err == nil {
-		return
-	}
-
-	time.Sleep(msecsSleep * time.Millisecond)
-	_, err = sqlExec(sqlInsertHistory, args...)
-	if err != nil {
-		FatalErr(fmt.Sprintf("%s: 2nd try did not work - Giving up!\n%s", caller, err.Error()), err)
-	}
-	Logger(fmt.Sprintf("%s: 2nd try is a success: %s", caller, testCaseName))
+	fmt.Println("DBClose: End")
 
 }
 
@@ -473,7 +369,28 @@ func storeResult(caller, testCaseName, result, failText string, etMsecs, allocMB
 DBStorePassed - Store a PASSED jacotest test case result.
 */
 func DBStorePassed(testCaseName string, etMsecs int, allocMB int) {
-	storeResult("DBStorePassed", testCaseName, resultPassed, failTextNone, etMsecs, allocMB)
+
+	global := GetGlobalRef()
+
+	jvm := "'" + global.JvmName + "'"
+	tcn := "'" + testCaseName + "'"
+	dateUTC := "'" + getUtcDate() + "'"
+	timeUTC := "'" + getUtcTime() + "'"
+	etMsecsStr := strconv.Itoa(etMsecs)
+	allocMBStr := strconv.Itoa(allocMB)
+	sqlText := "INSERT INTO " + tableHistory + " VALUES("
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'passed', 'n/a', " + etMsecsStr + ", " + allocMBStr + ")"
+
+	err := sqlFunc(sqlText)
+	if err != nil {
+		time.Sleep(msecsSleep * time.Millisecond)
+		err := sqlFunc(sqlText)
+		if err != nil {
+			errMsg := fmt.Sprintf("DBStorePassed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
+			fatalErr(err, "%s", errMsg)
+		}
+		logger("DBStorePassed: 2nd try is a success: %s", sqlText)
+	}
 }
 
 /*
@@ -481,192 +398,391 @@ DBStoreFailed - Store a FAILED jacotest test case result.
 */
 func DBStoreFailed(testCaseName, failText string) {
 
-	// Quotes are replaced (not escaped) so that failure texts stay comparable with
-	// the ones already stored in existing databases. See DBPrtChanges.
-	failText = strings.Map(func(r rune) rune {
-		if r == '\'' || r == '"' {
-			return '*'
+	// Clean failText
+	runes := []rune(failText)
+	for ii := range runes {
+		if runes[ii] == '\'' || runes[ii] == '"' {
+			runes[ii] = '*'
 		}
-		return r
-	}, failText)
+	}
+	failText = string(runes)
 
-	storeResult("DBStoreFailed", testCaseName, resultFailed, CleanerText(failText, true), etUnknown, allocUnknown)
+	// Form string parameters for the SQL text.
+	qFailText := "'" + cleanerText(failText, true) + "'"
+	jvm := "'" + global.JvmName + "'"
+	tcn := "'" + testCaseName + "'"
+	dateUTC := "'" + getUtcDate() + "'"
+	timeUTC := "'" + getUtcTime() + "'"
+	sqlText := "INSERT INTO " + tableHistory + " VALUES("
+	sqlText += tcn + ", " + jvm + ", " + dateUTC + ", " + timeUTC + ", 'failed', " + qFailText + ", -1, -1)"
+
+	err := sqlFunc(sqlText)
+	if err != nil {
+		time.Sleep(msecsSleep * time.Millisecond)
+		err := sqlFunc(sqlText)
+		if err != nil {
+			fatalErr(err, "DBStoreFailed: 2nd try did not work - Giving up!\n%s\n%s", sqlText, err.Error())
+		}
+		logger("DBStoreFailed: 2nd try is a success: %s", sqlText)
+	}
 
 }
 
 /*
-DBPrtChanges - Print result records that have changed since a previous run.
-Rows arrive ordered by test case, date descending, and time descending. So, for each
-test case, the first row is the latest result and the second row is the previous result.
+DBPrtChanges - Print result records that have changed since the previous run.
+Note that history rows are ordered by test case name, date descending, and time descending.
 */
 func DBPrtChanges() {
 
-	rows, ok := sqlQuery(sqlSelectHistory)
+	// Query descending test case, date, and time.
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
+
+	// Previous result record w.r.t. the test case, date, and time
+	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
+	var prvETMsecs int
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
+	var curEtMsecs int
+
+	// Get all the history table rows.
+	var msg string
+	counter := 0
+	rows, ok := sqlQuery(sqlText)
 	defer closeRows(rows, "DBPrtChanges")
 	if !ok {
 		return
 	}
-	Logger("Looking for test cases with changed results .....")
+	logger("Looking for test cases with changed results .....")
 
-	var cur historyRow // latest result of the test case being scanned
-	compared := false  // true once cur has been compared with its previous result
-	counter := 0
-
+	// High-level scan.
 	for rows.Next() {
-		row := scanHistoryRow(rows, "DBPrtChanges")
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETMsecs)
+		if err != nil {
+			fatalErr(err, "%s", "DBPrtChanges: rows.Scan failed")
+		}
 
-		// First row of a new test case: it becomes the current result.
-		if row.testCase != cur.testCase {
-			cur = row
-			compared = false
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, force a match.
+		if curTestCase != prvTestCase {
+			// Make the previous version the current version and continue.
+			curTestCase = prvTestCase
+			curJvm = prvJvm
+			curDateUTC = prvDateUTC
+			curTimeUTC = prvTimeUTC
+			curResult = prvResult
+			curFailText = prvFailText
+			curEtMsecs = prvETMsecs
 			continue
 		}
 
-		// Only the second row of each test case is of interest.
-		if compared {
-			continue
+		// Same test case as the last one.
+		// Same result?
+		if prvResult != curResult || prvFailText != curFailText {
+			// New result. Show the changes.
+			counter += 1
+			fmt.Printf("\n\tcur  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n", curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curEtMsecs, curFailText)
+			fmt.Printf("\tprv  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n", prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvETMsecs, prvFailText)
 		}
-		compared = true
 
-		if row.result != cur.result || row.failText != cur.failText {
-			counter++
-			fmt.Printf("\n\tcur  >>  %s  %-8s  %-10s  %-8s  %-6s  %dms  %dMB  %s\n",
-				cur.testCase, cur.jvm, cur.dateUTC, cur.timeUTC, cur.result, cur.etMsecs, cur.allocMB, cur.failText)
-			fmt.Printf("\tprv  >>  %s  %-8s  %-10s  %-8s  %-6s  %dms  %dMB  %s\n",
-				row.testCase, row.jvm, row.dateUTC, row.timeUTC, row.result, row.etMsecs, row.allocMB, row.failText)
+		// Skip to a new test case.
+		for rows.Next() {
+			// Get next history row back in time.
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETMsecs)
+			if err != nil {
+				fatalErr(err, "%s", "DBPrtChanges: rows.Scan/skipping failed")
+			}
+
+			// Same as last test case?
+			if curTestCase == prvTestCase {
+				continue // Same: Skip this history record for same test case.
+			} else {
+				// Reached a new test case.
+				// Make it current and continue.
+				curTestCase = prvTestCase
+				curJvm = prvJvm
+				curDateUTC = prvDateUTC
+				curTimeUTC = prvTimeUTC
+				curResult = prvResult
+				curFailText = prvFailText
+				curEtMsecs = prvETMsecs
+				break // Escape from skipping. Resume high-level scan.
+			}
 		}
 	}
 
+	// Done. How many changed results?
 	if counter == 0 {
-		Logger("No test cases with changed results")
+		msg = "No test cases with changed results"
+		logger("%s", msg)
 	} else {
-		LoggerSkip(fmt.Sprintf("Number of test cases with changed results = %d", counter))
+		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
+		loggerSkip("%s", msg)
 	}
 
 }
 
 /*
 DBPrtLastPass - Print result records where the test case currently fails but passed sometime in the past.
-For each such test case, the most recent passing record is shown.
+Note that history rows are ordered by test case name, date descending, and time descending.
 */
 func DBPrtLastPass() {
 
-	rows, ok := sqlQuery(sqlSelectHistory)
-	defer closeRows(rows, "DBPrtLastPass")
+	// Construct Query.
+	sqlText := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
+	// Previous result record w.r.t. the test case, date, and time
+	var prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult, prvFailText = "", "", "", "", "", ""
+	var prvETMsecs int
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curFailText = "", "", "", "", "", ""
+	var curETMsecs int
+
+	// Get all the history table rows.
+	var msg string
+	counter := 0
+	rows, ok := sqlQuery(sqlText)
+	defer closeRows(rows, "DBPrtLastPass")
 	if !ok {
 		return
 	}
-	Logger("DBPrtLastPass: Looking for test cases that currently fail but passed sometime previously .....")
+	logger("DBPrtLastPass: Looking for test cases that currently fail but passed sometime previously .....")
 
-	var cur historyRow // latest result of the test case being scanned
-	reported := false  // true once this test case has been printed
-	counter := 0
-
+	// High-level scan.
 	for rows.Next() {
-		row := scanHistoryRow(rows, "DBPrtLastPass")
 
-		// First row of a new test case: it becomes the current result.
-		if row.testCase != cur.testCase {
-			cur = row
-			reported = false
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETMsecs)
+		if err != nil {
+			fatalErr(err, "%s", "DDBPrtLastPass: rows.Scan failed")
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// No, this is a new test case.
+			// Make it current and continue.
+			curTestCase = prvTestCase
+			curJvm = prvJvm
+			curDateUTC = prvDateUTC
+			curTimeUTC = prvTimeUTC
+			curResult = prvResult
+			curFailText = prvFailText
+			curETMsecs = prvETMsecs
 			continue
 		}
 
-		// Older record of the same test case. Only a test case that currently fails
-		// and has an earlier pass is reported, and only once.
-		if reported || cur.result != resultFailed || row.result != resultPassed {
-			continue
+		// Same test case as the last one.
+		// Does the first record for the test case indicate failure?
+		if curResult == "failed" {
+			if prvResult == "passed" {
+				// Show the changes.
+				counter += 1
+				fmt.Printf("\tfailed  >>  %-s  %-8s  %-10s  %-8s  %-6s  %d  %-s\n",
+					curTestCase, curJvm, curDateUTC, curTimeUTC, curResult, curETMsecs, curFailText)
+				fmt.Printf("\tpassed  >>  %-s  %-8s  %-10s  %-8s  %-6s\n",
+					prvTestCase, prvJvm, prvDateUTC, prvTimeUTC, prvResult)
+				// Will skip to the next test case.
+			} else { // prevResult is a fail
+				continue // So, keep scanning within the current test case.
+			}
 		}
-		reported = true
-		counter++
-		fmt.Printf("\tfailed  >>  %s  %-8s  %-10s  %-8s  %-6s  %dms  %dMB  %s\n",
-			cur.testCase, cur.jvm, cur.dateUTC, cur.timeUTC, cur.result, cur.etMsecs, cur.allocMB, cur.failText)
-		fmt.Printf("\tpassed  >>  %s  %-8s  %-10s  %-8s  %-6s  %dms  %dMB\n",
-			row.testCase, row.jvm, row.dateUTC, row.timeUTC, row.result, row.etMsecs, row.allocMB)
+
+		// Skip to a new test case.
+		for rows.Next() {
+			// Get next history row back in time.
+			err := rows.Scan(&prvTestCase, &prvJvm, &prvDateUTC, &prvTimeUTC, &prvResult, &prvFailText, &prvETMsecs)
+			if err != nil {
+				fatalErr(err, "%s", "DBPrtLastPass: rows.Scan/skipping failed")
+			}
+
+			// Same as last test case?
+			if curTestCase == prvTestCase {
+				continue // Same: Skip this history record for same test case.
+			} else {
+				// Reached a new test case.
+				// Make it current and continue.
+				curTestCase = prvTestCase
+				curJvm = prvJvm
+				curDateUTC = prvDateUTC
+				curTimeUTC = prvTimeUTC
+				curResult = prvResult
+				curFailText = prvFailText
+				curETMsecs = prvETMsecs
+				break // Escape from skipping. Resume high-level scan.
+			}
+		}
 	}
 
+	// Done. How many changed results?
 	if counter == 0 {
-		Logger("No test cases that currently fail but passed previously")
+		msg = "No test cases with changed results"
 	} else {
-		Logger(fmt.Sprintf("Number of test cases that currently fail but passed previously = %d", counter))
+		msg = fmt.Sprintf("Number of test cases with changed results = %d", counter)
 	}
+	logger("%s", msg)
 
 }
 
 /*
 DBDeleteMostRecent - Delete the most recent logged pass/fail record for each test case.
-One statement in one implicit transaction does all the work.
 */
 func DBDeleteMostRecent() {
 
-	counter, err := sqlExec(sqlDeleteMostRecent)
-	if err != nil {
-		FatalErr("DBDeleteMostRecent: DELETE failed", err)
-	}
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + " FROM " + tableHistory + " NOLOCK ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
-	Logger(fmt.Sprintf("Removed %d test case result records", counter))
+	// Set up for DELETE operaations.
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
+	var deleteList []string
 
-}
+	// Most current result record w.r.t. date and time
+	var prvTestCase = ""
+	var curTestCase, curJvm, curDateUTC, curTimeUTC string
 
-/*
-DBPrintMostRecent - Print the most recent logged pass/fail record for each test case
-that still has a directory under tests, and write "test case, TAB, result" lines to the passfail file.
-*/
-func DBPrintMostRecent() {
-
-	global := GetGlobalRef()
-
-	rows, ok := sqlQuery(sqlSelectHistory)
-	defer closeRows(rows, "DBPrintMostRecent")
-
+	// Get all the history table rows.
+	rows, ok := sqlQuery(sqlSelect)
+	defer closeRows(rows, "DBDeleteMostRecent")
 	if !ok {
 		return
 	}
 
-	// Open the passfail file for output/replace.
-	file, err := os.Create(global.PassFailFilePath)
-	if err != nil {
-		FatalErr(fmt.Sprintf("os.Create(%s) failed", global.PassFailFilePath), err)
-	}
-	defer DeferredCloseFile(file)
+	// High-level scan.
+	for rows.Next() {
 
-	writer := bufio.NewWriter(file)
-	testsDir := getTestsDir("DBPrintMostRecent")
-	lastCase := ""
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
+		if err != nil {
+			fatalErr(err, "%s", "DBDeleteMostRecent: rows.Scan failed")
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// No, this is a new one.
+			// TODO: Delete DB record.
+			sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
+			deleteList = append(deleteList, sqlDelete)
+			// Make it the previous and continue.
+			prvTestCase = curTestCase
+		}
+
+	}
+
+	// For each delete statement, execute it.
+	counter := 0
+	for _, sqlStmt := range deleteList {
+		err := sqlFunc(sqlStmt)
+		if err != nil {
+			fatalErr(err, "%s", "DBDeleteMostRecent: DELETE failed")
+		}
+		counter += 1
+	}
+
+	// Close and re-open database.
+	DBClose()
+	DBOpen()
+
+	logger("Removed %d test case result records", counter)
+
+}
+
+/*
+DBPrintMostRecent - Print the most recent logged pass/fail record for each test case.
+*/
+func DBPrintMostRecent() {
+
 	counter := 0
 	passes := 0
 	fails := 0
+	var err error
+	var ok bool
+	var rows *sql.Rows
 
-	for rows.Next() {
-		row := scanHistoryRow(rows, "DBPrintMostRecent")
+	// Open the passfail file for output/replace.
+	global := GetGlobalRef()
+	file, err := os.Create(global.PassFailFilePath)
+	if err != nil {
+		fatalErr(err, "os.Open(%s) failed", global.PassFailFilePath)
+	}
+	deferredCloseFile(file)
 
-		// Only the first (latest) row of each test case is of interest.
-		if row.testCase == lastCase {
-			continue
-		}
-		lastCase = row.testCase
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +
+		", " + colResult + ", COALESCE(" + colFailText + ", 'n/a'), " + colETmsecs + " FROM " + tableHistory +
+		" ORDER BY " + colTestCase + ", " + colDate + " DESC, " + colTime + " DESC"
 
-		// Skip test cases that no longer exist.
-		if !historyTestCaseDirExists(testsDir, row.testCase, "DBPrintMostRecent") {
-			continue
-		}
+	// Most current result record w.r.t. date and time
+	var prvTestCase = ""
+	var curTestCase, curJvm, curDateUTC, curTimeUTC, curResult string
+	var curFailText any
+	var curEtMsecs int
 
-		counter++
-		fmt.Printf("[%d]  %s  %-8s  %-6s  %dms  %dMB  %s\n",
-			counter, row.testCase, row.jvm, row.result, row.etMsecs, row.allocMB, row.failText)
-		_, _ = fmt.Fprintf(writer, "%s\t%s\n", row.testCase, row.result)
-		switch row.result {
-		case resultPassed:
-			passes++
-		case resultFailed:
-			fails++
-		}
+	// Get all the history table rows.
+	rows, ok = sqlQuery(sqlSelect)
+	defer closeRows(rows, "DBPrintMostRecent")
+	if !ok {
+		return
 	}
 
-	err = writer.Flush()
+	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBPrintMostRecent: writing %s failed", global.PassFailFilePath), err)
+		fatalErr(err, "%s", "DBPrintMostRecent: os.Getwd failed")
+	}
+	testsDir := curDir + "/tests/"
+
+	// High-level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC, &curResult, &curFailText, &curEtMsecs)
+		if err != nil {
+			fatalErr(err, "%s", "DBPrintMostRecent: rows.Scan failed")
+		}
+		if curFailText == nil {
+			curFailText = " "
+		}
+
+		// Same test case as last test case? The first time, the current fields are spaces.
+		// So, the next test always fails on the very first row.
+		if curTestCase != prvTestCase {
+			// New test case.
+			// Does the curTestCase still exist?
+			testCase := testsDir + curTestCase
+			ok, err = isDirectory(testCase)
+			//fmt.Printf("DEBUG path %s --> %v, %v\n", testCase, ok, err)
+			if err != nil {
+				errMsg := fmt.Sprintf("DBPrintMostRecent: isDirectory(%s) failed, err: %v", testCase, err)
+				fatalErr(err, "%s", errMsg)
+			}
+			if !ok {
+				continue
+			}
+
+			// Show the database information.
+			fmt.Printf("[%d]  %-s  %-8s  %-6s  %-s\n", counter+1, curTestCase, curJvm, curResult, curFailText)
+			_, err := fmt.Fprintf(file, "%s\t%s\n", curTestCase, curResult)
+			if err != nil {
+				fatalErr(err, "DBPrintMostRecent: writing %s failed", global.PassFailFilePath)
+			}
+			counter += 1
+			if curResult == "passed" {
+				passes += 1
+			} else {
+				if curResult == "failed" {
+					fails += 1
+				}
+			}
+			// Make it the previous and continue.
+			prvTestCase = curTestCase
+		}
+
 	}
 
 	fmt.Printf("Printed %d records\n", counter)
@@ -676,82 +792,107 @@ func DBPrintMostRecent() {
 }
 
 /*
-DBReportOrDeleteObsolete - Report, or delete, database records of obsolete test cases.
-A test case is obsolete if it no longer has a directory under tests.
+DBReportOrDeleteObsolete - Delete database records of obsolete test cases.
 */
 func DBReportOrDeleteObsolete(flagDelete bool) {
 
-	rows, ok := sqlQuery(sqlSelectHistory)
-	defer closeRows(rows, "DBReportOrDeleteObsolete")
+	var err error
+	var ok bool
+	var rows *sql.Rows
+	deleteFormat := "DELETE FROM " + tableHistory + " WHERE " + colTestCase + " = '%s' AND " + colJvm + "='%s' AND " + colDate + " = '%s' AND " + colTime + " = '%s'"
+	var deleteList []string
+	counter := 0
 
+	// Query descending test case, date, and time.
+	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + " desc, " + colTime + " FROM " + tableHistory
+
+	// Most current result record w.r.t. date and time
+	var curTestCase, curJvm, curDateUTC, curTimeUTC string
+
+	// Get all the history table rows.
+	rows, ok = sqlQuery(sqlSelect)
+	defer closeRows(rows, "DBReportOrDeleteObsolete")
 	if !ok {
 		return
 	}
 
-	testsDir := getTestsDir("DBReportOrDeleteObsolete")
-	var obsolete []string // obsolete test case names, each once
-	lastCase := ""
-	lastExists := true
-	counter := 0
-
-	for rows.Next() {
-		row := scanHistoryRow(rows, "DBReportOrDeleteObsolete")
-
-		// The directory is checked once per test case, not once per row.
-		if row.testCase != lastCase {
-			lastCase = row.testCase
-			lastExists = historyTestCaseDirExists(testsDir, row.testCase, "DBReportOrDeleteObsolete")
-			if !lastExists {
-				obsolete = append(obsolete, row.testCase)
-			}
-		}
-		if lastExists {
-			continue
-		}
-
-		counter++
-		if flagDelete {
-			Logger(fmt.Sprintf("Removing database record for obsolete test case: %s %s %s %s",
-				row.testCase, row.jvm, row.dateUTC, row.timeUTC))
-		} else {
-			Logger(fmt.Sprintf("Orphan database record: %s %s %s %s",
-				row.testCase, row.jvm, row.dateUTC, row.timeUTC))
-		}
-	}
-
-	if !flagDelete {
-		fmt.Printf("Found %d orphaned database records\n", counter)
-		return
-	}
-
-	var removed int64
-	err := sqlTx(func(tx *sql.Tx) error {
-		for _, testCase := range obsolete {
-			count, err := execSQL(tx, sqlDeleteByTestCase, testCase)
-			if err != nil {
-				return err
-			}
-			removed += count
-		}
-		return nil
-	})
+	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr("DBReportOrDeleteObsolete: DELETE failed", err)
+		fatalErr(err, "%s", "DBReportOrDeleteObsolete: os.Getwd failed")
 	}
-	fmt.Printf("Removed %d database records\n", removed)
+	testsDir := curDir + "/tests/"
+
+	// High-level scan.
+	for rows.Next() {
+
+		// Get next history row by test case and going back in time.
+		err := rows.Scan(&curTestCase, &curJvm, &curDateUTC, &curTimeUTC)
+		if err != nil {
+			fatalErr(err, "%s", "DBReportOrDeleteObsolete: rows.Scan failed")
+		}
+
+		// New test case.
+		// Does the curTestCase still exist?
+		testCase := testsDir + curTestCase
+		ok, err = isDirectory(testCase)
+		//fmt.Printf("DEBUG path %s --> %v, %v\n", testCase, ok, err)
+		if err != nil {
+			errMsg := fmt.Sprintf("DBReportOrDeleteObsolete: isDirectory(%s) failed, err: %v", testCase, err)
+			fatalErr(err, "%s", errMsg)
+		}
+		if !ok {
+			counter += 1
+			if flagDelete {
+				logger("Removing database record for obsolete test case: %s %s %s %s",
+					curTestCase, curJvm, curDateUTC, curTimeUTC)
+				sqlDelete := fmt.Sprintf(deleteFormat, curTestCase, curJvm, curDateUTC, curTimeUTC)
+				deleteList = append(deleteList, sqlDelete)
+			} else {
+				logger("Orphan database record: %s %s %s %s",
+					curTestCase, curJvm, curDateUTC, curTimeUTC)
+			}
+		}
+
+	}
+
+	if flagDelete {
+		// For each delete statement, execute it.
+		for _, sqlStmt := range deleteList {
+			err := sqlFunc(sqlStmt)
+			if err != nil {
+				fatalErr(err, "%s", "DBDeleteMostRecent: DELETE failed")
+			}
+		}
+		fmt.Printf("Removed %d database records\n", counter)
+	} else {
+		fmt.Printf("Found %d orphaned database records\n", counter)
+	}
 
 }
 
 /*
-DBUpdateTestCaseName - Change the test case name in every history record of oldName to newName.
+DBUpdateTestCaseName - Update test case name.
 */
+// DBUpdateTestCaseName updates all records in the history table
+// where test_case == oldName, changing it to newName.
 func DBUpdateTestCaseName(oldName, newName string) {
 
-	count, err := sqlExec(sqlRenameTestCase, newName, oldName)
+	sqlSelect := fmt.Sprintf("UPDATE "+tableHistory+" SET "+colTestCase+" = '%s' WHERE "+colTestCase+" = '%s'", newName, oldName)
+	err := sqlFunc(sqlSelect)
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBUpdateTestCaseName: update of %s to %s failed", oldName, newName), err)
+		fatalErr(err, "DBUpdateTestCaseName: sqlFunc(%s) failed", sqlSelect)
 	}
 
+	sqlSelect = fmt.Sprintf("SELECT "+colTestCase+" FROM "+tableHistory+" WHERE "+colTestCase+" = '%s'", newName)
+	rows, ok := sqlQuery(sqlSelect)
+	defer closeRows(rows, "DBUpdateTestCaseName")
+	if !ok {
+		fatalText("DBUpdateTestCaseName: sqlQuery(%s) failed", sqlSelect)
+	}
+	count := 0
+	for rows.Next() {
+		count++
+	}
 	fmt.Printf("DBUpdateTestCaseName: %d row(s) updated test case name from %s to %s\n", count, oldName, newName)
 
 }
@@ -766,7 +907,7 @@ An existing file of the same name is replaced.
 func DBGenerateTestCaseCsv(count int, testCaseName string) {
 
 	if count < 0 {
-		FatalText(fmt.Sprintf("DBGenerateTestCaseCsv: count must not be negative, got %d", count))
+		fatalText("DBGenerateTestCaseCsv: count must not be negative, got %d", count)
 	}
 
 	// In SQLite, a negative LIMIT means no limit.
@@ -775,7 +916,8 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 		limit = -1
 	}
 
-	rows, ok := sqlQuery(sqlSelectLastN, testCaseName, limit)
+	text := fmt.Sprintf(fmtSqlSelectLastN, testCaseName, limit)
+	rows, ok := sqlQuery(text)
 	defer closeRows(rows, "DBGenerateTestCaseCsv")
 
 	if !ok {
@@ -789,21 +931,21 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 
 	// Do not create an empty file for a test case that has no history.
 	if len(history) == 0 {
-		Logger(fmt.Sprintf("DBGenerateTestCaseCsv: no results found for test case %s", testCaseName))
+		logger("DBGenerateTestCaseCsv: no results found for test case %s", testCaseName)
 		return
 	}
 
 	// Form csvPath.
 	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr("DBGenerateTestCaseCsv: os.Getwd() failed", err)
+		fatalErr(err, "%s", "DBGenerateTestCaseCsv: os.Getwd() failed")
 	}
 	csvPath := filepath.Join(curDir, testCaseName+".csv")
 	file, err := os.Create(csvPath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBGenerateTestCaseCsv: os.Create(%s) failed", csvPath), err)
+		fatalErr(err, "DBGenerateTestCaseCsv: os.Create(%s) failed", csvPath)
 	}
-	DeferredCloseFile(file)
+	deferredCloseFile(file)
 
 	// encoding/csv quotes fields that contain commas, quotes, or newlines (fail_text may).
 	writer := csv.NewWriter(file)
@@ -814,11 +956,11 @@ func DBGenerateTestCaseCsv(count int, testCaseName string) {
 	}
 	err = writer.WriteAll(records) // includes Flush
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBGenerateTestCaseCsv: writing %s failed", csvPath), err)
+		fatalErr(err, "DBGenerateTestCaseCsv: writing %s failed", csvPath)
 	}
 	err = file.Close()
 	if err != nil {
-		FatalErr(fmt.Sprintf("DBGenerateTestCaseCsv: closing %s failed", csvPath), err)
+		fatalErr(err, "DBGenerateTestCaseCsv: closing %s failed", csvPath)
 	}
 
 	fmt.Printf("DBGenerateTestCaseCsv: wrote %d result(s) to %s\n", len(history), csvPath)

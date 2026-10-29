@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -20,8 +19,8 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	globals := GetGlobalRef()
 	if globals.FlagVerbose {
 		here, _ := os.Getwd()
-		Logger(fmt.Sprintf("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, argOpts=%s, here=%s, argFile=%s",
-			cmdName, cmdExec, dirName, argOpts, here, argFile))
+		logger("runner: on entry cmdName=%s, cmdExec=%s, dirName=%s, argOpts=%s, here=%s, argFile=%s",
+			cmdName, cmdExec, dirName, argOpts, here, argFile)
 	}
 
 	// Set up a command context with a timeout
@@ -46,15 +45,15 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 
 		// Timeout?
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) { // YES
-			LogTimeout(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-			StoreText(globals.DirLogs, "TIMEOUT."+infix+".log", outString)
+			logTimeout("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString)
+			storeText(globals.DirLogs, "TIMEOUT."+infix+".log", outString)
 			return RC_EXEC_TIMEOUT, outString
 		}
 
 		// Not a timeout error, but something else bad happened
-		outString = CleanerText(outString, true)
-		LogError(fmt.Sprintf("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString))
-		StoreText(globals.DirLogs, "FAILED."+infix+".log", outString)
+		outString = cleanerText(outString, true)
+		logError("runner: cmd.Run(%s %s) returned: %s", cmdName, argFile, outString)
+		storeText(globals.DirLogs, "FAILED."+infix+".log", outString)
 		if cmdExec == "javac" {
 			return RC_COMP_ERROR, outString
 		}
@@ -65,7 +64,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	// No errors occurred.
 	// If not a compile-run, store outString.
 	if cmdExec != "javac" {
-		StoreText(globals.DirLogs, "PASSED."+infix+".log", outString)
+		storeText(globals.DirLogs, "PASSED."+infix+".log", outString)
 	}
 
 	// Return outString and a normal status code to caller
@@ -80,7 +79,7 @@ func compileOneTree(pathTreeTop string) int {
 	// Get all the directory entries from fullPathDir
 	entries, err := os.ReadDir(pathTreeTop)
 	if err != nil {
-		FatalErr(fmt.Sprintf("compileOneTree: os.ReadDir(%s) failed", pathTreeTop), err)
+		fatalErr(err, "compileOneTree: os.ReadDir(%s) failed", pathTreeTop)
 	}
 
 	// Compile every .java file at the top level.
@@ -95,7 +94,7 @@ func compileOneTree(pathTreeTop string) int {
 		// If a directory, we will skip it
 		fileInfo, err := os.Stat(fullPathFile)
 		if err != nil {
-			FatalErr(fmt.Sprintf("compileOneTree: os.Stat(%s) failed", fullPathFile), err)
+			fatalErr(err, "compileOneTree: os.Stat(%s) failed", fullPathFile)
 		}
 		if fileInfo.IsDir() {
 			continue
@@ -108,7 +107,7 @@ func compileOneTree(pathTreeTop string) int {
 		}
 
 		// We have a simple file with extension .java in the tree top.
-		Logger(fmt.Sprintf("Compiling %s / %s", filepath.Base(pathTreeTop), fileName))
+		logger("Compiling %s / %s", filepath.Base(pathTreeTop), fileName)
 
 		// Run compilation
 		options := global.JavacOptPrefix + " -cp " + pathTreeTop + string(os.PathListSeparator) + global.DirHelpers
@@ -132,16 +131,16 @@ func compileOneTree(pathTreeTop string) int {
 		}
 		output, errInner := exec.Command("javap", "-v", absFilePath).Output()
 		if errInner != nil {
-			FatalErr("compileOneTree WalkDir: exec.Command(javap "+absFilePath+") failed.", errInner)
+			fatalErr(errInner, "compileOneTree WalkDir: exec.Command(javap %s) failed.", absFilePath)
 		}
 		dirPath := filepath.Dir(absFilePath)
 		outFile := "javap_" + dirEntry.Name() + ".log"
-		StoreText(dirPath, outFile, string(output))
+		storeText(dirPath, outFile, string(output))
 		return nil
 	})
 
 	if err2 != nil {
-		FatalErr("filepath.WalkDir failed", err2)
+		fatalErr(err2, "filepath.WalkDir failed")
 	}
 
 	// Return compilation error count to caller
@@ -164,13 +163,13 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	// Save the path of the current working dir
 	here, err := os.Getwd()
 	if err != nil {
-		FatalErr("ExecuteOneTest os.Getwd failed", err)
+		fatalErr(err, "ExecuteOneTest os.Getwd failed")
 	}
 
 	// Position to fullPathDir as the new working dir
 	err = os.Chdir(fullPathDir)
 	if err != nil {
-		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", fullPathDir), err)
+		fatalErr(err, "ExecuteOneTest os.Chdir(%s) failed", fullPathDir)
 	}
 
 	if global.FlagCompile {
@@ -182,7 +181,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 			// Go back to the original working directory.
 			err2 := os.Chdir(here)
 			if err2 != nil {
-				FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed", here), err2)
+				fatalErr(err2, "ExecuteOneTest os.Chdir(%s) failed", here)
 			}
 			return RC_COMP_ERROR, ""
 		}
@@ -195,7 +194,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	// At this point, we are sitting in the test case directory.
 	// Execute test "main.class".
 	testName := filepath.Base(fullPathDir)
-	Logger(fmt.Sprintf("Executing %s using jvm=%s", testName, global.JvmName))
+	logger("Executing %s using jvm=%s", testName, global.JvmName)
 	var outString string
 	options := global.JvmOptPrefix + " -cp " + fullPathDir + string(os.PathListSeparator) + global.DirHelpers
 	if global.UserXopts != "" {
@@ -210,7 +209,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	// Go back to the original working directory.
 	err = os.Chdir(here)
 	if err != nil {
-		FatalErr(fmt.Sprintf("ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here), err)
+		fatalErr(err, "ExecuteOneTest os.Chdir(%s) failed.  Was trying to return here:", here)
 	}
 
 	// Return runner execution result

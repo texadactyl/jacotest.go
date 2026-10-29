@@ -71,22 +71,21 @@ func GetGlobalRef() *GlobalsStruct {
 func ckPath(argPath string) string {
 	absPath, err := filepath.Abs(argPath)
 	if err != nil {
-
-		FatalErr(fmt.Sprintf("InitGlobals:ckPath: filepath.Abs(%s) failed", argPath), err)
+		fatalErr(err, "InitGlobals:ckPath: filepath.Abs(%s) failed", argPath)
 	}
 	info, err := os.Stat(absPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			FatalText(fmt.Sprintf("InitGlobals:ckPath: Cannot find path (%s)", absPath))
+			fatalText("InitGlobals:ckPath: Cannot find path (%s)", absPath)
 		} else {
-			FatalErr(fmt.Sprintf("InitGlobals:ckPath: os.Stat (%s) failed", absPath), err)
+			fatalErr(err, "InitGlobals:ckPath: os.Stat (%s) failed", absPath)
 		}
 	}
 	if !info.IsDir() {
-		FatalText(fmt.Sprintf("InitGlobals:ckPath: Path (%s) exists but is not a directory", absPath))
+		fatalText("InitGlobals:ckPath: Path (%s) exists but is not a directory", absPath)
 	}
 
-	//Logger(fmt.Sprintf("InitGlobals:ckPath: argPath=%s, absPath=%s", argPath, absPath))
+	//logger("InitGlobals:ckPath: argPath=%s, absPath=%s", argPath, absPath)
 	return absPath
 }
 
@@ -95,7 +94,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 
 	versionBytes, err := os.ReadFile(PATH_VERSION)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: ReadFile(%s) failed", PATH_VERSION), err)
+		fatalErr(err, "InitGlobals: ReadFile(%s) failed", PATH_VERSION)
 	}
 
 	versionString := string(versionBytes[:len(versionBytes)-1])
@@ -106,42 +105,42 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 
 	absLogs, err := filepath.Abs(PATH_DIR_LOGS)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_LOGS), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", PATH_DIR_LOGS)
 	}
-	MakeDir(absLogs)
+	makeDir(absLogs)
 
 	absReports, err := filepath.Abs(PATH_DIR_REPORTS)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_DIR_REPORTS), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", PATH_DIR_REPORTS)
 	}
-	MakeDir(absReports)
+	makeDir(absReports)
 
 	nowString := time.Now().Format("2006-01-02_15.04.05")
 
 	absReportFile, err := filepath.Abs(fmt.Sprintf(TEMPLATE_RUN_REPORT, nowString, jvmName))
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT)
 	}
 
 	absSummaryFile, err := filepath.Abs(fmt.Sprintf(TEMPLATE_SUMMARY_REPORT, nowString, jvmName))
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", TEMPLATE_RUN_REPORT)
 	}
 
 	global.PassFailFilePath = absLogs + string(os.PathSeparator) + "passfail.txt"
 	absPassfailFile, err := filepath.Abs(global.PassFailFilePath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", global.PassFailFilePath), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", global.PassFailFilePath)
 	}
 
 	absErrCatFile, err := filepath.Abs(PATH_ERROR_CATEGORIES)
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: filepath.Abs(%s) failed", PATH_ERROR_CATEGORIES), err)
+		fatalErr(err, "InitGlobals: filepath.Abs(%s) failed", PATH_ERROR_CATEGORIES)
 	}
 
 	duration, err := time.ParseDuration(fmt.Sprintf("%ds", deadline_secs))
 	if err != nil {
-		FatalErr(fmt.Sprintf("InitGlobals: time.ParseDuration(%d seconds) failed", deadline_secs), err)
+		fatalErr(err, "InitGlobals: time.ParseDuration(%d seconds) failed", deadline_secs)
 	}
 	global = GlobalsStruct{
 		Version:              versionString,
@@ -183,27 +182,17 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 	// Create the temp file for capturing memory allocation and then close it.
 	global.TempFile, err = os.CreateTemp("", "jacotest-alloc-*")
 	if err != nil {
-		FatalErr("InitGlobals: cannot create jacotest-alloc file", err)
+		fatalErr(err, "InitGlobals: cannot create jacotest-alloc file")
 	}
 	err = os.Setenv(global.EnvTempFile, global.TempFile.Name())
 	if err != nil {
-		FatalErr("InitGlobals: cannot set environment variable for jacotest-alloc file", err)
+		fatalErr(err, "InitGlobals: cannot set environment variable for jacotest-alloc file")
 	}
 	err = global.TempFile.Close()
 	if err != nil {
-		FatalErr("InitGlobals: cannot close jacotest-alloc file", err)
+		fatalErr(err, "InitGlobals: cannot close jacotest-alloc file")
 	}
 	return &global
-}
-
-// UTCTimeStr2LocalTimeStr - Convert a UTC time string into a local one
-func UTCTimeStr2LocalTimeStr(utcString string) string {
-	timeStamp, err := time.Parse("2006-01-02T15:04:05Z07:00", utcString)
-	if err != nil {
-		return fmt.Sprintf("time.Parse error: %s", err.Error())
-	}
-	zone, _ := time.Now().Zone()
-	return fmt.Sprintf("%s %s", timeStamp.Local().Format("2006-01-02 15:04:05"), zone)
 }
 
 // ShowExecInfo - Show executable binary information relevant to "vcs"

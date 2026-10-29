@@ -4,6 +4,11 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-10-29 | 6.2.1 | Start using consistent function names in terms of GoLang naming conventions. |
+| | | Re-do of the APIs for the logger.go functions to enable a call sequence like fmt.Printf. |
+| | | Split logger.go into 2 source files: logger.go and helpers.go. |
+| | | Simplified database insert/update/delete since autocommit is on by default. |
+| | | Added some unit testing. |
 | 2026-10-20 | 6.1.1 | Add .gitattributes file. Make sure that an end of line is indicated only by \n for .datatxt files only. |
 | | | Renamed ERROR_CATEGORIES and VERSION to use extension '.cfg'. |
 | | | Slight re-vamp of test cases benchmark-game-reverse-complement (sample.fasta.datatxt) and checkedinputstream-1 (input.datatxt). |

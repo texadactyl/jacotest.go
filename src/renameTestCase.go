@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -15,7 +14,7 @@ func testCaseExists(curDir, name string) bool {
 		if os.IsNotExist(err) {
 			return false
 		}
-		FatalErr(fmt.Sprintf("testCaseExists: os.Stat(%s) failed", path), err)
+		fatalErr(err, "testCaseExists: os.Stat(%s) failed", path)
 	}
 
 	// Is it a directory?
@@ -37,20 +36,20 @@ func renameTestCaseDir(curDir, oldName, newName string) {
 	// Perform the rename.
 	err := os.Rename(oldPath, newPath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("renameTestCaseDir: os.Rename(%s --> %s) failed", oldPath, newPath), err)
+		fatalErr(err, "renameTestCaseDir: os.Rename(%s --> %s) failed", oldPath, newPath)
 	}
 }
 
 func renameTestCase(oldName, newName string) {
 	curDir, err := os.Getwd()
 	if err != nil {
-		FatalErr("renameTestCase: os.Getwd failed", err)
+		fatalErr(err, "renameTestCase: os.Getwd failed")
 	}
 
 	if !testCaseExists(curDir, newName) {
 		if !testCaseExists(curDir, oldName) {
-			FatalText(fmt.Sprintf("renameTestCase: old test case name (%s) and new test case Name (%s) do not exist",
-				oldName, newName))
+			fatalText("renameTestCase: old test case name (%s) and new test case Name (%s) do not exist",
+				oldName, newName)
 		}
 		// The old name exists.
 		// The new name does not yet exist.

@@ -32,7 +32,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 	// Get the list of files in the directory
 	logFileList, err := os.ReadDir(globals.DirLogs)
 	if err != nil {
-		FatalErr(fmt.Sprintf("phase2: os.ReadDir(%s) failed:", globals.DirLogs), err)
+		fatalErr(err, "phase2: os.ReadDir(%s) failed:", globals.DirLogs)
 	}
 
 	// For each failure category entry, process all the "FAILED" log files.
@@ -89,7 +89,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 			fullLogFilePath := filepath.Join(globals.DirLogs, fileName)
 			logDataBytes, err := os.ReadFile(fullLogFilePath)
 			if err != nil {
-				FatalErr(fmt.Sprintf("ExecGrape: os.ReadFile(%s) failed", fileName), err)
+				fatalErr(err, "ExecGrape: os.ReadFile(%s) failed", fileName)
 			}
 
 			// Convert bytes into an array of text lines.
@@ -97,7 +97,7 @@ func phase2(tblErrCatDefs []string, logFileExt string) {
 
 			// For each text line in the log file, see if the search argument is present
 			for textLine := range logTextLines {
-				textLine = CleanerText(textLine, false)
+				textLine = cleanerText(textLine, false)
 				if strings.Contains(textLine, errCatFragment) {
 					// Found the search argument in the current line that matches errCatExpected.
 					// Update tblHitByTC, tblHitByCat, and allTestCases.
@@ -146,20 +146,20 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 			if hitCounter > 0 {
 				// Need to emit group total pending.
 				wstr := fmt.Sprintf("--- Total: %d", catCounter)
-				WriteOutputText(outHandle, wstr)
+				writeOutputText(outHandle, wstr)
 
 				// Zero out the error category counter.
 				catCounter = 0
 			} // else this is the first error category.
 
 			// Write heading for new error category.
-			WriteOutputText(outHandle, "")
+			writeOutputText(outHandle, "")
 			if tblEntry.fragment == "AssertionError" {
 				wstr = fmt.Sprintf("===== %s (Java application-detected failure) =====", tblEntry.fragment)
 			} else {
 				wstr = fmt.Sprintf("===== %s =====", tblEntry.fragment)
 			}
-			WriteOutputText(outHandle, wstr)
+			writeOutputText(outHandle, wstr)
 
 			// Make this the last category for group totaling.
 			lastCat = tblEntry.fragment
@@ -173,7 +173,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 
 		// Write a summary line for this test case failure.
 		line := fmt.Sprintf("%s: %s", tblEntry.tcName, tblEntry.textLine)
-		WriteOutputText(outHandle, line)
+		writeOutputText(outHandle, line)
 
 		// Bump total hits.
 		hitCounter += 1
@@ -185,7 +185,7 @@ func phase3(tblCheckList map[string]int, outHandle *os.File) int {
 
 	// Need to emit the total for last group.
 	wstr = fmt.Sprintf("--- Total: %d", catCounter)
-	WriteOutputText(outHandle, wstr)
+	writeOutputText(outHandle, wstr)
 
 	// Take care of the uncategorized errors.
 	for name, errorText := range allTestCases {
@@ -214,14 +214,14 @@ func Phases2And3(tblCheckList map[string]int, outHandle *os.File) int {
 	// Get the error categories as a slice of strings.
 	fileBytes, err := os.ReadFile(globals.ErrCatFilePath)
 	if err != nil {
-		FatalErr(fmt.Sprintf("Phases2And3: os.ReadFile(%s) failed", globals.ErrCatFilePath), err)
+		fatalErr(err, "Phases2And3: os.ReadFile(%s) failed", globals.ErrCatFilePath)
 	}
 	giantString := string(fileBytes)
 	catLines = strings.Split(giantString, "\n")
 
 	// Throw out the comment lines; they begin with '#' or the whole line is nil.
 	for _, catagory := range catLines {
-		catagory = CleanerText(strings.Trim(catagory, " "), false)
+		catagory = cleanerText(strings.Trim(catagory, " "), false)
 		if len(catagory) < 1 || strings.HasPrefix(catagory, "#") {
 			continue
 		}

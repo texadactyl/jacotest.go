@@ -78,20 +78,19 @@ func showResults(category string, arrayNames []string, outHandle *os.File, showL
 		if arrayCount > 1 {
 			suffix = suffix + "s"
 		}
-		msg = fmt.Sprintf("%s errors in %d %s", category, arrayCount, suffix)
-		Logger(msg)
-		WriteOutputText(outHandle, "\n"+msg)
+		logger("%s errors in %d %s", category, arrayCount, suffix)
+		writeOutputText(outHandle, "\n"+msg)
 		if showList {
 			for _, name := range arrayNames {
 				msg = fmt.Sprintf("	 %s", name)
-				Logger(msg)
-				WriteOutputText(outHandle, msg)
+				logger("%s", msg)
+				writeOutputText(outHandle, msg)
 			}
 		}
 	} else {
 		msg = fmt.Sprintf("No %s errors", category)
-		Logger(msg)
-		WriteOutputText(outHandle, "\n"+msg)
+		logger("%s", msg)
+		writeOutputText(outHandle, "\n"+msg)
 	}
 }
 
@@ -129,7 +128,7 @@ func main() {
 	// Positioned in the tree top directory?
 	_, err = os.Open("VERSION.cfg")
 	if err != nil {
-		FatalText("You are not positioned in the jacotest tree top directory")
+		fatalText("You are not positioned in the jacotest tree top directory")
 	}
 
 	// Get current timestamp and zone.
@@ -170,7 +169,7 @@ func main() {
 			case "jacobin":
 				jvmExe = "jacobin" // jacobin JVM executable name
 			default:
-				LogError(fmt.Sprintf("Unrecognizable JVM name: %s", jvmName))
+				logError("Unrecognizable JVM name: %s", jvmName)
 				showHelp()
 			}
 
@@ -185,13 +184,13 @@ func main() {
 		case "-n":
 			ii++
 			if ii >= len(Args) {
-				LogError("Missing -n argument for old test case name")
+				logError("Missing -n argument for old test case name")
 				showHelp()
 			}
 			oldTestCaseName = Args[ii]
 			ii++
 			if ii >= len(Args) {
-				LogError("Missing -n argument for new test case name")
+				logError("Missing -n argument for new test case name")
 				showHelp()
 			}
 			newTestCaseName = Args[ii]
@@ -200,7 +199,7 @@ func main() {
 		case "-r":
 			ii++
 			if ii >= len(Args) {
-				LogError("Missing -r argument")
+				logError("Missing -r argument")
 				showHelp()
 			}
 			arg := Args[ii]
@@ -214,25 +213,25 @@ func main() {
 			case "4":
 				flagClassChecksum = true
 			default:
-				LogError(fmt.Sprintf("Unrecognizable -r argument: %s", Args[ii]))
+				logError("Unrecognizable -r argument: %s", Args[ii])
 				showHelp()
 			}
 
 		case "-f":
 			ii++
 			if ii >= len(Args) {
-				LogError("Missing -f arguments")
+				logError("Missing -f arguments")
 				showHelp()
 			}
 			stringCount := Args[ii]
 			count, err := strconv.Atoi(stringCount)
 			if err != nil || count < 0 {
-				LogError("Option -f count must be a non-negative integer")
+				logError("Option -f count must be a non-negative integer")
 				showHelp()
 			}
 			ii++
 			if ii >= len(Args) {
-				LogError("Missing -f test case name")
+				logError("Missing -f test case name")
 				showHelp()
 			}
 			testCaseName := Args[ii]
@@ -247,7 +246,7 @@ func main() {
 			ii += 1
 			deadlineSecs, err = strconv.Atoi(Args[ii])
 			if err != nil {
-				LogError(fmt.Sprintf("Parameter -t requires an integer value, saw: %s", Args[ii]))
+				logError("Parameter -t requires an integer value, saw: %s", Args[ii])
 				showHelp()
 			}
 
@@ -262,11 +261,11 @@ func main() {
 			ii += 1
 			numTestCases, err = strconv.Atoi(Args[ii])
 			if err != nil {
-				LogError(fmt.Sprintf("Parameter -X requires an integer value, saw: %s", Args[ii]))
+				logError("Parameter -X requires an integer value, saw: %s", Args[ii])
 				showHelp()
 			}
 			if numTestCases < 1 {
-				LogError(fmt.Sprintf("Parameter -X requires an integer value > 0, saw: %s", Args[ii]))
+				logError("Parameter -X requires an integer value > 0, saw: %s", Args[ii])
 				showHelp()
 			}
 			flagExecute = true
@@ -280,14 +279,14 @@ func main() {
 			flagDeleteMostRecent = true
 
 		default:
-			LogError(fmt.Sprintf("Unrecognizable argument: %s", Args[ii]))
+			logError("Unrecognizable argument: %s", Args[ii])
 			showHelp()
 		}
 	}
 
 	// Initialize global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
-	defer DeferredRemoveFile(global.TempFile.Name())
+	defer deferredRemoveFile(global.TempFile.Name())
 	global.FlagVerbose = flagVerbose
 	global.FlagCompile = flagCompile
 	global.FlagDeleteObsolete = flagDeleteObsolete
@@ -305,15 +304,14 @@ func main() {
 	go func() {
 		defer wg.Done()
 		sig := <-shutdownChan
-		msg := fmt.Sprintf("Shutdown signal received: %v. Cleaning up", sig)
-		FatalText(msg)
+		fatalText("Shutdown signal received: %v. Cleaning up", sig)
 	}()
 
 	// Show the program version.
 	if global.FlagPrintMostRecent {
 		fmt.Printf("%s version %s", MyName, global.Version)
 	} else {
-		Logger(fmt.Sprintf("%s version %s", MyName, global.Version))
+		logger("%s version %s", MyName, global.Version)
 	}
 
 	// Open database.
@@ -323,22 +321,22 @@ func main() {
 	// Make sure that the jvmExe file can be found in the O/S PATH.
 	wString, err = exec.LookPath(jvmExe)
 	if err != nil {
-		FatalErr(fmt.Sprintf("exec.LookPath(%s) failed", jvmExe), err)
+		fatalErr(err, "exec.LookPath(%s) failed", jvmExe)
 	}
 	if global.FlagVerbose {
-		Logger(fmt.Sprintf("Found JVM %s", wString))
+		logger("Found JVM %s", wString)
 	}
 
 	// Open the 'logs' directory.
 	fileOpened, err := os.Open(global.DirLogs)
 	if err != nil {
-		FatalErr(fmt.Sprintf("os.Open(%s) failed", global.DirLogs), err)
+		fatalErr(err, "os.Open(%s) failed", global.DirLogs)
 	}
 
 	// Get all the file entries in the logs directory.
 	names, err := fileOpened.Readdirnames(0) // get all entries
 	if err != nil {
-		FatalErr(fmt.Sprintf("fileOpened.Readdirnames(%s) failed", global.DirLogs), err)
+		fatalErr(err, "fileOpened.Readdirnames(%s) failed", global.DirLogs)
 	}
 
 	// For each log file entry, remove it.
@@ -348,7 +346,7 @@ func main() {
 			fullPath := filepath.Join(global.DirLogs, name)
 			err := os.Remove(fullPath)
 			if err != nil {
-				FatalErr(fmt.Sprintf("os.Remove(%s) failed", fullPath), err)
+				fatalErr(err, "os.Remove(%s) failed", fullPath)
 			}
 		}
 	}
@@ -368,7 +366,7 @@ func main() {
 			// Initialize detailed report file
 			rptHandle, err = os.Create(global.ReportFilePath)
 			if err != nil {
-				FatalErr(fmt.Sprintf("os.Create(%s) failed", global.ReportFilePath), err)
+				fatalErr(err, "os.Create(%s) failed", global.ReportFilePath)
 			}
 			defer func() {
 				_ = rptHandle.Close()
@@ -384,27 +382,27 @@ func main() {
 		outPath := global.SumFilePath
 		outHandle, err := os.OpenFile(outPath, FlagsOpen, ModeOutputFile)
 		if err != nil {
-			FatalText(fmt.Sprintf("os.OpenFile(%s) failed, err=%s", outPath, err))
+			fatalText("os.OpenFile(%s) failed, err=%s", outPath, err)
 		}
 		msg := fmt.Sprintf("%s version %s", MyName, global.Version)
-		WriteOutputText(outHandle, msg)
+		writeOutputText(outHandle, msg)
 		msg = fmt.Sprintf("O/S %s, arch %s", runtime.GOOS, runtime.GOARCH)
-		WriteOutputText(outHandle, msg)
+		writeOutputText(outHandle, msg)
 		outLines, err := exec.Command(jvmExe, "--version").Output()
 		if err != nil {
-			FatalErr("Error in getting the JVM version", err)
+			fatalErr(err, "Error in getting the JVM version")
 		}
-		WriteOutputText(outHandle, "Using this JVM:")
-		WriteOutputText(outHandle, string(outLines))
+		writeOutputText(outHandle, "Using this JVM:")
+		writeOutputText(outHandle, string(outLines))
 
 		// Get all the subdirectories (test cases) under directory tests,
 		entries, err := os.ReadDir(global.DirTests)
 		if err != nil {
-			FatalErr(fmt.Sprintf("os.ReadDir(%s) failed", global.DirTests), err)
+			fatalErr(err, "os.ReadDir(%s) failed", global.DirTests)
 		}
 
 		// Phase 1 - For each test case subdirectory of tests, run it.
-		Logger(fmt.Sprintf("Test case deadline: %d seconds", deadlineSecs))
+		logger("Test case deadline: %d seconds", deadlineSecs)
 
 		// Begin the test case directory loop.
 		entryCount := 0
@@ -433,8 +431,7 @@ func main() {
 			// Check for the existence of main.java.
 			_, err := os.Stat(mainJavaFile)
 			if err != nil {
-				msg := fmt.Sprintf("File %s does not exist - skipping directory", mainJavaFile)
-				LogWarning(msg)
+				logWarning("File %s does not exist - skipping directory", mainJavaFile)
 				continue
 			}
 
@@ -467,7 +464,7 @@ func main() {
 					if err == nil {
 						allocMB, err = strconv.Atoi(strings.TrimSpace(string(data)))
 						if err != nil {
-							FatalErr(fmt.Sprintf("Format error in memory allocation file %s:", global.TempFile.Name()), err)
+							fatalErr(err, "Format error in memory allocation file %s:", global.TempFile.Name())
 						}
 					}
 					DBStorePassed(testCaseName, etMsecs, allocMB)
@@ -506,11 +503,11 @@ func main() {
 
 		// Show successes.
 		msg = fmt.Sprintf("Success in %d test cases", len(successNames))
-		Logger(msg)
-		WriteOutputText(outHandle, msg)
+		logger("%s", msg)
+		writeOutputText(outHandle, msg)
 		for ix := range successNames {
 			msg = fmt.Sprintf("	 %s ... %s", successNames[ix], formatElapsedTime(successETs[ix]))
-			WriteOutputText(outHandle, msg)
+			writeOutputText(outHandle, msg)
 		}
 
 		// Show compilation errors.
@@ -520,8 +517,7 @@ func main() {
 
 		// Exit now if compilation only.
 		if !global.FlagExecute {
-			msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
-			Logger(msg)
+			logger("Ended with exit status %d", exitStatus)
 			os.Exit(exitStatus)
 		}
 
@@ -536,40 +532,40 @@ func main() {
 
 		// Discrepancies in error total?
 		if len(errExecutionNames) != counterErrCases {
-			LogSkip()
-			WriteOutputText(outHandle, " ")
+			logSkip()
+			writeOutputText(outHandle, " ")
 			infoMsg := fmt.Sprintf("*** WARNING: Number of error cases = %d but total from fail-categories = %d",
 				len(errExecutionNames), counterErrCases)
-			Logger(infoMsg)
-			WriteOutputText(outHandle, infoMsg)
+			logger("%s", infoMsg)
+			writeOutputText(outHandle, infoMsg)
 			infoMsg = "Test cases not falling into a summary report error category:"
-			Logger(infoMsg)
-			WriteOutputText(outHandle, infoMsg)
+			logger("%s", infoMsg)
+			writeOutputText(outHandle, infoMsg)
 			for testCase, counter := range tblErrCases {
 				if counter > 0 { // ignore if this test case was grepped at least once
 					continue
 				}
 				fmt.Printf("\t%s\n", testCase)
-				WriteOutputText(outHandle, "\t"+testCase)
+				writeOutputText(outHandle, "\t"+testCase)
 			}
-			LogSkip()
-			WriteOutputText(outHandle, " ")
+			logSkip()
+			writeOutputText(outHandle, " ")
 		}
 
 		// Show elapsed time for all test cases executed.
 		tStop := time.Now()
 		elapsed := tStop.Sub(tStart)
 		etMsg := fmt.Sprintf("Elapsed time = %s", elapsed.Round(time.Second).String())
-		Logger(etMsg)
-		WriteOutputText(outHandle, "\n"+etMsg)
+		logger("%s", etMsg)
+		writeOutputText(outHandle, "\n"+etMsg)
 
 		// Close summary report handle.
 		err = outHandle.Close()
 		if err != nil {
-			FatalErr(fmt.Sprintf("report.Close(%s) failed:", outPath), err)
+			fatalErr(err, "report.Close(%s) failed:", outPath)
 		}
 		_ = createLatest(global.SumFilePath)
-		Logger(fmt.Sprintf("Wrote test case summary to: %s", outPath))
+		logger("Wrote test case summary to: %s", outPath)
 
 	} // if global.FlagExecute || global.FlagCompile
 
@@ -585,7 +581,7 @@ func main() {
 
 	// Print the checksums of all the class files?
 	if global.FlagClassChecksum {
-		ClassChecksum(csvFullPath, testsTreeTop)
+		classChecksum(csvFullPath, testsTreeTop)
 	}
 
 	// Delete the most recent test result for each test case?
