@@ -352,17 +352,22 @@ func DBClose() {
 		return
 	}
 
+	if sqlTracing {
+		logger("%s", "DBClose: Begin")
+	}
+
 	// Make sure that we do not come through here again.
 	dbIsOpen = false
 
 	// Close the database.
-	fmt.Println("DBClose: Begin")
 	err := dbHandle.Close()
 	if err != nil {
 		fatalErr(err, "%s", "DBClose: sql.Close failed")
 	}
-	fmt.Println("DBClose: End")
 
+	if sqlTracing {
+		logger("%s", "DBClose: End")
+	}
 }
 
 /*
@@ -711,7 +716,7 @@ func DBPrintMostRecent() {
 	if err != nil {
 		fatalErr(err, "os.Open(%s) failed", global.PassFailFilePath)
 	}
-	deferredCloseFile(file)
+	defer deferredCloseFile(file)
 
 	// Query descending test case, date, and time.
 	sqlSelect := "SELECT " + colTestCase + ", " + colJvm + ", " + colDate + ", " + colTime +

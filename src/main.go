@@ -612,8 +612,7 @@ func main() {
 	DBClose()
 
 	// Bye bye.
-	msg := fmt.Sprintf("Ended with exit status %d", exitStatus)
-	fmt.Println(msg)
+	logger("Ended with exit status %d", exitStatus)
 	os.Exit(exitStatus)
 
 }
