@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: benchmark-game-reverse-complement
+  TEST_CASE: date-time
   
 on:
   workflow_dispatch:
