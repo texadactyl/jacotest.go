@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-11-08 | 6.2.2 | Test case date-time modified to use HELPERS/Checkers. |
 | 2026-10-29 | 6.2.1 | Start using consistent function names in terms of GoLang naming conventions. |
 | | | Re-do of the APIs for the logger.go functions to enable a call sequence like fmt.Printf. |
 | | | Split logger.go into 2 source files: logger.go and helpers.go. |

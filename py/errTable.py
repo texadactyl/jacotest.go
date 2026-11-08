@@ -114,7 +114,7 @@ def mainFunc():
     Simple main function.
     '''
 
-    if not Path("VERSION.txt").exists():
+    if not Path("VERSION.cfg").exists():
         print("*** ERROR: Wrong directory. Position to the top of the Jacotest tree.")
         show_help()
 
