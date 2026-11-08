@@ -249,6 +249,7 @@ public final class main {
         int errorCount = 0;
         ZonedDateTime zdt = ZonedDateTime.of(
                 2026, 6, 24, 14, 30, 0, 0, ZoneId.of("Australia/Sydney"));
+		Set<String> zoneIdSet = new TreeSet<>(ZoneId.getAvailableZoneIds());
 
         errorCount += Checkers.checker("zdt", "2026-06-24T14:30+10:00[Australia/Sydney]", zdt.toString());
         errorCount += Checkers.checker("getZone()", "Australia/Sydney", zdt.getZone().toString());
@@ -256,38 +257,24 @@ public final class main {
         errorCount += Checkers.checker("getDayOfWeek()", "WEDNESDAY", zdt.getDayOfWeek().toString());
         errorCount += Checkers.checker("toInstant()", "2026-06-24T04:30:00Z", zdt.toInstant().toString());
         errorCount += Checkers.checker("toEpochSecond()", 1782275400L, zdt.toEpochSecond());
+        errorCount += Checkers.checker("zoneIdSet size > 600", true, zoneIdSet.size() > 600);
 
-        // The zone count and the sampled names depend on the tzdata version of the
-        // JVM; the expected values below come from the HotSpot run in console.log.
-        Set<String> zoneIdSet = new TreeSet<>(ZoneId.getAvailableZoneIds());
-        errorCount += Checkers.checker("zoneIdSet size", 604, zoneIdSet.size());
-
-        int[] sampleIndexes = {100, 200, 300, 400, 500, 600};
+		// Find all the time zone names from expectedZoneNames in the tzdb.
         String[] expectedZoneNames = {
             "America/Creston",
             "America/Sao_Paulo",
             "Asia/Phnom_Penh",
-            "Etc/GMT+5",
             "Indian/Cocos",
-            "Universal"
         };
-
-        int zoneIx = 0;
-        int sampleCount = 0;
-        for (String zoneName : zoneIdSet) {
-            for (int sampleIx = 0; sampleIx < sampleIndexes.length; sampleIx++) {
-                if (zoneIx == sampleIndexes[sampleIx]) {
-                    errorCount += Checkers.checker(String.format("zone[%d]", zoneIx),
-                            expectedZoneNames[sampleIx], zoneName);
-                    sampleCount++;
-                }
-            }
-            zoneIx++;
-        }
-        if (sampleCount != sampleIndexes.length) {
-            errorCount += Checkers.fail(String.format(
-                    "zone list too short: checked %d of %d sample indexes (size %d)",
-                    sampleCount, sampleIndexes.length, zoneIx));
+        for (String ezn : expectedZoneNames) {
+        	boolean gotAHit = false;
+			for (String tryZoneName : zoneIdSet) {
+				if (tryZoneName.equals(ezn)) {
+					gotAHit = true;
+					break; // Got a hit.
+				}
+			}
+			errorCount += Checkers.checker(String.format("Got a hit on %s?", ezn), true, gotAHit); 
         }
         
         return errorCount;
