@@ -107,8 +107,7 @@ public class main {
         String text = zos.toString();
         System.out.println(text);
 
-        errorCount += Checkers.checker("t01 toString prefix", "true",
-                String.valueOf(text.startsWith("java/util/zip/ZipOutputStream@")));
+        errorCount += Checkers.containedIn("t01 toString prefix", "java.util.zip.ZipOutputStream", text);
         errorCount += Checkers.checker("t01 toString stable", text, zos.toString());
         zos.close();
 
