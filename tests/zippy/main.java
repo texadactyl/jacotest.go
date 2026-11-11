@@ -70,20 +70,15 @@ public class main {
 			printLabeledString("*** ERROR :: name %s not found\n", name);
 			return 1;
 		}
-		if (! size.equals(zipTable[ix][1])) {
-			errReport("SIZE", name, zipTable[ix][1], size);
-			returnCode = 1;
-		}
-		if (! crc.equals(zipTable[ix][2])) {
-			errReport("CRC", name, zipTable[ix][2], crc);
-			returnCode = 1;
-		}
+		returnCode += Checkers.checker(String.format("%s size", name), zipTable[ix][1], size);
+		returnCode += Checkers.checker(String.format("%s crc", name), zipTable[ix][2], crc);
+
 		return returnCode;
 	}
 	
     public static void main(String[] args) throws IOException {
     
-    	System.out.println("Zip file exercise");
+    	System.out.println("Zip input file exercise");
  
         FileInputStream fs = null;
         ZipInputStream Zs = null;
@@ -93,8 +88,6 @@ public class main {
         // Try to read zip file.
         try {
  
-            System.out.println("Directory of the zip is as follows:");
- 
             fs = new FileInputStream(IN_ZIP_FILE);
             Zs = new ZipInputStream(fs);
  
@@ -102,20 +95,13 @@ public class main {
             // the end
             while ((ze = Zs.getNextEntry()) != null) {
             	if (ze.isDirectory()) {
-            		System.out.print("\t");
-                	System.out.println(ze.getName());
+            		System.out.printf("Directory: %s\n", ze.getName());
                 } else {
                 	Path path = Paths.get(ze.getName());
                 	String fileName = path.getFileName().toString();
                 	String size = String.valueOf(ze.getSize());
                 	String crc = String.valueOf(ze.getCrc());
                 	errorCount += lookup(fileName, size, crc);
-                	System.out.print("\t\t");
-                	System.out.print(fileName);
-                	System.out.print("   ");
-                	System.out.print(size);
-                	System.out.print("   ");
-                	System.out.println(crc);
                 }
             }
  
