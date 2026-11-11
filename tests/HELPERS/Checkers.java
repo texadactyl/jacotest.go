@@ -88,6 +88,21 @@ public class Checkers {
         return 1;
     }
     
+    public static int containedIn(String label, String expected, String observed) {
+        if (observed.toLowerCase().equals("ignore")) {
+            System.out.printf("ok %s ::: observed = ignore\n", label);
+            return 0;
+        }
+        if (observed.contains(expected)) {
+            System.out.printf("ok %s ::: expected = %s is contained in observed = %s\n", label, expected, observed);
+            return 0;
+        }
+        System.out.printf("*** DISCREPANCY detected in containedIn(%s) ::: expected = %s is not contained in observed = %s\n", label, expected, observed);
+        System.out.print(HexDump.dumpBytes("expected String", expected.getBytes(), expected.length(), HexDump.COLUMN_SIZE));
+        System.out.print(HexDump.dumpBytes("observed String", observed.getBytes(), observed.length(), HexDump.COLUMN_SIZE));
+        return 1;
+    }
+        
     // ===== byte array =====
 
     public static int checker(String label, byte expected[], byte observed[]) {

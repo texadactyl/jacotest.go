@@ -277,6 +277,15 @@ public class main {
         }
     }
 
+    private static void expectStringContainedIn(String label, String subset, String observed) {
+        boolean same = (subset == null) ? (observed == null) : observed.contains(subset);
+        if (same) {
+            reportOk(label);
+        } else {
+            reportFail(label, String.format("expectString: subset = [%s], observed = [%s]", subset, observed));
+        }
+    }
+
     private static void expectContains(String label, String haystack, String needle) {
         if (haystack != null && haystack.contains(needle)) {
             reportOk(label);
@@ -907,6 +916,10 @@ public class main {
         expectInt("checker(String) observed ' ignore' returns 1", 1, cString("str-ign-blank", "x", " ignore"));
         expectInt("checker(String) observed 'ignored' returns 1", 1, cString("str-ign-suffix", "x", "ignored"));
         expectInt("checker(String) expected ignore, observed ignore returns 0", 0, cString("str-ign-both", "ignore", "ignore"));
+        
+        expectStringContainedIn("containedIn test \"abc\" inside \"abcdef\"", "abc", "abcdef");
+        expectStringContainedIn("containedIn test \"abc\" inside \"123abcdef\"", "abc", "123abcdef");
+        expectStringContainedIn("containedIn test \"abc\" inside \"123defabc\"", "abc", "123defabc");
     }
 
     // ========================================================================
