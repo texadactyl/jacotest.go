@@ -4,7 +4,7 @@
 name: One Test Case - Jacobin
 
 env:
-  TEST_CASE: date-time
+  TEST_CASE: record-1
   
 on:
   workflow_dispatch:
