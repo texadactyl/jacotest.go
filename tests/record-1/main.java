@@ -61,7 +61,7 @@ public class main {
 
         @Override
         public String toString() {
-            return new StringBuilder("Circle[radius=").append(radius).append("]").toString();
+            return String.format("Circle[radius=%.1f]", radius);
         }
     }
 
@@ -80,8 +80,7 @@ public class main {
 
         @Override
         public String toString() {
-            return new StringBuilder("Rectangle[width=").append(width)
-                    .append(", height=").append(height).append("]").toString();
+            return String.format("Rectangle[width=%.1f, height=%.1f]", width, height);
         }
     }
 
@@ -100,8 +99,7 @@ public class main {
 
         @Override
         public String toString() {
-            return new StringBuilder("Triangle[base=").append(base)
-                    .append(", height=").append(height).append("]").toString();
+            return String.format("Triangle[base=%.1f, height=%.1f]", base, height);
         }
     }
 
@@ -131,13 +129,10 @@ public class main {
 
         System.out.printf("Point toString: %s\n", p1.toString());
         errorCount += Checkers.checker("Point.toString()", "Point[x=3, y=4]", p1.toString());
-        errorCount += Checkers.checker("ColoredPoint.toString() (nested)",
-                "ColoredPoint[point=Point[x=5, y=6], color=RED]", cp.toString());
+        errorCount += Checkers.checker("ColoredPoint.toString() (nested)", "ColoredPoint[point=Point[x=5, y=6], color=RED]", cp.toString());
         errorCount += Checkers.checker("Circle.toString()", "Circle[radius=2.0]", circle.toString());
-        errorCount += Checkers.checker("Rectangle.toString()", "Rectangle[width=3.0, height=4.0]",
-                rectangle.toString());
-        errorCount += Checkers.checker("Triangle.toString()", "Triangle[base=6.0, height=5.0]",
-                triangle.toString());
+        errorCount += Checkers.checker("Rectangle.toString()", "Rectangle[width=3.0, height=4.0]", rectangle.toString());
+        errorCount += Checkers.checker("Triangle.toString()", "Triangle[base=6.0, height=5.0]", triangle.toString());
 
         // -------------------------------------------------------------
         // equals() overrides
