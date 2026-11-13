@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-11-13 | 6.2.5 | Added test case invoke-dynamic-concat-simple. |
 | 2026-11-12 | 6.2.4 | Added test case record-1. |
 | 2026-11-11 | 6.2.3 | Added test cases zippy-2 and zip-output. |
 | 2026-11-08 | 6.2.2 | Test case date-time modified to use HELPERS/Checkers. |
