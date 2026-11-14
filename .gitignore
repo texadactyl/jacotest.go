@@ -24,6 +24,7 @@
 *.jar
 *.zip
 *.csv
+*.bat
 
 # tests/guitar-string
 bridge_f
