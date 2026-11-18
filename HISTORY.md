@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-11-18 | 6.2.7 | Added BENCHMARK_GAME.md and tests/HELPERS/TimeHelper.java. |
 | 2026-11-14 | 6.2.6 | Added Windows bat files: jacopb.bat (pull and build) and jacox.bat (execution). |
 | 2026-11-13 | 6.2.5 | Added test case invoke-dynamic-concat-simple. |
 | 2026-11-12 | 6.2.4 | Added test case record-1. |

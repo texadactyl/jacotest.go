@@ -84,7 +84,7 @@ public class main {
     // main and test dispatch
     // ========================================================================
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
     
         if (args.length > 0) {
             // Just run the child mode exercises.
@@ -123,8 +123,16 @@ public class main {
         // Delete temp file.        
         tempFile.delete();
         
-        // Make sure that no individual tests were skipped.
-        // TODO: assert(skipCount == 0);
+        // Timer
+        TimeHelper tm = new TimeHelper();
+        tm.start();
+        Thread.sleep(1234);
+        tm.stop();
+        long et = tm.elapsedMillis();
+        errorCount += Checkers.checker("TimeHelper et < 2 sec", true, et < 2000L);
+        errorCount += Checkers.checker("TimeHelper ss.d", "01.2", tm.format(1_234));
+        errorCount += Checkers.checker("TimeHelper mm:ss.d", "01:15.4", tm.format(75_400));
+        errorCount += Checkers.checker("TimeHelper hh:mm:ss.d", "01:02:05.9", tm.format(3_725_900));
         
         // The End with error count.
         Checkers.theEnd(errorCount);
