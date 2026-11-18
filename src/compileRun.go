@@ -149,7 +149,7 @@ func compileOneTree(pathTreeTop string) int {
 
 // ExecuteOneTest - Execute the requested test case.
 // (internal function)
-// 1. Compile all source files of one test case.
+// 1. Compile all source files of one test case if needed.
 // 2. Run the test case.
 //
 // Return:
@@ -172,6 +172,7 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		fatalErr(err, "ExecuteOneTest os.Chdir(%s) failed", fullPathDir)
 	}
 
+	// Compiles needed?
 	if global.FlagCompile {
 		// Compile every .java file in the tree
 		errorCount := compileOneTree(fullPathDir)
@@ -187,12 +188,12 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 		}
 	}
 
+	// Execute needed?
 	if !global.FlagExecute {
-		return RC_NORMAL, ""
+		return RC_NORMAL, "" // No need to execute.
 	}
 
 	// At this point, we are sitting in the test case directory.
-	// Execute test "main.class".
 	testName := filepath.Base(fullPathDir)
 	logger("Executing %s using jvm=%s", testName, global.JvmName)
 	var outString string
@@ -200,11 +201,9 @@ func ExecuteOneTest(fullPathDir string) (int, string) {
 	if global.UserXopts != "" {
 		options = options + " " + global.UserXopts
 	}
-	if global.JvmName == "jacobin" {
-		stCode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main.class")
-	} else {
-		stCode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main")
-	}
+
+	// Execute test "main.class".
+	stCode, outString = runner(global.JvmName, global.JvmExe, testName, options, "main")
 
 	// Go back to the original working directory.
 	err = os.Chdir(here)

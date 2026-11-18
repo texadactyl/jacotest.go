@@ -47,15 +47,16 @@ public final class TimeHelper {
         if (hrs > 0) {
             return String.format("%02d:%02d:%02d.%d (hh:mm:ss.d)", hrs, min, sec, tenths);
         } else if (min > 0) {
-            return String.format("%02d:%02d.%d  (mm:ss.d)", min, sec, tenths);
+            return String.format("%02d:%02d.%d (mm:ss.d)", min, sec, tenths);
         } else {
             return String.format("%02d.%d (sec)", sec, tenths);
         }
     }
-    
+
+	/** Standardised report of elapsed time. */    
     public void report() {
 		String et = toString();
-		System.out.println("elapsed time: " + et);
+		System.out.println("\nTimeHelper report: elapsed time = " + et);
     }
 
 }

@@ -1,5 +1,4 @@
-/* pidigits
-   The Computer Language Benchmarks Game
+/* The Computer Language Benchmarks Game
    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
  
    contributed by Isaac Gouy
@@ -7,56 +6,38 @@
 
 import java.math.BigInteger;
 
+//public class pidigits {
 public class main {
+
    static final int L = 10;
 
    public static void main(String args[]) { 
-      int n = 100;
+      TimeHelper tm = new TimeHelper();
+      tm.start();
+      //int n = Integer.parseInt(args[0]);
+      int n = 10000; // instead of passing n on the command line
+
       int j = 0;
-      int ix = 0;
-      int errorCount = 0;
-      
-      String expected[] = {
-            "3141592653",
-            "5897932384",
-            "6264338327",
-            "9502884197",
-            "1693993751",
-            "0582097494",
-            "4592307816",
-            "4062862089",
-            "9862803482",
-            "5342117067"
-      };
    
       PiDigitSpigot digits = new PiDigitSpigot();
-      int nd = -1;
       
       while (n > 0){
-         String line = "";
          if (n >= L){
-            for (int i=0; i<L; i++) {
-                nd = digits.next();
-                System.out.print(nd);
-                line = line.concat(String.valueOf(nd));
-            }
+            for (int i=0; i<L; i++) System.out.print( digits.next() );
             j += L;
          } else {
-            for (int i=0; i<n; i++) {
-                nd = digits.next();
-                System.out.print(nd);
-                line = line.concat(String.valueOf(nd));
-            }
+            for (int i=0; i<n; i++) System.out.print( digits.next() );
             for (int i=n; i<L; i++) System.out.print(" ");  
             j += n;   
          }
          System.out.print("\t:"); System.out.println(j);
-         errorCount += Checkers.checker("Pi digits", expected[ix++], line);
          n -= L;           
-      } 
+      }
       
-      Checkers.theEnd(errorCount);              
+      tm.stop();
+      tm.report();            
    }
+   
 }
 
 

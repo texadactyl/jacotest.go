@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-11-18 | 6.3.0 | JACOBIN-1007 Restore original benchmark-game source code. |
 | 2026-11-18 | 6.2.7 | Added BENCHMARK_GAME.md and tests/HELPERS/TimeHelper.java. |
 | | | Renamed benchmark-game-edigits to edigits as it is not part of the Debian Benchmark Game suite. |
 | 2026-11-14 | 6.2.6 | Added Windows bat files: jacopb.bat (pull and build) and jacox.bat (execution). |

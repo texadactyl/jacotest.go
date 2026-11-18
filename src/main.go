@@ -24,9 +24,10 @@ func showHelp() {
 	name := filepath.Base(os.Args[0])
 	ShowExecInfo(name)
 	fmt.Printf("\nUsage:  %s  [ options ]\n\nwhere\n", name)
-	fmt.Printf("\t-h : This display.\n")
+	fmt.Printf("\t-b : Only process the benchmark-* test cases.\n")
 	fmt.Printf("\t-c : Compile all the test cases.\n")
 	fmt.Printf("\t-f N TC : Create an output CSV file from the last N results for test case TC. N=0 means all results\n")
+	fmt.Printf("\t-h : This display.\n")
 	fmt.Printf("\t-j name : This is the JVM to use in executing all test cases. Default: jacobin.\n")
 	fmt.Printf("\t     Other JVM names recognized:\n")
 	fmt.Printf("\t     * hotspot, openjdk : Hotspot JVM (aka Open JDK JVM)\n")
@@ -109,18 +110,19 @@ func main() {
 	numTestCases := 0
 
 	// Temporary flags before setting them in global.
-	flagVerbose := false          // Verbose logging? true/false
-	flagCompile := false          // -c option
-	flagDeleteObsolete := false   // -s option
-	flagMdReport := false         // -M option
-	flagTwoMostRecent := false    // -r 1 option
-	flagFailedPassed := false     // -r 2 option
-	flagPrintMostRecent := false  // -r 3 option
 	flagClassChecksum := false    // -r 4 option
-	flagExecute := false          // -x option
+	flagCompile := false          // -c option
 	flagDeleteMostRecent := false // -z option
-	flagReportOrphans := false    // -N option
+	flagDeleteObsolete := false   // -s option
+	flagExecute := false          // -x option
+	flagFailedPassed := false     // -r 2 option
+	flagMdReport := false         // -M option
+	flagOnlyBenchmark := false    // -b option
+	flagPrintMostRecent := false  // -r 3 option
 	flagRenameTestCase := false   // -n oldName newName
+	flagReportOrphans := false    // -N option
+	flagTwoMostRecent := false    // -r 1 option
+	flagVerbose := false          // Verbose logging? true/false
 
 	oldTestCaseName := ""
 	newTestCaseName := ""
@@ -153,8 +155,33 @@ func main() {
 	for ii := 0; ii < len(Args); ii++ {
 		switch Args[ii] {
 
+		case "-b":
+			flagOnlyBenchmark = true
+
 		case "-c":
 			flagCompile = true
+
+		case "-f":
+			ii++
+			if ii >= len(Args) {
+				logError("Missing -f arguments")
+				showHelp()
+			}
+			stringCount := Args[ii]
+			count, err := strconv.Atoi(stringCount)
+			if err != nil || count < 0 {
+				logError("Option -f count must be a non-negative integer")
+				showHelp()
+			}
+			ii++
+			if ii >= len(Args) {
+				logError("Missing -f test case name")
+				showHelp()
+			}
+			testCaseName := Args[ii]
+			DBOpen()
+			DBGenerateTestCaseCsv(count, testCaseName)
+			os.Exit(0)
 
 		case "-h":
 			showHelp()
@@ -217,28 +244,6 @@ func main() {
 				showHelp()
 			}
 
-		case "-f":
-			ii++
-			if ii >= len(Args) {
-				logError("Missing -f arguments")
-				showHelp()
-			}
-			stringCount := Args[ii]
-			count, err := strconv.Atoi(stringCount)
-			if err != nil || count < 0 {
-				logError("Option -f count must be a non-negative integer")
-				showHelp()
-			}
-			ii++
-			if ii >= len(Args) {
-				logError("Missing -f test case name")
-				showHelp()
-			}
-			testCaseName := Args[ii]
-			DBOpen()
-			DBGenerateTestCaseCsv(count, testCaseName)
-			os.Exit(0)
-
 		case "-s":
 			flagDeleteObsolete = true
 
@@ -286,7 +291,7 @@ func main() {
 
 	// Initialize global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
-	defer deferredRemoveFile(global.TempFile.Name())
+	defer deferredRemoveFile(global.FileAllocmb.Name())
 	global.FlagVerbose = flagVerbose
 	global.FlagCompile = flagCompile
 	global.FlagDeleteObsolete = flagDeleteObsolete
@@ -361,6 +366,9 @@ func main() {
 		var timeoutExecutionNames []string
 		var rptHandle *os.File
 		counterErrCases := 0
+		if global.FlagExecute {
+			logger("Test case deadline: %d seconds", deadlineSecs)
+		}
 
 		if global.FlagMdReport {
 			// Initialize detailed report file
@@ -401,9 +409,6 @@ func main() {
 			fatalErr(err, "os.ReadDir(%s) failed", global.DirTests)
 		}
 
-		// Phase 1 - For each test case subdirectory of tests, run it.
-		logger("Test case deadline: %d seconds", deadlineSecs)
-
 		// Begin the test case directory loop.
 		entryCount := 0
 		for _, entry := range entries {
@@ -421,8 +426,17 @@ func main() {
 				break
 			}
 
-			// Get the test case name and the full path of the test case directory.
+			// Get the test case name.
 			testCaseName := entry.Name()
+
+			// Check if we are only processing benchmark test cases.
+			if flagOnlyBenchmark {
+				if !strings.HasPrefix(testCaseName, "benchmark") {
+					continue
+				}
+			}
+
+			//  Get the full path of the test case directory.
 			fullPath := filepath.Join(global.DirTests, testCaseName)
 
 			// Get the full path of the "main.java" file within the test case directory.
@@ -460,13 +474,19 @@ func main() {
 				}
 				if global.FlagExecute {
 					allocMB := -1
-					data, err := os.ReadFile(global.TempFile.Name())
-					if err == nil {
-						allocMB, err = strconv.Atoi(strings.TrimSpace(string(data)))
-						if err != nil {
-							fatalErr(err, "Format error in memory allocation file %s:", global.TempFile.Name())
-						}
+					data, err := os.ReadFile(global.FileAllocmb.Name())
+					if err != nil {
+						fatalErr(err, "os.ReadFile(%s) failed, err: %v", global.FileAllocmb.Name(), err)
 					}
+					strData := strings.TrimSpace(string(data))
+					if len(strData) < 1 {
+						fatalText("strings.TrimSpace(string(data)) returned nil data from temp file %s", global.FileAllocmb.Name())
+					}
+					allocMB, err = strconv.Atoi(strData)
+					if err != nil {
+						fatalErr(err, "strconv.Atoi(%s) failed after reading temp file %s, err: %v", strData, global.FileAllocmb.Name(), err)
+					}
+
 					DBStorePassed(testCaseName, etMsecs, allocMB)
 				}
 			case RC_COMP_ERROR:

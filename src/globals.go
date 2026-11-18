@@ -25,6 +25,7 @@ const PATH_DIR_TESTS = "./tests"
 const PATH_DIR_HELPERS = "./tests/HELPERS"
 const PATH_VERSION = "./VERSION.cfg"
 const PATH_ERROR_CATEGORIES = "./ERROR_CATEGORIES.cfg"
+const PATH_FILE_ALLOCMB = "./jacotest-alloc.mb"
 
 // GlobalsStruct - Definition of the singleton global
 type GlobalsStruct struct {
@@ -56,8 +57,8 @@ type GlobalsStruct struct {
 	JvmOptPrefix         string        // JVM execution options prefix
 	JavacOptPrefix       string        // Java compiler options prefix
 	UserXopts            string        // User-defined options when -x is specified
-	TempFile             *os.File      // Temp file for capturing allocated memory
-	EnvTempFile          string        // Environment variable with temp file name
+	FileAllocmb          *os.File      // Temporary file for capturing allocated memory
+	EnvAllocmb           string        // Environment variable with temp file name
 }
 
 // Here's the GlobalsStruct singleton.
@@ -168,7 +169,7 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 		JvmName:              jvmName,
 		Deadline:             duration,
 		UserXopts:            userXopts,
-		EnvTempFile:          "JACOTEST_ALLOC_FILE",
+		EnvAllocmb:           "JACOTEST_ALLOC_FILE",
 	}
 
 	global.JavacOptPrefix = "-Xlint:all -Werror"
@@ -180,15 +181,19 @@ func InitGlobals(jvmName, jvmExe string, deadline_secs int, userXopts string) *G
 	}
 
 	// Create the temp file for capturing memory allocation and then close it.
-	global.TempFile, err = os.CreateTemp("", "jacotest-alloc-*")
+	global.FileAllocmb, err = os.Create(PATH_FILE_ALLOCMB)
 	if err != nil {
 		fatalErr(err, "InitGlobals: cannot create jacotest-alloc file")
 	}
-	err = os.Setenv(global.EnvTempFile, global.TempFile.Name())
+	err = os.Setenv(global.EnvAllocmb, global.FileAllocmb.Name())
 	if err != nil {
 		fatalErr(err, "InitGlobals: cannot set environment variable for jacotest-alloc file")
 	}
-	err = global.TempFile.Close()
+	_, err = fmt.Fprint(global.FileAllocmb, "0")
+	if err != nil {
+		fatalErr(err, "InitGlobals: cannot write to jacotest-alloc file")
+	}
+	err = global.FileAllocmb.Close()
 	if err != nil {
 		fatalErr(err, "InitGlobals: cannot close jacotest-alloc file")
 	}

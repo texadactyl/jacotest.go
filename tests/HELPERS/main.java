@@ -33,8 +33,6 @@ import java.nio.file.Paths;
 public class main {
 
     private static final String CLASS_NAME = "main";
-    private static final String ALLOC_ENV_VAR = "JACOTEST_ALLOC_FILE";
-    private static String tempFileName = "RUBBISH!";
 
     private static int errorCount = 0;
     private static int assertionCount = 0;
@@ -92,17 +90,6 @@ public class main {
             return;
         }
 
-        // Set up temp file to hold the Jacotest memory allocation number (Jacotest does this).
-        long pid = ProcessHandle.current().pid();
-        File tempFile = File.createTempFile("./jacotest_alloc_file.", String.valueOf(pid));
-        tempFileName = tempFile.getName();
-        System.setProperty(ALLOC_ENV_VAR, tempFileName);
-        System.out.printf("main: Temp file: %s\n", tempFileName);
-
-        detectEnvironment();
-        System.out.printf("main: hotspot = %b, execUsable = %b, childModeUsable = %b\n",
-                hotspot, execUsable, childModeUsable);
-
         // Run the unit test suite.
         for (int idx = 0; idx < TEST_NAMES.length; idx++) {
             System.out.printf("\n----- %s -----\n", TEST_NAMES[idx]);
@@ -120,9 +107,6 @@ public class main {
         System.out.printf("main: %d assertion(s), %d failure(s), %d skipped\n",
                 assertionCount, errorCount, skipCount);
                 
-        // Delete temp file.        
-        tempFile.delete();
-        
         // Timer
         TimeHelper tm = new TimeHelper();
         tm.start();
@@ -130,9 +114,9 @@ public class main {
         tm.stop();
         long et = tm.elapsedMillis();
         errorCount += Checkers.checker("TimeHelper et < 2 sec", true, et < 2000L);
-        errorCount += Checkers.checker("TimeHelper ss.d", "01.2", tm.format(1_234));
-        errorCount += Checkers.checker("TimeHelper mm:ss.d", "01:15.4", tm.format(75_400));
-        errorCount += Checkers.checker("TimeHelper hh:mm:ss.d", "01:02:05.9", tm.format(3_725_900));
+        errorCount += Checkers.checker("TimeHelper ss.d", "01.2 (sec)", tm.format(1_234));
+        errorCount += Checkers.checker("TimeHelper mm:ss.d", "01:15.4 (mm:ss.d)", tm.format(75_400));
+        errorCount += Checkers.checker("TimeHelper hh:mm:ss.d", "01:02:05.9 (hh:mm:ss.d)", tm.format(3_725_900));
         
         // The End with error count.
         Checkers.theEnd(errorCount);
@@ -590,7 +574,6 @@ public class main {
         System.out.println();
         
         ProcessBuilder pb = new ProcessBuilder(command);
-        pb.environment().put(ALLOC_ENV_VAR, tempFileName);
         pb.redirectErrorStream(true);
         Process process = pb.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
