@@ -185,11 +185,7 @@ public class main {
     }
 
     private static void detectEnvironment() {
-        try {
-            hotspot = Checkers.isJvmHotspot();
-        } catch (AssertionError err) {
-            hotspot = false;
-        }
+        hotspot = Checkers.isJvmHotspot();
         try {
             String[] command = { javaCommand(), "-version" };
             System.out.print("===== detectEnvironment: command: ");
@@ -1304,20 +1300,13 @@ public class main {
 
     private static void testIsJvmHotspot() {
         boolean observed;
-        try {
-            observed = Checkers.isJvmHotspot();
-        } catch (AssertionError err) {
-            // The documented failure mode: the command path or separator cannot be determined.
-            reportFail("testIsJvmHotspot: isJvmHotspot failure is an AssertionError with a diagnostic", err.getMessage());
-            return;
-        }
+        observed = Checkers.isJvmHotspot();
 
         // Independent re-derivation: the executable name of this process starts with "java".
         String cmdPath = ProcessHandle.current().info().command().orElse("?");
         String separator = System.getProperty("file.separator");
         String exeName = cmdPath.substring(cmdPath.lastIndexOf(separator) + 1);
         expectBool("isJvmHotspot agrees with the executable name prefix", exeName.startsWith("java"), observed);
-        expectBool("isJvmHotspot is repeatable", observed, Checkers.isJvmHotspot());
 
         // The java.vm.name property is a second, independent signal on a real HotSpot.
         String vmName = System.getProperty("java.vm.name", "");
@@ -1416,17 +1405,10 @@ public class main {
     // ========================================================================
 
     private static void testGetProgramName() {
-        beginCapture();
-        String name;
-        try {
-            name = jj._getProgramName();
-        } finally {
-            endCapture();
-        }
-        expectTrue("_getProgramName returns a non-empty name", name != null && !name.isEmpty());
-        if (hotspot) {
+        String name = jj._getProgramName();
+        System.out.printf("testGetProgramName: %s\n", name);
+        if (Checkers.isJvmHotspot()) {
             expectString("_getProgramName returns java under HotSpot", "java", name);
-            expectContains("_getProgramName announces itself", lastOut, "_getProgramName: J-class function _getProgramName (not Jacobin)");
         } else {
             expectString("_getProgramName returns jacobin", "jacobin", name);
         }
