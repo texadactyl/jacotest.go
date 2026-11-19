@@ -31,7 +31,7 @@ func runner(cmdName string, cmdExec string, dirName string, argOpts string, argF
 	sliceOpts := strings.Split(argOpts, " ")
 	sliceOpts = append(sliceOpts, argFile)
 	cmd := exec.CommandContext(ctx, cmdExec, sliceOpts[:]...)
-
+	
 	// Form a log file name infix
 	infix := dirName + "." + cmdName
 

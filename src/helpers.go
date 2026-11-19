@@ -19,7 +19,11 @@ const (
 	ModeOutputFile = 0644
 	FlagsOpen      = os.O_CREATE | os.O_WRONLY
 	DirPermissions = 0755
+	EnvVarAllocmb  = "JACOTEST_ALLOC_FILE" // Environment variable with temporary file path
+	RelPathAllocmb = "./jacotest-alloc.mb" // Relative path of the temporary file holding computed allocated heap
 )
+
+var AbsPathAllocmb = "Rubbish!"
 
 // getUtcDate - Get UTC date string, YYYY-MM-DD.
 func getUtcDate() string {
@@ -262,4 +266,44 @@ func setupUnitTest(t *testing.T) {
 
 	dbHandle = handle
 	dbIsOpen = true
+}
+
+func CreateJacotestAllocFile() {
+	var handle *os.File
+	var err error
+	// Create the temporary file for capturing memory allocation and then close it.
+	AbsPathAllocmb, err = filepath.Abs(RelPathAllocmb)
+	if err != nil {
+		fatalText("CreateJacotestAllocFile: filepath.Abs(%s) failed, reason: %v", RelPathAllocmb, err)
+	}
+	if GetGlobalRef().FlagVerbose {
+		fmt.Printf("CreateJacotestAllocFile: os.Create file %s .....\n", AbsPathAllocmb)
+	}
+	handle, err = os.Create(AbsPathAllocmb)
+	if err != nil {
+		fatalText("CreateJacotestAllocFile: os.Create(%s) failed, reason: %v", AbsPathAllocmb, err)
+	}
+	err = os.Setenv(EnvVarAllocmb, AbsPathAllocmb)
+	if err != nil {
+		fatalText("CreateJacotestAllocFile: os.Setenv(%s, %s) failed reason: %v", EnvVarAllocmb, AbsPathAllocmb, err)
+	}
+	_, err = fmt.Fprint(handle, "0")
+	if err != nil {
+		fatalText("CreateJacotestAllocFile: cannot fmt.Fprint to file %s, reason: %v", AbsPathAllocmb, err)
+	}
+	err = handle.Close()
+	if err != nil {
+		fatalText("CreateJacotestAllocFile: cannot close file %s, reason: %v", AbsPathAllocmb, err)
+	}
+
+}
+
+func RemoveJacotestAllocFile() {
+	if GetGlobalRef().FlagVerbose {
+		fmt.Printf("RemoveJacotestAllocFile: removing file %s\n", AbsPathAllocmb)
+	}
+	err := os.Remove(AbsPathAllocmb)
+	if err != nil {
+		fatalText("RemoveJacotestAllocFile: cannot remove file %s, reason: %v", AbsPathAllocmb, err)
+	}
 }

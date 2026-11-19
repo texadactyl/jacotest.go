@@ -6,8 +6,9 @@ import java.math.RoundingMode;
 
 public class Checkers {
 
-    public static double MAX_PERCENT = 0.0001;
-    public static double MAX_PERCENT_F = 0.0001f;
+    public static final double MAX_PERCENT = 0.0001;
+    public static final double MAX_PERCENT_F = 0.0001f;
+    public static final String JACOTEST_ALLOC_FILE = "JACOTEST_ALLOC_FILE";
     
     // ===== boolean =====
 
@@ -506,30 +507,42 @@ public class Checkers {
     }
     
     // ===== That's all, folks! =====
-    public static void theEnd(int errorCount) {
-        String envVarName = "JACOTEST_ALLOC_FILE";
-        String path = System.getenv(envVarName);
-        if (path != null) {
+    public static void theEnd(int errorCount) {   
+    	// For Jacobin, we need the heap allocation file to store that quantity. 
+    	// The file was created in Jacotest or HELPERS/main.class.   
+        // Try the O/S environment first. If not there, look in System properties.
+        String path = System.getenv(JACOTEST_ALLOC_FILE);
+        if (path == null || path.length() < 1)
+        	path = System.getProperty(JACOTEST_ALLOC_FILE);
+        //System.out.printf("DEBUG path: [%s]\n", path);
+
+		// If path available, the JVM is Jacobin; else Hotspot.
+        if (path != null && path.length() > 0) {
             // The environment variable is set.
             long usedBytes = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            try (FileWriter writer = new FileWriter(path)) {
-                writer.write(Long.toString(usedBytes / (1024L * 1024L)));
-            } catch (IOException e) {
-                // Leave the file empty; jacotest then records the value as unknown.
+            try {
+		        FileWriter writer = new FileWriter(path);
+		        writer.write(Long.toString(usedBytes / (1024L * 1024L)));
+            } catch (Exception ex) {
+            	throw new AssertionError(String.format("theEnd: Failed to write to %s, reason: %s", path, ex.getMessage()));
             }
         } else {
             // The environment variable is NOT set.
             if (! isJvmHotspot()) {
                 // Testing with Jacobin requires this.
-                throw new AssertionError(String.format("theEnd: *** ERROR, missing environment variable: %s", envVarName));
+                throw new AssertionError(String.format("theEnd: *** ERROR, missing/invalid environment variable %s", JACOTEST_ALLOC_FILE));
             }
         }
+        
+        // Process errorCount.
         if (errorCount == 0) {
             System.out.println("\n========");
             System.out.println("Success!");
             System.out.println("========");
             System.exit(0);
         }
+        
+        // At least one failure.
         String errMsg = String.format("\ntheEnd: *** ERROR, test case diagnosed %d error(s)", errorCount);
         throw new AssertionError(errMsg);
     }

@@ -47,6 +47,7 @@ func showHelp() {
 	fmt.Printf("\t-x : Execute all test cases.\n")
 	fmt.Printf("\t     Specifying -x implies parameter -r 1.\n")
 	fmt.Printf("\t-z : Remove the most recent result for all test cases.\n")
+	fmt.Printf("\t-1 TC : Only process the specified test case (TC).\n")
 	fmt.Print("\n")
 	os.Exit(0)
 }
@@ -61,7 +62,7 @@ func createLatest(path string) error {
 	// Remove existing link/file if present
 	_ = os.Remove(link)
 
-	// Prefer a relative symlink (best semantics)
+	// Use a relative symlink.
 	if err := os.Symlink(target, link); err == nil {
 		return nil
 	}
@@ -108,8 +109,9 @@ func main() {
 	deadlineSecs := 60   // default deadline in seconds
 	userXopts := ""
 	numTestCases := 0
+	tcName := "Rubbish!"
 
-	// Temporary flags before setting them in global.
+	// Flags.
 	flagClassChecksum := false    // -r 4 option
 	flagCompile := false          // -c option
 	flagDeleteMostRecent := false // -z option
@@ -117,6 +119,7 @@ func main() {
 	flagExecute := false          // -x option
 	flagFailedPassed := false     // -r 2 option
 	flagMdReport := false         // -M option
+	flagOne := false              // -1 TC option
 	flagOnlyBenchmark := false    // -b option
 	flagPrintMostRecent := false  // -r 3 option
 	flagRenameTestCase := false   // -n oldName newName
@@ -283,6 +286,15 @@ func main() {
 		case "-z": // Delete the most recent test result for each test case.
 			flagDeleteMostRecent = true
 
+		case "-1":
+			ii++
+			if ii >= len(Args) {
+				logError("Missing -1 argument (test case name)")
+				showHelp()
+			}
+			flagOne = true
+			tcName = Args[ii]
+
 		default:
 			logError("Unrecognizable argument: %s", Args[ii])
 			showHelp()
@@ -291,7 +303,6 @@ func main() {
 
 	// Initialize global flags and get a handle.
 	global := InitGlobals(jvmName, jvmExe, deadlineSecs, userXopts)
-	defer deferredRemoveFile(global.FileAllocmb.Name())
 	global.FlagVerbose = flagVerbose
 	global.FlagCompile = flagCompile
 	global.FlagDeleteObsolete = flagDeleteObsolete
@@ -305,12 +316,10 @@ func main() {
 	global.FlagReportOrphans = flagReportOrphans
 
 	// Start up signal listener.
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		sig := <-shutdownChan
 		fatalText("Shutdown signal received: %v. Cleaning up", sig)
-	}()
+	})
 
 	// Show the program version.
 	if global.FlagPrintMostRecent {
@@ -436,6 +445,11 @@ func main() {
 				}
 			}
 
+			// If just doing one test case and the name doesn't match, skip it.
+			if flagOne && testCaseName != tcName {
+				continue
+			}
+
 			//  Get the full path of the test case directory.
 			fullPath := filepath.Join(global.DirTests, testCaseName)
 
@@ -448,6 +462,10 @@ func main() {
 				logWarning("File %s does not exist - skipping directory", mainJavaFile)
 				continue
 			}
+
+			// Create/recreate the temporary file for capturing memory allocation and then close it.
+			// Java HELPERS.theEnd() will subsequently update the file with the test case heap allocation in MB.
+			CreateJacotestAllocFile()
 
 			// Take the initial time of this test case.
 			// Execute the test case.
@@ -474,17 +492,17 @@ func main() {
 				}
 				if global.FlagExecute {
 					allocMB := -1
-					data, err := os.ReadFile(global.FileAllocmb.Name())
+					data, err := os.ReadFile(AbsPathAllocmb)
 					if err != nil {
-						fatalErr(err, "os.ReadFile(%s) failed, err: %v", global.FileAllocmb.Name(), err)
+						fatalErr(err, "os.ReadFile(%s) failed, err: %v", AbsPathAllocmb, err)
 					}
 					strData := strings.TrimSpace(string(data))
 					if len(strData) < 1 {
-						fatalText("strings.TrimSpace(string(data)) returned nil data from temp file %s", global.FileAllocmb.Name())
+						fatalText("strings.TrimSpace(string(data)) returned nil data from temp file %s", AbsPathAllocmb)
 					}
 					allocMB, err = strconv.Atoi(strData)
 					if err != nil {
-						fatalErr(err, "strconv.Atoi(%s) failed after reading temp file %s, err: %v", strData, global.FileAllocmb.Name(), err)
+						fatalErr(err, "strconv.Atoi(%s) failed after reading temp file %s, err: %v", strData, AbsPathAllocmb, err)
 					}
 
 					DBStorePassed(testCaseName, etMsecs, allocMB)
@@ -548,10 +566,12 @@ func main() {
 		showResults("Execution failure", errExecutionNames, outHandle, false)
 
 		// Phases 2 and 3 - Show failures grouped by error category.
-		counterErrCases += Phases2And3(tblErrCases, outHandle)
+		if !flagOne {
+			counterErrCases += Phases2And3(tblErrCases, outHandle)
+		}
 
 		// Discrepancies in error total?
-		if len(errExecutionNames) != counterErrCases {
+		if !flagOne && len(errExecutionNames) != counterErrCases {
 			logSkip()
 			writeOutputText(outHandle, " ")
 			infoMsg := fmt.Sprintf("*** WARNING: Number of error cases = %d but total from fail-categories = %d",
@@ -587,25 +607,28 @@ func main() {
 		_ = createLatest(global.SumFilePath)
 		logger("Wrote test case summary to: %s", outPath)
 
+		// Remove the temporary file that was used for capturing memory allocation.
+		RemoveJacotestAllocFile()
+
 	} // if global.FlagExecute || global.FlagCompile
 
 	// Print the last-2-results report?
-	if global.FlagTwoMostRecent {
+	if !flagOne && global.FlagTwoMostRecent {
 		DBPrtChanges()
 	}
 
 	// Print the last result of every test case?
-	if global.FlagPrintMostRecent {
+	if !flagOne && global.FlagPrintMostRecent {
 		DBPrintMostRecent()
 	}
 
 	// Print the checksums of all the class files?
-	if global.FlagClassChecksum {
+	if !flagOne && global.FlagClassChecksum {
 		classChecksum(csvFullPath, testsTreeTop)
 	}
 
 	// Delete the most recent test result for each test case?
-	if global.FlagDeleteMostRecent {
+	if !flagOne && global.FlagDeleteMostRecent {
 		DBDeleteMostRecent()
 	}
 

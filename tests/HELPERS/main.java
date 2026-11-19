@@ -32,7 +32,10 @@ import java.nio.file.Paths;
  */
 public class main {
 
+    private static final String JACOTEST_ALLOC_FILE = Checkers.JACOTEST_ALLOC_FILE;
+    
     private static final String CLASS_NAME = "main";
+    private static String tempFileName = "RUBBISH!";
 
     private static int errorCount = 0;
     private static int assertionCount = 0;
@@ -90,6 +93,18 @@ public class main {
             return;
         }
 
+
+        // Set up temp file to hold the Jacotest memory allocation number (Jacotest does this).
+        File tempFile = new File("./helpers_alloc_file.mb");
+        tempFile.createNewFile();
+        tempFileName = tempFile.getAbsolutePath();
+        System.setProperty(JACOTEST_ALLOC_FILE, tempFileName);
+        System.out.printf("main: Temp file: %s\n", tempFileName);
+
+        detectEnvironment();
+        System.out.printf("main: hotspot = %b, execUsable = %b, childModeUsable = %b\n",
+                hotspot, execUsable, childModeUsable);
+
         // Run the unit test suite.
         for (int idx = 0; idx < TEST_NAMES.length; idx++) {
             System.out.printf("\n----- %s -----\n", TEST_NAMES[idx]);
@@ -119,6 +134,10 @@ public class main {
         errorCount += Checkers.checker("TimeHelper hh:mm:ss.d", "01:02:05.9 (hh:mm:ss.d)", tm.format(3_725_900));
         
         // The End with error count.
+        if (tempFile.delete())
+        	System.out.println("main: temporary file was deleted");
+		else
+        	System.out.println("main: temporary file was NOT deleted");
         Checkers.theEnd(errorCount);
     }
 

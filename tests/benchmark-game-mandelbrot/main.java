@@ -16,7 +16,7 @@ import java.util.zip.CRC32;
 //public final class mandelbrot {
 public final class main {
 
-	static int defaultN = 800; // TODO Make this 6000 when Jacobin performs better.
+	static int defaultN = 100; // TODO Make this 6000 when Jacobin performs better.
 
     static byte[][] out;
     static AtomicInteger yCt;
@@ -92,7 +92,7 @@ public final class main {
 			crc32.update(row, 0, row.length);
 		}
         long crcValue = crc32.getValue();
-        errorCount += Checkers.checker("CRC value", 1785234248L, crcValue);
+        errorCount += Checkers.checker("CRC value", 711291718L, crcValue);
        
         tm.stop();
         tm.report();

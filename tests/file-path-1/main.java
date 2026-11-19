@@ -8,11 +8,11 @@ public class main {
         
         String homedir = System.getProperty("user.home");
         Path treetop = Paths.get(homedir);
-        Path absPath = treetop.toAbsolutePath();
-        Path normPath = absPath.normalize();
+        Path ABSPATH_FILE_ALLOCMB = treetop.toAbsolutePath();
+        Path normPath = ABSPATH_FILE_ALLOCMB.normalize();
         String str = normPath.toString();
         System.out.println(str);
-        errorCount += Checkers.checker("homedir >> path >> absPath >> normPath", homedir, str);
+        errorCount += Checkers.checker("homedir >> path >> ABSPATH_FILE_ALLOCMB >> normPath", homedir, str);
         
         Checkers.theEnd(errorCount);
     }
