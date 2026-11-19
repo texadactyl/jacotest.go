@@ -287,7 +287,7 @@ func CreateJacotestAllocFile() {
 	if err != nil {
 		fatalText("CreateJacotestAllocFile: os.Setenv(%s, %s) failed reason: %v", EnvVarAllocmb, AbsPathAllocmb, err)
 	}
-	_, err = fmt.Fprint(handle, "0")
+	_, err = fmt.Fprint(handle, "000")
 	if err != nil {
 		fatalText("CreateJacotestAllocFile: cannot fmt.Fprint to file %s, reason: %v", AbsPathAllocmb, err)
 	}
@@ -296,6 +296,19 @@ func CreateJacotestAllocFile() {
 		fatalText("CreateJacotestAllocFile: cannot close file %s, reason: %v", AbsPathAllocmb, err)
 	}
 
+}
+
+func ReadAllJacotestAllocFile() string {
+	data, err := os.ReadFile(AbsPathAllocmb)
+	if err != nil {
+		fatalErr(err, "ReadAllJacotestAllocFile: os.ReadFile(%s) failed, err: %v", AbsPathAllocmb, err)
+	}
+	strData := strings.TrimSpace(string(data))
+	if len(strData) < 1 {
+		// TODO ? : fatalText("ReadAllJacotestAllocFile: strings.TrimSpace(string(data)) returned nil data from temp file %s", AbsPathAllocmb)
+		return "000"
+	}
+	return strData
 }
 
 func RemoveJacotestAllocFile() {

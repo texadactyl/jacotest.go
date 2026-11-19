@@ -514,7 +514,7 @@ public class Checkers {
         String path = System.getenv(JACOTEST_ALLOC_FILE);
         if (path == null || path.length() < 1)
         	path = System.getProperty(JACOTEST_ALLOC_FILE);
-        //System.out.printf("DEBUG path: [%s]\n", path);
+        //System.out.printf("DEBUG theEnd path: [%s]\n", path);
 
 		// If path available, the JVM is Jacobin; else Hotspot.
         if (path != null && path.length() > 0) {

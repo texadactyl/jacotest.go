@@ -492,14 +492,7 @@ func main() {
 				}
 				if global.FlagExecute {
 					allocMB := -1
-					data, err := os.ReadFile(AbsPathAllocmb)
-					if err != nil {
-						fatalErr(err, "os.ReadFile(%s) failed, err: %v", AbsPathAllocmb, err)
-					}
-					strData := strings.TrimSpace(string(data))
-					if len(strData) < 1 {
-						fatalText("strings.TrimSpace(string(data)) returned nil data from temp file %s", AbsPathAllocmb)
-					}
+					strData := ReadAllJacotestAllocFile()
 					allocMB, err = strconv.Atoi(strData)
 					if err != nil {
 						fatalErr(err, "strconv.Atoi(%s) failed after reading temp file %s, err: %v", strData, AbsPathAllocmb, err)
@@ -535,6 +528,9 @@ func main() {
 				}
 			}
 			// End of result switch
+			// Remove the temporary file that was used for capturing memory allocation.
+			RemoveJacotestAllocFile()
+
 		}
 		// End test case directory loop.
 		// At this point, we have executed all the requested test cases.
@@ -606,9 +602,6 @@ func main() {
 		}
 		_ = createLatest(global.SumFilePath)
 		logger("Wrote test case summary to: %s", outPath)
-
-		// Remove the temporary file that was used for capturing memory allocation.
-		RemoveJacotestAllocFile()
 
 	} // if global.FlagExecute || global.FlagCompile
 
