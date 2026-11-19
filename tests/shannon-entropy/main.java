@@ -62,7 +62,6 @@ public class main {
             System.out.printf("Shannon entropy of %40s: %.12f%n", ss, entropy);
         }
         Checkers.theEnd(0);
-        return;
     }
 }
 

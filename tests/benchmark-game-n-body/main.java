@@ -27,6 +27,7 @@ public final class main {
         
         tm.stop();
         tm.report();
+        Checkers.theEnd(0);
     }
 }
 

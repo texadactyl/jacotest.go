@@ -57,6 +57,7 @@ public final class main
     System.out.printf("%.9f\n", Math.sqrt(vBv/vv));  
     tm.stop();
     tm.report();
+    Checkers.theEnd(0);
   }
 }
 

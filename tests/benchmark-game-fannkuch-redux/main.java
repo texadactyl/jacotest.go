@@ -142,11 +142,11 @@ public final class main implements Runnable
         n = args.length > 0 ? Integer.parseInt( args[0] ) : defaultN;
         if ( n < 0 || n > defaultN ) {         // 13! won't fit into int
             printResult( n, -1, -1 );
-            return;
+            Checkers.theEnd(0);
         }
         if ( n <= 1 ) {
             printResult( n, 0, 0 );
-            return;
+            Checkers.theEnd(0);
         }
 
         Fact = new int[n+1];
@@ -188,5 +188,6 @@ public final class main implements Runnable
         
         tm.stop();
         tm.report();
+        Checkers.theEnd(0);
     }
 }

@@ -65,6 +65,7 @@ public class main {
         
 		tm.stop();
 		tm.report();
+		Checkers.theEnd(0);
     }
 
     private static TreeNode bottomUpTree(final int depth) {
