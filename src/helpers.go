@@ -306,7 +306,7 @@ func ReadAllJacotestAllocFile() string {
 	strData := strings.TrimSpace(string(data))
 	if len(strData) < 1 {
 		// TODO ? : fatalText("ReadAllJacotestAllocFile: strings.TrimSpace(string(data)) returned nil data from temp file %s", AbsPathAllocmb)
-		return "000"
+		return "-1"
 	}
 	return strData
 }

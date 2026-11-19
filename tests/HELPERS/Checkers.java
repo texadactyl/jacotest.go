@@ -523,6 +523,7 @@ public class Checkers {
             try {
 		        FileWriter writer = new FileWriter(path);
 		        writer.write(Long.toString(usedBytes / (1024L * 1024L)));
+		        writer.close();
             } catch (Exception ex) {
             	throw new AssertionError(String.format("theEnd: Failed to write to %s, reason: %s", path, ex.getMessage()));
             }
