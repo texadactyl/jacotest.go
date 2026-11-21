@@ -4,6 +4,7 @@ This file is a version history of Jacotest amendments.  Entries appear in versio
 | `Date` | `Version` | `Contents` |
 | :------------: | :---: | :--- |
 |<img width=90/>|<img width=60/>|<img width=600/>|
+| 2026-11-21 | 6.3.2 | Added test case opstack-stress. |
 | 2026-11-19 | 6.3.1 | Amend ERROR-CATEGORIES.txt to include "java/util/concurrent" just before "createAndInitNewFrame". |
 | | | Fixes to the handling of the amount of allocated heap. |
 | | | New command line option: -1 <test case name> |
